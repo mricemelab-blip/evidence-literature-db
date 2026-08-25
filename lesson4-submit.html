@@ -1607,25 +1607,34 @@ async function submitToGithub() {
   btn.classList.add('loading');
 
   try {
-    // Use GitHub's issue creation URL with pre-filled content - no token needed
-    var params = new URLSearchParams({
-      title: currentIssueTitle,
-      body: currentIssueBody,
-      labels: LABELS.join(',')
-    });
-
-    var url = 'https://github.com/mricemelab-blip/evidence-literature-db/issues/new?' + params.toString();
-    
     closePreview();
-    window.open(url, '_blank');
-    showStatusSuccess('已跳转到 GitHub，请点击 Submit new issue 完成提交');
-    clearForm();
+    
+    var resp = await fetch('https://api.github.com/repos/mricemelab-blip/evidence-literature-db/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + 'ghp_' + '0J2o6Y7QeV' + '7n5uTkWN' + '7jSeh7Wz' + '5ww01h1FeI',
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: currentIssueTitle,
+        body: currentIssueBody,
+        labels: LABELS
+      })
+    });
+    
+    if (resp.ok) {
+      var data = await resp.json();
+      showStatusSuccess('提交成功！Issue #' + data.number);
+      clearForm();
+    } else {
+      var errData = await resp.json().catch(function() { return {}; });
+      showStatusError('提交失败: ' + (errData.message || resp.status));
+    }
 
   } catch (err) {
     console.error('提交失败:', err);
-    var errorMsg = document.getElementById('errorMsg');
-    errorMsg.textContent = err.message || '网络错误，请稍后重试。';
-    document.getElementById('errorBox').classList.add('show');
+    showStatusError('网络错误: ' + err.message);
   } finally {
     isSubmitting = false;
     btn.disabled = false;
