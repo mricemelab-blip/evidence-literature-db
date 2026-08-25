@@ -1,0 +1,647 @@
+<html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="frame-src https://processon.com https://*.processon.com; child-src https://processon.com https://*.processon.com; object-src 'none'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日建一功 — 训练社群</title>
+<style>
+  :root {
+    --bg: #0B0B0B;
+    --surface: #131313;
+    --text: #DDD9D2;
+    --text-s: #7A756E;
+    --text-m: #3D3A36;
+    --accent: #C8A45E;
+    --accent-dim: rgba(200,164,94,0.07);
+    --border: #1C1C1C;
+    --white: #F0EDE6;
+    --font: "SF Pro Display", -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --serif: "Songti SC", "Noto Serif SC", "STSong", Georgia, serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 32px; height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-size: 12px; font-weight: 700; letter-spacing: 5px; color: var(--white); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-size: 11px; color: var(--text-m); text-decoration: none;
+    letter-spacing: 1.5px; transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 32px 80px;
+    position: relative;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 45% at 50% 42%, rgba(200,164,94,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { max-width: 680px; text-align: center; position: relative; }
+  .hero-eyebrow {
+    font-size: 10px; letter-spacing: 6px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 40px; opacity: 0.8;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(34px, 5.5vw, 56px);
+    font-weight: 400; letter-spacing: 1px;
+    line-height: 1.25; color: var(--white);
+    margin-bottom: 32px;
+  }
+  .hero-title em { font-style: normal; font-weight: 700; }
+  .hero-sub {
+    font-size: 15px; color: var(--text-s);
+    line-height: 2.2; max-width: 480px; margin: 0 auto;
+  }
+  .hero-stats {
+    display: flex; gap: 56px; justify-content: center;
+    margin-top: 64px;
+  }
+  .hero-stat-num {
+    font-size: 30px; font-weight: 300; color: var(--accent);
+    letter-spacing: -1px; font-family: var(--serif);
+  }
+  .hero-stat-label {
+    font-size: 10px; color: var(--text-m);
+    letter-spacing: 2px; margin-top: 6px;
+  }
+  section { padding: 120px 32px; max-width: 1100px; margin: 0 auto; }
+  .divider-line {
+    width: 28px; height: 1px; background: var(--accent);
+    margin: 0 auto 64px; opacity: 0.4;
+  }
+  .manifesto { text-align: center; padding: 140px 32px; }
+  .manifesto-text {
+    font-family: var(--serif);
+    font-size: 21px; line-height: 2.4;
+    color: var(--text); max-width: 560px; margin: 0 auto;
+    font-weight: 400;
+  }
+  .manifesto-text strong { font-weight: 700; color: var(--white); }
+  .manifesto-ref {
+    margin-top: 16px; font-size: 11px; color: #4A4640; line-height: 1.7;
+  }
+  .manifesto-ref a { color: #6B655C; text-decoration: none; border-bottom: 1px dotted #4A4640; }
+  .sec-label {
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px; opacity: 0.8;
+  }
+  .sec-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.5vw, 34px);
+    font-weight: 400; color: var(--white);
+    line-height: 1.35; margin-bottom: 16px;
+  }
+  .sec-title em { font-style: normal; font-weight: 700; }
+  .sec-note {
+    font-size: 14px; color: var(--text-s);
+    line-height: 1.9; max-width: 520px;
+  }
+
+  /* Dimensions */
+  .dim-list { margin-top: 56px; position: relative; padding-left: 28px; }
+  .dim-list::before {
+    content: ''; position: absolute; left: 4px; top: 10px; bottom: 10px;
+    width: 1px; background: var(--border);
+  }
+  .dim-item {
+    position: relative; padding: 0 0 56px 40px;
+  }
+  .dim-item:last-child { padding-bottom: 0; }
+  .dim-item::before {
+    content: ''; position: absolute; left: -28px; top: 10px;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+  }
+  .dim-num {
+    font-size: 10px; color: var(--text-m);
+    letter-spacing: 3px; margin-bottom: 6px;
+  }
+  .dim-name {
+    font-family: var(--serif);
+    font-size: 18px; font-weight: 700;
+    color: var(--white); margin-bottom: 4px;
+  }
+  .dim-foundation {
+    font-size: 12px; color: #5A554E;
+    letter-spacing: 0.5px; margin-bottom: 12px;
+    font-style: italic;
+  }
+  .dim-desc { font-size: 14px; color: var(--text-s); line-height: 2; max-width: 580px; }
+  .dim-books {
+    margin-top: 10px; font-size: 11px; color: #4A4640;
+    line-height: 1.7; max-width: 580px;
+  }
+  .dim-books strong { color: #5A554E; font-weight: 600; font-style: normal; }
+  .dim-ref {
+    margin-top: 6px; font-size: 11px; color: #4A4640;
+    line-height: 1.7; max-width: 580px;
+  }
+  .dim-ref a { color: #6B655C; text-decoration: none; border-bottom: 1px dotted #4A4640; }
+  .dim-ref a:hover { color: var(--text-s); }
+
+  /* Members */
+  .member-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 56px;
+  }
+  .member-card {
+    border: 1px solid var(--border); padding: 32px 28px;
+  }
+  .member-label {
+    font-size: 10px; color: var(--accent);
+    letter-spacing: 3px; margin-bottom: 16px;
+  }
+  .member-name {
+    font-family: var(--serif);
+    font-size: 17px; font-weight: 700;
+    color: var(--white); margin-bottom: 12px;
+  }
+  .member-desc { font-size: 13px; color: var(--text-s); line-height: 1.9; }
+  .member-ref {
+    margin-top: 12px; font-size: 10.5px; color: #4A4640;
+    line-height: 1.65;
+  }
+  .member-ref a { color: #6B655C; text-decoration: none; border-bottom: 1px dotted #4A4640; }
+
+  /* Rhythm */
+  .rhythm-list { margin-top: 56px; }
+  .rhythm-row {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 28px; padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .rhythm-row:first-child { border-top: 1px solid var(--border); }
+  .rhythm-day {
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 1.5px; padding-top: 4px;
+  }
+  .rhythm-name {
+    font-size: 15px; font-weight: 600;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .rhythm-desc { font-size: 13px; color: var(--text-s); line-height: 1.9; }
+
+  /* Timeline */
+  .timeline { margin-top: 56px; position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 3px; top: 8px; bottom: 8px;
+    width: 1px; background: var(--border);
+  }
+  .tl-item { position: relative; padding: 0 0 44px 40px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -28px; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  }
+  .tl-time {
+    font-size: 10px; color: var(--text-m);
+    letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .tl-name {
+    font-size: 15px; font-weight: 600;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .tl-desc { font-size: 13px; color: var(--text-s); line-height: 1.8; }
+
+  /* Rules */
+  .rule-list { margin-top: 56px; }
+  .rule-row {
+    padding: 28px 0; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 36px 1fr; gap: 20px;
+  }
+  .rule-n {
+    font-family: var(--serif);
+    font-size: 13px; color: var(--accent); font-weight: 700;
+  }
+  .rule-t { font-size: 14px; color: var(--text); line-height: 2; }
+  .rule-ref {
+    margin-top: 8px; font-size: 11px; color: #4A4640;
+    line-height: 1.7;
+  }
+  .rule-ref a { color: #6B655C; text-decoration: none; border-bottom: 1px dotted #4A4640; }
+
+  /* Launch */
+  .launch-card {
+    border: 1px solid var(--border); padding: 56px 48px;
+    margin-top: 56px;
+  }
+  .phase { margin-bottom: 40px; }
+  .phase:last-child { margin-bottom: 0; }
+  .phase-tag {
+    font-size: 10px; color: var(--accent);
+    letter-spacing: 3px; margin-bottom: 10px;
+  }
+  .phase-name {
+    font-family: var(--serif);
+    font-size: 17px; font-weight: 700;
+    color: var(--white); margin-bottom: 10px;
+  }
+  .phase-desc { font-size: 13px; color: var(--text-s); line-height: 1.9; }
+
+  /* References */
+  .ref-section {
+    padding: 80px 32px 40px;
+    max-width: 1100px; margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+  .ref-title {
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--text-m); margin-bottom: 32px;
+  }
+  .ref-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .ref-item {
+    font-size: 11px; color: #4A4640; line-height: 1.75;
+    padding-left: 28px; position: relative;
+  }
+  .ref-item .ref-num {
+    position: absolute; left: 0; top: 0;
+    color: #5A554E; font-weight: 600;
+  }
+  .ref-item a { color: #6B655C; text-decoration: none; border-bottom: 1px dotted #4A4640; }
+  .ref-item a:hover { color: var(--text-s); }
+
+  footer {
+    text-align: center; padding: 48px 32px 72px;
+    border-top: 1px solid var(--border);
+  }
+  footer p { font-size: 11px; color: var(--text-m); letter-spacing: 1px; }
+
+  @media (max-width: 768px) {
+    section { padding: 80px 24px; }
+    .manifesto { padding: 100px 24px; }
+    .member-grid { grid-template-columns: 1fr; }
+    .rhythm-row { grid-template-columns: 1fr; gap: 6px; }
+    .hero-stats { flex-direction: column; gap: 24px; }
+    .launch-card { padding: 36px 24px; }
+    .nav-links { gap: 16px; }
+  }
+
+  
+  [] { outline: none; transition: background 0.2s; border-radius: 4px; }
+  []:hover { background: rgba(212,175,55,0.08); }
+  []:focus { background: rgba(212,175,55,0.12); box-shadow: 0 0 0 2px rgba(212,175,55,0.2); }
+  .editor-toolbar { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#1a1a2e; border:1px solid rgba(212,175,55,0.3); border-radius:12px; padding:8px 16px; display:flex; align-items:center; gap:12px; z-index:9999; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+  .editor-toolbar button { background:rgba(212,175,55,0.15); border:1px solid rgba(212,175,55,0.3); color:#d4af37; padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.85rem; font-weight:600; }
+  .editor-toolbar button:hover { background:rgba(212,175,55,0.3); }
+  .editor-toolbar .editor-hint { color:rgba(255,255,255,0.5); font-size:0.8rem; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">日建一功</div>
+    <ul class="nav-links">
+      <li><a href="#manifesto">理念</a></li>
+      <li><a href="#dimensions">维度</a></li>
+      <li><a href="#members">成员</a></li>
+      <li><a href="#rhythm">节奏</a></li>
+      <li><a href="#portrait">画像</a></li>
+      <li><a href="#code">规则</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" contenteditable="true">
+  <div class="hero-content">
+    <p class="hero-eyebrow">日修一功 · 循证力量训练社群</p>
+    <h1 class="hero-title">每个动作<br>都有<em>意义</em></h1>
+    <p class="hero-sub">
+      围绕疼痛干预与身体重塑的循证训练社群。<br>
+      日拱一卒，每日一练，积累成身体的根本性改变。
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">五</div>
+        <div class="hero-stat-label">训练维度</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">每日</div>
+        <div class="hero-stat-label">训练 · 年终无休</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">十</div>
+        <div class="hero-stat-label">min / 日</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto" id="manifesto" contenteditable="true">
+  <div class="divider-line"></div>
+  <p class="manifesto-text">
+    疼痛是<strong>生物-心理-社会系统失配</strong>的信号。<sup style="font-size:11px;color:#4A4640;">[1]</sup><br>多数疼痛与疏于系统化训练有关，<br>通过合理（包括<span style="font-weight: 700; color: rgb(240, 237, 230);">多样化、功能性、可长期坚持等）</span>训练、</p><p class="manifesto-text">可以明显改善</p><p class="manifesto-text"><br><br>今天起<br>五个设计维度的动作设计，<br>一群人一起每天训练10分钟，<br>
+    日修一功，<strong>指向一个无痛、有能力的身体</strong>。
+  </p>
+  <div class="manifesto-ref">
+    [10] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10687566/" target="_blank">PMC10687566</a> (2023) 75 RCTs, 5254人；[15] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12467416/" target="_blank">PMC12467416</a> (2024)
+  </div>
+</section>
+
+<!-- ============ DIMENSIONS ============ -->
+<section id="dimensions" contenteditable="true">
+  <p class="sec-label">Dimensions</p>
+  <h2 class="sec-title">五个<em>训练维度</em></h2>
+
+  <div class="dim-list">
+
+    <div class="dim-item">
+      <div class="dim-num">01</div>
+      <div class="dim-name">呼吸与关节活动度</div>
+      <div class="dim-foundation">基于：功能解剖学 · 呼吸生物力学</div>
+      <div class="dim-desc">从呼吸模式重建开始，恢复关节的基本活动能力。膈肌训练可增强腹内压、改善腰椎稳定性；RCT（n=60, 8周）显示膈肌呼吸训练配合核心训练，在疼痛、功能和核心肌群厚度方面均优于单独核心训练。</div>
+      <div class="dim-books"><strong>核心教材：</strong>McGill <em>Low Back Disorders</em> (4th ed., 2015)；Sahrmann <em>Diagnosis and Treatment of Movement Impairment Syndromes</em> (2002)；Hodges &amp; Sapsford <em>Therapeutic Exercise for the Pelvic Floor</em> (2007)</div>
+      <div class="dim-ref">[2] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11885289/" target="_blank">Li et al. (2025) Front Rehabil Sci</a>；另见 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8584898/" target="_blank">Calvo-Lobo et al. (2021) J Clin Med</a> RCT, n=40</div>
+    </div>
+
+    <div class="dim-item">
+      <div class="dim-num">02</div>
+      <div class="dim-name">多面向运动</div>
+      <div class="dim-foundation">基于：三维运动学 · 功能解剖学 · 运动变异性理论</div>
+      <div class="dim-desc">人类日常动作高度局限于矢状面，额状面与水平面的运动能力长期被忽略。RCT（n=30, 8周）直接比较了单一平面训练与多平面整合训练：多平面组在运动质量、敏捷、力量、耐力、柔韧性和功率六项指标上全部改善，单一平面组仅改善功率和柔韧性。运动变异性研究进一步指出，保持适度动作变异是健康功能运动的标志，变异过低（过于刚性）降低系统对扰动的适应能力。</div>
+      <div class="dim-books"><strong>核心教材：</strong>Neumann <em>Kinesiology of the Musculoskeletal System</em> (3rd ed., 2017)；Clark &amp; Lucett <em>NASM Essentials of Corrective Exercise Training</em> (2022)；Borghuis et al. (2008) 运动变异性与过劳损伤</div>
+      <div class="dim-ref">[3] <a href="https://doi.org/10.1519/JSC.0b013e318257822e" target="_blank">DiStefano et al. (2013) JSCR 27(4):1083-1090</a>；[4] <a href="https://doi.org/10.1016/j.humov.2011.06.002" target="_blank">Stergiou &amp; Decker (2011) Hum Mov Sci 30(5):869-888</a></div>
+    </div>
+
+    <div class="dim-item">
+      <div class="dim-num">03</div>
+      <div class="dim-name">神经控制与动作意识</div>
+      <div class="dim-foundation">基于：运动控制学 · 运动学习理论 · 神经科学</div>
+      <div class="dim-desc">通过大量不熟悉的全新全身动作，建立更丰富的神经肌肉控制与身体感知。与肌肉塑形不同，这里训练的是动作本身。运动变异性理论表明，最优变异水平是健康运动的标志；系统过于刚性或过于嘈杂均降低适应能力。Schema理论支持通过多样化动作实践建立更丰富的运动程序表征，使神经系统在面对新任务时拥有更多可调用的运动方案。</div>
+      <div class="dim-books"><strong>核心教材：</strong>Bernstein <em>The Co-ordination and Regulation of Movements</em> (1967)；Latash <em>Motor Control</em> (2nd ed., 2008)；Magill &amp; Anderson <em>Motor Learning and Control</em> (12th ed., 2020)</div>
+      <div class="dim-ref">[4] Stergiou &amp; Decker (2011)；[5] <a href="https://doi.org/10.1037/h0034913" target="_blank">Schmidt (1975) Psychol Rev 82(4):225-260</a> Schema Theory；[6] <a href="https://doi.org/10.1123/jab.28.3.255" target="_blank">Hamill et al. (2012) J Appl Biomech 28(3)</a></div>
+    </div>
+
+    <div class="dim-item">
+      <div class="dim-num">04</div>
+      <div class="dim-name">区域整合</div>
+      <div class="dim-foundation">基于：动力链理论 · 区域相互依存模型 · 多关节协同生物力学</div>
+      <div class="dim-desc">将身体各部分连接为协调的整体。髋-腰-胸联动，肩带-核心协同，多关节在运动中同步工作。系统综述与meta分析（7研究, 10比较, I²=0%）确认，多关节复合动作同时募集多个肌群，产生与单关节训练等价的整体肌肉肥大，且训练时间效率更高。功能性训练综述（15项RCT）确认，包含多关节、多平面特征的训练在冲刺、跳跃和功能动作评分方面均优于传统单平面训练。</div>
+      <div class="dim-books"><strong>核心教材：</strong>Myer et al. (2012) Regional Interdependence 模型；Wagner <em>Kinetic Approaches to Musculoskeletal Rehabilitation</em> (2020)；Cook <em>Movement</em> (2010) 功能动作系统</div>
+      <div class="dim-ref">[7] <a href="https://journals.lww.com/nsca-scj/abstract/2023/06000/hypertrophic_effects_of_single_vs_multi_joint.4.aspx" target="_blank">Rosa et al. (2023) Strength Cond J</a> 系统综述 &amp; Meta-analysis；[8] Bashir et al. (2022) 功能性训练系统综述, 15 RCTs</div>
+    </div>
+
+    <div class="dim-item">
+      <div class="dim-num">05</div>
+      <div class="dim-name">高功能动作</div>
+      <div class="dim-foundation">基于：功能性训练学 · 复合动作生物力学 · 肌肥大训练学</div>
+      <div class="dim-desc">整合前四个维度的能力，进入高功能复合动作。这些动作本身包含肌肥大训练效果，力量与形态同步推进。循证训练指南推荐以双侧多关节动作为核心，每个肌群每周至少4组，负荷范围6-15RM，配合完整的离心与向心动作。多关节复合动作在整体肌肉肥大方面与单关节训练效果等价，且在时间效率上具有明显优势。</div>
+      <div class="dim-books"><strong>核心教材：</strong>Boyle <em>Functional Training for Sports</em> (2nd ed., 2016)；Sahrmann <em>Diagnosis and Treatment of Movement Impairment Syndromes</em> (2002)；Schoenfeld <em>Science and Development of Muscle Hypertrophy</em> (3rd ed., 2022)</div>
+      <div class="dim-ref">[7] Rosa et al. (2023)；[9] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8449772/" target="_blank">Macgregor et al. (2022) Sports Med</a> 时间高效训练综述</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ MEMBERS ============ -->
+<section id="members" contenteditable="true">
+  <p class="sec-label">Members</p>
+  <h2 class="sec-title">谁<em>在这里</em></h2>
+
+  <div class="member-grid">
+    <div class="member-card">
+      <div class="member-label">A</div>
+      <div class="member-name">疼痛临界族</div>
+      <div class="member-desc">慢性疼痛困扰，尚未需要医疗介入。处于"还扛得住"和"该认真处理了"之间。全球每年约2.46亿人受腰痛困扰，其中85%为非特异性腰痛。欧洲腰痛指南将运动治疗列为非特异性慢性腰痛的首选干预手段，网络meta分析（75项RCT, 5254人）确认运动干预对慢性腰痛有效。</div>
+      <div class="member-ref">[10] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10687566/" target="_blank">PMC10687566</a> (2023) Network meta-analysis；[11] Airaksinen et al. (2006) Eur Spine J 欧洲指南</div>
+    </div>
+    <div class="member-card">
+      <div class="member-label">B</div>
+      <div class="member-name">严谨的长期训练者</div>
+      <div class="member-desc">训练两年以上，动作模式趋于固化。运动变异性研究指出，长期重复单一动作模式导致变异降低，与过劳损伤风险增加相关。引入多样化动作可提供新的神经肌肉刺激维度，帮助突破平台期。</div>
+      <div class="member-ref">[6] Hamill et al. (2012)；[4] Stergiou &amp; Decker (2011)</div>
+    </div>
+    <div class="member-card">
+      <div class="member-label">C</div>
+      <div class="member-name">真正专业教练</div>
+      <div class="member-desc">用循证框架升级训练教学体系。用机制和证据和说话和思考的职业教练。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RHYTHM ============ -->
+<section id="rhythm" contenteditable="true">
+  <p class="sec-label">Rhythm</p>
+  <h2 class="sec-title">每周<em>节奏</em></h2>
+  <p class="sec-note">周一到周日，年终无休。每天都有训练。</p>
+
+  <div class="rhythm-list">
+    <div class="rhythm-row">
+      <div class="rhythm-day">周一 / 周四</div>
+      <div>
+        <div class="rhythm-name">新动作发布</div>
+        <div class="rhythm-desc">发布本周新动作。组长拆解动作要点、训练目标和注意事项，学员开始跟练。</div>
+      </div>
+    </div>
+    <div class="rhythm-row">
+      <div class="rhythm-day">周一 – 周日</div>
+      <div>
+        <div class="rhythm-name">每日练习 · 年终无休</div>
+        <div class="rhythm-desc">每天5-10分钟，练习当周动作。组长在群内带领讨论，有疑问随时上传视频或文字，组长全程在线解答。所有问题都接得住。</div>
+      </div>
+    </div>
+    <div class="rhythm-row">
+      <div class="rhythm-day">周日</div>
+      <div>
+        <div class="rhythm-name">集中解读</div>
+        <div class="rhythm-desc">每周日一次动作问题集中解读。解答本周训练中的共性问题。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTRAIT ============ -->
+<section id="portrait" contenteditable="true">
+  <p class="sec-label">Portrait</p>
+  <h2 class="sec-title">拥有自己的<em>训练画像</em></h2>
+  <p class="sec-note">每位成员一份专用表格工具，记录训练数据与疼痛变化。坚持记录，就能看到自己的训练画像。用数据让变化严谨的可视化。</p>
+</section>
+
+<!-- ============ CODE ============ -->
+<section id="code" contenteditable="true">
+  <p class="sec-label">Code</p>
+  <h2 class="sec-title">规则</h2>
+
+  <div class="rule-list">
+    <div class="rule-row">
+      <div class="rule-n">01</div>
+      <div>
+        <div class="rule-t">所有训练动作须基于明确的循证学科体系。每个动作标注其学科基础：功能解剖学、生物力学、运动控制学、动力链理论或训练学。核心教材依据包括 McGill <em>Low Back Disorders</em>、Neumann <em>Kinesiology of the Musculoskeletal System</em>、Sahrmann <em>Diagnosis and Treatment of Movement Impairment Syndromes</em>、Bernstein <em>The Co-ordination and Regulation of Movements</em> 等。</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-n">02</div>
+      <div>
+        <div class="rule-t">以小组为单位训练。社会连接本身就是训练的一部分。</div>
+        <div class="rule-ref">Nature Human Behaviour meta分析（71项研究, 523个效应量, 22,042人）显示，基于小组动力学原理的群体训练在功能性结果方面显著优于个体训练。高社会支持者的运动坚持几率为低支持者的1.64-1.89倍。<br>[12] <a href="https://www.nature.com/articles/s41562-026-02429-0" target="_blank">Burke et al. (2026) Nat Hum Behav</a>；[13] <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9521870/" target="_blank">PMC9521870</a> (2022) n=16,980</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-n">03</div>
+      <div>
+        <div class="rule-t">群内不做诊断，不处理医疗问题。超出训练范畴的症状，启动转介。</div>
+      </div>
+    </div>
+    <div class="rule-row">
+      <div class="rule-n">04</div>
+      <div>
+        <div class="rule-t">训练体系基于循证科学，动作库定期依据最新证据迭代更新。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAUNCH ============ -->
+<section id="launch" contenteditable="true">
+  <p class="sec-label">Launch</p>
+  <h2 class="sec-title">启动<em>路径</em></h2>
+
+  <div class="launch-card">
+    <div class="phase">
+      <div class="phase-tag">PHASE 01</div>
+      <div class="phase-name">组长组建</div>
+      <div class="phase-desc">3HFIT拥有中国健身界最为严格的教培体系，其中教培一线团队成员将担任首批组长，完成五个训练维度的完整培训与带组考核。在接下去的岁月里，他们会陪着你，接住你，用尽方法教会你。</div>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">PHASE 02</div>
+      <div class="phase-name">成员招募</div>
+      <div class="phase-desc">面向CRK壶铃俱乐部、Arise发生俱乐部成员，以及循证抗阻训练专家课程学员开放。加入者需承诺每日练习并提交作业；连续三个月每周提交作业不足两次，下一周期将自动退出。</div>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">PHASE 03</div>
+      <div class="phase-name">正式运行</div>
+      <div class="phase-desc">按每周节奏启动。首周试运行，收集反馈微调强度；第二周起进入常规循环。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REFERENCES ============ -->
+<div class="ref-section" id="refs" contenteditable="true">
+  <div class="ref-title">References</div>
+  <div class="ref-grid">
+
+    <div class="ref-item">
+      <span class="ref-num">[1]</span>
+      Moseley GL, Butler DS. (2015) <em>Fifteen Years of Neuroscience Pain Education: What Has Been the Impact?</em> Manual Therapy. 生物-心理-社会模型在疼痛管理中的应用。
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[2]</span>
+      Li et al. (2025) Core training combined with breathing exercises for chronic non-specific low back pain. <em>Frontiers in Rehabilitation Sciences</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11885289/" target="_blank">PMC11885289</a>；另见 Calvo-Lobo et al. (2021) <em>J Clin Med</em> 10(21) RCT n=40 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8584898/" target="_blank">PMC8584898</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[3]</span>
+      DiStefano MJ, Frank BS, Clark MA, Padua DA. (2013) Comparison of integrated and isolated training on performance measures and neuromuscular control. <em>JSCR</em> 27(4):1083-1090. RCT, n=30, 8 weeks. <a href="https://doi.org/10.1519/JSC.0b013e318257822e" target="_blank">DOI</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[4]</span>
+      Stergiou N, Decker LM. (2011) Human movement variability, nonlinear dynamics, and pathology: Is there a connection? <em>Hum Mov Sci</em> 30(5):869-888. <a href="https://doi.org/10.1016/j.humov.2011.06.002" target="_blank">DOI:10.1016/j.humov.2011.06.002</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[5]</span>
+      Schmidt RA. (1975) A schema theory of discrete motor skill learning. <em>Psychol Rev</em> 82(4):225-260. <a href="https://doi.org/10.1037/h0034913" target="_blank">DOI</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[6]</span>
+      Hamill J, et al. (2012) Movement variability and overuse injury. <em>J Appl Biomech</em> 28(3). <a href="https://doi.org/10.1123/jab.28.3.255" target="_blank">DOI</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[7]</span>
+      Rosa et al. (2023) Hypertrophic effects of single- versus multi-joint exercise of the limb muscles: A systematic review and meta-analysis. <em>Strength &amp; Conditioning Journal</em>. 7 studies, 10 comparisons, I²=0%.
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[8]</span>
+      Bashir et al. (2022) Effects of functional training on sprinting, jumping, and functional movement in athletes: A systematic review. 15 RCTs.
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[9]</span>
+      Macgregor et al. (2022) No time to lift? Designing time-efficient training programs for strength and hypertrophy. <em>Sports Med</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8449772/" target="_blank">PMC8449772</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[10]</span>
+      Exercise interventions for chronic low back pain: Network meta-analysis. (2023) 75 RCTs, 5254 participants. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10687566/" target="_blank">PMC10687566</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[11]</span>
+      Airaksinen O, et al. (2006) European guidelines for the management of chronic non-specific low back pain. <em>Eur Spine J</em> 15(Suppl 2):S192-S300.
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[12]</span>
+      Individual versus group-based interventions for physical activity: A systematic review and meta-analysis. (2026) <em>Nature Human Behaviour</em>. 71 studies, 523 effect sizes, 22,042 participants. <a href="https://www.nature.com/articles/s41562-026-02429-0" target="_blank">DOI</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[13]</span>
+      Perceived Social Support and Sustained Physical Activity. (2022) n=16,980. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9521870/" target="_blank">PMC9521870</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[14]</span>
+      Exercise adherence and pain improvement in fibromyalgia: Meta-analysis. (2024) <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11294170/" target="_blank">PMC11294170</a>
+    </div>
+
+    <div class="ref-item">
+      <span class="ref-num">[15]</span>
+      Long-term exercise adherence in chronic pain management. (2024) <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12467416/" target="_blank">PMC12467416</a>
+    </div>
+
+  </div>
+</div>
+
+<footer contenteditable="true">
+  <p>日建一功 · 日拱一卒 · 2026</p>
+</footer>
+
+
+
+<div class="editor-toolbar">
+  <button onclick="document.execCommand('bold')"><b>B</b></button>
+  <button onclick="document.execCommand('italic')"><i>I</i></button>
+  <button onclick="savePage()">💾 保存</button>
+  <span class="editor-hint">点击任意文字直接编辑</span>
+</div>
+<script>
+function savePage() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], {type: 'text/html'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '日建一功_v8_edited.html';
+  a.click();
+}
+</script>
+</body></html>
