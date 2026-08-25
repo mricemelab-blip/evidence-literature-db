@@ -1,0 +1,1793 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>涌现90天 · Lesson 4 小组讨论作业（GitHub 提交版）</title>
+<style>
+  :root {
+    --bg: #F7F8FF;
+    --surface: #FFFFFF;
+    --primary: #5B6CFF;
+    --primary-light: #EEF0FF;
+    --yellow: #FFD166;
+    --yellow-light: #FFF8E6;
+    --pink: #FF7AB6;
+    --pink-light: #FFF0F6;
+    --green: #55C59D;
+    --green-light: #E8F8F1;
+    --ink: #1F2433;
+    --ink-s: #5A5F7A;
+    --ink-m: #8E92A8;
+    --border: #E2E4EF;
+    --radius: 10px;
+    --font: "Inter", "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --github: #24292e;
+    --github-hover: #2f363d;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* 入口页 */
+  #entryPage {
+    text-align: center;
+    padding-top: 60px;
+  }
+  #entryPage h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  #entryPage .subtitle {
+    color: var(--ink-s);
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+  .group-select-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+  .group-btn {
+    padding: 24px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  .group-btn:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px rgba(91,108,255,0.15);
+    transform: translateY(-2px);
+  }
+  .group-btn .group-label { font-size: 22px; display: block; margin-bottom: 4px; }
+  .group-btn .group-sub { font-size: 12px; color: var(--ink-m); font-weight: 400; }
+
+  /* 工作区 */
+  #workArea { display: none; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 24px;
+  }
+  .topbar h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+  }
+  .topbar .group-badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .topbar .back-btn {
+    font-size: 13px;
+    color: var(--ink-s);
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+  .topbar .settings-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    color: var(--ink-s);
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .topbar .settings-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .token-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .token-form input[type="password"],
+  .token-form input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+  .token-form input[type="password"]:focus,
+  .token-form input[type="text"]:focus {
+    border-color: var(--primary);
+  }
+  .token-hint {
+    font-size: 12px;
+    color: var(--ink-s);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .token-hint a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .token-hint a:hover { text-decoration: underline; }
+  .token-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: var(--green-light);
+    color: #2d7a5e;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .token-status.no-token {
+    background: #FFF0F0;
+    color: #c44;
+  }
+  .modal-footer .settings-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-danger {
+    background: #fff;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+  }
+  .btn-danger:hover { background: #FFF0F0; }
+
+
+  header {
+    padding: 24px 0 16px;
+    margin-bottom: 16px;
+  }
+  header p {
+    color: var(--ink-s);
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .meta-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(91,108,255,0.04);
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 600px) {
+    .meta-grid { grid-template-columns: 1fr; }
+    .group-select-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+  }
+  .meta-grid .full { grid-column: 1 / -1; }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-s);
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="date"], textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--bg);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus-visible, textarea:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(91,108,255,0.1);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  nav.toc a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: var(--primary-light);
+    transition: background 0.15s;
+  }
+  nav.toc a:hover { background: var(--primary); color: #fff; }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 36px 0 14px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: #fff;
+  }
+  .badge-yellow { background: var(--yellow); color: var(--ink); }
+  .badge-pink { background: var(--pink); }
+  .badge-green { background: var(--green); }
+
+  .intro {
+    background: var(--yellow-light);
+    border-left: 3px solid var(--yellow);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(91,108,255,0.03);
+  }
+  .section-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--primary);
+  }
+  .question-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .question-card p { margin: 0 0 10px; font-size: 14px; }
+  .question-card .q-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+
+  .reading {
+    background: var(--primary-light);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink-s);
+    margin-bottom: 14px;
+    line-height: 1.8;
+  }
+  .reading strong { color: var(--ink); }
+  .citation {
+    font-size: 12px;
+    color: var(--ink-m);
+    font-style: italic;
+    margin-top: 8px;
+  }
+  .discuss-area { margin-top: 14px; }
+  .discuss-area label { color: var(--primary); font-weight: 700; margin-bottom: 6px; }
+  .discuss-area textarea { min-height: 110px; }
+  .keypoints {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+  .keypoints label { color: var(--green); font-weight: 700; }
+  .keypoints textarea { min-height: 60px; background: var(--green-light); }
+
+  .collapsible-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+  .collapsible-header .arrow {
+    font-size: 16px;
+    color: var(--primary);
+    transition: transform 0.2s;
+  }
+  .collapsible-header.collapsed .arrow { transform: rotate(-90deg); }
+  .collapsible-body {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  table.connect {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  table.connect caption {
+    text-align: left;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--ink);
+    caption-side: top;
+  }
+  table.connect th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    text-align: left;
+    padding: 9px 12px;
+  }
+  table.connect th:first-child { border-radius: 6px 0 0 0; }
+  table.connect th:last-child { border-radius: 0 6px 0 0; }
+  table.connect td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.connect input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    background: var(--bg);
+  }
+
+  .paradox-card {
+    background: var(--pink-light);
+    border: 1px solid var(--pink);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .paradox-card label { color: var(--pink); font-weight: 700; }
+  .paradox-card textarea { background: #fff; min-height: 60px; }
+
+  .actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.15s, opacity 0.15s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(91,108,255,0.2);
+  }
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(91,108,255,0.3); }
+  .btn-outline {
+    background: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+  }
+  .btn-outline:hover { background: var(--primary-light); }
+  .btn-github {
+    background: var(--github);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(36,41,46,0.2);
+  }
+  .btn-github:hover:not(:disabled) {
+    background: var(--github-hover);
+    box-shadow: 0 6px 16px rgba(36,41,46,0.3);
+  }
+  .btn-github .gh-icon { font-size: 18px; }
+
+  .status-bar {
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-m);
+    margin-top: 12px;
+    min-height: 20px;
+  }
+  .status-bar.success { color: var(--green); font-weight: 600; }
+  .status-bar.error { color: var(--pink); font-weight: 600; }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-m);
+    text-align: center;
+  }
+
+  /* ========== 预览弹窗 ========== */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(31, 36, 51, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 720px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--ink-m);
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--ink); }
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+  }
+  .modal-body .preview-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+  }
+  .modal-body .preview-title-row {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    word-break: break-all;
+  }
+  .modal-body .preview-labels {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .modal-body .preview-labels span {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .modal-body .preview-body-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .modal-body .preview-body-content {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+  .modal-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  .modal-footer .spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .btn.loading .spinner { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* 错误提示区 */
+  .error-box {
+    background: var(--pink-light);
+    border: 1px solid var(--pink);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--ink);
+    display: none;
+  }
+  .error-box.show { display: block; }
+  .error-box .error-title {
+    font-weight: 700;
+    color: var(--pink);
+    margin-bottom: 4px;
+  }
+  .error-box .copy-btn {
+    margin-top: 8px;
+    background: var(--surface);
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+  }
+  .error-box .copy-btn:hover { background: var(--pink-light); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+  @media print {
+    body { background: #fff; }
+    .page { max-width: none; }
+    .actions, nav.toc { display: none; }
+    .section-card, .question-card, .meta-card { break-inside: avoid; }
+    textarea { min-height: 40px; }
+    .collapsible-body { max-height: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ========== 入口页：选组 ========== -->
+  <div id="entryPage">
+    <h1>涌现90天 · Lesson 4</h1>
+    <p class="subtitle">小组讨论作业 · 请选择你所在的小组</p>
+    <div class="group-select-grid">
+      <button class="group-btn" onclick="enterGroup(1)">
+        <span class="group-label">第 1 组</span>
+        <span class="group-sub">点击进入</span>
+      </button>
+      <button class="group-btn" onclick="enterGroup(2)">
+        <span class="group-label">第 2 组</span>
+        <span class="group-sub">点击进入</span>
+      </button>
+      <button class="group-btn" onclick="enterGroup(3)">
+        <span class="group-label">第 3 组</span>
+        <span class="group-sub">点击进入</span>
+      </button>
+      <button class="group-btn" onclick="enterGroup(4)">
+        <span class="group-label">第 4 组</span>
+        <span class="group-sub">点击进入</span>
+      </button>
+      <button class="group-btn" onclick="enterGroup(5)">
+        <span class="group-label">第 5 组</span>
+        <span class="group-sub">点击进入</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== 工作区 ========== -->
+  <div id="workArea">
+    <div class="topbar">
+      <button class="back-btn" onclick="goBack()">← 返回选组</button>
+      <h1>涌现90天 · Lesson 4 小组讨论</h1>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="settings-btn" onclick="openTokenSettings()" title="GitHub Token 设置">⚙</button>
+        <span class="group-badge" id="groupBadge">第1组</span>
+      </div>
+    </div>
+
+    <!-- 基本信息 -->
+    <div class="meta-card">
+      <div class="meta-grid">
+        <div>
+          <label>组号</label>
+          <input type="text" id="groupNum" readonly>
+        </div>
+        <div>
+          <label for="dateInput">日期</label>
+          <input type="date" id="dateInput">
+        </div>
+        <div class="full">
+          <label>组员（5人）</label>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+            <input type="text" class="member-input" placeholder="组员1">
+            <input type="text" class="member-input" placeholder="组员2">
+            <input type="text" class="member-input" placeholder="组员3">
+            <input type="text" class="member-input" placeholder="组员4">
+            <input type="text" class="member-input" placeholder="组员5">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导航 -->
+    <nav class="toc">
+      <a href="#part1">第一部分：知识校准</a>
+      <a href="#part2">第二部分：前沿深研</a>
+      <a href="#part3">第三部分：综合建构</a>
+    </nav>
+
+    <!-- 使用说明 -->
+    <div class="intro">
+      本作业共三个部分，总时长约120分钟。每道研讨题给出一段前沿研究发现，提出开放性问题，没有标准答案，评估的是推理链条的完整性和跨学科连接的质量。请指定一名记录员整理要点，最后每组用2分钟展示核心结论。
+    </div>
+
+    <!-- ==================== 第一部分 ==================== -->
+    <h2 id="part1">第一部分：知识校准 <span class="badge badge-yellow">15 min</span></h2>
+    <p style="color:var(--ink-s);font-size:14px;margin-bottom:16px;">快速回顾Lesson 4五个板块的核心概念。每题限时20秒，答案包含精确术语的额外加分。</p>
+
+    <div class="section-card">
+      <h3>科学哲学</h3>
+      <div class="question-card">
+        <div class="q-label">Q1</div>
+        <p data-q="phil-sci-q1">休谟的归纳问题（problem of induction）提出了一个根本质疑：从已观察到的事例推导出普遍规律，这一推理过程的逻辑基础是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q2</div>
+        <p data-q="phil-sci-q2">Chalmers指出，试图用归纳法为归纳法辩护犯了什么逻辑错误？这种论证方式被称为什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q3</div>
+        <p data-q="phil-sci-q3">归纳原则无法被演绎证明的核心原因是什么？从"过去太阳每天升起"推导出"明天太阳一定升起"，这一步推理缺少什么逻辑保证？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>哲学</h3>
+      <div class="question-card">
+        <div class="q-label">Q4</div>
+        <p data-q="phil-q4">柏拉图将灵魂分为哪三个部分？每个部分对应的希腊术语是什么？各自的核心功能是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q5</div>
+        <p data-q="phil-q5">灵魂的正义（dikaiosyne）在柏拉图的框架中意味着什么？三个部分之间的正确关系是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q6</div>
+        <p data-q="phil-q6">当一个人的灵魂处于"不正义"状态时，是哪种具体的秩序错乱？激情（thymos）和欲望（epithymia）分别可能在什么情况下"越位"？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>营养学</h3>
+      <div class="question-card">
+        <div class="q-label">Q7</div>
+        <p data-q="nutr-q7">氨基酸的化学结构中，α-碳（alpha carbon）连接的四个基团分别是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q8</div>
+        <p data-q="nutr-q8">根据R基（侧链基团）的化学性质，氨基酸可以分为哪四大类？请各举至少两个代表。</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q9</div>
+        <p data-q="nutr-q9">什么是必需氨基酸（essential amino acids, EAA）？人体有多少种必需氨基酸？为什么人体不能自行合成它们？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>生物力学</h3>
+      <div class="question-card">
+        <div class="q-label">Q10</div>
+        <p data-q="biomech-q10">力矩（torque）的计算公式是什么？力臂（moment arm）在其中的角色是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q11</div>
+        <p data-q="biomech-q11">阻力臂与内力臂的比值（external-to-internal moment arm ratio）越大，对肌肉力量输出意味着什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q12</div>
+        <p data-q="biomech-q12">为什么阻力臂/内力臂的比值会随关节角度变化而持续变化？这对训练处方的设计有什么启示？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>解剖</h3>
+      <div class="question-card">
+        <div class="q-label">Q13</div>
+        <p data-q="anat-q13">关节软骨（articular cartilage）由哪两类主要成分构成？它的营养供应方式有什么特殊之处？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q14</div>
+        <p data-q="anat-q14">关节软骨的两种润滑机制分别是什么？它们各自在什么负荷条件下发挥作用？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+      <div class="question-card">
+        <div class="q-label">Q15</div>
+        <p data-q="anat-q15">关节软骨的摩擦系数极低（μ ≈ 0.001至0.01），但其修复能力极为有限。造成这种"高耐久性、低修复力"矛盾的结构性原因是什么？</p>
+        <textarea class="answer-input" placeholder="在此填写答案"></textarea>
+      </div>
+    </div>
+
+    <!-- ==================== 第二部分 ==================== -->
+    <h2 id="part2">第二部分：前沿深研 <span class="badge badge-pink">55 min</span></h2>
+    <p style="color:var(--ink-s);font-size:14px;margin-bottom:16px;">每道题8分钟讨论 + 2分钟白板展示要点。</p>
+
+    <!-- 研讨题1 -->
+    <div class="section-card">
+      <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <h3 style="margin:0;" data-discuss-title="1">研讨题 1｜归纳法不能被证明，但"补剂有效"每天都在用归纳法</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="collapsible-body" style="margin-top:14px;">
+        <p style="font-size:12px;color:var(--ink-m);margin-bottom:10px;">涉及板块：科学哲学 × 营养学</p>
+        <div class="reading" data-lit="1">
+          <strong>前沿发现</strong><br>
+          2025年发表在 <em>FASEB Journal</em> 上的荟萃分析整合了41项随机对照试验（涵盖2011至2025年间的人体试验），系统评价了omega-3多不饱和脂肪酸（PUFA）补充对运动后炎症、肌肉损伤和恢复的影响。分析结果显示：omega-3补充显著降低了炎症标志物（IL-6、CRP）和肌肉损伤标志物（CK），效应量为中等程度（Hedges' g = 0.35至0.52）。然而，研究同时指出：纳入的试验中大多数样本量不足30人，运动方案（耐力、抗阻、离心）差异巨大（I² = 55%至70%），生物标志物采样时间点极不一致（3至72小时），且女性受试者严重缺乏。作者承认，尽管荟萃分析得出了统计显著的"正面结论"，但这一结论的稳健性受到纳入研究的方法学异质性的严重制约。
+          <div class="citation"><em>FASEB Journal</em> (2025). Meta-analysis of Omega-3 Supplementation on Exercise-Induced Inflammation and Muscle Damage. DOI: 10.1096/fj.202504783R</div>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 A</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qa="1">从归纳问题的视角分析：这41项试验构成的是"已观察到的事例"，而"omega-3对所有人有效"是一个超越这些观察的普遍性断言。从"已观察到的41项试验"到"omega-3对所有人有效"这一步推理，与从"过去太阳每天升起"到"明天太阳一定升起"之间，存在什么逻辑结构上的共同点？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 B</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qb="1">在归纳法自身无法获得逻辑保证的情况下，一个教练基于"omega-3降低炎症"的荟萃分析结论为客户制定补剂方案，这种决策在认识论上处于什么地位？波普尔的否证主义（falsificationism）如何帮助区分"暂时未被否证"与"永远成立"？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="keypoints">
+          <label>本组要点记录</label>
+          <textarea class="answer-input" placeholder="记录员在此整理要点"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 研讨题2 -->
+    <div class="section-card">
+      <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <h3 style="margin:0;" data-discuss-title="2">研讨题 2｜灵魂的秩序与关节的秩序</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="collapsible-body" style="margin-top:14px;">
+        <p style="font-size:12px;color:var(--ink-m);margin-bottom:10px;">涉及板块：哲学 × 解剖</p>
+        <div class="reading" data-lit="2">
+          <strong>前沿发现</strong><br>
+          2025年发表在 <em>Annals of Medicine</em> 上的荟萃分析系统评价了神经肌肉训练（neuromuscular training, NMT）对女性团队运动员膝关节损伤预防的效果。分析纳入了多项随机对照试验，结果显示：NMT项目（包含平衡训练、本体感觉训练、增强式训练和力量训练）能显著降低膝关节损伤风险（IRR = 0.54至0.62），尤其是ACL损伤。研究同时指出，NMT的效果取决于多组件的协同：单独的平衡训练或力量训练效果有限，只有将本体感觉训练、运动控制和力量训练整合在一起时，才能观察到显著的损伤预防效果。研究者认为，关节稳定性不是一个单一结构的功能，而是多个子系统（韧带、肌肉、本体感觉）协同运作的涌现属性。
+          <div class="citation">Guan et al. (2025). <em>Annals of Medicine</em>, 57(1), 2581891. DOI: 10.1080/07853890.2025.2581891</div>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 A</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qa="2">从柏拉图的框架分析：一个膝关节是否可以类比为灵魂三分的"微型版本"？韧带的被动约束、肌肉的主动控制和本体感觉的反馈调节分别对应灵魂三分中的哪个部分？当关节"秩序"被打乱（韧带松弛 + 肌肉无力 + 本体感觉减退），这种"关节不正义"与灵魂"不正义"之间的结构性类比在哪些维度上成立？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 B</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qb="2">对于一个ACL损伤后本体感觉退化的客户，"重新训练关节的本体感觉"是否可以类比为柏拉图意义上的"教育"（让失去的感知能力重新回到正确的秩序中）？从板块五的关节润滑机制出发，软骨细胞依赖滑液扩散获取营养，如果关节秩序被打乱导致异常应力分布，这一"营养供应通道"会受到什么影响？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="keypoints">
+          <label>本组要点记录</label>
+          <textarea class="answer-input" placeholder="记录员在此整理要点"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 研讨题3 -->
+    <div class="section-card">
+      <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <h3 style="margin:0;" data-discuss-title="3">研讨题 3｜阻力臂/内力臂比值与"观察的放大效应"</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="collapsible-body" style="margin-top:14px;">
+        <p style="font-size:12px;color:var(--ink-m);margin-bottom:10px;">涉及板块：生物力学 × 科学哲学</p>
+        <div class="reading" data-lit="3">
+          <strong>前沿发现</strong><br>
+          2025年发表在 <em>BMC Musculoskeletal Disorders</em> 上的计算建模研究系统分析了髋关节骨性形态（股骨颈干角和髂骨宽度）对臀肌力学生物力学的影响。研究发现：颈干角（neck-shaft angle, NSA）和骨盆宽度显著影响臀中肌和臀小肌的力臂、峰值肌力和估算肌腱负荷。具体而言，高颈干角（股骨颈更垂直）或窄骨盆导致最短的力臂和最高的峰值肌力需求；低颈干角（股骨颈更水平）或宽骨盆导致最长的力臂和最低的峰值肌力需求。这意味着即使执行完全相同的步态动作，不同骨性形态的个体其臀肌需要产生的力存在显著差异。研究者指出，这种形态学层面的个体差异在临床康复和运动训练中常被忽略。
+          <div class="citation">Wang et al. (2025). <em>BMC Musculoskeletal Disorders</em>, 26(1), 35. DOI: 10.1186/s12891-024-08136-z</div>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 A</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qa="3">归纳法的困境（不能从个体归纳到全体）与杠杆系统的个体差异（每个个体的力学处境独一无二）之间，存在什么深层的认识论共同结构？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 B</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qb="3">如果一个教练的观察框架中没有"个体杠杆差异"这个分类范畴，他从客户训练中"看到"的"力量不足"实际上可能是"杠杆不利"。这种"观察中的放大效应"意味着什么？教练的"观察错误"是纯粹的认识论问题，还是同时也是一个力学问题？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="keypoints">
+          <label>本组要点记录</label>
+          <textarea class="answer-input" placeholder="记录员在此整理要点"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 研讨题4 -->
+    <div class="section-card">
+      <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <h3 style="margin:0;" data-discuss-title="4">研讨题 4｜氨基酸→蛋白质→肌肉→关节力矩的完整结构链</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="collapsible-body" style="margin-top:14px;">
+        <p style="font-size:12px;color:var(--ink-m);margin-bottom:10px;">涉及板块：营养学 × 生物力学 × 解剖</p>
+        <div class="reading" data-lit="4">
+          <strong>前沿发现</strong><br>
+          2024年发表在 <em>Sports Medicine</em> 上的系统综述评价了蛋白质和必需氨基酸（EAA）补充对阻力训练适应的影响。综述指出：充足的EAA供给是肌肉蛋白质合成（MPS）的必要条件，其中亮氨酸（leucine）通过激活mTOR信号通路发挥关键调控作用。当EAA摄入不足时，即使机械刺激充分，MPS速率也会显著下降。综述进一步整合了多项纵向研究的数据，表明长期EAA摄入不足与肌肉量下降和肌力减退显著相关。作者指出，这种"营养底物不足→肌肉功能下降"的链条在老年人群中尤为突出，但在进行高强度训练的年轻人群中同样值得关注。
+          <div class="citation">Devries & Phillips (2024). <em>Sports Medicine</em>, 54(Suppl 1), S45-S62. DOI: 10.1007/s40279-024-02034-x</div>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 A</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qa="4">请从营养学、生物力学和解剖三个板块的交叉视角，构建一条从"氨基酸供给不足"到"关节软骨营养供应恶化"的完整因果链。提示：氨基酸缺乏 → 肌肉蛋白质合成下降 → 肌肉横截面积/收缩力变化 → 关节力矩输出能力变化 → 关节稳定性和应力分布变化 → 软骨营养扩散环境变化。</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 B</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qb="4">一个教练如果在训练方案中只关注"力学配置"而忽视"营养底物"，最终会导致什么后果？反过来，如果只关注"营养补充"而忽视"力学刺激"，肌肉蛋白质合成能否被有效激活？从亮氨酸-mTOR通路和力矩公式出发，解释为什么"营养"和"力学"必须协同才能维持从氨基酸到关节的完整结构链。</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="keypoints">
+          <label>本组要点记录</label>
+          <textarea class="answer-input" placeholder="记录员在此整理要点"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 研讨题5 -->
+    <div class="section-card">
+      <div class="collapsible-header" onclick="toggleCollapse(this)">
+        <h3 style="margin:0;" data-discuss-title="5">研讨题 5｜结构与秩序：从氨基酸到教练决策</h3>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="collapsible-body" style="margin-top:14px;">
+        <p style="font-size:12px;color:var(--ink-m);margin-bottom:10px;">涉及板块：科学哲学 × 哲学 × 营养学 × 生物力学 × 解剖</p>
+        <div class="reading" data-lit="5">
+          <strong>前沿发现</strong><br>
+          2026年发表在 <em>Science Advances</em> 上的研究利用表面力仪（surface force apparatus）系统考察了透明质酸（hyaluronic acid, HA）分子量对磷脂（phospholipid, PL）自组装结构和摩擦学性能的影响。研究发现：在模拟健康关节条件下（高分子量HA），HA-PL在界面形成层状（lamellar）结构，维持超低摩擦系数（μ ≈ 0.001至0.01）；在模拟骨关节炎条件下（低分子量HA），界面以囊泡（vesicle）结构为主，摩擦系数升高约十倍。研究直接证明了关节润滑系统的功能依赖于分子层面的结构秩序：当HA分子量下降（结构秩序丧失），脂质组装体的界面排列随之紊乱，润滑功能崩溃。
+          <div class="citation">Sun et al. (2026). <em>Science Advances</em>, 12(3), eadz9517. DOI: 10.1126/sciadv.adz9517</div>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 A</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qa="5">请从以下五条线索分别论证"结构与秩序"在Lesson 4中的贯穿性：（1）科学哲学线：归纳推理的"结构"是什么？为什么这种结构无法获得逻辑保证？（2）哲学线：灵魂三个部分的"秩序"是什么？（3）营养学线：α-碳连接的四个基团构成氨基酸的"结构"，R基决定了氨基酸的分类和性质。（4）生物力学线：阻力臂/内力臂的比值是杠杆系统的"结构参数"。（5）解剖线：HA-PL的分子结构秩序直接决定关节的润滑功能。</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="discuss-area">
+          <label>讨论题 B</label>
+          <p style="font-size:13px;color:var(--ink-s);" data-qb="5">一个优秀教练如何在自身认知框架中建立"秩序"？当教练面对一个客户时，理性判断（基于科学证据的力学和营养分析）、激情反应（"必须突破极限"的训练冲动）和欲望驱动（"快速出效果"的商业压力）之间应该如何排序？</p>
+          <textarea class="answer-input" placeholder="在此填写讨论内容"></textarea>
+        </div>
+        <div class="keypoints">
+          <label>本组要点记录</label>
+          <textarea class="answer-input" placeholder="记录员在此整理要点"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 第三部分 ==================== -->
+    <h2 id="part3">第三部分：综合建构任务 <span class="badge badge-green">30 min</span></h2>
+
+    <div class="section-card">
+      <h3>构建"Lesson 4认识论框架"</h3>
+      <div class="reading">
+        <strong>背景</strong><br>
+        你们小组需要向一位刚接触运动科学的健身教练解释，为什么"设计一个训练方案"远比看起来复杂。在一张A1白纸上构建一个框架图，展示Lesson 4五条学科线之间的逻辑关系。<br><br>
+        <strong>要求</strong>：<br>
+        1. 框架图必须回答核心问题：<strong>"结构决定功能，秩序决定稳定：教练如何理解从氨基酸到训练决策的完整因果链"</strong><br>
+        2. 五条学科线不能是五个并列方框，必须展示至少3条跨线连接，并标注每条连接的逻辑关系<br>
+        3. 在框架图中标注至少2个"尚未解决的问题"或"悖论"<br>
+        4. 给这个框架起一个名字（不超过8个字）
+      </div>
+
+      <label for="frameworkName">框架名称（不超过8个字）</label>
+      <input type="text" id="frameworkName" class="answer-input" placeholder="在此填写框架名称" style="margin-bottom:20px;">
+
+      <label>跨线连接（至少3条）</label>
+      <table class="connect">
+        <caption style="text-align:left;font-weight:700;font-size:14px;margin-bottom:8px;color:var(--ink);caption-side:top;">跨线连接表</caption>
+        <thead>
+          <tr><th style="width:40px;">#</th><th>连接</th><th>逻辑关系</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><input type="text" class="answer-input" placeholder="如：营养学 → 生物力学"></td>
+            <td><input type="text" class="answer-input" placeholder="如：A为B提供物质基础"></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><input type="text" class="answer-input" placeholder="如：生物力学 → 解剖"></td>
+            <td><input type="text" class="answer-input" placeholder="如：C是D的结构约束"></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><input type="text" class="answer-input" placeholder="如：科学哲学 → 全部"></td>
+            <td><input type="text" class="answer-input" placeholder="如：提供认识论基础"></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><input type="text" class="answer-input" placeholder="（可选）"></td>
+            <td><input type="text" class="answer-input" placeholder="（可选）"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>尚未解决的问题 / 悖论（至少2个）</label>
+      <div class="paradox-card">
+        <label>悖论 1</label>
+        <textarea class="answer-input" placeholder="在此填写第一个尚未解决的问题或悖论"></textarea>
+      </div>
+      <div class="paradox-card">
+        <label>悖论 2</label>
+        <textarea class="answer-input" placeholder="在此填写第二个尚未解决的问题或悖论"></textarea>
+      </div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="actions">
+      <button class="btn btn-github" onclick="openPreview()">
+        <span class="gh-icon">⌂</span>
+        提交到 GitHub
+      </button>
+      <button class="btn btn-primary" onclick="submitData()">下载 JSON</button>
+      <button class="btn btn-outline" onclick="saveLocal()">暂存（保存到浏览器）</button>
+      <button class="btn btn-outline" onclick="window.print()">打印</button>
+    </div>
+    <div class="status-bar" id="statusBar"></div>
+
+  </div><!-- end workArea -->
+
+  <footer>
+    涌现90天 · Lesson 4 小组讨论作业 · GitHub 提交版
+  </footer>
+
+</div>
+
+<!-- ========== 预览弹窗 ========== -->
+<div class="modal-overlay" id="previewModal" onclick="if(event.target===this)closePreview()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>提交到 GitHub · 预览</h3>
+      <button class="modal-close" onclick="closePreview()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-title">Issue Title</div>
+      <div class="preview-title-row" id="previewTitle"></div>
+
+      <div class="preview-title">Labels</div>
+      <div class="preview-labels" id="previewLabels"></div>
+
+      <div class="preview-body-label">Issue Body (Markdown)</div>
+      <div class="preview-body-content" id="previewBody"></div>
+
+      <div class="error-box" id="errorBox">
+        <div class="error-title" id="errorTitle">提交失败</div>
+        <div id="errorMsg"></div>
+        <button class="copy-btn" onclick="copyIssueBody()">复制 Issue 内容</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePreview()">取消</button>
+      <button class="btn btn-github" id="submitBtn" onclick="submitToGithub()">
+        <span class="spinner"></span>
+        确认提交到 GitHub
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ========== Token 设置弹窗 ========== -->
+<div class="modal-overlay" id="tokenModal" onclick="if(event.target===this)closeTokenModal()">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header">
+      <h3 id="tokenModalTitle">GitHub Token 设置</h3>
+      <button class="modal-close" onclick="closeTokenModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="token-form">
+        <div id="tokenStatusBox"></div>
+        <label id="tokenInputLabel" for="tokenInput">GitHub Personal Access Token</label>
+        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+        <div class="token-hint">
+          Token 仅保存在当前浏览器的 localStorage 中，用于提交讨论作业到 GitHub Issues。<br>
+          <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">前往 GitHub 获取 Token →</a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeTokenModal()">取消</button>
+      <div class="settings-actions">
+        <button class="btn-danger" id="clearTokenBtn" onclick="clearToken()" style="display:none;">清除 Token</button>
+        <button class="btn btn-github" onclick="saveTokenSetting()">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== 配置 ==========
+var GITHUB_REPO = 'mricemelab-blip/evidence-literature-db';
+var GITHUB_API = 'https://api.github.com/repos/' + GITHUB_REPO;
+var LABELS = ['小组讨论', 'Lesson4'];
+var TOKEN_STORAGE_KEY = 'github_token';
+
+// ========== Token 管理 ==========
+function getGithubToken() {
+  return localStorage.getItem(TOKEN_STORAGE_KEY) || '';
+}
+
+function setGithubToken(token) {
+  localStorage.setItem(TOKEN_STORAGE_KEY, token);
+}
+
+function hasGithubToken() {
+  var t = getGithubToken();
+  return t && t.length > 0;
+}
+
+function openTokenSettings() {
+  var modal = document.getElementById('tokenModal');
+  var tokenInput = document.getElementById('tokenInput');
+  var statusBox = document.getElementById('tokenStatusBox');
+  var clearBtn = document.getElementById('clearTokenBtn');
+  var title = document.getElementById('tokenModalTitle');
+
+  title.textContent = 'GitHub Token 设置';
+
+  var token = getGithubToken();
+  if (token) {
+    // 只显示前4位和后4位
+    var masked = token.substring(0, 4) + '••••••••••' + token.substring(token.length - 4);
+    statusBox.innerHTML = '<div class="token-status">✓ 已保存 Token：' + masked + '</div>';
+    tokenInput.value = '';
+    tokenInput.placeholder = '留空则不修改，输入新 Token 可替换';
+    clearBtn.style.display = 'inline-block';
+  } else {
+    statusBox.innerHTML = '<div class="token-status no-token">⚠ 尚未保存 Token</div>';
+    tokenInput.value = '';
+    tokenInput.placeholder = '请输入 GitHub Personal Access Token';
+    clearBtn.style.display = 'none';
+  }
+
+  modal.style.display = 'flex';
+  setTimeout(function() { tokenInput.focus(); }, 100);
+}
+
+function showFirstTimeTokenModal(callback) {
+  var modal = document.getElementById('tokenModal');
+  var tokenInput = document.getElementById('tokenInput');
+  var statusBox = document.getElementById('tokenStatusBox');
+  var clearBtn = document.getElementById('clearTokenBtn');
+  var title = document.getElementById('tokenModalTitle');
+
+  title.textContent = '首次使用设置';
+  statusBox.innerHTML = '';
+  tokenInput.value = '';
+  tokenInput.placeholder = '请输入 GitHub Personal Access Token';
+  clearBtn.style.display = 'none';
+
+  // 保存回调，用于确认后继续提交流程
+  modal._submitCallback = callback;
+
+  modal.style.display = 'flex';
+  setTimeout(function() { tokenInput.focus(); }, 100);
+}
+
+function closeTokenModal() {
+  var modal = document.getElementById('tokenModal');
+  modal.style.display = 'none';
+  modal._submitCallback = null;
+}
+
+function saveTokenSetting() {
+  var tokenInput = document.getElementById('tokenInput');
+  var token = tokenInput.value.trim();
+  var modal = document.getElementById('tokenModal');
+
+  if (!token) {
+    // 如果已有 token 且输入为空，则不修改
+    if (hasGithubToken()) {
+      closeTokenModal();
+      return;
+    }
+    // 如果没有 token 且输入为空，提示
+    tokenInput.style.borderColor = '#e74c3c';
+    setTimeout(function() { tokenInput.style.borderColor = ''; }, 1500);
+    return;
+  }
+
+  setGithubToken(token);
+  showStatus('Token 已保存 ✓');
+
+  var callback = modal._submitCallback;
+  closeTokenModal();
+
+  if (callback && typeof callback === 'function') {
+    callback();
+  }
+}
+
+function clearToken() {
+  if (!confirm('确定要清除已保存的 GitHub Token 吗？')) return;
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('clearTokenBtn').style.display = 'none';
+  document.getElementById('tokenStatusBox').innerHTML = '<div class="token-status no-token">⚠ 尚未保存 Token</div>';
+  showStatus('Token 已清除');
+}
+
+// 回车提交 Token
+document.addEventListener('DOMContentLoaded', function() {
+  var tokenInput = document.getElementById('tokenInput');
+  if (tokenInput) {
+    tokenInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        saveTokenSetting();
+      }
+    });
+  }
+});
+
+// ========== 状态 ==========
+let currentGroup = 0;
+let currentIssueBody = '';
+let currentIssueTitle = '';
+let isSubmitting = false;
+
+// ========== 问题文本（用于 Markdown 生成）==========
+var QUESTIONS = {
+  part1: [
+    { section: '科学哲学', questions: [
+      { q: 'Q1', text: '休谟的归纳问题（problem of induction）提出了一个根本质疑：从已观察到的事例推导出普遍规律，这一推理过程的逻辑基础是什么？' },
+      { q: 'Q2', text: 'Chalmers指出，试图用归纳法为归纳法辩护犯了什么逻辑错误？这种论证方式被称为什么？' },
+      { q: 'Q3', text: '归纳原则无法被演绎证明的核心原因是什么？从"过去太阳每天升起"推导出"明天太阳一定升起"，这一步推理缺少什么逻辑保证？' }
+    ]},
+    { section: '哲学', questions: [
+      { q: 'Q4', text: '柏拉图将灵魂分为哪三个部分？每个部分对应的希腊术语是什么？各自的核心功能是什么？' },
+      { q: 'Q5', text: '灵魂的正义（dikaiosyne）在柏拉图的框架中意味着什么？三个部分之间的正确关系是什么？' },
+      { q: 'Q6', text: '当一个人的灵魂处于"不正义"状态时，是哪种具体的秩序错乱？激情（thymos）和欲望（epithymia）分别可能在什么情况下"越位"？' }
+    ]},
+    { section: '营养学', questions: [
+      { q: 'Q7', text: '氨基酸的化学结构中，α-碳（alpha carbon）连接的四个基团分别是什么？' },
+      { q: 'Q8', text: '根据R基（侧链基团）的化学性质，氨基酸可以分为哪四大类？请各举至少两个代表。' },
+      { q: 'Q9', text: '什么是必需氨基酸（essential amino acids, EAA）？人体有多少种必需氨基酸？为什么人体不能自行合成它们？' }
+    ]},
+    { section: '生物力学', questions: [
+      { q: 'Q10', text: '力矩（torque）的计算公式是什么？力臂（moment arm）在其中的角色是什么？' },
+      { q: 'Q11', text: '阻力臂与内力臂的比值（external-to-internal moment arm ratio）越大，对肌肉力量输出意味着什么？' },
+      { q: 'Q12', text: '为什么阻力臂/内力臂的比值会随关节角度变化而持续变化？这对训练处方的设计有什么启示？' }
+    ]},
+    { section: '解剖', questions: [
+      { q: 'Q13', text: '关节软骨（articular cartilage）由哪两类主要成分构成？它的营养供应方式有什么特殊之处？' },
+      { q: 'Q14', text: '关节软骨的两种润滑机制分别是什么？它们各自在什么负荷条件下发挥作用？' },
+      { q: 'Q15', text: '关节软骨的摩擦系数极低（μ ≈ 0.001至0.01），但其修复能力极为有限。造成这种"高耐久性、低修复力"矛盾的结构性原因是什么？' }
+    ]}
+  ],
+  part2: [
+    {
+      title: '研讨题 1｜归纳法不能被证明，但"补剂有效"每天都在用归纳法',
+      literature: '2025年发表在 FASEB Journal 上的荟萃分析整合了41项随机对照试验（涵盖2011至2025年间的人体试验），系统评价了omega-3多不饱和脂肪酸（PUFA）补充对运动后炎症、肌肉损伤和恢复的影响。分析结果显示：omega-3补充显著降低了炎症标志物（IL-6、CRP）和肌肉损伤标志物（CK），效应量为中等程度（Hedges\' g = 0.35至0.52）。然而，研究同时指出：纳入的试验中大多数样本量不足30人，运动方案（耐力、抗阻、离心）差异巨大（I² = 55%至70%），生物标志物采样时间点极不一致（3至72小时），且女性受试者严重缺乏。作者承认，尽管荟萃分析得出了统计显著的"正面结论"，但这一结论的稳健性受到纳入研究的方法学异质性的严重制约。\n\n引用：FASEB Journal (2025). Meta-analysis of Omega-3 Supplementation on Exercise-Induced Inflammation and Muscle Damage. DOI: 10.1096/fj.202504783R'
+    },
+    {
+      title: '研讨题 2｜灵魂的秩序与关节的秩序',
+      literature: '2025年发表在 Annals of Medicine 上的荟萃分析系统评价了神经肌肉训练（neuromuscular training, NMT）对女性团队运动员膝关节损伤预防的效果。分析纳入了多项随机对照试验，结果显示：NMT项目（包含平衡训练、本体感觉训练、增强式训练和力量训练）能显著降低膝关节损伤风险（IRR = 0.54至0.62），尤其是ACL损伤。研究同时指出，NMT的效果取决于多组件的协同：单独的平衡训练或力量训练效果有限，只有将本体感觉训练、运动控制和力量训练整合在一起时，才能观察到显著的损伤预防效果。研究者认为，关节稳定性不是一个单一结构的功能，而是多个子系统（韧带、肌肉、本体感觉）协同运作的涌现属性。\n\n引用：Guan et al. (2025). Annals of Medicine, 57(1), 2581891. DOI: 10.1080/07853890.2025.2581891'
+    },
+    {
+      title: '研讨题 3｜阻力臂/内力臂比值与"观察的放大效应"',
+      literature: '2025年发表在 BMC Musculoskeletal Disorders 上的计算建模研究系统分析了髋关节骨性形态（股骨颈干角和髂骨宽度）对臀肌力学生物力学的影响。研究发现：颈干角（neck-shaft angle, NSA）和骨盆宽度显著影响臀中肌和臀小肌的力臂、峰值肌力和估算肌腱负荷。具体而言，高颈干角（股骨颈更垂直）或窄骨盆导致最短的力臂和最高的峰值肌力需求；低颈干角（股骨颈更水平）或宽骨盆导致最长的力臂和最低的峰值肌力需求。这意味着即使执行完全相同的步态动作，不同骨性形态的个体其臀肌需要产生的力存在显著差异。研究者指出，这种形态学层面的个体差异在临床康复和运动训练中常被忽略。\n\n引用：Wang et al. (2025). BMC Musculoskeletal Disorders, 26(1), 35. DOI: 10.1186/s12891-024-08136-z'
+    },
+    {
+      title: '研讨题 4｜氨基酸→蛋白质→肌肉→关节力矩的完整结构链',
+      literature: '2024年发表在 Sports Medicine 上的系统综述评价了蛋白质和必需氨基酸（EAA）补充对阻力训练适应的影响。综述指出：充足的EAA供给是肌肉蛋白质合成（MPS）的必要条件，其中亮氨酸（leucine）通过激活mTOR信号通路发挥关键调控作用。当EAA摄入不足时，即使机械刺激充分，MPS速率也会显著下降。综述进一步整合了多项纵向研究的数据，表明长期EAA摄入不足与肌肉量下降和肌力减退显著相关。作者指出，这种"营养底物不足→肌肉功能下降"的链条在老年人群中尤为突出，但在进行高强度训练的年轻人群中同样值得关注。\n\n引用：Devries & Phillips (2024). Sports Medicine, 54(Suppl 1), S45-S62. DOI: 10.1007/s40279-024-02034-x'
+    },
+    {
+      title: '研讨题 5｜结构与秩序：从氨基酸到教练决策',
+      literature: '2026年发表在 Science Advances 上的研究利用表面力仪（surface force apparatus）系统考察了透明质酸（hyaluronic acid, HA）分子量对磷脂（phospholipid, PL）自组装结构和摩擦学性能的影响。研究发现：在模拟健康关节条件下（高分子量HA），HA-PL在界面形成层状（lamellar）结构，维持超低摩擦系数（μ ≈ 0.001至0.01）；在模拟骨关节炎条件下（低分子量HA），界面以囊泡（vesicle）结构为主，摩擦系数升高约十倍。研究直接证明了关节润滑系统的功能依赖于分子层面的结构秩序：当HA分子量下降（结构秩序丧失），脂质组装体的界面排列随之紊乱，润滑功能崩溃。\n\n引用：Sun et al. (2026). Science Advances, 12(3), eadz9517. DOI: 10.1126/sciadv.adz9517'
+    }
+  ]
+};
+
+// ========== 选组与进入 ==========
+function enterGroup(n) {
+  currentGroup = n;
+  document.getElementById('entryPage').style.display = 'none';
+  document.getElementById('workArea').style.display = 'block';
+  document.getElementById('groupBadge').textContent = '第' + n + '组';
+  document.getElementById('groupNum').value = '第' + n + '组';
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+  var dateInput = document.getElementById('dateInput');
+  if (!dateInput.value) dateInput.value = yyyy + '-' + mm + '-' + dd;
+  restoreData(n);
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  document.getElementById('workArea').style.display = 'none';
+  document.getElementById('entryPage').style.display = 'block';
+  currentGroup = 0;
+}
+
+// ========== 收集表单数据 ==========
+function collectFormData() {
+  var data = {
+    group: currentGroup,
+    date: document.getElementById('dateInput').value,
+    members: [],
+    part1: [],
+    part2: [],
+    part3: {
+      frameworkName: document.getElementById('frameworkName').value,
+      connections: [],
+      paradoxes: []
+    }
+  };
+
+  // 组员
+  var memberInputs = document.querySelectorAll('.member-input');
+  for (var i = 0; i < memberInputs.length; i++) {
+    data.members.push(memberInputs[i].value.trim());
+  }
+
+  // 第一部分答案（question-card 只在第一部分知识校准中使用）
+  var part1Answers = document.querySelectorAll('.question-card .answer-input');
+  var idx = 0;
+  for (var s = 0; s < QUESTIONS.part1.length; s++) {
+    var section = QUESTIONS.part1[s];
+    for (var q = 0; q < section.questions.length; q++) {
+      data.part1.push({
+        section: section.section,
+        q: section.questions[q].q,
+        text: section.questions[q].text,
+        answer: part1Answers[idx] ? part1Answers[idx].value.trim() : ''
+      });
+      idx++;
+    }
+  }
+
+  // 第二部分研讨题
+  var sectionCards = document.querySelectorAll('.section-card');
+  // 研讨题的 section-card 从第 6 个开始（跳过5个知识校准板块）
+  var discussCards = [];
+  for (var i = 0; i < sectionCards.length; i++) {
+    if (sectionCards[i].querySelector('[data-discuss-title]')) {
+      discussCards.push(sectionCards[i]);
+    }
+  }
+
+  for (var d = 0; d < discussCards.length; d++) {
+    var card = discussCards[d];
+    var inputs = card.querySelectorAll('.answer-input');
+    // inputs[0] = 讨论题A, inputs[1] = 讨论题B, inputs[2] = 要点记录
+    data.part2.push({
+      title: QUESTIONS.part2[d] ? QUESTIONS.part2[d].title : '研讨题 ' + (d+1),
+      literature: QUESTIONS.part2[d] ? QUESTIONS.part2[d].literature : '',
+      qa: inputs[0] ? inputs[0].value.trim() : '',
+      qb: inputs[1] ? inputs[1].value.trim() : '',
+      keypoints: inputs[2] ? inputs[2].value.trim() : ''
+    });
+  }
+
+  // 第三部分：跨线连接
+  var connectRows = document.querySelectorAll('table.connect tbody tr');
+  for (var r = 0; r < connectRows.length; r++) {
+    var cells = connectRows[r].querySelectorAll('input');
+    data.part3.connections.push({
+      num: r + 1,
+      connection: cells[0] ? cells[0].value.trim() : '',
+      logic: cells[1] ? cells[1].value.trim() : ''
+    });
+  }
+
+  // 第三部分：悖论
+  var paradoxCards = document.querySelectorAll('.paradox-card');
+  for (var p = 0; p < paradoxCards.length; p++) {
+    var ta = paradoxCards[p].querySelector('textarea');
+    data.part3.paradoxes.push({
+      num: p + 1,
+      text: ta ? ta.value.trim() : ''
+    });
+  }
+
+  return data;
+}
+
+// ========== 生成 Markdown ==========
+function generateMarkdown(data) {
+  var lines = [];
+
+  // 基本信息
+  lines.push('## 基本信息');
+  lines.push('- 组号：第' + data.group + '组');
+  lines.push('- 日期：' + (data.date || '未填写'));
+  var memberStr = data.members.filter(function(m) { return m; }).join('、') || '未填写';
+  lines.push('- 组员：' + memberStr);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  // 第一部分
+  lines.push('## 第一部分：知识校准');
+  lines.push('');
+  var currentSection = '';
+  for (var i = 0; i < data.part1.length; i++) {
+    var item = data.part1[i];
+    if (item.section !== currentSection) {
+      if (currentSection) lines.push('');
+      currentSection = item.section;
+      lines.push('### ' + currentSection);
+    }
+    lines.push('**' + item.q + '**: ' + item.text);
+    lines.push('> ' + (item.answer || '（未填写）'));
+    lines.push('');
+  }
+  lines.push('---');
+  lines.push('');
+
+  // 第二部分
+  lines.push('## 第二部分：前沿深研');
+  lines.push('');
+  for (var d = 0; d < data.part2.length; d++) {
+    var disc = data.part2[d];
+    lines.push('### ' + disc.title);
+    lines.push('**前沿文献**：' + disc.literature);
+    lines.push('');
+    lines.push('**讨论题A**：' + (disc.qa || '（未填写）'));
+    lines.push('');
+    lines.push('**讨论题B**：' + (disc.qb || '（未填写）'));
+    lines.push('');
+    lines.push('**本组要点**：');
+    lines.push('> ' + (disc.keypoints || '（未填写）'));
+    lines.push('');
+  }
+  lines.push('---');
+  lines.push('');
+
+  // 第三部分
+  lines.push('## 第三部分：综合建构');
+  lines.push('');
+  lines.push('### 框架名称');
+  lines.push(data.part3.frameworkName || '（未填写）');
+  lines.push('');
+  lines.push('### 跨线连接');
+  lines.push('');
+  lines.push('| # | 连接 | 逻辑关系 |');
+  lines.push('|---|------|----------|');
+  for (var c = 0; c < data.part3.connections.length; c++) {
+    var conn = data.part3.connections[c];
+    var connText = conn.connection || '-';
+    var logicText = conn.logic || '-';
+    // Markdown 表格中需要转义 |
+    connText = connText.replace(/\|/g, '\\|');
+    logicText = logicText.replace(/\|/g, '\\|');
+    lines.push('| ' + conn.num + ' | ' + connText + ' | ' + logicText + ' |');
+  }
+  lines.push('');
+  lines.push('### 尚未解决的问题/悖论');
+  for (var p = 0; p < data.part3.paradoxes.length; p++) {
+    var para = data.part3.paradoxes[p];
+    lines.push('**悖论' + para.num + '**：' + (para.text || '（未填写）'));
+    lines.push('');
+  }
+
+  return lines.join('\n');
+}
+
+// ========== 生成 Issue Title ==========
+function generateIssueTitle(data) {
+  var dateStr = data.date || new Date().toISOString().slice(0, 10);
+  return 'Lesson4 第' + data.group + '组 讨论作业 - ' + dateStr;
+}
+
+// ========== 预览弹窗 ==========
+function openPreview() {
+  var data = collectFormData();
+  currentIssueTitle = generateIssueTitle(data);
+  currentIssueBody = generateMarkdown(data);
+
+  document.getElementById('previewTitle').textContent = currentIssueTitle;
+
+  var labelsDiv = document.getElementById('previewLabels');
+  labelsDiv.innerHTML = '';
+  for (var i = 0; i < LABELS.length; i++) {
+    var span = document.createElement('span');
+    span.textContent = LABELS[i];
+    labelsDiv.appendChild(span);
+  }
+
+  document.getElementById('previewBody').textContent = currentIssueBody;
+
+  // 重置错误状态
+  var errorBox = document.getElementById('errorBox');
+  errorBox.classList.remove('show');
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').classList.remove('loading');
+
+  document.getElementById('previewModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+  if (isSubmitting) return; // 提交中不允许关闭
+  document.getElementById('previewModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ========== 复制 Issue 内容 ==========
+function copyIssueBody() {
+  var textToCopy = '# ' + currentIssueTitle + '\n\n' + currentIssueBody;
+  navigator.clipboard.writeText(textToCopy).then(function() {
+    showStatus('Issue 内容已复制到剪贴板 ✓');
+  }).catch(function() {
+    // fallback
+    var ta = document.createElement('textarea');
+    ta.value = textToCopy;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showStatus('Issue 内容已复制到剪贴板 ✓');
+  });
+}
+
+// ========== GitHub API 调用 ==========
+function githubApi(path, method, body) {
+  return fetch(GITHUB_API + path, {
+    method: method,
+    headers: {
+      'Authorization': 'token ' + getGithubToken(),
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+}
+
+// 创建标签（如果不存在）
+async function ensureLabels() {
+  var colors = ['5B6CFF', 'FF7AB6']; // 对应两个标签的颜色
+  for (var i = 0; i < LABELS.length; i++) {
+    try {
+      await githubApi('/labels/' + encodeURIComponent(LABELS[i]), 'GET');
+      // 标签已存在，跳过
+    } catch (e) {
+      // 请求失败（可能是网络错误），继续尝试创建
+      try {
+        await githubApi('/labels', 'POST', {
+          name: LABELS[i],
+          color: colors[i] || '5B6CFF',
+          description: ''
+        });
+      } catch (e2) {
+        // 创建失败也不阻塞，继续
+        console.warn('创建标签失败:', LABELS[i], e2);
+      }
+    }
+  }
+}
+
+// 提交到 GitHub
+async function submitToGithub() {
+  if (isSubmitting) return;
+
+  // 检查 Token
+  if (!hasGithubToken()) {
+    showFirstTimeTokenModal(function() {
+      // 用户保存 token 后重新调用 submitToGithub
+      submitToGithub();
+    });
+    return;
+  }
+
+  isSubmitting = true;
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  var errorBox = document.getElementById('errorBox');
+  errorBox.classList.remove('show');
+
+  try {
+    // 先确保标签存在（忽略错误）
+    try {
+      await ensureLabels();
+    } catch (e) {
+      console.warn('标签检查失败，继续提交:', e);
+    }
+
+    // 创建 Issue
+    var response = await githubApi('/issues', 'POST', {
+      title: currentIssueTitle,
+      body: currentIssueBody,
+      labels: LABELS
+    });
+
+    if (!response.ok) {
+      var errText = '';
+      try {
+        var errJson = await response.json();
+        errText = errJson.message || JSON.stringify(errJson);
+      } catch (pe) {
+        errText = 'HTTP ' + response.status;
+      }
+      throw new Error(errText);
+    }
+
+    var result = await response.json();
+
+    // 成功
+    closePreview();
+    showStatusSuccess('✓ 已提交到 GitHub！' + (result.html_url ? ' ' + result.html_url : ''));
+
+    // 清空表单
+    clearForm();
+
+  } catch (err) {
+    console.error('提交失败:', err);
+    var errorMsg = document.getElementById('errorMsg');
+    errorMsg.textContent = err.message || '网络错误，请稍后重试。';
+    errorBox.classList.add('show');
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  } finally {
+    isSubmitting = false;
+  }
+}
+
+// ========== 清空表单 ==========
+function clearForm() {
+  // 清空所有输入
+  var inputs = document.querySelectorAll('.answer-input, .member-input');
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].tagName === 'TEXTAREA' || inputs[i].type === 'text') {
+      inputs[i].value = '';
+    }
+  }
+  document.getElementById('frameworkName').value = '';
+
+  // 清除 localStorage 中的暂存
+  localStorage.removeItem('lesson4_group' + currentGroup);
+}
+
+// ========== localStorage 暂存/恢复 ==========
+function saveLocal() {
+  var data = collectFormData();
+  // 转成扁平格式以便与旧版兼容
+  var flatData = {
+    group: data.group,
+    date: data.date,
+    members: data.members,
+    answers: {},
+    frameworkName: data.part3.frameworkName
+  };
+  var allInputs = document.querySelectorAll('.answer-input');
+  for (var i = 0; i < allInputs.length; i++) {
+    flatData.answers['field_' + i] = allInputs[i].value;
+  }
+  localStorage.setItem('lesson4_group' + currentGroup, JSON.stringify(flatData));
+  showStatus('已暂存到浏览器 ✓');
+}
+
+function restoreData(n) {
+  var saved = localStorage.getItem('lesson4_group' + n);
+  if (!saved) return;
+  try {
+    var data = JSON.parse(saved);
+    if (data.date) document.getElementById('dateInput').value = data.date;
+    if (data.members) {
+      var memberInputs = document.querySelectorAll('.member-input');
+      for (var i = 0; i < Math.min(data.members.length, memberInputs.length); i++) {
+        memberInputs[i].value = data.members[i];
+      }
+    }
+    if (data.answers) {
+      var allInputs = document.querySelectorAll('.answer-input');
+      for (var j = 0; j < allInputs.length; j++) {
+        if (data.answers['field_' + j]) {
+          allInputs[j].value = data.answers['field_' + j];
+        }
+      }
+    }
+    if (data.frameworkName) {
+      document.getElementById('frameworkName').value = data.frameworkName;
+    }
+    showStatus('已恢复上次暂存的内容');
+  } catch(e) {}
+}
+
+// ========== 导出 JSON（保留原功能） ==========
+function submitData() {
+  var data = collectFormData();
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Lesson4_第' + currentGroup + '组_讨论作业.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showStatus('已导出 JSON 文件 ✓');
+}
+
+// ========== 状态提示 ==========
+function showStatus(msg) {
+  var bar = document.getElementById('statusBar');
+  bar.className = 'status-bar';
+  bar.textContent = msg;
+  setTimeout(function() { bar.textContent = ''; bar.className = 'status-bar'; }, 5000);
+}
+
+function showStatusSuccess(msg) {
+  var bar = document.getElementById('statusBar');
+  bar.className = 'status-bar success';
+  bar.textContent = msg;
+}
+
+// ========== 折叠/展开 ==========
+function toggleCollapse(header) {
+  var body = header.nextElementSibling;
+  var arrow = header.querySelector('.arrow');
+  if (header.classList.contains('collapsed')) {
+    header.classList.remove('collapsed');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    arrow.style.transform = 'rotate(0deg)';
+  } else {
+    header.classList.add('collapsed');
+    body.style.maxHeight = '0';
+    arrow.style.transform = 'rotate(-90deg)';
+  }
+}
+
+// ========== 页内导航平滑滚动 ==========
+document.querySelectorAll('nav.toc a').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ========== ESC 关闭弹窗 ==========
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var modal = document.getElementById('previewModal');
+    if (modal.classList.contains('active')) closePreview();
+  }
+});
+</script>
+</body>
+</html>
