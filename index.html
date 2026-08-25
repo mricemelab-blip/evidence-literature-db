@@ -6,7 +6,7 @@
 <title>知识改变力量，力量重塑人生</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg-primary: #070709;
@@ -365,12 +365,12 @@ body {
   transition: transform 0.2s;
 }
 
-/* ===== MODAL ===== */
+/* ===== MODAL (Botella report style) ===== */
 .modal-overlay {
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(7,7,9,0.85);
   backdrop-filter: blur(8px);
   z-index: 1000;
   overflow-y: auto;
@@ -382,15 +382,18 @@ body {
   align-items: flex-start;
 }
 .modal-content {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
+  background: #F8F6F0;
+  border-radius: 12px;
   max-width: 880px;
   width: 100%;
   padding: 48px;
   position: relative;
   animation: modalIn 0.3s ease;
   margin-bottom: 40px;
+  color: #1D2733;
+  font-family: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
 }
 @keyframes modalIn {
   from { opacity: 0; transform: translateY(20px); }
@@ -399,304 +402,313 @@ body {
 .modal-close {
   position: fixed;
   top: 20px; right: 24px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
+  background: #F8F6F0;
+  border: 1px solid #D4CFC4;
+  color: #667085;
   font-size: 24px;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.2s, border-color 0.2s;
   width: 40px; height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   z-index: 1001;
+  line-height: 1;
 }
 .modal-close:hover {
-  color: var(--text-primary);
-  border-color: var(--accent-dim);
+  color: #102A43;
+  border-color: #102A43;
 }
 
-/* 详情页标题 */
-.detail-id {
-  font-size: 11px;
-  letter-spacing: 2px;
+/* -- Botella variables scoped to modal -- */
+.modal-content {
+  --mb-deep-blue: #102A43;
+  --mb-data-blue: #2978B5;
+  --mb-accent: #F59E0B;
+  --mb-accent-soft: rgba(245,158,11,0.12);
+  --mb-green: #0D7C3E;
+  --mb-green-soft: rgba(13,124,62,0.10);
+  --mb-red: #D93025;
+  --mb-red-soft: rgba(217,48,37,0.10);
+  --mb-text: #1D2733;
+  --mb-text-sec: #667085;
+  --mb-surface: #FFFFFF;
+  --mb-grid: #E6E1D8;
+  --mb-border: #D4CFC4;
+  --mb-serif: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+  --mb-sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mb-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Report header */
+.report-header {
+  border-bottom: 3px solid var(--mb-deep-blue);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+.report-kicker {
+  font-family: var(--mb-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-  font-weight: 500;
+  color: var(--mb-data-blue);
+  margin-bottom: 0.75rem;
 }
-.detail-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 26px;
-  font-weight: 900;
-  line-height: 1.45;
-  margin-bottom: 10px;
-  color: var(--text-primary);
+.report-header h1 {
+  font-family: var(--mb-serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  line-height: 1.3;
+  color: var(--mb-deep-blue);
+  margin-bottom: 0.6rem;
+  font-weight: 700;
 }
-.detail-title-en {
-  font-size: 14px;
-  color: var(--text-muted);
+.report-subtitle {
+  font-size: 1rem;
+  color: var(--mb-text-sec);
   line-height: 1.6;
+  margin-bottom: 1rem;
   font-style: italic;
-  margin-bottom: 24px;
 }
-
-.detail-badges {
+.report-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 32px;
+  gap: 0.4rem 1.25rem;
+  font-size: 0.82rem;
+  color: var(--mb-text-sec);
 }
-.detail-badge {
-  font-size: 12px;
-  padding: 5px 14px;
-  border-radius: 6px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.detail-badge.tier1 {
-  background: var(--accent);
-  color: #000;
-}
-.detail-badge.tier2 {
-  background: var(--border-light);
-  color: var(--text-secondary);
-}
-.detail-badge.category {
-  background: var(--accent-glow);
-  color: var(--accent);
-}
-.detail-badge.year {
-  background: var(--border);
-  color: var(--text-secondary);
-}
-.detail-badge.type {
-  background: var(--border);
-  color: var(--text-secondary);
-}
+.report-meta strong { color: var(--mb-text); }
+.report-meta a { color: var(--mb-data-blue); text-decoration: none; word-break: break-all; }
+.report-meta a:hover { text-decoration: underline; }
 
-/* 详情分区 */
-.detail-section {
-  margin-bottom: 36px;
+/* TOC */
+.modal-toc {
+  background: var(--mb-surface);
+  border: 1px solid var(--mb-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
 }
-.detail-section-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  letter-spacing: 3px;
+.modal-toc h2 {
+  font-family: var(--mb-sans);
+  font-size: 0.8rem;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 16px;
-  font-weight: 700;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.08em;
+  color: var(--mb-text-sec);
+  margin-bottom: 0.5rem;
+  border: none;
+  padding: 0;
 }
-.detail-section-title::before {
-  content: '';
-  display: inline-block;
-  width: 4px;
-  height: 16px;
-  background: var(--accent);
-  border-radius: 2px;
+.modal-toc ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  columns: 2;
+  column-gap: 2rem;
 }
-.detail-section-content {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.85;
+.modal-toc li {
+  margin-bottom: 0.3rem;
+  font-size: 0.85rem;
+  break-inside: avoid;
+}
+.modal-toc a {
+  color: var(--mb-data-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.modal-toc a:hover { color: var(--mb-deep-blue); text-decoration: underline; }
+
+/* Sections */
+.modal-section {
+  margin-bottom: 2.25rem;
+  scroll-margin-top: 20px;
+}
+.modal-section h2 {
+  font-family: var(--mb-serif);
+  font-size: 1.35rem;
+  color: var(--mb-deep-blue);
+  border-bottom: 2px solid var(--mb-grid);
+  padding-bottom: 0.4rem;
+  margin-bottom: 1.1rem;
 }
 
-/* markdown渲染样式 */
-.detail-md p {
-  margin-bottom: 12px;
+/* Callouts */
+.callout {
+  background: var(--mb-surface);
+  border-left: 4px solid var(--mb-data-blue);
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1rem 0;
+  font-size: 0.97rem;
+  line-height: 1.7;
 }
-.detail-md h4, .detail-md h5, .detail-md h6 {
-  color: var(--text-primary);
-  margin: 20px 0 10px;
+.callout--verdict {
+  border-left-color: var(--mb-accent);
+  background: var(--mb-accent-soft);
+  font-size: 1.05rem;
   font-weight: 600;
-  font-family: 'Noto Serif SC', serif;
 }
-.detail-md h4 { font-size: 16px; }
-.detail-md h5 { font-size: 15px; }
-.detail-md h6 { font-size: 14px; }
-.detail-md strong { color: var(--text-primary); font-weight: 600; }
-.detail-md em { color: var(--text-primary); font-style: italic; }
-.detail-md ul, .detail-md ol {
-  margin: 10px 0 14px 24px;
+.callout--finding {
+  border-left-color: var(--mb-green);
+  background: var(--mb-green-soft);
 }
-.detail-md li {
-  margin-bottom: 6px;
-  line-height: 1.75;
+.callout--limitation {
+  border-left-color: var(--mb-red);
+  background: var(--mb-red-soft);
 }
-.detail-md ul li::marker {
-  color: var(--accent-dim);
-}
-.detail-md blockquote {
-  border-left: 3px solid var(--accent-dim);
-  padding: 8px 16px;
-  margin: 12px 0;
-  background: var(--accent-glow);
-  color: var(--text-secondary);
-  border-radius: 0 6px 6px 0;
-}
+.callout strong { color: var(--mb-deep-blue); }
 
-/* 数据表格 */
-.detail-md table {
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+.modal-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 14px 0;
-  font-size: 14px;
-  background: var(--bg-card);
+  font-size: 0.88rem;
+  background: var(--mb-surface);
   border-radius: 8px;
   overflow: hidden;
 }
-.detail-md thead {
-  background: var(--bg-elevated);
-}
-.detail-md th {
-  padding: 12px 14px;
+.modal-content thead { background: var(--mb-deep-blue); color: #fff; }
+.modal-content th {
   text-align: left;
-  color: var(--accent);
+  padding: 0.6rem 0.85rem;
   font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  border-bottom: 2px solid var(--accent-dim);
 }
-.detail-md td {
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-secondary);
-  line-height: 1.6;
+.modal-content td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--mb-grid);
+  vertical-align: top;
+  color: var(--mb-text);
 }
-.detail-md tbody tr:last-child td {
-  border-bottom: none;
-}
-.detail-md tbody tr:hover {
-  background: rgba(200,164,94,0.03);
-}
+.modal-content tbody tr:last-child td { border-bottom: none; }
+.modal-content tbody tr:hover { background: rgba(41,120,181,0.04); }
+.modal-content .num { font-family: var(--mb-mono); font-size: 0.82rem; }
 
-/* 基本信息区特殊样式 */
+/* Verdict block */
+.verdict-block {
+  background: linear-gradient(135deg, var(--mb-deep-blue) 0%, #1B3E5E 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 1.75rem 2rem;
+  margin: 1.5rem 0;
+}
+.verdict-block h3 {
+  color: var(--mb-accent);
+  font-size: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-family: var(--mb-serif);
+}
+.verdict-block p {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 0.75rem;
+}
+.verdict-block p:last-child { margin-bottom: 0; }
+.verdict-block strong { color: #fff; }
+.verdict-block ul { margin: 0 0 0 1.25rem; padding: 0; }
+.verdict-block li {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 0.5rem;
+}
+.verdict-block li:last-child { margin-bottom: 0; }
+
+/* Markdown content inside modal */
+.modal-md { font-size: 0.95rem; line-height: 1.8; color: var(--mb-text); }
+.modal-md p { margin-bottom: 0.85rem; }
+.modal-md p:last-child { margin-bottom: 0; }
+.modal-md h3, .modal-md h4, .modal-md h5 {
+  font-family: var(--mb-serif);
+  color: var(--mb-deep-blue);
+  margin: 1.25rem 0 0.6rem;
+  font-weight: 700;
+}
+.modal-md h3 { font-size: 1.1rem; }
+.modal-md h4 { font-size: 1rem; }
+.modal-md strong { color: var(--mb-deep-blue); font-weight: 700; }
+.modal-md em { font-style: italic; }
+.modal-md ul, .modal-md ol { margin: 0.6rem 0 0.85rem 1.5rem; }
+.modal-md li { margin-bottom: 0.4rem; line-height: 1.7; }
+.modal-md ul li::marker { color: var(--mb-data-blue); }
+.modal-md ol li::marker { color: var(--mb-data-blue); font-weight: 600; }
+.modal-md blockquote {
+  border-left: 3px solid var(--mb-accent);
+  padding: 0.5rem 1rem;
+  margin: 0.85rem 0;
+  background: var(--mb-accent-soft);
+  border-radius: 0 6px 6px 0;
+  color: var(--mb-text);
+}
+.modal-md code {
+  font-family: var(--mb-mono);
+  font-size: 0.85em;
+  background: rgba(16,42,67,0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+.modal-md table { margin: 0.85rem 0; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: normal; }
+.modal-md table thead, .modal-md table tbody, .modal-md table tr { display: table; width: 100%; table-layout: auto; }
+
+/* Info grid for Tier 2 */
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 24px;
+  gap: 1rem 1.5rem;
+  background: var(--mb-surface);
+  border: 1px solid var(--mb-border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
 }
-.info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.info-item.full {
-  grid-column: 1 / -1;
-}
+.info-item { display: flex; flex-direction: column; gap: 3px; }
+.info-item.full { grid-column: 1 / -1; }
 .info-label {
-  font-size: 11px;
-  letter-spacing: 1px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 500;
+  color: var(--mb-text-sec);
+  font-weight: 600;
 }
 .info-value {
-  font-size: 14px;
-  color: var(--text-primary);
-  line-height: 1.6;
+  font-size: 0.9rem;
+  color: var(--mb-text);
+  line-height: 1.55;
 }
-.info-value.muted {
-  color: var(--text-secondary);
-}
-.info-value a {
-  color: var(--accent);
-  text-decoration: none;
-  word-break: break-all;
-}
-.info-value a:hover {
-  text-decoration: underline;
-}
-.grade-display {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-}
+.info-value a { color: var(--mb-data-blue); text-decoration: none; word-break: break-all; }
+.info-value a:hover { text-decoration: underline; }
 
-/* Tier 2 提示 */
+/* Tier 2 notice */
 .tier2-notice {
-  background: var(--border);
-  border: 1px dashed var(--border-light);
-  border-radius: 10px;
-  padding: 20px 24px;
-  margin-bottom: 28px;
+  background: var(--mb-surface);
+  border: 1px dashed var(--mb-border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.75rem;
   text-align: center;
 }
-.tier2-notice-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
-}
 .tier2-notice-text {
-  font-size: 14px;
-  color: var(--text-muted);
+  font-size: 0.9rem;
+  color: var(--mb-text-sec);
+  line-height: 1.6;
 }
-.tier2-notice-text strong {
-  color: var(--accent);
-}
+.tier2-notice-text strong { color: var(--mb-data-blue); }
 
-/* ===== 文献通读 NARRATIVE OVERVIEW ===== */
-.narrative-overview {
-  background: linear-gradient(135deg, rgba(200,164,94,0.06) 0%, rgba(200,164,94,0.02) 100%);
-  border: 1px solid var(--tier1-border);
-  border-left: 4px solid var(--accent);
-  border-radius: 12px;
-  padding: 28px 32px;
-  margin-bottom: 36px;
-  position: relative;
-}
-.narrative-overview-label {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-.narrative-overview-label::before {
-  content: '✦';
-  margin-right: 6px;
-}
-.narrative-content {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.9;
-}
-.narrative-content p {
-  margin-bottom: 14px;
-  text-indent: 0;
-}
-.narrative-content p:last-child {
-  margin-bottom: 0;
-}
-.narrative-content strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-/* ===== 可点击的作者/期刊 ===== */
+/* Clickable detail & expandable panels */
 .clickable-detail {
-  color: var(--accent);
+  color: var(--mb-data-blue);
   cursor: pointer;
   text-decoration: underline;
-  text-decoration-color: var(--accent-dim);
   text-underline-offset: 3px;
-  transition: color 0.2s;
 }
-.clickable-detail:hover {
-  color: var(--text-primary);
-}
+.clickable-detail:hover { color: var(--mb-deep-blue); }
 .expandable-panel {
   max-height: 0;
   overflow: hidden;
@@ -706,221 +718,111 @@ body {
 .expandable-panel.open {
   max-height: 2000px;
   opacity: 1;
-  padding-top: 12px;
+  padding-top: 8px;
 }
 .expandable-panel-inner {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px 20px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-.expandable-panel-inner.detail-md {
-  padding: 16px 20px;
+  background: var(--mb-surface);
+  border: 1px solid var(--mb-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  color: var(--mb-text-sec);
+  line-height: 1.65;
 }
 
-/* ===== 实践应用三档 ===== */
-.implication-tier {
-  margin-bottom: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+/* Finding / limitation items with numbers */
+.finding-item, .limit-item {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  align-items: flex-start;
 }
-.implication-tier:last-child {
-  margin-bottom: 0;
-}
-.implication-tier-header {
-  padding: 12px 18px;
-  font-weight: 600;
-  font-size: 14px;
+.finding-number {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--mb-green);
+  color: #fff;
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-.implication-tier.confirmed .implication-tier-header {
-  background: rgba(76,175,80,0.12);
-  color: var(--implication-confirmed);
-  border-bottom: 1px solid rgba(76,175,80,0.2);
-}
-.implication-tier.cautious .implication-tier-header {
-  background: rgba(255,152,0,0.12);
-  color: var(--implication-cautious);
-  border-bottom: 1px solid rgba(255,152,0,0.2);
-}
-.implication-tier.unconfirmed .implication-tier-header {
-  background: rgba(107,105,105,0.1);
-  color: var(--implication-unconfirmed);
-  border-bottom: 1px solid var(--border);
-}
-.implication-tier-body {
-  padding: 16px 20px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-.implication-tier-body ul {
-  margin: 0 0 0 20px;
-  padding: 0;
-}
-.implication-tier-body li {
-  margin-bottom: 8px;
-}
-.implication-tier-body li:last-child {
-  margin-bottom: 0;
-}
-.implication-tier-body strong {
-  color: var(--text-primary);
-}
-
-/* ===== 核心研究区 ===== */
-.research-core-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 16px;
-}
-.research-core-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 18px;
-}
-.research-core-item.full {
-  grid-column: 1 / -1;
-}
-.research-core-label {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--accent-dim);
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.research-core-value {
-  font-size: 14px;
-  color: var(--text-primary);
-  line-height: 1.6;
-}
-
-/* ===== 机制叙述式 ===== */
-.mechanism-narrative {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.85;
-}
-.mechanism-narrative p {
-  margin-bottom: 14px;
-}
-.mechanism-narrative p:last-child {
-  margin-bottom: 0;
-}
-.mechanism-narrative h4, .mechanism-narrative h5, .mechanism-narrative h6 {
-  color: var(--text-primary);
-  font-family: 'Noto Serif SC', serif;
-  margin: 18px 0 10px;
+  justify-content: center;
+  font-size: 0.78rem;
   font-weight: 700;
+  font-family: var(--mb-mono);
+  margin-top: 2px;
+}
+.limit-number {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--mb-red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--mb-mono);
+  margin-top: 2px;
+}
+.finding-text, .limit-text {
+  font-size: 0.93rem;
+  line-height: 1.7;
+  color: var(--mb-text);
+  flex: 1;
 }
 
-/* 作者详情折叠 */
-.detail-section-content .authors-detail {
-  font-size: 14px;
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  text-align: center;
-  padding: 60px 24px 40px;
-  border-top: 1px solid var(--border);
-  margin-top: 60px;
-}
-.footer-text {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 2;
-}
-.footer-brand {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 14px;
-  color: var(--accent-dim);
-  margin-bottom: 8px;
-}
-
-/* ===== NO RESULTS ===== */
-.no-results {
-  text-align: center;
-  padding: 80px 24px;
-  color: var(--text-muted);
-}
-.no-results-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-.no-results-text {
-  font-size: 16px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .hero { padding: 60px 16px 40px; }
-  .hero h1 { font-size: 24px; }
-  .hero-stats { gap: 24px; }
-  .hero-stat-num { font-size: 28px; }
-  .cards-grid { grid-template-columns: 1fr; }
-  .modal-content { padding: 24px; }
-  .detail-title { font-size: 20px; }
-  .info-grid { grid-template-columns: 1fr; }
-  .filters-row { gap: 6px; }
-  .filter-btn { padding: 6px 12px; font-size: 12px; }
-  .narrative-overview { padding: 20px; }
-  .research-core-grid { grid-template-columns: 1fr; }
-}
-
-/* ===== SCROLL ===== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
-
-/* highlight */
-mark {
-  background: var(--accent-glow);
-  color: var(--accent);
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-/* Crawford-style components */
-.crawford-summary {
-  background: linear-gradient(135deg, var(--accent) 0%, #c0955a 100%);
-  color: #fff; padding: 1rem 1.25rem; border-radius: 10px;
-  font-size: 1.05rem; font-weight: 600; line-height: 1.5;
-  margin-bottom: 1.5rem; text-align: center;
-}
-.finding-item, .limit-item {
-  display: flex; gap: 0.75rem; margin-bottom: 0.75rem;
-  padding: 0.75rem; background: var(--bg-card); border-radius: 8px;
-  border: 1px solid var(--border);
-}
-.finding-number, .limit-number {
-  flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-  background: var(--accent); color: #fff; display: flex; align-items: center;
-  justify-content: center; font-size: 0.85rem; font-weight: 700;
-}
-.finding-text, .limit-text { font-size: 0.92rem; line-height: 1.6; }
+/* Design grid for object-type study design */
 .design-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
 }
 .design-item {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem;
+  background: var(--mb-surface);
+  border: 1px solid var(--mb-border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
 }
 .design-label {
-  font-size: 0.8rem; font-weight: 700; color: var(--accent);
-  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mb-data-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
 }
-.design-value { font-size: 0.9rem; line-height: 1.5; }
+.design-value {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--mb-text);
+}
+
+/* Modal footer */
+.modal-footer {
+  border-top: 2px solid var(--mb-grid);
+  padding-top: 1.25rem;
+  margin-top: 2.5rem;
+  font-size: 0.82rem;
+  color: var(--mb-text-sec);
+  line-height: 1.7;
+}
+.modal-footer a { color: var(--mb-data-blue); text-decoration: none; }
+.modal-footer a:hover { text-decoration: underline; }
+.modal-footer-id {
+  font-family: var(--mb-mono);
+  font-size: 0.78rem;
+  color: var(--mb-text-sec);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-content { padding: 24px 20px; }
+  .report-header h1 { font-size: 1.35rem; }
+  .info-grid { grid-template-columns: 1fr; }
+  .modal-toc ol { columns: 1; }
+  .design-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -1387,314 +1289,358 @@ function openModal(id) {
   const title = d.title_cn || d.title_en || d.id;
   const titleEn = d.title_en && d.title_cn ? d.title_en : '';
   const grade = d.grade || '';
-  const gradeClass = getGradeClass(grade);
-  const category = d.category || '其他';
-  const doiLink = d.doi ? `https://doi.org/${d.doi}` : '';
+  const category = d.category || '';
+  const doiLink = d.doi ? 'https://doi.org/' + d.doi : '';
   const isTier1 = d.tier === 1;
+  const hasNarrative = isTier1 && d.narrative_overview;
 
   let html = '';
 
-  // 编号
-  html += `<div class="detail-id">文献编号 ${d.id || '未知'}</div>`;
-
-  // 标题
-  html += `<div class="detail-title">${title}</div>`;
+  // ===== REPORT HEADER =====
+  html += '<header class="report-header">';
+  const kickerParts = [];
+  if (category) kickerParts.push(category);
+  if (d.type) kickerParts.push(d.type);
+  if (d.year) kickerParts.push(d.year);
+  if (kickerParts.length) {
+    html += '<div class="report-kicker">' + kickerParts.join(' \u00b7 ') + '</div>';
+  }
+  html += '<h1>' + title + '</h1>';
   if (titleEn) {
-    html += `<div class="detail-title-en">${titleEn}</div>`;
+    html += '<p class="report-subtitle">' + titleEn + '</p>';
   }
-
-  // 标签
-  html += '<div class="detail-badges">';
-  html += `<span class="detail-badge ${isTier1 ? 'tier1' : 'tier2'}">${isTier1 ? '✦ 深度解读' : '元数据卡'}</span>`;
-  if (grade) html += `<span class="detail-badge ${gradeClass}">${grade}</span>`;
-  if (category) html += `<span class="detail-badge category">${category}</span>`;
-  if (d.year) html += `<span class="detail-badge year">${d.year}</span>`;
-  if (d.type) html += `<span class="detail-badge type">${d.type}</span>`;
+  html += '<div class="report-meta">';
+  if (d.authors) html += '<span><strong>\u4f5c\u8005\uff1a</strong>' + d.authors + '</span>';
+  if (d.journal) html += '<span><strong>\u671f\u520a\uff1a</strong>' + d.journal + '</span>';
+  if (d.doi) html += '<span><strong>DOI\uff1a</strong><a href="' + doiLink + '" target="_blank" rel="noopener">' + d.doi + '</a></span>';
+  if (grade) html += '<span><strong>GRADE\uff1a</strong>' + grade + '</span>';
+  if (d.sample) html += '<span><strong>\u6837\u672c\u91cf\uff1a</strong>' + d.sample + '</span>';
   html += '</div>';
+  html += '</header>';
 
-  // Tier 2 提示
-  if (!isTier1) {
-    html += `
-      <div class="tier2-notice">
-        <div class="tier2-notice-icon">📋</div>
-        <div class="tier2-notice-text">
-          此文献为 <strong>元数据卡</strong>，目前仅收录基本信息<br>
-          深度解读版将持续补充，敬请关注
-        </div>
-      </div>
-    `;
-  }
-
-  // ===== Tier 1: 文献通读 Narrative Overview =====
-  if (isTier1) {
+  if (hasNarrative) {
+    // ===== TIER 1 with narrative_overview: Botella-style 7-section layout =====
+    html += buildTier1Content(d);
+  } else if (isTier1) {
+    // Tier 1 without narrative_overview: use old-style fallback narrative
     html += buildNarrativeOverview(d);
-  }
+    html += buildLegacyTier1Sections(d);
+  } else {
+    // ===== TIER 2: simple info card =====
+    html += '<div class="tier2-notice">';
+    html += '<div class="tier2-notice-text">\u6b64\u6587\u732e\u4e3a <strong>\u5143\u6570\u636e\u5361</strong>\uff0c\u76ee\u524d\u4ec5\u6536\u5f55\u57fa\u672c\u4fe1\u606f<br>\u6df1\u5ea6\u89e3\u8bfb\u7248\u5c06\u6301\u7eed\u8865\u5145\uff0c\u656c\u8bf7\u5173\u6ce8</div>';
+    html += '</div>';
 
-  // ===== 基本信息区 =====
-  html += '<div class="detail-section">';
-  html += '<div class="detail-section-title">基本信息</div>';
-  html += '<div class="info-grid">';
-
-  // 作者（可点击展开）
-  if (d.authors || d.authors_detail) {
-    const hasDetail = isTier1 && d.authors_detail && d.authors_detail !== 'None';
-    const authorDisplay = d.authors || '未报告';
-    if (hasDetail) {
-      html += `<div class="info-item full">
-        <div class="info-label">作者</div>
-        <div class="info-value"><span class="clickable-detail" onclick="togglePanel('authors-detail-panel')">${authorDisplay} ▾</span></div>
-        <div class="expandable-panel" id="authors-detail-panel">
-          <div class="expandable-panel-inner detail-md">${renderMarkdown(d.authors_detail)}</div>
-        </div>
-      </div>`;
-    } else {
-      html += `<div class="info-item full">
-        <div class="info-label">作者</div>
-        <div class="info-value">${authorDisplay}</div>
-      </div>`;
+    html += '<div class="modal-section">';
+    html += '<h2>\u57fa\u672c\u4fe1\u606f</h2>';
+    html += '<div class="info-grid">';
+    if (d.authors) {
+      html += '<div class="info-item full"><div class="info-label">\u4f5c\u8005</div><div class="info-value">' + d.authors + '</div></div>';
     }
-  }
-
-  // 期刊（可点击展开影响因子）
-  if (d.journal) {
-    const hasImpact = isTier1 && d.journal_impact && d.journal_impact !== 'None';
-    if (hasImpact) {
-      html += `<div class="info-item">
-        <div class="info-label">期刊</div>
-        <div class="info-value"><span class="clickable-detail" onclick="togglePanel('journal-impact-panel')">${d.journal} ▾</span></div>
-        <div class="expandable-panel" id="journal-impact-panel">
-          <div class="expandable-panel-inner">${d.journal_impact}</div>
-        </div>
-      </div>`;
-    } else {
-      html += `<div class="info-item">
-        <div class="info-label">期刊</div>
-        <div class="info-value">${d.journal}</div>
-      </div>`;
+    if (d.journal) {
+      html += '<div class="info-item"><div class="info-label">\u671f\u520a</div><div class="info-value">' + d.journal + '</div></div>';
     }
+    if (d.year) {
+      html += '<div class="info-item"><div class="info-label">\u5e74\u4efd</div><div class="info-value">' + d.year + '</div></div>';
+    }
+    if (d.sample) {
+      html += '<div class="info-item"><div class="info-label">\u6837\u672c\u91cf</div><div class="info-value">' + d.sample + '</div></div>';
+    }
+    if (d.doi) {
+      html += '<div class="info-item full"><div class="info-label">\u539f\u6587\u94fe\u63a5 (DOI)</div><div class="info-value"><a href="' + doiLink + '" target="_blank" rel="noopener">' + d.doi + '</a></div></div>';
+    }
+    if (d.conclusion) {
+      html += '<div class="info-item full"><div class="info-label">\u7ed3\u8bba</div><div class="info-value modal-md">' + renderMarkdown(d.conclusion) + '</div></div>';
+    }
+    html += '</div></div>';
   }
 
-  if (d.sample) {
-    html += `<div class="info-item">
-      <div class="info-label">样本量</div>
-      <div class="info-value">${d.sample}</div>
-    </div>`;
-  }
-
-  if (d.date) {
-    html += `<div class="info-item">
-      <div class="info-label">收录日期</div>
-      <div class="info-value">${d.date}</div>
-    </div>`;
-  }
-
+  // ===== FOOTER =====
+  html += '<footer class="modal-footer">';
   if (d.doi) {
-    html += `<div class="info-item full">
-      <div class="info-label">原文链接 (DOI)</div>
-      <div class="info-value"><a href="${doiLink}" target="_blank">${d.doi}</a></div>
-    </div>`;
+    html += '<p><strong>\u539f\u6587\uff1a</strong><a href="' + doiLink + '" target="_blank" rel="noopener">https://doi.org/' + d.doi + '</a></p>';
   }
-
-  html += '</div></div>';
-
-  // Tier 1 sections
-  if (isTier1) {
-    // ===== 核心研究 =====
-    const researchQ = d.research_question || d.question;
-    if (researchQ || d.type || d.sample) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">核心研究</div>';
-      html += '<div class="detail-section-content">';
-
-      // 核心研究问题（完整内容）
-      if (researchQ) {
-        html += '<div class="detail-md">' + renderMarkdown(researchQ) + '</div>';
-      }
-
-      // PICO & 设计类型卡片
-      if (d.type || d.sample) {
-        html += '<div class="research-core-grid">';
-        if (d.type) {
-          html += `<div class="research-core-item">
-            <div class="research-core-label">研究设计类型</div>
-            <div class="research-core-value">${d.type}</div>
-          </div>`;
-        }
-        if (d.sample) {
-          html += `<div class="research-core-item">
-            <div class="research-core-label">样本量</div>
-            <div class="research-core-value">${d.sample}</div>
-          </div>`;
-        }
-        html += '</div>';
-      }
-
-      html += '</div></div>';
-    }
-
-    // ===== 研究方法 =====
-    if (d.research_methods) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">研究方法</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.research_methods) + '</div>';
-      html += '</div>';
-    }
-
-    // ===== 关键数据 =====
-    if (d.key_data) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">关键数据</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.key_data) + '</div>';
-      html += '</div>';
-    }
-
-    // ===== 生物机制（叙述式） =====
-    if (d.mechanism && d.mechanism !== 'None') {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">生物机制</div>';
-      html += '<div class="detail-section-content mechanism-narrative">' + buildMechanismNarrative(d.mechanism) + '</div>';
-      html += '</div>';
-    }
-
-    // ===== 实践应用（三档） =====
-    if (d.implication) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">实践应用</div>';
-      html += '<div class="detail-section-content">' + buildImplicationTiers(d.implication, d.grade) + '</div>';
-      html += '</div>';
-    }
-
-    // ===== GRADE证据分级 =====
-    if (d.grade_detail) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">GRADE 证据分级</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.grade_detail) + '</div>';
-      html += '</div>';
-    }
-
-    // ===== 局限性 =====
-    if (d.limitations) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">局限性</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.limitations) + '</div>';
-      html += '</div>';
-    }
-  }
+  html += '<p class="modal-footer-id">\u6587\u732e\u7f16\u53f7\uff1a' + (d.id || '') + '</p>';
+  html += '</footer>';
 
   document.getElementById('modal-body').innerHTML = html;
   document.getElementById('modal').classList.add('active');
   document.body.style.overflow = 'hidden';
-  
-  // 滚动到顶部
   document.getElementById('modal').scrollTop = 0;
 }
 
-// ===== 文献通读：自动组装叙事段落 =====
-function buildNarrativeOverview(d) {
-  // Use new Crawford-style fields when available
-  if (d.narrative_overview) {
-    let html = '';
-    
-    // One-sentence summary banner
-    if (d.one_sentence_summary) {
-      html += '<div class="crawford-summary">' + d.one_sentence_summary + '</div>';
-    }
-    
-    // Narrative overview
-    html += '<div class="detail-section">';
-    html += '<div class="detail-section-title">文献通读</div>';
-    html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.narrative_overview) + '</div>';
+// ===== Helper: ensure a value is an array =====
+function ensureArray(val) {
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') {
+    return val.split('\n')
+      .map(function(line) { return line.trim(); })
+      .filter(function(line) {
+        if (!line) return false;
+        // Skip markdown table separator rows like |---|---|
+        if (/^\|[\s:|-]+\|$/.test(line)) return false;
+        // Skip pure table header separator without pipes
+        if (/^[-:\s|]+$/.test(line) && line.indexOf('-') !== -1) return false;
+        return true;
+      })
+      .map(function(line) {
+        // Strip leading bullet markers
+        return line.replace(/^[-*+]\s+/, '').replace(/^\d+\.\s+/, '');
+      });
+  }
+  return [];
+}
+
+// ===== Helper: render study_design_table =====
+function renderStudyDesign(val) {
+  if (!val) return '';
+  if (typeof val === 'object' && !Array.isArray(val)) {
+    // Object -> design grid
+    var labelMap = {
+      'design': '\u7814\u7a76\u8bbe\u8ba1',
+      'sample': '\u6837\u672c',
+      'grouping': '\u5206\u7ec4',
+      'groups': '\u5206\u7ec4',
+      'intervention': '\u5e72\u9884\u65b9\u6848',
+      'duration': '\u5e72\u9884\u65f6\u957f',
+      'outcomes': '\u7ed3\u5c40\u6307\u6807',
+      'measurement': '\u6d4b\u91cf\u65b9\u6cd5',
+      'analysis': '\u7edf\u8ba1\u5206\u6790'
+    };
+    var html = '<div class="design-grid">';
+    var hasContent = false;
+    Object.keys(val).forEach(function(key) {
+      var v = val[key];
+      if (v && v !== 'None' && v !== '\u672a\u62a5\u544a' && String(v).trim()) {
+        hasContent = true;
+        var label = labelMap[key] || key;
+        html += '<div class="design-item"><div class="design-label">' + label + '</div><div class="design-value modal-md">' + renderMarkdown(String(v)) + '</div></div>';
+      }
+    });
     html += '</div>';
-    
-    // Core findings
-    if (d.core_findings && Array.isArray(d.core_findings) && d.core_findings.length) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">核心发现</div>';
-      html += '<div class="detail-section-content">';
-      d.core_findings.forEach((finding, i) => {
-        html += '<div class="finding-item"><div class="finding-number">' + (i+1) + '</div><div class="finding-text detail-md">' + renderMarkdown(finding) + '</div></div>';
-      });
-      html += '</div></div>';
-    }
-    
-    // Study design table
-    if (d.study_design_table && typeof d.study_design_table === 'object' && !Array.isArray(d.study_design_table)) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">研究设计</div>';
-      html += '<div class="detail-section-content"><div class="design-grid">';
-      const labelMap = {
-        'design': '研究设计', 'sample': '样本', 'groups': '分组', 
-        'intervention': '干预方案', 'duration': '干预时长', 
-        'outcomes': '结局指标', 'measurement': '测量方法', 'analysis': '统计分析'
-      };
-      Object.entries(d.study_design_table).forEach(([key, val]) => {
-        if (val && val !== 'None' && val !== '未报告') {
-          const label = labelMap[key] || key;
-          html += '<div class="design-item"><div class="design-label">' + label + '</div><div class="design-value detail-md">' + renderMarkdown(val) + '</div></div>';
-        }
-      });
-      html += '</div></div></div>';
-    }
-    
-    // Results detail
-    if (d.results_detail) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">结果详解</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.results_detail) + '</div>';
+    return hasContent ? html : '';
+  }
+  if (typeof val === 'string') {
+    // Markdown table or text -> renderMarkdown handles tables
+    return '<div class="table-wrap">' + renderMarkdown(val) + '</div>';
+  }
+  return '';
+}
+
+// ===== Helper: render limitations_table =====
+function renderLimitations(val) {
+  if (!val) return '';
+  if (Array.isArray(val)) {
+    // Array of objects with 'limitation' and optional 'impact'
+    var html = '';
+    val.forEach(function(item, i) {
+      var text = '';
+      var impact = '';
+      if (typeof item === 'object' && item !== null) {
+        text = item.limitation || '';
+        impact = item.impact || '';
+      } else {
+        text = String(item);
+      }
+      html += '<div class="callout callout--limitation">';
+      html += '<strong>\u5c40\u9650 ' + (i + 1) + '\uff1a</strong> ';
+      html += '<span class="modal-md">' + renderMarkdown(text) + '</span>';
+      if (impact && impact.trim()) {
+        html += '<br><em style="color:var(--mb-text-sec);font-size:0.88rem;">\u5f71\u54cd\uff1a' + renderMarkdown(impact) + '</em>';
+      }
       html += '</div>';
-    }
-    
-    // Practical implications
-    if (d.practical_implications) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">实践启示</div>';
-      html += '<div class="detail-section-content detail-md">' + renderMarkdown(d.practical_implications) + '</div>';
-      html += '</div>';
-    }
-    
-    // Limitations table
-    if (d.limitations_table && Array.isArray(d.limitations_table) && d.limitations_table.length) {
-      html += '<div class="detail-section">';
-      html += '<div class="detail-section-title">局限性</div>';
-      html += '<div class="detail-section-content">';
-      d.limitations_table.forEach((lim, i) => {
-        html += '<div class="limit-item"><div class="limit-number">' + (i+1) + '</div><div class="limit-text detail-md">' + renderMarkdown(lim) + '</div></div>';
-      });
-      html += '</div></div>';
-    }
-    
+    });
     return html;
   }
-  
-  // Fallback: old style for entries without new fields
-  const paragraphs = [];
-  const authorText = d.authors_detail ? extractAuthorSummary(d.authors_detail) : '';
-  const journalInfo = d.journal_impact || '';
-  if (d.authors || d.journal) {
-    let p = '';
-    if (d.authors) {
-      p += '本研究由' + d.authors;
-      if (d.journal) p += '发表于《' + d.journal + '》';
-      if (journalInfo) p += '（' + journalInfo + '）';
-      p += '。';
+  if (typeof val === 'string') {
+    // Check if it is a markdown table
+    if (val.indexOf('|---') !== -1 || val.indexOf('| ---') !== -1) {
+      return '<div class="table-wrap">' + renderMarkdown(val) + '</div>';
     }
-    if (authorText) p += authorText;
-    if (p) paragraphs.push(p);
+    // Otherwise split into individual callouts
+    var lines = ensureArray(val);
+    if (lines.length === 0) return '';
+    var html2 = '';
+    lines.forEach(function(line, i) {
+      html2 += '<div class="callout callout--limitation">';
+      html2 += '<strong>\u5c40\u9650 ' + (i + 1) + '\uff1a</strong> ';
+      html2 += '<span class="modal-md">' + renderMarkdown(line) + '</span>';
+      html2 += '</div>';
+    });
+    return html2;
   }
-  const rq = extractPlainText(d.research_question || d.question || '', 200);
-  if (rq) paragraphs.push('该研究旨在探究' + rq);
-  const methods = extractMethodsSummary(d.research_methods, d.type, d.sample);
-  if (methods) paragraphs.push('在研究方法上，' + methods);
-  const conclusion = extractConclusionSummary(d.conclusion, d.grade_detail, d.grade);
-  if (conclusion) paragraphs.push(conclusion);
-  const mech = extractMechanismSummary(d.mechanism);
-  if (mech) paragraphs.push('从机制层面来看，' + mech);
-  const impl = extractImplicationSummary(d.implication);
-  if (impl) paragraphs.push('在实践应用方面，' + impl);
-  if (paragraphs.length === 0) return '';
-  let html = '<div class="narrative-overview"><div class="narrative-overview-label">文献通读</div><div class="narrative-content">';
-  paragraphs.forEach(p => { html += '<p>' + p + '</p>'; });
+  return '';
+}
+
+// ===== Build Tier 1 content with new Crawford/Botella fields =====
+function buildTier1Content(d) {
+  var html = '';
+
+  // TOC navigation
+  var tocItems = [];
+  if (d.one_sentence_summary) tocItems.push(['#modal-one-sentence', '\u4e00\u53e5\u8bdd\u603b\u7ed3']);
+  tocItems.push(['#modal-narrative', '\u6587\u732e\u901a\u8bfb']);
+  if (d.core_findings) tocItems.push(['#modal-findings', '\u6838\u5fc3\u53d1\u73b0']);
+  if (d.study_design_table) tocItems.push(['#modal-design', '\u7814\u7a76\u8bbe\u8ba1']);
+  if (d.results_detail) tocItems.push(['#modal-results', '\u7ed3\u679c\u8be6\u89e3']);
+  if (d.practical_implications) tocItems.push(['#modal-implications', '\u5b9e\u8df5\u542f\u793a']);
+  if (d.limitations_table) tocItems.push(['#modal-limitations', '\u5c40\u9650\u6027']);
+
+  if (tocItems.length > 2) {
+    html += '<nav class="modal-toc"><h2>\u76ee \u5f55</h2><ol>';
+    tocItems.forEach(function(item) {
+      html += '<li><a href="' + item[0] + '">' + item[1] + '</a></li>';
+    });
+    html += '</ol></nav>';
+  }
+
+  // 1. One-sentence summary -> callout--verdict
+  if (d.one_sentence_summary) {
+    var summary = d.one_sentence_summary.trim();
+    // Strip leading blockquote marker '>'
+    summary = summary.replace(/^>\s?/, '');
+    html += '<section class="modal-section" id="modal-one-sentence">';
+    html += '<div class="callout callout--verdict">' + summary + '</div>';
+    html += '</section>';
+  }
+
+  // 2. Narrative overview
+  if (d.narrative_overview) {
+    html += '<section class="modal-section" id="modal-narrative">';
+    html += '<h2>\u6587\u732e\u901a\u8bfb</h2>';
+    html += '<div class="modal-md">' + renderMarkdown(d.narrative_overview) + '</div>';
+    html += '</section>';
+  }
+
+  // 3. Core findings -> callout--finding for each
+  if (d.core_findings) {
+    var findings = ensureArray(d.core_findings);
+    if (findings.length) {
+      html += '<section class="modal-section" id="modal-findings">';
+      html += '<h2>\u6838\u5fc3\u53d1\u73b0</h2>';
+      findings.forEach(function(finding, i) {
+        html += '<div class="callout callout--finding">';
+        html += '<strong>\u53d1\u73b0 ' + (i + 1) + '\uff1a</strong> ';
+        html += '<span class="modal-md">' + renderMarkdown(finding) + '</span>';
+        html += '</div>';
+      });
+      html += '</section>';
+    }
+  }
+
+  // 4. Study design -> table
+  if (d.study_design_table) {
+    var designHtml = renderStudyDesign(d.study_design_table);
+    if (designHtml) {
+      html += '<section class="modal-section" id="modal-design">';
+      html += '<h2>\u7814\u7a76\u8bbe\u8ba1</h2>';
+      html += designHtml;
+      html += '</section>';
+    }
+  }
+
+  // 5. Results detail
+  if (d.results_detail) {
+    html += '<section class="modal-section" id="modal-results">';
+    html += '<h2>\u7ed3\u679c\u8be6\u89e3</h2>';
+    html += '<div class="modal-md">' + renderMarkdown(d.results_detail) + '</div>';
+    html += '</section>';
+  }
+
+  // 6. Practical implications -> verdict-block
+  if (d.practical_implications) {
+    html += '<section class="modal-section" id="modal-implications">';
+    html += '<h2>\u5b9e\u8df5\u542f\u793a</h2>';
+    html += '<div class="verdict-block">';
+    html += '<h3>\u258e \u5b9e\u8df5\u5efa\u8bae</h3>';
+    html += '<div class="modal-md" style="color:rgba(255,255,255,0.9);">' + renderMarkdown(d.practical_implications) + '</div>';
+    html += '</div>';
+    html += '</section>';
+  }
+
+  // 7. Limitations -> callout--limitation
+  if (d.limitations_table) {
+    var limitHtml = renderLimitations(d.limitations_table);
+    if (limitHtml) {
+      html += '<section class="modal-section" id="modal-limitations">';
+      html += '<h2>\u5c40\u9650\u6027</h2>';
+      html += limitHtml;
+      html += '</section>';
+    }
+  }
+
+  return html;
+}
+
+// ===== Build legacy Tier 1 sections (for entries without narrative_overview) =====
+function buildLegacyTier1Sections(d) {
+  var html = '';
+
+  // Basic info grid with expandable panels
+  html += '<div class="modal-section">';
+  html += '<h2>\u57fa\u672c\u4fe1\u606f</h2>';
+  html += '<div class="info-grid">';
+
+  if (d.authors || d.authors_detail) {
+    var hasDetail = d.authors_detail && d.authors_detail !== 'None';
+    var authorDisplay = d.authors || '\u672a\u62a5\u544a';
+    if (hasDetail) {
+      html += '<div class="info-item full">';
+      html += '<div class="info-label">\u4f5c\u8005</div>';
+      html += '<div class="info-value"><span class="clickable-detail" onclick="togglePanel(\'authors-detail-panel\')">' + authorDisplay + ' \u25be</span></div>';
+      html += '<div class="expandable-panel" id="authors-detail-panel"><div class="expandable-panel-inner modal-md">' + renderMarkdown(d.authors_detail) + '</div></div>';
+      html += '</div>';
+    } else {
+      html += '<div class="info-item full"><div class="info-label">\u4f5c\u8005</div><div class="info-value">' + authorDisplay + '</div></div>';
+    }
+  }
+
+  if (d.journal) {
+    var hasImpact = d.journal_impact && d.journal_impact !== 'None';
+    if (hasImpact) {
+      html += '<div class="info-item">';
+      html += '<div class="info-label">\u671f\u520a</div>';
+      html += '<div class="info-value"><span class="clickable-detail" onclick="togglePanel(\'journal-impact-panel\')">' + d.journal + ' \u25be</span></div>';
+      html += '<div class="expandable-panel" id="journal-impact-panel"><div class="expandable-panel-inner">' + d.journal_impact + '</div></div>';
+      html += '</div>';
+    } else {
+      html += '<div class="info-item"><div class="info-label">\u671f\u520a</div><div class="info-value">' + d.journal + '</div></div>';
+    }
+  }
+
+  if (d.sample) {
+    html += '<div class="info-item"><div class="info-label">\u6837\u672c\u91cf</div><div class="info-value">' + d.sample + '</div></div>';
+  }
+  if (d.doi) {
+    html += '<div class="info-item full"><div class="info-label">\u539f\u6587\u94fe\u63a5 (DOI)</div><div class="info-value"><a href="https://doi.org/' + d.doi + '" target="_blank" rel="noopener">' + d.doi + '</a></div></div>';
+  }
+
   html += '</div></div>';
+
+  // Old sections (only shown when no narrative_overview)
+  var researchQ = d.research_question || d.question;
+  if (researchQ) {
+    html += '<div class="modal-section"><h2>\u6838\u5fc3\u7814\u7a76</h2><div class="modal-md">' + renderMarkdown(researchQ) + '</div></div>';
+  }
+  if (d.research_methods) {
+    html += '<div class="modal-section"><h2>\u7814\u7a76\u65b9\u6cd5</h2><div class="modal-md">' + renderMarkdown(d.research_methods) + '</div></div>';
+  }
+  if (d.key_data) {
+    html += '<div class="modal-section"><h2>\u5173\u952e\u6570\u636e</h2><div class="table-wrap">' + renderMarkdown(d.key_data) + '</div></div>';
+  }
+  if (d.mechanism && d.mechanism !== 'None') {
+    html += '<div class="modal-section"><h2>\u751f\u7269\u673a\u5236</h2><div class="modal-md">' + renderMarkdown(d.mechanism) + '</div></div>';
+  }
+  if (d.implication) {
+    html += '<div class="modal-section"><h2>\u5b9e\u8df5\u5e94\u7528</h2><div class="modal-md">' + renderMarkdown(d.implication) + '</div></div>';
+  }
+  if (d.grade_detail) {
+    html += '<div class="modal-section"><h2>GRADE \u8bc1\u636e\u5206\u7ea7</h2><div class="modal-md">' + renderMarkdown(d.grade_detail) + '</div></div>';
+  }
+  if (d.limitations) {
+    html += '<div class="modal-section"><h2>\u5c40\u9650\u6027</h2><div class="modal-md">' + renderMarkdown(d.limitations) + '</div></div>';
+  }
+
   return html;
 }
 
@@ -2005,6 +1951,20 @@ function bindEvents() {
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
+  });
+
+  // TOC anchor smooth scroll within modal overlay
+  document.getElementById('modal-body').addEventListener('click', (e) => {
+    const link = e.target.closest('.modal-toc a[href^="#"]');
+    if (!link) return;
+    e.preventDefault();
+    const targetId = link.getAttribute('href').slice(1);
+    const target = document.getElementById(targetId);
+    if (target) {
+      const overlay = document.getElementById('modal');
+      const top = target.getBoundingClientRect().top - overlay.getBoundingClientRect().top + overlay.scrollTop - 16;
+      overlay.scrollTo({ top: top, behavior: 'smooth' });
+    }
   });
 }
 
