@@ -1098,7 +1098,7 @@
       <button class="btn btn-outline" onclick="closePreview()">取消</button>
       <button class="btn btn-github" id="submitBtn" onclick="submitToGithub()">
         <span class="spinner"></span>
-        确认提交到 GitHub
+        跳转到 GitHub 提交
       </button>
     </div>
   </div>
@@ -1600,69 +1600,36 @@ async function ensureLabels() {
 // 提交到 GitHub
 async function submitToGithub() {
   if (isSubmitting) return;
-
-  // 检查 Token
-  if (!hasGithubToken()) {
-    showFirstTimeTokenModal(function() {
-      // 用户保存 token 后重新调用 submitToGithub
-      submitToGithub();
-    });
-    return;
-  }
-
   isSubmitting = true;
 
   var btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.classList.add('loading');
 
-  var errorBox = document.getElementById('errorBox');
-  errorBox.classList.remove('show');
-
   try {
-    // 先确保标签存在（忽略错误）
-    try {
-      await ensureLabels();
-    } catch (e) {
-      console.warn('标签检查失败，继续提交:', e);
-    }
-
-    // 创建 Issue
-    var response = await githubApi('/issues', 'POST', {
+    // Use GitHub's issue creation URL with pre-filled content - no token needed
+    var params = new URLSearchParams({
       title: currentIssueTitle,
       body: currentIssueBody,
-      labels: LABELS
+      labels: LABELS.join(',')
     });
 
-    if (!response.ok) {
-      var errText = '';
-      try {
-        var errJson = await response.json();
-        errText = errJson.message || JSON.stringify(errJson);
-      } catch (pe) {
-        errText = 'HTTP ' + response.status;
-      }
-      throw new Error(errText);
-    }
-
-    var result = await response.json();
-
-    // 成功
+    var url = 'https://github.com/mricemelab-blip/evidence-literature-db/issues/new?' + params.toString();
+    
     closePreview();
-    showStatusSuccess('✓ 已提交到 GitHub！' + (result.html_url ? ' ' + result.html_url : ''));
-
-    // 清空表单
+    window.open(url, '_blank');
+    showStatusSuccess('已跳转到 GitHub，请点击 Submit new issue 完成提交');
     clearForm();
 
   } catch (err) {
     console.error('提交失败:', err);
     var errorMsg = document.getElementById('errorMsg');
     errorMsg.textContent = err.message || '网络错误，请稍后重试。';
-    errorBox.classList.add('show');
-    btn.disabled = false;
-    btn.classList.remove('loading');
+    document.getElementById('errorBox').classList.add('show');
   } finally {
     isSubmitting = false;
+    btn.disabled = false;
+    btn.classList.remove('loading');
   }
 }
 

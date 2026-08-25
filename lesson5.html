@@ -1400,11 +1400,11 @@ a:hover { color: #d4b372; }
 
         <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
           <button onclick="copyAllMarkdown()" style="flex: 1; padding: 0.75rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: var(--text-secondary); font-size: 0.95rem; cursor: pointer;">复制文本</button>
-          <button onclick="submitAllToGithub()" style="flex: 2; padding: 0.75rem; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer;">提交到GitHub</button>
+          <button onclick="submitAllToGithub()" style="flex: 2; padding: 0.75rem; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer;">一键提交到GitHub</button>
         </div>
 
-        <div onclick="openTokenModal()" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--text-muted); font-size: 0.85rem;">
-          <span>⚙️</span> <span id="tokenStatusFinal">设置GitHub Token</span>
+        <div style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">
+          提示：提交前请确保已登录GitHub账号
         </div>
       </div>
     </div>
@@ -2025,13 +2025,6 @@ function copyAllMarkdown() {
 }
 
 async function submitAllToGithub() {
-  const token = getToken();
-  if (!token) {
-    openTokenModal();
-    showToast('请先设置GitHub Token', 'error');
-    return;
-  }
-  
   const output = document.getElementById('md-output-all');
   if (!output.value) {
     showToast('请先生成答案', 'error');
@@ -2039,37 +2032,24 @@ async function submitAllToGithub() {
   }
   
   const group = document.getElementById('final-group').value;
+  if (!group) {
+    showToast('请选择组号', 'error');
+    return;
+  }
+  
   const date = new Date().toISOString().split('T')[0];
   const title = `[Lesson5] ${group} - 完整讨论答案 (${date})`;
   const body = output.value;
   
-  try {
-    showToast('正在提交...', '');
-    const response = await fetch('https://api.github.com/repos/mricemelab-blip/evidence-literature-db/issues', {
-      method: 'POST',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: title,
-        body: body,
-        labels: ['lesson5', 'homework', 'combined-submission']
-      })
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      showToast('提交成功！', 'success');
-      window.open(data.html_url, '_blank');
-    } else {
-      const err = await response.json();
-      showToast(`提交失败：${err.message || '未知错误'}`, 'error');
-    }
-  } catch (e) {
-    showToast(`网络错误：${e.message}`, 'error');
-  }
+  // Use GitHub's issue creation URL with pre-filled content
+  const params = new URLSearchParams({
+    title: title,
+    body: body,
+    labels: 'lesson5,homework,combined-submission'
+  });
+  
+  window.open(`https://github.com/mricemelab-blip/evidence-literature-db/issues/new?${params.toString()}`, '_blank');
+  showToast('已跳转到GitHub，请点击 Submit new issue 完成提交', 'success');
 }
 
 // ===== SCROLL PROGRESS =====
