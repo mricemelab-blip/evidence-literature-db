@@ -1,0 +1,2415 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 5 · 表象之下——功能由隐藏的结构决定</title>
+<style>
+/* ===== CSS Variables & Reset ===== */
+:root {
+  --bg-canvas: #0a0a0f;
+  --bg-surface: #14141f;
+  --bg-surface-2: #1c1c2a;
+  --bg-elevated: #252538;
+  --text-primary: #e8e8ee;
+  --text-secondary: #a0a0b0;
+  --text-muted: #70708a;
+  --border-subtle: #2a2a3e;
+  --border-strong: #3a3a52;
+  --accent-gold: #C8A45E;
+  --accent-gold-ink: #1a1206;
+  --accent-gold-soft: rgba(200, 164, 94, 0.15);
+  --color-philo: #8B5CF6;
+  --color-philo-soft: rgba(139, 92, 246, 0.12);
+  --color-philo-border: rgba(139, 92, 246, 0.3);
+  --color-aristotle: #3B82F6;
+  --color-aristotle-soft: rgba(59, 130, 246, 0.12);
+  --color-aristotle-border: rgba(59, 130, 246, 0.3);
+  --color-nutri: #10B981;
+  --color-nutri-soft: rgba(16, 185, 129, 0.12);
+  --color-nutri-border: rgba(16, 185, 129, 0.3);
+  --color-biomech: #F59E0B;
+  --color-biomech-soft: rgba(245, 158, 11, 0.12);
+  --color-biomech-border: rgba(245, 158, 11, 0.3);
+  --color-anatomy: #EF4444;
+  --color-anatomy-soft: rgba(239, 68, 68, 0.12);
+  --color-anatomy-border: rgba(239, 68, 68, 0.3);
+  --success: #10B981;
+  --error: #EF4444;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-serif: ui-serif, Georgia, "Times New Roman", "Source Han Serif SC", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --transition-fast: 150ms ease;
+  --transition-med: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent-gold); text-decoration: none; transition: color var(--transition-fast); }
+a:hover { color: #d4b372; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== Utility ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+.reading-width {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  padding: clamp(48px, 8vw, 96px) 0 clamp(40px, 6vw, 64px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(200, 164, 94, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-lesson-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid var(--accent-gold);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: clamp(15px, 2.2vw, 18px);
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--accent-gold);
+  color: var(--accent-gold-ink);
+}
+.btn-primary:hover { background: #d4b372; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--border-strong); }
+
+/* ===== Section Navigation ===== */
+.section-nav {
+  padding: 32px 0 48px;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--section-color, var(--accent-gold));
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-card:hover::before { opacity: 1; }
+.nav-card:hover {
+  border-color: var(--section-color, var(--accent-gold));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-card-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color, var(--accent-gold));
+  letter-spacing: 0.1em;
+}
+
+.nav-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.nav-card-progress {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+.nav-card-progress .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  margin-right: 6px;
+}
+.nav-card.completed .dot { background: var(--success); }
+.nav-card.in-progress .dot { background: var(--accent-gold); }
+
+/* ===== Section Content ===== */
+.content-section {
+  padding: clamp(48px, 7vw, 80px) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  scroll-margin-top: 20px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-number {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+.sub-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 48px 0 24px;
+  color: var(--text-primary);
+}
+
+.sub-section-title .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+  font-size: 14px;
+}
+
+/* ===== Flip Cards ===== */
+.flip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.flip-card {
+  perspective: 1200px;
+  height: 240px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-slow);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.flip-card-front {
+  border-top: 3px solid var(--section-color);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--section-color-border);
+  overflow-y: auto;
+}
+
+.flip-card-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.flip-card-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flip-card-back h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--section-color);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.flip-card-back p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.flip-card-back .source {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* ===== Quiz ===== */
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.quiz-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: border-color var(--transition-fast);
+}
+
+.quiz-card.revealed {
+  border-color: var(--section-color-border);
+}
+
+.quiz-number {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.quiz-question {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-surface-2);
+}
+
+.quiz-option:hover {
+  border-color: var(--section-color-border);
+  background: var(--section-color-soft);
+}
+
+.quiz-option.selected {
+  border-color: var(--section-color);
+  background: var(--section-color-soft);
+}
+
+.quiz-option.correct {
+  border-color: var(--success);
+  background: rgba(16, 185, 129, 0.12);
+}
+.quiz-option.correct .option-label { color: var(--success); }
+
+.quiz-option.incorrect {
+  border-color: var(--error);
+  background: rgba(239, 68, 68, 0.12);
+}
+.quiz-option.incorrect .option-label { color: var(--error); }
+
+.option-label {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.option-text {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.quiz-explanation {
+  display: none;
+  padding: 16px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--section-color);
+  margin-top: 16px;
+}
+
+.quiz-card.revealed .quiz-explanation { display: block; animation: fadeIn 0.3s ease; }
+
+.quiz-explanation-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.quiz-explanation-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ===== Case Study ===== */
+.case-study {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.case-header {
+  padding: 24px 28px;
+  background: linear-gradient(135deg, var(--section-color-soft) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.case-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.case-body {
+  padding: 28px;
+}
+
+.case-narrative {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--bg-surface-2);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--section-color);
+}
+
+.case-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.case-question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.case-question-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.case-answer {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+
+.case-answer:focus {
+  outline: none;
+  border-color: var(--section-color);
+}
+
+.case-submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.case-reference {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--success);
+}
+
+.case-reference.show { display: block; animation: fadeIn 0.3s ease; }
+
+.case-reference-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.case-reference-content {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.case-reference-content ul { padding-left: 20px; }
+.case-reference-content li { margin-bottom: 6px; }
+
+/* ===== Group Submission ===== */
+.group-submit {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-top: 24px;
+}
+
+.group-submit-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.group-submit-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.group-submit-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.group-submit-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.group-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-select,
+.form-input {
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color var(--transition-fast);
+}
+
+.form-select:focus,
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.markdown-output {
+  width: 100%;
+  min-height: 200px;
+  padding: 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.submit-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+
+.modal {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ===== Token Setup ===== */
+.token-setup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.token-setup:hover { color: var(--accent-gold); }
+
+/* ===== Footer ===== */
+.site-footer {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.site-footer .divider {
+  width: 60px;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0 auto 20px;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body { background: white; color: black; }
+  .hero { padding: 24px 0; }
+  .hero::before { display: none; }
+  .hero-actions, .section-nav, .reveal-container,
+  .case-submit-row, .group-submit, .flip-card-hint {
+    display: none !important;
+  }
+  .content-section { padding: 24px 0; page-break-inside: avoid; }
+  .quiz-card, .case-study, .flip-card-front, .flip-card-back {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    color: black !important;
+  }
+  .flip-card { height: auto; perspective: none; }
+  .flip-card-inner { transform: none !important; transform-style: flat; }
+  .flip-card-front, .flip-card-back {
+    position: relative;
+    backface-visibility: visible;
+    transform: none !important;
+    page-break-inside: avoid;
+  }
+  .flip-card-back { margin-top: 0; border-top: none; }
+  .quiz-explanation { display: block !important; border-color: #ccc; background: #f5f5f5; }
+  .quiz-option.correct { border-color: #10B981; background: #ecfdf5; }
+  .quiz-option.incorrect { border-color: #EF4444; background: #fef2f2; }
+  .case-reference { display: block !important; }
+  a { color: black; text-decoration: underline; }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .flip-grid { grid-template-columns: 1fr; }
+  .quiz-card { padding: 20px; }
+  .case-header, .case-body { padding: 20px; }
+  .group-submit { padding: 20px; }
+  .nav-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { flex-direction: column; }
+}
+
+/* ===== Scroll Progress ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent-gold);
+  z-index: 100;
+  transition: width 0.1s linear;
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  padding: 12px 24px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  z-index: 2000;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-med);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--error); }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ===== Hero ===== -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-lesson-badge">LESSON 5 · 涌现90天</div>
+    <h1>表象之下——功能由隐藏的结构决定</h1>
+    <p class="hero-subtitle">
+      从科学哲学到解剖学，五个板块共同揭示一条主线：
+      识别隐藏结构 → 理解功能由什么决定 → 理解功能失效的条件 → 在实践中优化功能。
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('section-1').scrollIntoView({behavior:'smooth'})">
+        开始学习
+      </button>
+      <button class="btn btn-secondary" onclick="downloadHomework()">
+        下载作业
+      </button>
+      <button class="btn btn-ghost" onclick="window.print()">
+        打印 / 导出PDF
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Section Navigation ===== -->
+<nav class="section-nav">
+  <div class="container">
+    <div class="nav-grid" id="navGrid">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ===== Section 1: 科学哲学 ===== -->
+<section class="content-section" id="section-1" style="--section-color: var(--color-philo); --section-color-soft: var(--color-philo-soft); --section-color-border: var(--color-philo-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块一</span>
+      <h2 class="section-title">科学哲学——观察的公共性</h2>
+      <p class="section-desc">科学观察的客观性不来自感官的可靠性，而来自操作程序的公共可检验性。</p>
+    </div>
+
+    <!-- Knowledge Cards -->
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-1">
+      <!-- Generated by JS -->
+    </div>
+
+    <!-- Quiz -->
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-1">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(1)">
+        揭晓答案
+      </button>
+    </div>
+
+    <!-- Case Study -->
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">动作评估中的"客观"与"主观"</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          两位资深教练在评估同一位客户的深蹲动作时产生了分歧。教练A认为客户有明显的"膝盖内扣"问题，需要立即纠正；教练B则认为这是正常的髋膝联动模式，没有必要干预。两人都声称自己的判断基于"经验"和"观察"。客户感到困惑，不知道应该相信谁。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从科学哲学的角度看，两位教练的分歧本质上是什么问题？</label>
+            <textarea class="case-answer" data-case="1" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 设计一个公共操作程序来解决这个分歧，需要哪些步骤？</label>
+            <textarea class="case-answer" data-case="1" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 即使有了公共数据，专业判断是否仍然必要？为什么？</label>
+            <textarea class="case-answer" data-case="1" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(1)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-1">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>分歧本质：</strong>两位教练都停留在"私密观察"层面，各自的感知无法被对方检验。这类似于Hooke时代显微镜观察的困境——主观感知无法裁决真伪。</li>
+              <li><strong>公共操作程序：</strong>使用视频记录从多角度拍摄，用Kinovea等运动分析软件标记股骨和胫骨的解剖学标志点，测量Q角或膝外翻角度（Knee Valgus Angle），将结果与已发表的正常范围数据对比。</li>
+              <li><strong>专业判断的必要性：</strong>公共数据提供了可靠的基础，但数据本身不告诉我们"怎么办"。判断某一角度是否需要干预、干预方式的选择，仍然需要基于临床经验和个体差异的专业判断。Chalmers说观察"既客观又可错"——公共操作让判断有了可靠基础，但不意味着判断是不可错的。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group Submission -->
+    <div class="group-submit" id="group-1">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="1">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="1" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(1)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-1" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(1)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(1)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" onclick="openTokenModal()">
+          <span>⚙️</span> <span id="tokenStatus">设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 2: 哲学 ===== -->
+<section class="content-section" id="section-2" style="--section-color: var(--color-aristotle); --section-color-soft: var(--color-aristotle-soft); --section-color-border: var(--color-aristotle-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块二</span>
+      <h2 class="section-title">哲学——亚里士多德的目的论</h2>
+      <p class="section-desc">自然中每个事物的存在和活动都指向某种目的，事物的善体现在功能的优良实现。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-2">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-2">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(2)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">训练方案设计的"功能思维"</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位新手教练为客户设计肩部训练方案，思路是："我要让客户练肩，所以选所有练肩的动作——侧平举、前平举、推举、面拉、反向飞鸟，每个动作4组，组间休息60秒。"而另一位资深教练的思路是："肩关节的功能是什么？它需要完成哪些日常和运动任务？盂肱关节的活动范围、肩袖的稳定功能、肩胛胸壁关节的协同作用……训练应该服务于这些功能的最优实现。"
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 用亚里士多德的"四因说"分析两位教练的思路差异。</label>
+            <textarea class="case-answer" data-case="2" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 功能论证（ergon argument）如何为教练工作提供方法论指导？</label>
+            <textarea class="case-answer" data-case="2" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(2)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-2">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>四因说分析：</strong>新手教练主要关注"质料因"（用什么动作、做多少组）和"动力因"（我让客户练什么），缺少"目的因"的思考。资深教练则从"目的因"（肩关节的功能是什么）出发，认为训练动作的选择应该服务于功能的最优实现。亚里士多德认为在自然事物中，形式因、动力因、目的因往往是同一的——肩关节的形式（解剖结构）、动力（肌肉活动）和目的（功能实现）是统一的。</li>
+              <li><strong>功能论证的指导意义：</strong>功能论证告诉我们，一个事物的善在于它的功能（ergon）的优良实现。对教练来说，理解一个身体结构意味着理解它的功能——肩关节的"善"不是被练得多大，而是它的功能（多方向活动、稳定、力量传递）得到最优实现。这意味着训练评估应该从功能出发，训练效果的评判标准也应该是功能的改善程度。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-2">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="2">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="2" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(2)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-2" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(2)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(2)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" onclick="openTokenModal()">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 3: 营养学 ===== -->
+<section class="content-section" id="section-3" style="--section-color: var(--color-nutri); --section-color-soft: var(--color-nutri-soft); --section-color-border: var(--color-nutri-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块三</span>
+      <h2 class="section-title">营养学——氨基酸的功能分类</h2>
+      <p class="section-desc">蛋白质的营养价值由氨基酸的代谢必需性决定，MPS需要信号和底物的共同满足。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-3">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-3">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(3)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">素食客户的蛋白质优化</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位28岁的素食女性客户希望增加肌肉量。她每天蛋白质摄入约60g，主要来源是豆腐、豆浆和米饭。她购买了BCAA补充剂，因为"朋友说BCAA是增肌关键"。她的训练量是每周4次力量训练，每次60分钟。体重55kg，体脂率22%。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从"限制氨基酸"的角度分析她的蛋白质摄入存在什么问题？</label>
+            <textarea class="case-answer" data-case="3" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 她的BCAA补充策略是否有效？请结合mTORC1信号与MPS的关系解释。</label>
+            <textarea class="case-answer" data-case="3" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 给出你的饮食调整建议。</label>
+            <textarea class="case-answer" data-case="3" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(3)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-3">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>限制氨基酸问题：</strong>她的蛋白质主要来自豆类和谷物。豆类缺甲硫氨酸（限制氨基酸），谷物缺赖氨酸（限制氨基酸）。虽然理论上两者搭配可以互补，但如果每餐比例不当，整体利用率仍然受限。此外，植物蛋白的消化率普遍低于动物蛋白。按55kg体重计算，60g蛋白质仅约1.1g/kg，低于增肌所需的1.6g/kg以上。</li>
+              <li><strong>BCAA补充的有效性：</strong>效果有限。亮氨酸激活mTORC1只是MPS的必要条件（信号），不是充分条件。MPS还需要全部9种必需氨基酸作为底物。单独BCAA无法提供完整底物，MPS无法持续。如果她总蛋白质摄入充足且氨基酸谱完整，额外BCAA几乎没有收益。在她目前蛋白质摄入不足的情况下，把钱花在提高总蛋白质质量和数量上更划算。</li>
+              <li><strong>饮食调整建议：</strong>① 将蛋白质摄入提升到1.6-2.0g/kg（约88-110g）；② 每餐确保谷物和豆类搭配食用（蛋白质互补）；③ 考虑添加完整植物蛋白来源（如鹰嘴豆、藜麦）；④ 可考虑分离乳清蛋白或豌豆+大米混合蛋白粉来补充完整氨基酸谱；⑤ BCAA不是优先项，先解决总蛋白和氨基酸完整性问题。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-3">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="3">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="3" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(3)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-3" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(3)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(3)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" onclick="openTokenModal()">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 4: 生物力学 ===== -->
+<section class="content-section" id="section-4" style="--section-color: var(--color-biomech); --section-color-soft: var(--color-biomech-soft); --section-color-border: var(--color-biomech-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块四</span>
+      <h2 class="section-title">生物力学——阻力曲线</h2>
+      <p class="section-desc">训练效率取决于阻力曲线与力量曲线的匹配程度，自由重量受限于几何结构。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-4">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-4">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(4)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">深蹲粘滞点的突破策略</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位中级训练者在杠铃深蹲中遇到了平台期。他的1RM停留在120kg已经3个月。经过观察，他的粘滞点出现在大腿接近平行地面的位置（髋关节约90度屈曲）。从底部起身时，他能顺利启动，但到平行位置就"卡住"了，需要挣扎才能通过。他的教练建议他增加底部暂停深蹲的训练。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从阻力曲线的角度分析，为什么粘滞点出现在平行位置？</label>
+            <textarea class="case-answer" data-case="4" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 底部暂停深蹲能否有效解决这个粘滞点？为什么？</label>
+            <textarea class="case-answer" data-case="4" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 你会给出什么训练建议来突破这个平台期？</label>
+            <textarea class="case-answer" data-case="4" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(4)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-4">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>粘滞点的力学分析：</strong>深蹲的阻力曲线呈不对称钟形，峰值出现在杠铃重力线离髋膝关节旋转中心最远的位置——通常在大腿接近平行时。此时阻力臂最长，阻力矩最大。如果训练者在该角度的力量输出（力量曲线）低于阻力矩，就会出现粘滞点。本质上是阻力曲线峰值与力量曲线的"谷底"相遇。</li>
+              <li><strong>底部暂停深蹲的局限：</strong>底部暂停深蹲主要增强的是底部位置（髋膝最大屈曲）的力量输出和牵张反射消除后的启动能力。但粘滞点在平行位置，底部训练对该角度的力量改善有限。阻力曲线的峰值不在底部，而在中间位置。</li>
+              <li><strong>突破建议：</strong>① 针对粘滞点角度的等长训练（在平行位置停3-5秒），增强该角度的力输出；② 箱式深蹲，箱子高度设置在粘滞点附近，强化从该位置启动的能力；③ 改变杠铃位置（如前蹲）来调整阻力曲线峰值位置，全面发展力量曲线；④ 弹力带深蹲，在力量曲线上升段（接近站立位）增加阻力，同时中间段阻力相对降低，可以用更大重量刺激；⑤ 凸轮器械腿举，精准匹配力量曲线。核心思路：让阻力曲线与力量曲线更好地匹配，或者针对性增强力量曲线的薄弱环节。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-4">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="4">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="4" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(4)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-4" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(4)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(4)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" onclick="openTokenModal()">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 5: 解剖 ===== -->
+<section class="content-section" id="section-5" style="--section-color: var(--color-anatomy); --section-color-soft: var(--color-anatomy-soft); --section-color-border: var(--color-anatomy-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块五</span>
+      <h2 class="section-title">解剖——Wolff定律与骨的力学适应</h2>
+      <p class="section-desc">骨组织的结构由局部力学信号的反馈调节决定，骨适应是局部的、动态的过程。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-5">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-5">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(5)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">绝经后女性的骨密度训练方案</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位58岁的女性客户，绝经5年，体检发现腰椎和髋部骨密度T值为-1.8（骨量减少）。医生建议她增加运动和钙摄入，但没有给出具体方案。她目前每周散步3次，每次30分钟。她担心运动会导致骨折，不敢做力量训练。她的饮食中乳制品摄入较少，蛋白质摄入约0.8g/kg体重。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从Wolff定律和Frost机械调节器模型的角度，为什么散步对改善骨密度效果有限？</label>
+            <textarea class="case-answer" data-case="5" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 设计一个安全有效的骨密度改善训练方案，说明每个要素的力学原理。</label>
+            <textarea class="case-answer" data-case="5" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 营养方面需要哪些调整？结合板块三的知识说明蛋白质与骨健康的关系。</label>
+            <textarea class="case-answer" data-case="5" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(5)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-5">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>散步的局限性：</strong>① 应变幅度低：散步产生的骨应变远低于MESm（约1500-2500με建模阈值），无法激活骨形成；② 应变速率低：稳态步行属于低应变速率，骨对动态高应变速率载荷反应更强；③ 载荷分布单一：散步主要刺激下肢某些区域，对腰椎、上肢等部位刺激不足；④ 周期数虽多但收益递减：超过约40次有效周期后，骨形成信号饱和。</li>
+              <li><strong>训练方案设计：</strong>① 轴向负荷力量训练（深蹲、硬拉、箭步蹲）：产生较高应变幅度，刺激腰椎和下肢骨形成；从低强度开始，逐步进阶。② 冲击性活动（跳绳、台阶跳、原地跳）：高应变速率，强烈刺激骨形成；每天约40次跳跃即可，分组完成更有效。③ 渐进性抗阻训练：遵循渐进超负荷原则，让骨组织持续适应新的应变水平。④ 安全考虑：从低强度开始，学习正确动作模式，避免过度前屈（保护腰椎），建议先做运动风险评估。核心原理：让应变水平超过MESm阈值，利用高应变速率增强信号，保证充足恢复。</li>
+              <li><strong>营养调整：</strong>① 钙和维生素D：骨形成的原材料，确保充足摄入。② 蛋白质：提升到1.2-1.6g/kg。骨基质中约30%是蛋白质（主要是I型胶原蛋白），充足的蛋白质供应是骨形成的必要条件。蛋白质不足会影响成骨细胞活性和骨基质合成。③ 蛋白质与钙的协同：足够的蛋白质可以增强钙的吸收和利用。④ 避免过度限制热量：能量不足会影响骨代谢。结合板块三：必需氨基酸是合成骨基质蛋白的原材料，氨基酸不足时，即使力学信号存在，骨形成也缺乏底物。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-5">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="5">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="5" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(5)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-5" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(5)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(5)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" onclick="openTokenModal()">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Core Logic Summary ===== -->
+<section style="padding: clamp(48px, 7vw, 80px) 0; background: var(--bg-surface);">
+  <div class="container">
+    <div class="reading-width" style="text-align: center;">
+      <div class="section-label">今日核心逻辑</div>
+      <h2 style="font-family: var(--font-serif); font-size: clamp(22px, 3vw, 32px); font-weight: 600; margin-bottom: 32px; line-height: 1.35;">
+        表象之下——功能由隐藏的结构决定
+      </h2>
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 14px;">
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-philo);">
+          <strong style="color: var(--color-philo);">科学哲学：</strong>
+          <span style="color: var(--text-secondary);">观察的客观性由操作的公共性程序决定</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-aristotle);">
+          <strong style="color: var(--color-aristotle);">哲学：</strong>
+          <span style="color: var(--text-secondary);">事物的善由其内在目的（telos）决定</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-nutri);">
+          <strong style="color: var(--color-nutri);">营养学：</strong>
+          <span style="color: var(--text-secondary);">蛋白质的营养价值由氨基酸的代谢必需性决定</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-biomech);">
+          <strong style="color: var(--color-biomech);">生物力学：</strong>
+          <span style="color: var(--text-secondary);">训练效率由阻力曲线与力量曲线的匹配程度决定</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-anatomy);">
+          <strong style="color: var(--color-anatomy);">解剖：</strong>
+          <span style="color: var(--text-secondary);">骨组织的结构由局部力学信号的反馈调节决定</span>
+        </div>
+      </div>
+      <p style="margin-top: 32px; color: var(--text-muted); font-size: 15px; line-height: 1.7;">
+        识别隐藏结构 → 理解功能由什么决定 → 理解功能失效的条件 → 在实践中优化功能
+      </p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="divider"></div>
+    <p>涌现90天 · Lesson 5 交互式作业</p>
+    <p style="margin-top: 8px; font-size: 12px;">表象之下——功能由隐藏的结构决定</p>
+  </div>
+</footer>
+
+<!-- ===== Confirmation Modal ===== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="modalTitle">确认揭晓答案？</h3>
+    <p id="modalDesc">请确认小组已经充分讨论了所有题目。揭晓后将显示正确答案和详细解析。</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" id="modalConfirmBtn">确认揭晓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Token Modal ===== -->
+<div class="modal-overlay" id="tokenModal">
+  <div class="modal">
+    <h3>GitHub Token 设置</h3>
+    <p>输入您的GitHub Personal Access Token以便提交答案。Token将保存在本地浏览器中。</p>
+    <div class="form-group" style="margin-bottom: 20px;">
+      <label class="form-label">GitHub Token</label>
+      <input type="password" class="form-input" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeTokenModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveToken()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const sections = [
+  {
+    id: 1,
+    name: '科学哲学',
+    subtitle: '观察的公共性',
+    color: 'var(--color-philo)',
+    knowledge: [
+      {
+        q: '观察作为私密事务的日常理解有什么局限？',
+        a: '日常观察被理解为被动的、私密的事务。观察者睁开眼睛、记录所见之物，验证发生在观察者个人的感知之中。两个观察者无法彼此进入对方的感知，无法就各自确立的事实的有效性展开对话。',
+        source: 'Chalmers, What Is This Thing Called Science?, 2013, Ch2, p.18'
+      },
+      {
+        q: "Hooke的显微镜操作如何体现科学观察的典范？",
+        a: "Robert Hooke使用显微镜观察苍蝇眼睛时，与Henry Powers对可观察事实产生分歧。Hooke没有诉诸自己的主观感知来裁决，而是设计实验消除眩光干扰，用不同照明条件确定哪些特征在条件变化下保持不变。《显微图谱》（1665）中的成果是公共的，可被任何人检查、批评和补充。",
+        source: 'Chalmers, 2013, Ch2, p.20'
+      },
+      {
+        q: '科学观察的客观性来自哪里？',
+        a: '客观性不来自感官的可靠性，也不来自观察陈述的不可错性，来自观察情境能够被安排以使主观判断的依赖被最小化。一个观察陈述要成为科学基础的事实，必须能够通过常规的、客观的操作程序来检验。',
+        source: 'Chalmers, 2013, Ch2, pp.22-26'
+      },
+      {
+        q: '如何理解可观察事实的双重性质？',
+        a: '适合构成科学知识基础的观察，既客观又可错。客观在于经过了公共检验和确证，可错在于并非免于在新知识和新技术条件下被修正。"地球是静止的"和"火星金星的表观大小不变"都曾是充分检验后被接受为事实的观察陈述，最终在知识进步的光照下被拒绝。',
+        source: 'Chalmers, 2013, Ch2, pp.25-26'
+      }
+    ],
+    quiz: [
+      {
+        q: 'Hooke解决显微镜观察中不同照明条件下外观分歧的方式是什么？',
+        options: [
+          '选择最清晰的照明条件下的观察结果作为真实外观',
+          '请多位观察者分别观察，以多数人的判断为准',
+          '采取实际干预措施消除干扰信号，通过条件变化确定不变特征',
+          '承认不同照明条件下的外观同样真实，不做真假判断'
+        ],
+        correct: 2,
+        explanation: 'Hooke设计实验消除眩光干扰，用不同照明条件确定哪些特征在条件变化下保持不变。他没有诉诸主观感知来裁决，而是通过公共的操作程序来确定事实。'
+      },
+      {
+        q: 'Chalmers对"适合构成科学知识基础的观察"的判断是什么？',
+        options: [
+          '观察必须是不可错的，否则不能成为科学基础',
+          '观察既是客观的（经过公共检验）又是可错的（未来可能被修正）',
+          '观察本质上是主观的，科学家的任务是用仪器消除主观性',
+          '观察只要由经验丰富的科学家做出就足以成为科学基础'
+        ],
+        correct: 1,
+        explanation: 'Chalmers认为可观察事实具有双重性质：既客观又可错。客观在于经过了公共检验和确证，可错在于并非免于在新知识和新技术条件下被修正。'
+      },
+      {
+        q: '一位教练用肉眼判断客户深蹲时"膝盖内扣"的程度，另一位教练不认同。从板块一的角度看，解决这个分歧的最佳方式是：',
+        options: [
+          '以经验更丰富的教练的判断为准',
+          '让客户本人描述膝盖的感觉，由主观感受来确定',
+          '使用视频记录和运动分析软件测量膝关节角度，将私密感知转化为公共数据',
+          '放弃对膝盖内扣的判断，因为视觉观察本质上不可靠'
+        ],
+        correct: 2,
+        explanation: '科学观察的客观性来自操作程序的公共可检验性。使用视频记录和运动分析软件将私密的视觉感知转化为可重复、可检验的公共数据，是解决分歧的科学方式。公共数据不能完全替代专业判断，但能让判断有更可靠的公共基础。'
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '哲学',
+    subtitle: '亚里士多德的目的论',
+    color: 'var(--color-aristotle)',
+    knowledge: [
+      {
+        q: '亚里士多德目的论的核心主张是什么？',
+        a: '亚里士多德的世界观是目的论的。核心主张：自然中每个事物的存在和活动都指向某种目的（telos，τέλος），指向某种善（agathon，ἀγαθόν）。telos的原始含义是"终点""完成"。亚里士多德提出内在目的论：事物的目的就在事物自身的本性和结构之中。一颗橡子的telos是长成橡树，这个目的就在橡子自身的本性之中。',
+        source: '周濂，《打开》，第7讲'
+      },
+      {
+        q: '什么是四因说？为什么说"三因合一"？',
+        a: '四因说包括质料因（它由什么构成）、形式因（它的本质结构）、动力因（什么力量使它获得结构）、目的因（它的存在指向什么目的）。在自然事物中，形式因、动力因和目的因往往是同一的。橡子的形式（作为橡子的本质结构）同时是推动它生长的内在动力和它指向的目标（长成橡树）。',
+        source: 'Aristotle, Physics, Book II, 199a'
+      },
+      {
+        q: 'eudaimonia是什么？亚里士多德为什么说幸福是至善？',
+        a: 'eudaimonia（εὐδαιμονία）字面含义是"好的精灵守护"，意味着繁盛（flourishing）。亚里士多德给出两个论证：第一，幸福是唯一纯粹以自身为目的的东西，人们追求财富、荣誉、健康都部分因为它们被认为能带来幸福。第二，幸福是自足的（self-sufficient），即仅仅依靠自身便使生活称心如意，但亚里士多德强调这种自足生活包含朋友和家人，因为"人的本性是种社会动物"。',
+        source: 'Aristotle, NE, I, 1094a; 1097b'
+      },
+      {
+        q: '功能论证的完整逻辑链是什么？',
+        a: '任何有功能的事物，其善体现在功能的优良实现（如长笛演奏者的善体现在吹奏功能的优良实现）→人特有的功能不是营养和生长（动植物也有），不是感觉（动物也有）→是灵魂合乎理性原则的活动→人的善是灵魂合乎德性（aretē，ἀρετή，excellence/virtue）的活动→这种活动需贯穿一生（"一燕不成夏"）。',
+        source: 'Aristotle, NE, I, 1097b-1098a'
+      }
+    ],
+    quiz: [
+      {
+        q: '亚里士多德认为在大多数自然事物中，四因中的形式因、动力因和目的因往往是同一的。以橡子为例，这意味着：',
+        options: [
+          '橡子的形态由外部力量塑造，与橡子自身的本性无关',
+          '橡子的本质结构同时是推动其生长的内在动力和它指向的完成状态',
+          '橡子没有自身的目的，它的生长方向完全由环境决定',
+          '橡子的形式因、动力因和目的因分别由不同的机制控制'
+        ],
+        correct: 1,
+        explanation: '亚里士多德的"三因合一"意味着在自然事物中，形式因、动力因和目的因是同一个东西的不同方面。橡子的本质结构（形式因）同时是推动它生长的内在力量（动力因）和它要实现的目标——长成橡树（目的因）。事物的本质结构不是静态的模板，它在发育过程中逐步现实化。'
+      },
+      {
+        q: '一位教练在为客户设计训练方案时，采用"先确定肩关节的功能，再选择使该功能最优实现的训练动作"的思路。从亚里士多德的目的论来看，这种思路的哲学基础是：',
+        options: [
+          '事物的善在于它与超越理念的关系',
+          '事物的善体现在其功能的优良实现，功能决定了什么是该事物的善',
+          '事物的善取决于观察者的主观判断',
+          '事物的善由其质料构成决定'
+        ],
+        correct: 1,
+        explanation: '功能论证（ergon argument）告诉我们：任何有功能的事物，其善体现在功能的优良实现。理解一个身体结构意味着理解它的功能（ergon），功能决定了什么是对这个结构而言的善。训练的目的论指引：让身体结构最好地实现它的功能。'
+      },
+      {
+        q: '"一燕不成夏"（One swallow does not make a summer）在功能论证中的含义是：',
+        options: [
+          'eudaimonia需要持续一生的灵魂合乎德性的活动，短暂的行为不构成幸福',
+          '一次善行就足以判断一个人是否幸福',
+          '幸福是一种短暂的愉悦感受，不需要持续',
+          '夏天的判断标准不可靠，正如幸福的判断标准不可靠'
+        ],
+        correct: 0,
+        explanation: '"一燕不成夏"强调的是德性活动的持续性。eudaimonia（繁盛/幸福）不是短暂的状态或感受，而是灵魂合乎德性的活动贯穿整个人生。一次或短暂的德性行为不足以构成幸福，正如一只燕子或一天的温暖不能代表夏天已经到来。'
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: '营养学',
+    subtitle: '氨基酸的功能分类',
+    color: 'var(--color-nutri)',
+    knowledge: [
+      {
+        q: '必需氨基酸有哪些？为什么说它们是"必需"的？',
+        a: '人体有9种必需氨基酸：亮氨酸、异亮氨酸、缬氨酸、赖氨酸、甲硫氨酸、苯丙氨酸、色氨酸、苏氨酸、组氨酸。必需性来源于人体代谢通路的缺失：人体可以通过转氨基反应合成大部分氨基酸的碳骨架，但合成必需氨基酸所需的关键酶，人体没有对应基因来编码。组氨酸在20世纪80年代后被正式列入成人必需氨基酸。',
+        source: 'Whitney & Rolfes, Understanding Nutrition, 16th ed., 2022, Ch7'
+      },
+      {
+        q: 'BCAA有什么特殊的代谢特点？亮氨酸如何调控MPS？',
+        a: '亮氨酸、异亮氨酸、缬氨酸合称BCAA。BCAA吸收后绕过肝脏首过代谢，直接输送到外周组织，在骨骼肌（约50%）中氧化分解。亮氨酸能激活mTORC1信号通路，是驱动MPS的关键分子开关。亮氨酸与Sestrin1/2蛋白结合，解除GATOR2对mTORC1的抑制；亮氨酰tRNA合成酶（LRS）促进mTORC1转位至溶酶体表面并被激活。',
+        source: 'Zhang et al., Hypertension, 2018, Vol.72; Li et al., Nutrition & Metabolism, 2024, Vol.21, Art.41'
+      },
+      {
+        q: '为什么单独补充BCAA不足以持续驱动MPS？',
+        a: 'mTORC1激活是MPS的必要条件，不是充分条件。MPS需要信号（亮氨酸提供的启动指令）和底物（全部9种EAA提供的原材料）。Wolfe（2017）指出单独补充BCAA对MPS的刺激效果不如补充完整EAA。如果日常蛋白质摄入量充足（每公斤体重1.6克以上），额外BCAA补充几乎不会产生额外收益。',
+        source: 'Wolfe, 2017'
+      },
+      {
+        q: '什么是限制氨基酸？蛋白质互补是什么意思？',
+        a: '限制氨基酸是食物蛋白质中含量最低（相对于人体需要模式）的必需氨基酸，限制了整体利用率。谷物缺赖氨酸、豆类缺甲硫氨酸，搭配食用实现蛋白质互补——当两种或多种蛋白质来源的限制氨基酸不同时，搭配食用可以提升整体蛋白质利用率。条件必需氨基酸（如精氨酸、谷氨酰胺）在特定条件下（严重应激、早产、高强度运动）合成量不足，变为必需。',
+        source: 'Gropper & Smith, Advanced Nutrition and Human Metabolism, 8th ed., 2022, Ch7'
+      }
+    ],
+    quiz: [
+      {
+        q: '必需氨基酸的"必需性"来源于什么？',
+        options: [
+          '它们在蛋白质中含量最低，需要优先补充',
+          '人体缺乏编码合成其碳骨架所需关键酶的基因，无法从头合成',
+          '它们只能从动物性蛋白质中获取',
+          '它们在运动中的消耗速度超过非必需氨基酸'
+        ],
+        correct: 1,
+        explanation: '必需氨基酸的"必需性"有明确的代谢学基础：人体可以通过转氨基反应合成大部分氨基酸的碳骨架，但合成9种必需氨基酸所需的关键酶，人体没有对应基因来编码，因此必须从食物中获取。这不是因为它们"更重要"或"含量更低"，而是因为人体缺乏合成它们的代谢通路。'
+      },
+      {
+        q: '一位客户日常蛋白质摄入已达每公斤体重1.8克，额外购买BCAA补充剂。从板块三的知识来看：',
+        options: [
+          'BCAA补充剂会显著提升MPS效果，因为亮氨酸持续激活mTORC1',
+          'BCAA补充剂几乎没有额外收益，因为完整EAA已通过膳食充足供应，mTORC1的底物条件已满足',
+          'BCAA补充剂会替代膳食蛋白质中的氨基酸，降低MPS效率',
+          'BCAA补充剂只在训练后30分钟内有效，超过这个窗口无意义'
+        ],
+        correct: 1,
+        explanation: 'mTORC1激活是MPS的必要条件，但不是充分条件。MPS需要信号（亮氨酸）和底物（全部9种EAA）。当日常蛋白质摄入充足（≥1.6g/kg）时，亮氨酸和其他EAA都已经充分供应，MPS的信号和底物条件都已满足。额外补充BCAA不会带来额外收益，因为MPS的限制因素已经不是亮氨酸浓度。'
+      },
+      {
+        q: '谷氨酰胺在什么条件下变为条件必需氨基酸？',
+        options: [
+          '每次力量训练后都必须额外补充',
+          '正常成年人日常膳食中摄入不足时',
+          '大面积烧伤、脓毒症等严重应激状态下，消耗速度超过合成速度时',
+          '与碳水化合物同时摄入时吸收率降低'
+        ],
+        correct: 2,
+        explanation: '条件必需氨基酸指在正常条件下人体可以合成，但在特定病理或应激条件下合成量不足，需要额外补充的氨基酸。谷氨酰胺在大面积烧伤、脓毒症、严重创伤等高分解代谢状态下，消耗速度远超合成速度，此时变为条件必需。普通力量训练不会导致谷氨酰胺缺乏。'
+      }
+    ]
+  },
+  {
+    id: 4,
+    name: '生物力学',
+    subtitle: '阻力曲线',
+    color: 'var(--color-biomech)',
+    knowledge: [
+      {
+        q: '什么是阻力曲线？哑铃弯举的阻力曲线是什么形状？',
+        a: '阻力曲线描述一个动作在整个关节活动范围内，不同关节角度下肌肉需克服的外部阻力矩的变化。横轴为关节角度，纵轴为阻力矩。哑铃弯举的阻力曲线呈不对称钟形：手臂伸展时阻力臂接近零（轻松），前臂水平时阻力臂最大（最难），接近完全屈曲时阻力臂再次接近零。',
+        source: 'McGinnis, Biomechanics of Sport and Exercise, 4th ed., 2021, Ch4'
+      },
+      {
+        q: '阻力曲线与力量曲线的匹配为什么重要？',
+        a: '力量曲线描述肌肉在不同角度下能产生的最大力矩的变化。训练效率取决于两条曲线的匹配程度：理想状态下阻力曲线与力量曲线平行，每个角度下阻力矩接近但不超过该角度肌肉的最大力矩。自由重量阻力方向始终竖直向下，阻力臂变化由关节几何决定，无法调节。固定轨迹器械可通过凸轮设计改变阻力曲线。',
+        source: 'Baechle & Earle, Essentials of S&C, 4th ed., 2016, Ch1'
+      },
+      {
+        q: '凸轮设计的原理是什么？有什么局限性？',
+        a: '凸轮是偏心轮，半径在不同角度下不同。绳索绕在凸轮上时，有效阻力臂等于凸轮的当前半径，通过设计凸轮形状可精确控制阻力臂随关节角度的变化。局限有三：凸轮形状固定，对应平均力量曲线，无法匹配所有个体；多关节动作的阻力曲线优化极为复杂；固定轨迹可能与个体自然关节运动学不匹配。',
+        source: 'Enoka, Mechanics of Human Movement, 2nd ed., 2015, Ch6'
+      },
+      {
+        q: '高杠位深蹲和低杠位深蹲的阻力曲线有什么不同？',
+        a: '深蹲的阻力曲线是不对称钟形，峰值位置受杠铃位置影响。高杠位深蹲躯干更直立，膝关节屈曲角度更大，峰值偏向膝关节侧，对股四头肌刺激更集中。低杠位深蹲躯干前倾更大，髋关节屈曲角度更大，峰值偏向髋关节侧，对臀大肌和腘绳肌刺激更集中。同一杠铃同一重量，杠铃位置改变了重力线相对于关节旋转中心的位置关系，从而改变了阻力臂的变化曲线。',
+        source: 'Zatsiorsky & Kraemer, Biomechanics in Sport, 2nd ed., 2008, Ch4'
+      }
+    ],
+    quiz: [
+      {
+        q: '哑铃弯举中，肘关节约90度（前臂接近水平）时感觉"最重"，原因是：',
+        options: [
+          '此时肱二头肌的长度-张力关系处于最不利位置',
+          '此时哑铃重力线离肘关节旋转中心的垂直距离最大，阻力臂最长',
+          '此时关节面的摩擦力最大',
+          '此时拮抗肌的共激活程度最高'
+        ],
+        correct: 1,
+        explanation: '哑铃弯举中，阻力矩 = 哑铃重量 × 阻力臂（哑铃重力线到肘关节旋转中心的垂直距离）。当前臂接近水平时，重力线与肘关节的垂直距离最大，阻力臂最长，因此阻力矩最大。这是纯力学问题，与肌肉长度-张力关系、关节摩擦力或拮抗肌激活关系不大。'
+      },
+      {
+        q: '一位客户在深蹲的某个角度出现粘滞点（无法继续上推的位置）。从阻力曲线的角度分析，这个粘滞点最可能出现在：',
+        options: [
+          '深蹲底部（髋膝关节屈曲角度最大处），因为此时阻力矩最大',
+          '深蹲中间位置（约平行位置），因为此时杠铃重力线离关节旋转中心最远，阻力矩最大',
+          '接近站立位，因为此时需要最大的关节稳定性',
+          '任何角度都可能出现，与阻力曲线无关'
+        ],
+        correct: 1,
+        explanation: '深蹲的阻力曲线呈不对称钟形，峰值出现在大腿接近平行地面的位置。此时杠铃重力线离髋膝关节旋转中心的垂直距离最远，阻力臂最长，阻力矩最大。粘滞点通常出现在阻力曲线峰值附近，即力量曲线的最低点与阻力曲线的最高点相遇的位置。'
+      },
+      {
+        q: '凸轮设计的核心目的是什么？',
+        options: [
+          '增加动作的活动范围',
+          '减小关节承受的总负荷',
+          '通过改变有效阻力臂来塑造阻力曲线，使之匹配目标肌肉的力量曲线',
+          '消除重力对动作的影响'
+        ],
+        correct: 2,
+        explanation: '凸轮的核心目的是通过改变有效阻力臂的长度来塑造阻力曲线的形状。自由重量的阻力曲线完全由关节几何决定，无法调整。凸轮通过在不同关节角度下提供不同的有效半径，使阻力曲线更好地匹配目标肌肉的力量曲线，从而在整个活动范围内都能提供有效的训练刺激。'
+      }
+    ]
+  },
+  {
+    id: 5,
+    name: '解剖',
+    subtitle: 'Wolff定律与骨的力学适应',
+    color: 'var(--color-anatomy)',
+    knowledge: [
+      {
+        q: 'Wolff定律的核心命题是什么？',
+        a: '1892年Julius Wolff提出：骨的内部结构（松质骨的骨小梁排列方向）和外部形态（皮质骨的厚度和直径）根据力学负荷的方向和大小进行适应性改变。Wolff观察到股骨近端松质骨的骨小梁沿主要应力方向排列，与Kulmann计算的应力轨迹高度吻合。现代版本称为"骨的功能性适应"（bone functional adaptation）。',
+        source: 'Wolff, 1892; Ruff et al., Am J Phys Anthropol, 2006, Vol.129, p.484'
+      },
+      {
+        q: '骨细胞如何感知力学信号？',
+        a: '骨组织由成骨细胞（合成骨基质）、破骨细胞（吸收骨基质）和骨细胞维持动态平衡。骨细胞数量最多，通过突起在骨小管网络中形成三维传感网络。力学负荷使骨组织发生微小变形（strain），骨小管中液体流动产生剪切应力，激活骨细胞膜上的机械敏感离子通道（如Piezo1），引起钙离子内流，转化为细胞内信号。NO抑制破骨细胞活性，Wnt/β-catenin通路和前列腺素促进成骨细胞活性。',
+        source: 'Neumann, Kinesiology of the Musculoskeletal System, 3rd ed., 2017, Ch1'
+      },
+      {
+        q: 'Frost的机械调节器模型说明了什么？',
+        a: '骨组织中存在应变阈值设定点。应变超过设定时骨形成激活，低于设定时骨吸收激活。MESr（最低有效应变）约800-1500微应变（με），低于此值骨吸收占优势（废用窗口）。MESm约1500-2500με，超过此值骨建模激活，骨量增加。骨适应是局部现象：每个骨区域的应变状态决定该区域的骨形成和骨吸收活动。',
+        source: "Frost, The Anatomical Record, 2003, Vol.275A"
+      },
+      {
+        q: '力学负荷影响骨适应的关键参数有哪些？',
+        a: '①应变幅度：越大，骨形成刺激越强；②应变速率：骨对动态载荷的反应远强于静态载荷，高应变率比低应变率产生更强的骨形成信号；③载荷周期数：每天约40个载荷周期即产生显著骨适应，超过后收益递减；④休息插入：分散在多次短暂活动中比一次性完成更有效，休息间隔允许骨细胞恢复对下次刺激的敏感性。',
+        source: 'Burr & Robling, Sports Medicine, 2009'
+      }
+    ],
+    quiz: [
+      {
+        q: 'Wolff定律的核心主张是什么？',
+        options: [
+          '骨密度由遗传因素决定，力学负荷的影响有限',
+          '骨的内部结构和外部形态根据力学负荷的方向和大小进行适应性改变',
+          '只有高负荷力量训练才能影响骨密度',
+          '骨组织的结构在成年后固定不变'
+        ],
+        correct: 1,
+        explanation: 'Wolff定律的核心是骨的功能性适应：骨组织根据力学负荷的方向和大小动态调整其内部结构（骨小梁排列）和外部形态（皮质骨厚度和直径）。这是一个持续的、动态的过程，成年后依然进行。骨适应对负荷有反应，但不是只有"高负荷"才能刺激骨形成——超过阈值的有效应变都能产生适应。'
+      },
+      {
+        q: '一位绝经后女性客户希望改善骨密度。从板块三和板块五的知识综合来看，训练处方的关键要素应包括：',
+        options: [
+          '仅低强度有氧运动，避免高冲击活动以防止骨折',
+          '高负荷力量训练（深蹲、硬拉等轴向负荷动作）结合高冲击活动（跳跃），并确保充足的蛋白质和钙摄入',
+          '仅BCAA补充剂，不需要完整的膳食蛋白质',
+          '静态拉伸为主，因为静态载荷对骨形成的刺激最安全'
+        ],
+        correct: 1,
+        explanation: '改善骨密度需要：①力学刺激超过MESm阈值（高负荷力量训练和高冲击活动）；②高应变速率（冲击性活动比静态载荷更有效）；③充足的原材料（蛋白质提供合成骨基质的氨基酸，钙和维生素D提供矿物质）。低强度有氧运动产生的应变幅度不足以激活骨形成。BCAA不能替代完整蛋白质。静态载荷的骨形成刺激远弱于动态载荷。'
+      },
+      {
+        q: '以下关于力学负荷对骨适应参数的说法，哪项是正确的？',
+        options: [
+          '静态载荷即使幅度很大，也能产生与动态载荷同样强度的骨形成信号',
+          '载荷周期数越多，骨形成反应持续等比例增强，没有饱和',
+          '每天约40个载荷周期即可产生显著骨适应反应',
+          '骨适应主要依赖全身性的激素信号，局部应变状态的影响较小'
+        ],
+        correct: 2,
+        explanation: '研究表明，每天约40个载荷周期（如40次跳跃）即可产生显著骨适应，超过后收益递减（存在饱和效应）。骨对动态载荷的反应远强于静态载荷（高应变速率更有效）。骨适应主要是局部现象，每个骨区域的应变状态决定该区域的骨形成/吸收活动。'
+      }
+    ]
+  }
+];
+
+// ===== STATE =====
+let selectedAnswers = {}; // { sectionId: { quizIndex: optionIndex } }
+let revealedSections = new Set();
+let currentRevealSection = null;
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  initNav();
+  initFlipCards();
+  initQuizzes();
+  initScrollProgress();
+  checkTokenStatus();
+  loadSavedAnswers();
+});
+
+// ===== NAVIGATION =====
+function initNav() {
+  const navGrid = document.getElementById('navGrid');
+  const sectionColors = [
+    '--color-philo', '--color-aristotle', '--color-nutri',
+    '--color-biomech', '--color-anatomy'
+  ];
+  
+  sections.forEach((s, i) => {
+    const card = document.createElement('a');
+    card.href = `#section-${s.id}`;
+    card.className = 'nav-card';
+    card.style.setProperty('--section-color', `var(${sectionColors[i]})`);
+    card.innerHTML = `
+      <span class="nav-card-num">板块 ${s.id}</span>
+      <span class="nav-card-title">${s.name}</span>
+      <span class="nav-card-progress"><span class="dot"></span>${s.subtitle}</span>
+    `;
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById(`section-${s.id}`).scrollIntoView({ behavior: 'smooth' });
+    });
+    navGrid.appendChild(card);
+  });
+}
+
+// ===== FLIP CARDS =====
+function initFlipCards() {
+  sections.forEach(s => {
+    const grid = document.getElementById(`flip-${s.id}`);
+    s.knowledge.forEach((k, i) => {
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `知识点卡片 ${i + 1}，点击翻转`);
+      card.innerHTML = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="flip-card-question">${k.q}</div>
+            <div class="flip-card-hint">👆 点击卡片翻转查看答案</div>
+          </div>
+          <div class="flip-card-back">
+            <h4>答案解析</h4>
+            <p>${k.a}</p>
+            ${k.source ? `<div class="source">来源：${k.source}</div>` : ''}
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => card.classList.toggle('flipped'));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('flipped');
+        }
+      });
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ===== QUIZZES =====
+function initQuizzes() {
+  sections.forEach(s => {
+    const list = document.getElementById(`quiz-${s.id}`);
+    selectedAnswers[s.id] = {};
+    
+    s.quiz.forEach((q, qi) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.id = `quiz-${s.id}-${qi}`;
+      
+      let optionsHtml = '';
+      const labels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, oi) => {
+        optionsHtml += `
+          <div class="quiz-option" data-option="${oi}" onclick="selectAnswer(${s.id}, ${qi}, ${oi})">
+            <span class="option-label">${labels[oi]}</span>
+            <span class="option-text">${opt}</span>
+          </div>
+        `;
+      });
+      
+      card.innerHTML = `
+        <span class="quiz-number">题目 ${qi + 1}</span>
+        <div class="quiz-question">${q.q}</div>
+        <div class="quiz-options">${optionsHtml}</div>
+        <div class="quiz-explanation">
+          <div class="quiz-explanation-label">答案解析</div>
+          <div class="quiz-explanation-text">${q.explanation}</div>
+        </div>
+      `;
+      
+      list.appendChild(card);
+    });
+  });
+}
+
+function selectAnswer(sectionId, quizIndex, optionIndex) {
+  if (revealedSections.has(sectionId)) return; // 已揭晓后不允许更改
+  
+  const quizCard = document.getElementById(`quiz-${sectionId}-${quizIndex}`);
+  const options = quizCard.querySelectorAll('.quiz-option');
+  
+  options.forEach((opt, i) => {
+    opt.classList.remove('selected');
+    if (i === optionIndex) {
+      opt.classList.add('selected');
+    }
+  });
+  
+  selectedAnswers[sectionId][quizIndex] = optionIndex;
+  saveAnswers();
+}
+
+// ===== REVEAL ANSWERS =====
+function confirmReveal(sectionId) {
+  if (revealedSections.has(sectionId)) return;
+  currentRevealSection = sectionId;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').classList.remove('show');
+  currentRevealSection = null;
+}
+
+document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+  if (currentRevealSection !== null) {
+    revealAnswers(currentRevealSection);
+    closeModal();
+  }
+});
+
+function revealAnswers(sectionId) {
+  revealedSections.add(sectionId);
+  const section = sections.find(s => s.id === sectionId);
+  
+  section.quiz.forEach((q, qi) => {
+    const quizCard = document.getElementById(`quiz-${sectionId}-${qi}`);
+    quizCard.classList.add('revealed');
+    const options = quizCard.querySelectorAll('.quiz-option');
+    
+    options.forEach((opt, oi) => {
+      opt.classList.remove('selected');
+      if (oi === q.correct) {
+        opt.classList.add('correct');
+      } else if (selectedAnswers[sectionId][qi] === oi) {
+        opt.classList.add('incorrect');
+      }
+    });
+  });
+  
+  // 隐藏揭晓按钮
+  const revealBtn = document.querySelector(`#section-${sectionId} .reveal-container .btn`);
+  if (revealBtn) {
+    revealBtn.textContent = '答案已揭晓';
+    revealBtn.disabled = true;
+    revealBtn.style.opacity = '0.5';
+    revealBtn.style.cursor = 'not-allowed';
+  }
+  
+  updateNavProgress(sectionId);
+  showToast('答案已揭晓', 'success');
+}
+
+function updateNavProgress(sectionId) {
+  const navCards = document.querySelectorAll('.nav-card');
+  if (navCards[sectionId - 1]) {
+    navCards[sectionId - 1].classList.add('completed');
+    const dot = navCards[sectionId - 1].querySelector('.dot');
+    if (dot) dot.style.background = 'var(--success)';
+  }
+}
+
+// ===== CASE REFERENCE =====
+function showCaseReference(sectionId) {
+  const ref = document.getElementById(`case-ref-${sectionId}`);
+  ref.classList.add('show');
+}
+
+// ===== MARKDOWN GENERATION =====
+function generateMarkdown(sectionId) {
+  const section = sections.find(s => s.id === sectionId);
+  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
+  const repInput = document.querySelector(`input[data-rep-section="${sectionId}"]`);
+  const group = groupSelect.value;
+  const rep = repInput.value || '未填写';
+  
+  if (!group) {
+    showToast('请选择组号', 'error');
+    return;
+  }
+  
+  // 收集选择题答案
+  let quizAnswers = '';
+  section.quiz.forEach((q, qi) => {
+    const userAns = selectedAnswers[sectionId][qi];
+    const labels = ['A', 'B', 'C', 'D'];
+    if (userAns !== undefined) {
+      quizAnswers += `${qi + 1}. **${labels[userAns]}** - ${q.options[userAns]}\n`;
+    } else {
+      quizAnswers += `${qi + 1}. 未作答\n`;
+    }
+  });
+  
+  // 收集案例分析答案
+  let caseAnswers = '';
+  const caseTextareas = document.querySelectorAll(`textarea[data-case="${sectionId}"]`);
+  caseTextareas.forEach(ta => {
+    const qNum = ta.getAttribute('data-q');
+    const val = ta.value.trim() || '（未填写）';
+    caseAnswers += `**问题${qNum}：**\n${val}\n\n`;
+  });
+  
+  const md = `# Lesson 5 · 板块${sectionId}：${section.name} - ${section.subtitle}
+
+## 小组信息
+- **组别**：${group}
+- **小组代表**：${rep}
+- **提交时间**：${new Date().toLocaleString('zh-CN')}
+
+---
+
+## 选择题答案
+
+${quizAnswers}
+---
+
+## 案例分析
+
+${caseAnswers}
+---
+
+*由涌现90天Lesson 5交互作业系统生成*`;
+  
+  document.getElementById(`md-output-${sectionId}`).value = md;
+  showToast('Markdown已生成', 'success');
+}
+
+function copyMarkdown(sectionId) {
+  const output = document.getElementById(`md-output-${sectionId}`);
+  if (!output.value) {
+    showToast('请先生成答案', 'error');
+    return;
+  }
+  
+  output.select();
+  document.execCommand('copy');
+  showToast('已复制到剪贴板', 'success');
+}
+
+// ===== GITHUB SUBMISSION =====
+function getToken() {
+  return localStorage.getItem('github_token') || '';
+}
+
+function saveToken() {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) {
+    showToast('请输入Token', 'error');
+    return;
+  }
+  localStorage.setItem('github_token', token);
+  closeTokenModal();
+  checkTokenStatus();
+  showToast('Token已保存', 'success');
+}
+
+function checkTokenStatus() {
+  const token = getToken();
+  document.querySelectorAll('#tokenStatus').forEach(el => {
+    el.textContent = token ? '✓ Token已设置' : '设置GitHub Token';
+  });
+}
+
+function openTokenModal() {
+  document.getElementById('tokenInput').value = getToken();
+  document.getElementById('tokenModal').classList.add('show');
+}
+
+function closeTokenModal() {
+  document.getElementById('tokenModal').classList.remove('show');
+}
+
+async function submitToGithub(sectionId) {
+  const token = getToken();
+  if (!token) {
+    openTokenModal();
+    showToast('请先设置GitHub Token', 'error');
+    return;
+  }
+  
+  const output = document.getElementById(`md-output-${sectionId}`);
+  if (!output.value) {
+    showToast('请先生成答案', 'error');
+    return;
+  }
+  
+  const section = sections.find(s => s.id === sectionId);
+  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
+  const group = groupSelect.value;
+  const date = new Date().toISOString().split('T')[0];
+  const title = `[Lesson5] ${group} - 板块${sectionId}：${section.name}`;
+  const body = output.value;
+  
+  try {
+    showToast('正在提交...', '');
+    const response = await fetch('https://api.github.com/repos/mricemelab-blip/evidence-literature-db/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: title,
+        body: body,
+        labels: ['lesson5', 'homework', `section-${sectionId}`]
+      })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      showToast('提交成功！', 'success');
+      // 打开新窗口查看
+      window.open(data.html_url, '_blank');
+    } else {
+      const err = await response.json();
+      showToast(`提交失败：${err.message || '未知错误'}`, 'error');
+    }
+  } catch (e) {
+    showToast(`网络错误：${e.message}`, 'error');
+  }
+}
+
+// ===== SCROLL PROGRESS =====
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  });
+}
+
+// ===== TOAST =====
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+
+// ===== PERSISTENCE =====
+function saveAnswers() {
+  try {
+    localStorage.setItem('lesson5_answers', JSON.stringify(selectedAnswers));
+  } catch (e) {}
+}
+
+function loadSavedAnswers() {
+  try {
+    const saved = localStorage.getItem('lesson5_answers');
+    if (saved) {
+      const data = JSON.parse(saved);
+      Object.keys(data).forEach(sectionId => {
+        const sid = parseInt(sectionId);
+        if (selectedAnswers[sid]) {
+          selectedAnswers[sid] = data[sid];
+          // 恢复选中状态
+          Object.keys(data[sid]).forEach(qi => {
+            const quizIndex = parseInt(qi);
+            const optIndex = data[sid][qi];
+            const quizCard = document.getElementById(`quiz-${sid}-${quizIndex}`);
+            if (quizCard) {
+              const options = quizCard.querySelectorAll('.quiz-option');
+              if (options[optIndex]) {
+                options[optIndex].classList.add('selected');
+              }
+            }
+          });
+        }
+      });
+    }
+    
+    const revealed = localStorage.getItem('lesson5_revealed');
+    if (revealed) {
+      const arr = JSON.parse(revealed);
+      arr.forEach(sid => {
+        if (!revealedSections.has(sid)) {
+          revealAnswers(sid);
+        }
+      });
+    }
+  } catch (e) {}
+}
+
+// 保存已揭晓状态
+const _origReveal = revealAnswers;
+revealAnswers = function(sectionId) {
+  _origReveal(sectionId);
+  try {
+    localStorage.setItem('lesson5_revealed', JSON.stringify([...revealedSections]));
+  } catch (e) {}
+};
+
+// ===== DOWNLOAD HOMEWORK =====
+function downloadHomework() {
+  let content = `# Lesson 5 作业：表象之下——功能由隐藏的结构决定
+
+\n> 涌现90天 · 作业册\n> 说明：本作业包含5个板块，请在小组讨论后完成。答案将在讨论后揭晓。\n\n`;
+  
+  sections.forEach(s => {
+    content += `\n---\n\n## 板块${s.id}：${s.name}——${s.subtitle}\n\n`;
+    content += `### 一、核心知识点（翻转卡片自查）\n\n`;
+    s.knowledge.forEach((k, i) => {
+      content += `${i + 1}. **${k.q}**\n   - （翻转卡片查看答案）\n\n`;
+    });
+    content += `### 二、选择题\n\n`;
+    const labels = ['A', 'B', 'C', 'D'];
+    s.quiz.forEach((q, qi) => {
+      content += `**${qi + 1}. ${q.q}**\n\n`;
+      q.options.forEach((opt, oi) => {
+        content += `  ${labels[oi]}. ${opt}\n`;
+      });
+      content += `\n你的答案：___________\n\n`;
+    });
+    content += `### 三、案例分析\n\n`;
+    content += `（请在小组讨论后填写）\n\n`;
+    content += `1. \n\n   你的回答：\n\n   \n\n`;
+    content += `2. \n\n   你的回答：\n\n   \n\n`;
+    if (s.id !== 2) {
+      content += `3. \n\n   你的回答：\n\n   \n\n`;
+    }
+  });
+  
+  content += `\n---\n\n*涌现90天 · Lesson 5 作业册*\n`;
+  
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Lesson5_作业.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showToast('作业文件已下载', 'success');
+}
+
+// ===== MODAL CLOSE ON OUTSIDE CLICK =====
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+    }
+  });
+});
+
+// ===== ESC KEY =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+  }
+});
+</script>
+
+</body>
+</html>
