@@ -1035,47 +1035,6 @@ a:hover { color: #d4b372; }
       </div>
     </div>
 
-    <!-- Group Submission -->
-    <div class="group-submit" id="group-1">
-      <div class="group-submit-header">
-        <div class="group-submit-icon">📝</div>
-        <div>
-          <div class="group-submit-title">小组答案提交</div>
-          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
-        </div>
-      </div>
-      <div class="group-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">组号</label>
-            <select class="form-select" data-group-section="1">
-              <option value="">选择小组</option>
-              <option value="第1组">第1组</option>
-              <option value="第2组">第2组</option>
-              <option value="第3组">第3组</option>
-              <option value="第4组">第4组</option>
-              <option value="第5组">第5组</option>
-              <option value="第6组">第6组</option>
-              <option value="第7组">第7组</option>
-              <option value="第8组">第8组</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">小组代表</label>
-            <input type="text" class="form-input" data-rep-section="1" placeholder="输入代表姓名">
-          </div>
-        </div>
-        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(1)">生成Markdown答案</button>
-        <textarea class="markdown-output" id="md-output-1" readonly placeholder="点击上方按钮生成答案..."></textarea>
-        <div class="submit-actions">
-          <button class="btn btn-ghost" onclick="copyMarkdown(1)">复制文本</button>
-          <button class="btn btn-primary" onclick="submitToGithub(1)">提交到GitHub</button>
-        </div>
-        <div class="token-setup" onclick="openTokenModal()">
-          <span>⚙️</span> <span id="tokenStatus">设置GitHub Token</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1144,46 +1103,6 @@ a:hover { color: #d4b372; }
       </div>
     </div>
 
-    <div class="group-submit" id="group-2">
-      <div class="group-submit-header">
-        <div class="group-submit-icon">📝</div>
-        <div>
-          <div class="group-submit-title">小组答案提交</div>
-          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
-        </div>
-      </div>
-      <div class="group-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">组号</label>
-            <select class="form-select" data-group-section="2">
-              <option value="">选择小组</option>
-              <option value="第1组">第1组</option>
-              <option value="第2组">第2组</option>
-              <option value="第3组">第3组</option>
-              <option value="第4组">第4组</option>
-              <option value="第5组">第5组</option>
-              <option value="第6组">第6组</option>
-              <option value="第7组">第7组</option>
-              <option value="第8组">第8组</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">小组代表</label>
-            <input type="text" class="form-input" data-rep-section="2" placeholder="输入代表姓名">
-          </div>
-        </div>
-        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(2)">生成Markdown答案</button>
-        <textarea class="markdown-output" id="md-output-2" readonly placeholder="点击上方按钮生成答案..."></textarea>
-        <div class="submit-actions">
-          <button class="btn btn-ghost" onclick="copyMarkdown(2)">复制文本</button>
-          <button class="btn btn-primary" onclick="submitToGithub(2)">提交到GitHub</button>
-        </div>
-        <div class="token-setup" onclick="openTokenModal()">
-          <span>⚙️</span> <span>设置GitHub Token</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1257,46 +1176,6 @@ a:hover { color: #d4b372; }
       </div>
     </div>
 
-    <div class="group-submit" id="group-3">
-      <div class="group-submit-header">
-        <div class="group-submit-icon">📝</div>
-        <div>
-          <div class="group-submit-title">小组答案提交</div>
-          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
-        </div>
-      </div>
-      <div class="group-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">组号</label>
-            <select class="form-select" data-group-section="3">
-              <option value="">选择小组</option>
-              <option value="第1组">第1组</option>
-              <option value="第2组">第2组</option>
-              <option value="第3组">第3组</option>
-              <option value="第4组">第4组</option>
-              <option value="第5组">第5组</option>
-              <option value="第6组">第6组</option>
-              <option value="第7组">第7组</option>
-              <option value="第8组">第8组</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">小组代表</label>
-            <input type="text" class="form-input" data-rep-section="3" placeholder="输入代表姓名">
-          </div>
-        </div>
-        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(3)">生成Markdown答案</button>
-        <textarea class="markdown-output" id="md-output-3" readonly placeholder="点击上方按钮生成答案..."></textarea>
-        <div class="submit-actions">
-          <button class="btn btn-ghost" onclick="copyMarkdown(3)">复制文本</button>
-          <button class="btn btn-primary" onclick="submitToGithub(3)">提交到GitHub</button>
-        </div>
-        <div class="token-setup" onclick="openTokenModal()">
-          <span>⚙️</span> <span>设置GitHub Token</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1370,46 +1249,6 @@ a:hover { color: #d4b372; }
       </div>
     </div>
 
-    <div class="group-submit" id="group-4">
-      <div class="group-submit-header">
-        <div class="group-submit-icon">📝</div>
-        <div>
-          <div class="group-submit-title">小组答案提交</div>
-          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
-        </div>
-      </div>
-      <div class="group-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">组号</label>
-            <select class="form-select" data-group-section="4">
-              <option value="">选择小组</option>
-              <option value="第1组">第1组</option>
-              <option value="第2组">第2组</option>
-              <option value="第3组">第3组</option>
-              <option value="第4组">第4组</option>
-              <option value="第5组">第5组</option>
-              <option value="第6组">第6组</option>
-              <option value="第7组">第7组</option>
-              <option value="第8组">第8组</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">小组代表</label>
-            <input type="text" class="form-input" data-rep-section="4" placeholder="输入代表姓名">
-          </div>
-        </div>
-        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(4)">生成Markdown答案</button>
-        <textarea class="markdown-output" id="md-output-4" readonly placeholder="点击上方按钮生成答案..."></textarea>
-        <div class="submit-actions">
-          <button class="btn btn-ghost" onclick="copyMarkdown(4)">复制文本</button>
-          <button class="btn btn-primary" onclick="submitToGithub(4)">提交到GitHub</button>
-        </div>
-        <div class="token-setup" onclick="openTokenModal()">
-          <span>⚙️</span> <span>设置GitHub Token</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1483,46 +1322,6 @@ a:hover { color: #d4b372; }
       </div>
     </div>
 
-    <div class="group-submit" id="group-5">
-      <div class="group-submit-header">
-        <div class="group-submit-icon">📝</div>
-        <div>
-          <div class="group-submit-title">小组答案提交</div>
-          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
-        </div>
-      </div>
-      <div class="group-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">组号</label>
-            <select class="form-select" data-group-section="5">
-              <option value="">选择小组</option>
-              <option value="第1组">第1组</option>
-              <option value="第2组">第2组</option>
-              <option value="第3组">第3组</option>
-              <option value="第4组">第4组</option>
-              <option value="第5组">第5组</option>
-              <option value="第6组">第6组</option>
-              <option value="第7组">第7组</option>
-              <option value="第8组">第8组</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">小组代表</label>
-            <input type="text" class="form-input" data-rep-section="5" placeholder="输入代表姓名">
-          </div>
-        </div>
-        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(5)">生成Markdown答案</button>
-        <textarea class="markdown-output" id="md-output-5" readonly placeholder="点击上方按钮生成答案..."></textarea>
-        <div class="submit-actions">
-          <button class="btn btn-ghost" onclick="copyMarkdown(5)">复制文本</button>
-          <button class="btn btn-primary" onclick="submitToGithub(5)">提交到GitHub</button>
-        </div>
-        <div class="token-setup" onclick="openTokenModal()">
-          <span>⚙️</span> <span>设置GitHub Token</span>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1562,6 +1361,56 @@ a:hover { color: #d4b372; }
     </div>
   </div>
 </section>
+
+<!-- ===== 最终统一提交 ===== -->
+<section style="padding: clamp(48px, 7vw, 80px) 0; background: var(--bg-surface);">
+  <div class="container">
+    <div style="max-width: 700px; margin: 0 auto;">
+      <div style="text-align:center; margin-bottom: 2rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+        <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">最终提交</h2>
+        <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7;">完成全部5个板块后，一次性生成整组答案并提交到GitHub。</p>
+      </div>
+
+      <div style="background: var(--card); border-radius: 16px; padding: 2rem; border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">组号</label>
+            <select id="final-group" style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--bg); color: var(--text-primary); font-size: 1rem;">
+              <option value="">请选择组号</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">小组代表</label>
+            <input type="text" id="final-rep" placeholder="输入代表姓名" style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--bg); color: var(--text-primary); font-size: 1rem; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <button onclick="generateAllMarkdown()" style="width: 100%; padding: 1rem; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: #fff; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-bottom: 1rem;">生成全部答案</button>
+
+        <textarea id="md-output-all" readonly placeholder="点击上方按钮生成完整答案..." style="width: 100%; min-height: 250px; padding: 1rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--bg); color: var(--text-primary); font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6; resize: vertical; box-sizing: border-box;"></textarea>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+          <button onclick="copyAllMarkdown()" style="flex: 1; padding: 0.75rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: var(--text-secondary); font-size: 0.95rem; cursor: pointer;">复制文本</button>
+          <button onclick="submitAllToGithub()" style="flex: 2; padding: 0.75rem; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 0.95rem; font-weight: 600; cursor: pointer;">提交到GitHub</button>
+        </div>
+
+        <div onclick="openTokenModal()" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--text-muted); font-size: 0.85rem;">
+          <span>⚙️</span> <span id="tokenStatusFinal">设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <footer class="site-footer">
@@ -2119,111 +1968,63 @@ function showCaseReference(sectionId) {
   ref.classList.add('show');
 }
 
-// ===== MARKDOWN GENERATION =====
-function generateMarkdown(sectionId) {
-  const section = sections.find(s => s.id === sectionId);
-  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
-  const repInput = document.querySelector(`input[data-rep-section="${sectionId}"]`);
-  const group = groupSelect.value;
-  const rep = repInput.value || '未填写';
+// ===== COMBINED MARKDOWN GENERATION =====
+function generateAllMarkdown() {
+  const group = document.getElementById('final-group').value;
+  const rep = document.getElementById('final-rep').value || '未填写';
   
   if (!group) {
     showToast('请选择组号', 'error');
     return;
   }
   
-  // 收集选择题答案
-  let quizAnswers = '';
-  section.quiz.forEach((q, qi) => {
-    const userAns = selectedAnswers[sectionId][qi];
-    const labels = ['A', 'B', 'C', 'D'];
-    if (userAns !== undefined) {
-      quizAnswers += `${qi + 1}. **${labels[userAns]}** - ${q.options[userAns]}\n`;
-    } else {
-      quizAnswers += `${qi + 1}. 未作答\n`;
-    }
+  let fullMd = `# Lesson 5 · 小组讨论完整答案\n\n`;
+  fullMd += `## 小组信息\n- **组别**：${group}\n- **小组代表**：${rep}\n- **提交时间**：${new Date().toLocaleString('zh-CN')}\n\n`;
+  fullMd += `---\n\n`;
+  
+  sections.forEach(section => {
+    fullMd += `## 板块${section.id}：${section.name} - ${section.subtitle}\n\n`;
+    
+    // Quiz answers
+    fullMd += `### 选择题\n`;
+    section.quiz.forEach((q, qi) => {
+      const labels = ['A', 'B', 'C', 'D'];
+      const userAns = selectedAnswers[section.id] ? selectedAnswers[section.id][qi] : undefined;
+      const ansText = (userAns !== undefined) ? `${labels[userAns]} - ${q.options[userAns]}` : '未作答';
+      fullMd += `${qi + 1}. **${ansText}**\n`;
+    });
+    fullMd += `\n`;
+    
+    // Case analysis answers
+    fullMd += `### 案例分析\n`;
+    const caseTextareas = document.querySelectorAll(`textarea[data-case="${section.id}"]`);
+    caseTextareas.forEach(ta => {
+      const qNum = ta.getAttribute('data-q');
+      const val = ta.value.trim() || '（未填写）';
+      fullMd += `**问题${qNum}：**\n${val}\n\n`;
+    });
+    
+    fullMd += `---\n\n`;
   });
   
-  // 收集案例分析答案
-  let caseAnswers = '';
-  const caseTextareas = document.querySelectorAll(`textarea[data-case="${sectionId}"]`);
-  caseTextareas.forEach(ta => {
-    const qNum = ta.getAttribute('data-q');
-    const val = ta.value.trim() || '（未填写）';
-    caseAnswers += `**问题${qNum}：**\n${val}\n\n`;
-  });
+  fullMd += `*由涌现90天 Lesson 5 交互作业系统生成*`;
   
-  const md = `# Lesson 5 · 板块${sectionId}：${section.name} - ${section.subtitle}
-
-## 小组信息
-- **组别**：${group}
-- **小组代表**：${rep}
-- **提交时间**：${new Date().toLocaleString('zh-CN')}
-
----
-
-## 选择题答案
-
-${quizAnswers}
----
-
-## 案例分析
-
-${caseAnswers}
----
-
-*由涌现90天Lesson 5交互作业系统生成*`;
-  
-  document.getElementById(`md-output-${sectionId}`).value = md;
-  showToast('Markdown已生成', 'success');
+  document.getElementById('md-output-all').value = fullMd;
+  showToast('全部答案已生成', 'success');
 }
 
-function copyMarkdown(sectionId) {
-  const output = document.getElementById(`md-output-${sectionId}`);
+function copyAllMarkdown() {
+  const output = document.getElementById('md-output-all');
   if (!output.value) {
     showToast('请先生成答案', 'error');
     return;
   }
-  
   output.select();
   document.execCommand('copy');
   showToast('已复制到剪贴板', 'success');
 }
 
-// ===== GITHUB SUBMISSION =====
-function getToken() {
-  return localStorage.getItem('github_token') || '';
-}
-
-function saveToken() {
-  const token = document.getElementById('tokenInput').value.trim();
-  if (!token) {
-    showToast('请输入Token', 'error');
-    return;
-  }
-  localStorage.setItem('github_token', token);
-  closeTokenModal();
-  checkTokenStatus();
-  showToast('Token已保存', 'success');
-}
-
-function checkTokenStatus() {
-  const token = getToken();
-  document.querySelectorAll('#tokenStatus').forEach(el => {
-    el.textContent = token ? '✓ Token已设置' : '设置GitHub Token';
-  });
-}
-
-function openTokenModal() {
-  document.getElementById('tokenInput').value = getToken();
-  document.getElementById('tokenModal').classList.add('show');
-}
-
-function closeTokenModal() {
-  document.getElementById('tokenModal').classList.remove('show');
-}
-
-async function submitToGithub(sectionId) {
+async function submitAllToGithub() {
   const token = getToken();
   if (!token) {
     openTokenModal();
@@ -2231,17 +2032,15 @@ async function submitToGithub(sectionId) {
     return;
   }
   
-  const output = document.getElementById(`md-output-${sectionId}`);
+  const output = document.getElementById('md-output-all');
   if (!output.value) {
     showToast('请先生成答案', 'error');
     return;
   }
   
-  const section = sections.find(s => s.id === sectionId);
-  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
-  const group = groupSelect.value;
+  const group = document.getElementById('final-group').value;
   const date = new Date().toISOString().split('T')[0];
-  const title = `[Lesson5] ${group} - 板块${sectionId}：${section.name}`;
+  const title = `[Lesson5] ${group} - 完整讨论答案 (${date})`;
   const body = output.value;
   
   try {
@@ -2256,14 +2055,13 @@ async function submitToGithub(sectionId) {
       body: JSON.stringify({
         title: title,
         body: body,
-        labels: ['lesson5', 'homework', `section-${sectionId}`]
+        labels: ['lesson5', 'homework', 'combined-submission']
       })
     });
     
     if (response.ok) {
       const data = await response.json();
       showToast('提交成功！', 'success');
-      // 打开新窗口查看
       window.open(data.html_url, '_blank');
     } else {
       const err = await response.json();
