@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识改变力量，力量重塑人生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #070709;
+  --bg-card: #111115;
+  --bg-card-hover: #18181E;
+  --bg-elevated: #1A1A22;
+  --accent: #C8A45E;
+  --accent-dim: #8A7040;
+  --accent-glow: rgba(200,164,94,0.15);
+  --text-primary: #E8E6E3;
+  --text-secondary: #9A9898;
+  --text-muted: #6B6969;
+  --border: #1E1E24;
+  --border-light: #2A2A32;
+  --tier1-bg: rgba(200,164,94,0.04);
+  --tier1-border: rgba(200,164,94,0.2);
+  --grade-high: #4CAF50;
+  --grade-mod: #FF9800;
+  --grade-low: #F44336;
+  --grade-vlow: #9C27B0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  padding: 80px 24px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,164,94,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  padding: 6px 18px;
+  margin-bottom: 32px;
+  font-weight: 500;
+}
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-num {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.hero-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* ===== SEARCH ===== */
+.search-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+.search-box {
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 18px 24px 18px 52px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: 'Noto Sans SC', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-box input:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+/* ===== FILTERS ===== */
+.filters-section {
+  max-width: 1400px;
+  margin: 40px auto 0;
+  padding: 0 24px;
+}
+.filters-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: 'Noto Sans SC', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.filter-btn:hover {
+  border-color: var(--accent-dim);
+  color: var(--text-primary);
+}
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 500;
+}
+.filter-btn .count {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* Tier toggle */
+.tier-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+.tier-btn {
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+.tier-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* ===== RESULTS ===== */
+.results-section {
+  max-width: 1400px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.results-count {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.results-count span {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Cards grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.card.tier1 {
+  background: var(--tier1-bg);
+  border-color: var(--tier1-border);
+}
+.card.tier1:hover {
+  border-color: var(--accent-dim);
+  box-shadow: 0 8px 32px rgba(200,164,94,0.08);
+}
+.card.tier1::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.card-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--text-primary);
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-tier-badge {
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.card-tier-badge.t1 {
+  background: var(--accent);
+  color: #000;
+}
+.card-tier-badge.t2 {
+  background: var(--border-light);
+  color: var(--text-secondary);
+}
+
+.card-conclusion {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.card-meta-item {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.card-meta-item.grade {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.grade-high { background: rgba(76,175,80,0.15); color: var(--grade-high); }
+.grade-mod { background: rgba(255,152,0,0.15); color: var(--grade-mod); }
+.grade-low { background: rgba(244,67,54,0.15); color: var(--grade-low); }
+.grade-vlow { background: rgba(156,39,176,0.15); color: var(--grade-vlow); }
+.grade-unknown { background: var(--border); color: var(--text-muted); }
+
+.card-category {
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.card-expand-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 40px 24px;
+}
+.modal-overlay.active {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.modal-content {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 20px; right: 24px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s;
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.modal-close:hover {
+  color: var(--text-primary);
+  background: var(--border);
+}
+
+.modal-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  padding-right: 40px;
+}
+.modal-title-en {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  font-style: italic;
+}
+.modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.modal-badge {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.modal-section {
+  margin-bottom: 28px;
+}
+.modal-section-title {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.modal-section-content {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.modal-section-content p {
+  margin-bottom: 8px;
+}
+.modal-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13px;
+}
+.modal-data-table th,
+.modal-data-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.modal-data-table th {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.modal-data-table td {
+  color: var(--text-secondary);
+}
+.modal-doi {
+  font-size: 13px;
+  color: var(--accent-dim);
+  word-break: break-all;
+}
+.modal-doi a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.modal-doi a:hover {
+  text-decoration: underline;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 60px 24px 40px;
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+}
+.footer-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 2;
+}
+.footer-brand {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--accent-dim);
+  margin-bottom: 8px;
+}
+
+/* ===== NO RESULTS ===== */
+.no-results {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--text-muted);
+}
+.no-results-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+.no-results-text {
+  font-size: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero { padding: 60px 16px 40px; }
+  .hero h1 { font-size: 24px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-num { font-size: 28px; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .modal-content { padding: 24px; }
+  .modal-title { font-size: 18px; }
+  .filters-row { gap: 6px; }
+  .filter-btn { padding: 6px 12px; font-size: 12px; }
+}
+
+/* ===== SCROLL ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* highlight */
+mark {
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">EVIDENCE-BASED LITERATURE DATABASE</div>
+  <h1>知识改变力量<br>力量重塑人生</h1>
+  <p class="hero-sub">
+    基于循证医学标准的文献数据库。每一篇解读都经过严格的方法学审查，<br>
+    为训练者和普通人提供可信赖的科学结论。
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num" id="stat-total">227</div>
+      <div class="hero-stat-label">篇文献</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num" id="stat-t1">93</div>
+      <div class="hero-stat-label">深度解读</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num" id="stat-categories">0</div>
+      <div class="hero-stat-label">知识领域</div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="search-box">
+      <span class="search-icon">&#x1F50D;</span>
+      <input type="text" id="search-input" placeholder="搜索文献标题、作者、结论、关键词..." autocomplete="off">
+    </div>
+  </div>
+</section>
+
+<!-- FILTERS -->
+<section class="filters-section">
+  <div class="filters-label">证据层级</div>
+  <div class="tier-toggle">
+    <button class="tier-btn active" data-tier="all">全部</button>
+    <button class="tier-btn" data-tier="1">&#x2726; 深度解读</button>
+    <button class="tier-btn" data-tier="2">元数据卡</button>
+  </div>
+
+  <div class="filters-label" style="margin-top:24px">知识领域</div>
+  <div class="filters-row" id="category-filters">
+    <!-- Generated dynamically -->
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section">
+  <div class="results-header">
+    <div class="results-count">
+      显示 <span id="results-showing">227</span> / 227 篇文献
+    </div>
+  </div>
+  <div class="cards-grid" id="cards-grid">
+    <!-- Generated dynamically -->
+  </div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="no-results-icon">&#x1F50E;</div>
+    <div class="no-results-text">未找到匹配的文献</div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">知识改变力量，力量重塑人生</div>
+  <div class="footer-text">
+    所有文献解读基于循证医学标准，GRADE 证据等级经独立审查<br>
+    持续更新中 &middot; 最后更新 2026年8月25日
+  </div>
+</footer>
+
+<script>
+// ===== DATA (will be replaced by build script) =====
+const LITERATURE_DATA = [{"id":"H-154","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-22_累积AIP暴露与心力衰竭风险文献解读.md","title_en":"Relationship Between the Cumulative Atherogenic Index of Plasma Exposure and Incident Heart Failure: The Kailuan Study","title_cn":"累积血浆致动脉硬化指数暴露与新发心力衰竭的关系：开滦研究","authors":"Tian et al.","year":2026,"journal":"International Heart Journal","doi":"10.1536/ihj.25-412","pmid":null,"type":"前瞻性队列研究","sample":"57,156名参与者","grade":"⊕⊕⊕◯ 中","category":"健康-心血管","date":"2026-06-22","question":"评估累积AIP暴露和高AIP暴露持续时间与新发心力衰竭风险的关系","conclusion":"累积AIP越高，心衰风险越大，持续时间越长风险越高","mechanism":null,"key_data":"效应量=1.77, 95%CI [1.51, 2.07]","implication":"有氧运动的价值："},{"id":"H-157","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-03_Shen2026_运动干预代谢综合征NMA_文献解读.md","title_en":"Comparative Efficacy of Various Exercise Therapies for Metabolic Syndrome: A Systematic Review and Network Meta-Analysis","title_cn":"不同运动疗法对代谢综合征的比较效力：系统综述与网状荟萃分析（Network Meta-Analysis, NMA）","authors":"Shen et al.","year":2026,"journal":"iScience","doi":"10.1016/j.isci.2026.116801","pmid":null,"type":"NMA","sample":"53项随机对照试验（RCT），共2,948名受试者；52项研究进入NMA","grade":"⊕⊕○○ 中","category":"健康-代谢","date":"2026-08-03","question":"核心问题：在确诊代谢综合征（Metabolic Syndrome, MetS）的成人中，10种不同运动干预方式对代谢综合征各项组分指标（BMI、体脂率、腰围、血脂四项、血压两项、空腹血糖）的比较效力如何？哪种运动方式对哪个指标最优？","conclusion":"在多个指标上方向一致且SUCRA排名区分度较高（如TCE对SBP 99.1%、HDL-C 95.6%）","mechanism":null,"key_data":"数据点1：AT+RT降低空腹血糖 MD = −0.47 mmol/L（95%CI: −0.76 to −0.17）——在10种运动模态中排名最优，SUCRA概率79.9%。（出处：Medscape报道原文引述，与iScience论文Table数据一致）","implication":null},{"id":"H-22","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Wang2026_网络正念GAD_RCT_JMIR_H22.md","title_en":"Self-guided internet-based mindfulness-informed stress management for generalized anxiety disorder: a randomized controlled trial with longitudinal network analysis","title_cn":"自助式网络正念压力管理治疗广泛性焦虑障碍：一项带纵向网络分析的随机对照试验","authors":"Wang et al.","year":2026,"journal":"Journal of Medical Internet Research","doi":"10.2196/91751","pmid":null,"type":"RCT","sample":"140名GAD患者","grade":null,"category":"心理-抑郁焦虑","date":"2026-06-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"H-23","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Takezawa2026_正念HRV_mHealth_JMIR_H23.md","title_en":"Daily stress and heart rate variability in mindfulness meditators: an mHealth observational study","title_cn":"正念冥想练习者的日常压力与心率变异性：一项mHealth观察性研究","authors":"Takezawa et al.","year":2026,"journal":"Journal of Medical Internet Research","doi":"10.2196/78244","pmid":null,"type":"观察性研究","sample":"90人（正念练习者 vs 对照组）","grade":null,"category":"心理-抑郁焦虑","date":"2026-06-27","question":null,"conclusion":null,"mechanism":"- 心率变异性（HRV）与情绪调节","key_data":null,"implication":null},{"id":"H-24","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Shirzad2026_咖啡因运动心理疲劳_PLOSONE_H24.md","title_en":"Differential effects of caffeine, acute aerobic exercise, and placebo on mental fatigue","title_cn":"咖啡因、急性有氧运动与安慰剂对心理疲劳的差异效应","authors":"Shirzad et al.","year":2026,"journal":"PLOS ONE","doi":"10.1371/journal.pone.0348279","pmid":null,"type":"RCT","sample":"26名健康成年人","grade":null,"category":"心理-抑郁焦虑","date":"2026-06-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"H-25","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-02_Li2026_复合维生素表观遗传衰老_文献解读.md","title_en":null,"title_cn":"每日复合维生素-矿物质与可可提取物补充对表观遗传衰老时钟的影响：COSMOS随机临床试验2年结果","authors":"Li et al.","year":2026,"journal":"Nature Medicine","doi":"10.1038/s41591-026-04239-3","pmid":"41803341","type":"RCT","sample":null,"grade":"⊕⊕⊕◯ 中","category":"营养-补剂","date":"2026-07-02","question":null,"conclusion":"每日一片复合维生素（善存银片）可在2年内轻微但统计显著地减缓老年人的表观遗传衰老速度（第二代时钟），基线生物学...","mechanism":null,"key_data":null,"implication":"不要神话复合维生素：MVM的抗衰老效应非常微弱（2年约4个月），远不及规律运动、充足睡眠、健康饮食的作用。它是\"锦上添花\"的补充，不是\"抗衰老神药\"。"},{"id":"H-26","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-11_Li2026_器官生物年龄_文献解读.md","title_en":"Effect of caloric restriction on organ-specific biological aging in a randomized clinical trial","title_cn":null,"authors":"Li et al.","year":2026,"journal":"Clinical Nutrition，Elsevier出版，","doi":"10.1016/j.clnu.2026.106625","pmid":"41895150","type":"RCT","sample":null,"grade":"⊕⊕⊕◯ 中","category":"健康","date":"2026-07-11","question":"核心问题：2 年持续 25% 热量限制（Caloric Restriction, CR）在健康非肥胖成人中，对多个生理系统的器官特异性生物年龄（Organ-Specific Biological Age）产生什么影响？是否存在器官层面的异质性？","conclusion":null,"mechanism":null,"key_data":"量（CR vs AL 生物年龄变化的组间差）","implication":null},{"id":"H-27","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-16_Bu2026_运动干预失眠_NMA_文献解读.md","title_en":"Effects of various exercise interventions in insomnia patients: a systematic review and network meta-analysis","title_cn":"不同运动干预对失眠患者疗效的系统综述与网状荟萃分析","authors":"Bu et al.","year":2026,"journal":"BMJ Evidence-Based Medicine","doi":"10.1136/bmjebm-2024-113512","pmid":"40664502","type":"NMA","sample":"1,348 例失眠患者（22 RCT，13 干预节点）","grade":"⊕⊕○○ 低","category":"心理-抑郁焦虑","date":"2026-07-16","question":null,"conclusion":"（瑜伽总睡眠时间获益最大）可信度中等，但仅此 1 项；其他运动干预（太极、步行 / 慢跑）整体证据确定性为低-极低","mechanism":null,"key_data":null,"implication":null},{"id":"H-46","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-25_Siu2026_间歇快走频率_RCT_H46_文献解读.md","title_en":"Once and thrice weekly interval training in adults with central obesity: a randomized controlled trial","title_cn":"中心性肥胖成人中每周一次与每周三次间歇训练比较：一项随机对照试验","authors":"Siu et al.","year":2026,"journal":"Nature Communications","doi":"10.1038/s41467-025-68149-7","pmid":"41519797","type":"RCT","sample":"315 名（n=105 / 组）","grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-25","question":"总周量相同时，每周一次 HIIT（\"周末战士\"模式，H1）是否与每周三次 HIIT（H3）效果相当？ 专门回答\"中心性肥胖人群中训练频率 vs 总剂量\"这一独立循证问题。","conclusion":"形成重要分层——总量相当的间歇快走，对内脏脂肪仍需要一定频率（≥3 次/周）才能显著减少","mechanism":null,"key_data":null,"implication":"核心启示：\"总周量 + 单次强度\"是决定训练效果的核心因素，\"频率\"是灵活变量——这一发现颠覆了\"必须每周 3 次训练\"的传统教条。"},{"id":"H-53","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-28_Ekelund2026_5minMVPA_IPDMA_H53_文献解读.md","title_en":"Deaths potentially averted by small changes in physical activity and sedentary time: an individual participant data meta-analysis of prospective cohort studies","title_cn":"身体活动与久坐行为小幅、现实性改变可避免的死亡：一项前瞻性队列研究的个体参与者数据 Meta 分析","authors":"Ekelund et al.","year":2026,"journal":"The Lancet 407:339-349","doi":"10.1016/S0140-6736(25)02219-6","pmid":"41544645","type":"SR/MA/IPD MA","sample":null,"grade":"⊕⊕⊕○ 中","category":"大健康","date":"2026-07-28","question":null,"conclusion":"是稳健的，可外推至同类高收入国家成年人群","mechanism":null,"key_data":"1：5 min/天 MVPA 增加避免 6.0-10.0% 全因死亡","implication":"每天 5 分钟的零散 MVPA 有真实价值——即使在已有完整训练计划的人身上，额外的 5 min 快走/骑车/跳绳/爬楼梯仍有叠加效应"},{"id":"H-58","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-10_He2026_等长收缩PAPE三级MA_H58_文献解读.md","title_en":"From Populations to Programming Variables: Post-Activation Performance Enhancement Following Isometric Contractions on Muscular Strength and Power—A Systematic Review and Meta-Analysis","title_cn":null,"authors":"University et al.","year":2026,"journal":"European Journal of Sport Science，","doi":"10.1002/ejsc.70183","pmid":"42157573","type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"训练-爆发力","date":"2026-08-10","question":"等长收缩（Isometric Contraction, ISO）作为条件活动（Conditioning Activity, CA）能否有效诱发激活后表现增强（Post-Activation Performance Enhancement, PAPE）？如果有效，哪些参与者特征和方案参数与更大的 PAPE 效应相关？","conclusion":"等长 PAPE 对纵跳有效但效应小，对力量和功率无效","mechanism":"2. 三级荟萃分析的方法学意义","key_data":"> 数据点 1：ISO vs CON 纵跳高度 ES = 0.349（p < 0.01）——等长收缩作为 CA 对纵跳有显著小效应。原文来源：PubMed 摘要（He et al. 2026, Eur J Sport Sci）。","implication":null},{"id":"H-61","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-08_Tretowicz2026_全血NAD+不随年龄下降_7队列_H61_文献解读.md","title_en":"Human whole-blood NAD⁺ levels do not vary with age or lifestyle interventions","title_cn":"全血 NAD⁺ 水平不随年龄下降","authors":"MM et al.","year":2026,"journal":"Nature Metabolism","doi":"10.1038/s42255-026-01537-5","pmid":"42135539","type":"SR/MA","sample":">300人（具体各队列人数原文未逐一报告）","grade":"⊕◯◯◯ 低","category":"健康","date":"2026-08-08","question":"全血NAD⁺（烟酰胺腺嘌呤二核苷酸，Nicotinamide Adenine Dinucleotide）水平是否随年龄下降？生活方式干预能否改变全血NAD⁺水平？","conclusion":"全血NAD⁺水平不随年龄变化","mechanism":null,"key_data":"原文摘要为定性描述，未报告具体数值（如均值、标准差、回归系数、p值）。精确数值标注待原文PDF二次核证。","implication":"NAD⁺补充剂的认知校准：当前NAD⁺补充剂（NR/NMN）产业的核心叙事——\"NAD⁺随年龄下降，需要补充\"——建立在全血NAD⁺随年龄下降这一前提上。本文用7项独立队列否定了这一前提（至少在全血层面）。对训练者的直接含义：如果你服用NAD⁺补充剂的逻辑是\"弥补年龄相关下降\"，这个逻辑链条的第一个环节被Nature Metabolism质疑。"},{"id":"N-1","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-16_Salame2026_高温补糖_文献解读.md","title_en":"Carbohydrate supplementation for endurance exercise in the heat: a systematic review with practical recommendations","title_cn":"高温环境下耐力运动的碳水化合物补充：一项系统综述与实践建议","authors":"Salame et al.","year":2026,"journal":"Journal of the International Society of Sports Nutrition","doi":"10.1080/15502783.2026.2669307","pmid":null,"type":"SR/MA","sample":"未明确汇总（单组样本量约8-15人）","grade":"⊕⊕⊕○ 中","category":"营养","date":"2026-06-16","question":"高温环境（环境温度 > 23°C）下，耐力运动期间补充碳水化合物是否能改善运动表现？其效果是否与常温环境下不同？","conclusion":null,"mechanism":null,"key_data":null,"implication":"- 高温下补糖并非\"越多越好\"，胃肠耐受是主要限制"},{"id":"N-11","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Soares2026_咖啡因女性自行车表现_N11.md","title_en":"Ergogenic effects of caffeine on cycling performance in women: a systematic review and three-level meta-analysis","title_cn":"咖啡因对女性自行车运动表现的增效作用：系统综述与三水平Meta分析","authors":"Soares et al.","year":2026,"journal":"International Journal of Sport Nutrition and Exercise Metabolism","doi":"10.1123/ijsnem.2026-0022","pmid":null,"type":"SR/MA","sample":"约19项随机对照试验（RCT）","grade":"⊕⊕◯◯ 低","category":"营养-补剂","date":"2026-06-27","question":"系统评估高蛋白饮食与正常/低蛋白饮食相比，对无慢性肾病（Chronic Kidney Disease, CKD）成人肾功能和身体成分的影响。","conclusion":"对没有肾病的健康人来说，高蛋白饮食短期内不会伤肾，eGFR升高是正常的生理适应，不是病理损伤","mechanism":null,"key_data":"1：eGFR变化","implication":"咖啡因是有效的运动补剂"},{"id":"N-12","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_TeixeiraSilva2026_高蛋白肾功能_身体成分_N12.md","title_en":"Effects of high-protein diets on renal function and body composition in adults without chronic kidney disease: a systematic review and meta-analysis of randomized controlled trials","title_cn":"高蛋白饮食对无慢性肾病成人肾功能和身体成分的影响：随机对照试验的系统综述与Meta分析","authors":"Silva et al.","year":2026,"journal":"Diabetes, Obesity and Metabolism","doi":"10.1111/dom.70996","pmid":null,"type":"SR/MA","sample":"22项随机对照试验（RCT）","grade":"⊕⊕⊕◯ 中","category":"营养-蛋白","date":"2026-06-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"N-13","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Wang2026_益生菌运动表现_FrontNutr_N13.md","title_en":"Effect of probiotic intake on athletic performance in healthy individuals: a systematic review and Bayesian meta-analysis","title_cn":"益生菌摄入对健康人运动能力的影响：系统综述与贝叶斯Meta分析","authors":"Wang et al.","year":2026,"journal":"Frontiers in Nutrition","doi":"10.3389/fnut.2026.1731627","pmid":null,"type":"SR/MA","sample":"21项试验（RCT或交叉试验）","grade":"⊕◯◯◯ 极低","category":"营养-肠道菌群-益生菌","date":"2026-06-27","question":"1. 不同蛋白来源（动物源 vs 植物源）与不同运动方式（抗阻、有氧、多组分）的组合中，哪一种对改善老年人肌肉量、肌肉力量和身体活动能力效果最佳？","conclusion":null,"mechanism":"1. 改善肠道屏障功能，减少运动引起的肠道渗漏","key_data":"| 关键数据 | 数值 | 来源 |","implication":"中年后训练策略调整"},{"id":"N-14","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Heidari2026_维生素D肌肉骨骼_HealthSciRep_N14.md","title_en":"The impact of vitamin D status and supplementation on functional outcomes of human musculoskeletal tissues: a systematic review with stratification","title_cn":"维生素D状态与补充对人体肌肉骨骼组织功能结局的影响：一项分层系统综述","authors":"Heidari et al.","year":2026,"journal":"Health Science Reports","doi":"10.1002/hsr2.72407","pmid":null,"type":"SR/MA","sample":"未明确（待确认，估计数十篇）","grade":null,"category":"营养-维生素D","date":"2026-06-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"N-15","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-01_Yaghoobi2026_Omega3运动恢复_文献解读.md","title_en":"Effects of LC n-3 PUFA Supplementation on Muscle Pain, Function, and Damage Markers in Healthy Young to Middle-Aged Adults Following Acute or Chronic Exercise: A Systematic Review and Meta-Analysis of Randomized Controlled Trials","title_cn":"长链Omega-3多不饱和脂肪酸补充对健康中青年急性或慢性运动后肌肉疼痛、功能和损伤标志物的影响：随机对照试验的系统综述与荟萃分析","authors":"Yaghoobi et al.","year":2026,"journal":"Nutrients","doi":"10.3390/nu18091447","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕◯◯ 低","category":"营养-补剂","date":"2026-07-01","question":"长链Omega-3多不饱和脂肪酸（Long-Chain Omega-3 Polyunsaturated Fatty Acid, LC n-3 PUFA）补充是否能促进健康成年人运动诱导的肌肉损伤（Exercise-Induced Muscle Damage, EIMD）后的恢复？具体来说，对肌肉酸痛、肌肉功能、肌肉损伤生物标志物、炎症和氧化应激有何影响？不同剂量、持续时间和人群的效果是否有差异？","conclusion":null,"mechanism":null,"key_data":"| 指标 | 数值 | 出处 |","implication":"Omega-3对运动恢复有一定益处，但不是\"神药\"——对于离心运动后的DOMS和功能恢复有中等程度的改善作用（效应量0.4-0.9）"},{"id":"N-153","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-13_Naddafha2026_肌酸绝经后女性_文献解读.md","title_en":"Creatine monohydrate for lean mass, strength, and bone density in postmenopausal women: a systematic review and meta-analysis","title_cn":null,"authors":"Naddafha et al.","year":2026,"journal":"Journal of the International Society of Sports Nutrition","doi":"10.1080/15502783.2026.2668435","pmid":null,"type":"SR/MA","sample":"608名绝经后女性","grade":"⊕⊕◯○ 中","category":"营养-补剂","date":"2026-06-13","question":"评估肌酸一水合物补充对绝经后女性以下结局的影响：","conclusion":"第一，肌酸组比安慰剂组多增加了0.37公斤的瘦体重——听起来不多，但绝经后女性每年要流失1-2%的肌肉，这...","mechanism":null,"key_data":null,"implication":"- 训练计划设计：针对中老年女性客户，肌酸 + 抗阻训练是一个有证据支持的综合方案；- 营养咨询：可推荐肌酸作为肌少症预防的辅助手段，但需强调\"训练为主、补剂为辅\"；- 骨健康管理：肌酸不能替代针对骨密度的专项干预（如负重训练、钙/维生素D补充），但可作为整体健康方案的一部分"},{"id":"N-16","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-05_Ravindran2026_胶原蛋白补剂骨骼肌肉健康_伞评_N16.md","title_en":"Collagen Supplementation for Skin and Musculoskeletal Health: An Umbrella Review of Meta-Analyses on Elasticity, Hydration, and Structural Outcomes","title_cn":"胶原蛋白补剂与皮肤及骨骼肌肉健康","authors":"Ravindran et al.","year":2026,"journal":"Aesthetic Surgery Journal Open Forum","doi":"10.1093/asjof/ojag018","pmid":null,"type":"Umbrella Review","sample":null,"grade":"⊕◯◯◯ 极低","category":"营养","date":"2026-07-05","question":"1. 胶原蛋白补剂对皮肤健康（弹性、水分、皱纹）的效果如何？证据确定性如何？","conclusion":"胶原蛋白补剂对皮肤和关节有温和的真实效果，但\"运动恢复\"这个宣称，被迄今最大规模的综合评价否定了","mechanism":null,"key_data":"数据1：16篇纳入SR/MA中，15篇（94%）被AMSTAR 2评为低或极低质量。","implication":"- 高（对训练者）：直接回答\"是否应该补充胶原蛋白\"这一常见实践问题"},{"id":"N-161","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-21_Seyhan2026_乳清胶原联合补剂RCT_文献解读口播稿.md","title_en":null,"title_cn":"乳清蛋白+胶原蛋白联合补充对骨骼与肌肉的影响","authors":"Seyhan et al.","year":2026,"journal":null,"doi":"10.1186/s13102-026-01846-y","pmid":"42426859","type":null,"sample":null,"grade":null,"category":"营养-蛋白","date":"2026-07-21","question":null,"conclusion":"WP加C组8周增加2.66公斤，WP组增加1.59公斤，C组增加0.46公斤，安慰剂组增加0.10公斤","mechanism":null,"key_data":null,"implication":"有条件可参考的操作建议："},{"id":"N-17","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-05_Abdelhamid2020_Omega-3脂肪酸心血管疾病一级二级预防_Cochrane伞评_N17.md","title_en":"Omega-3 fatty acids for the primary and secondary prevention of cardiovascular disease","title_cn":null,"authors":"AS et al.","year":2026,"journal":"Cochrane Database of Systematic Reviews, 2020, Issue 3, Art. No.: CD003177","doi":"10.1002/14651858.CD003177.pub5","pmid":null,"type":"RCT","sample":"10–71人/研究，中位数约20人","grade":"⊕⊕◯◯ 低","category":"营养-补剂","date":"2026-07-05","question":"核心问题：在健康活跃个体和运动员中，口服姜黄素（Curcumin）补充对运动后恢复相关结局（肌肉损伤、炎症、氧化应激、主观恢复/酸痛/疲劳、运动表现）有何影响？","conclusion":null,"mechanism":null,"key_data":"1. 15项RCT中6/7报告氧化应激有利效应（GRADE ⊕⊕◯◯ 低确定性）——这是姜黄素补充最一致的支持信号，但仍仅为\"低\"确定性。原文：\"Favorable effects were reported in 6/7 studies assessing oxidative stress\"（Lloret-Gil et al., 2026, Abstract）","implication":"对深度训练爱好者："},{"id":"N-18","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-13_ZiyuWang2026_三大主流补剂结局特异性NMA_文献解读.md","title_en":"Comparative Effects of Dietary Protein, Creatine, and Omega-3 Supplementation on Muscle Strength, Endurance, and Recovery in Trained Athletes: A Systematic Review and Network Meta-Analysis","title_cn":null,"authors":"Wang et al.","year":2026,"journal":"Nutrients","doi":"10.3390/nu18060909","pmid":"41901084","type":"NMA","sample":"35 RCT, 1211人","grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-07-13","question":null,"conclusion":"（肌酸提升肌力 SUCRA=82.4%；蛋白提升耐力 SUCRA=85.2%；Omega-3 提升恢复 SUCRA...","mechanism":null,"key_data":"点（从原文方法学 + 结果 + 图表核证）","implication":"对深度训练爱好者和学生而言，本文的核心价值不在于\"该不该补\"，而在于\"按目标选补剂\"的循证决策树："},{"id":"N-19","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-29_BaiXu2026_Cr_BA_NMA_N19_文献解读.md","title_en":"Effects of combined versus single supplementation of creatine and beta-alanine on aerobic and anaerobic performance: a systematic review and network meta-analysis","title_cn":null,"authors":"Xu——均为唯一单位署名 et al.","year":2026,"journal":"Journal of the International Society of Sports Nutrition23:2695133","doi":"10.1080/15502783.2026.2695133","pmid":"42384726","type":"NMA","sample":"52 RCT, 3人","grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-29","question":"研究目的：系统评价并比较肌酸（Creatine, Cr）单独补充、β-丙氨酸（Beta-Alanine, BA）单独补充、以及两者联合补充（Cr + BA）对健康成年运动员有氧和无氧运动表现的独立与联合效应。","conclusion":"联合补充的效应未超过 Cr 单独补充","mechanism":null,"key_data":"1. Cr 对 RSA 的效应量 SMD = -0.78（p = 0.01）——中等偏大效应，在所有结局中效应量最大。原文：Cr supplementation significantly improved RSA versus placebo.","implication":"拆穿'两补剂叠加=1+1>2'消费叙事；肌酸主导"},{"id":"N-24","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-01_Svensson2026_训练内蛋白CHO共摄入肌肥大RCT_文献解读.md","title_en":"Effect of Intra-Workout Protein–Carbohydrate Co-Ingestion Versus Isocaloric Carbohydrate During Resistance Training on Muscle Fibre Hypertrophy and Oxidative Capacities in Young Men: A Randomized Controlled Trial","title_cn":null,"authors":"Svensson et al.","year":2026,"journal":"Nutrients，","doi":"10.3390/nu18142307","pmid":null,"type":"RCT","sample":"23 RCT, 525人","grade":"⊕○○○ 极低","category":"训练-肌肥大","date":"2026-08-01","question":"在非禁食状态下，训练期间联合摄入蛋白质 + 碳水化合物（CHO:P）能否比等热量碳水化合物（CHO）单独摄入带来更大的肌纤维肥大（fCSA）？","conclusion":"（组间 NS）对目标人群（训练男性）直接适用，维持中等 |","mechanism":null,"key_data":"（原文直接引用）","implication":"- 全天蛋白总量 ≥ 1.6 g/kg/d 前提下，训练内蛋白补充对肌肥大无独立贡献"},{"id":"N-4","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-09_Masse2026_钙VD_骨折跌倒_SRMA.md","title_en":"Calcium, vitamin D, or combined supplementation to prevent fractures and falls: systematic review and meta-analysis","title_cn":"钙、维生素D或联合补充预防骨折与跌倒","authors":"Massé et al.","year":2026,"journal":"The BMJ","doi":"10.1136/bmj-2025-088050","pmid":null,"type":"SR/MA","sample":"153,902名成人参与者","grade":null,"category":"健康-骨密度","date":"2026-06-09","question":"本系统综述旨在回答以下核心问题：","conclusion":"是高确定性证据，也就是最高等级的证据","mechanism":null,"key_data":"效应量=1.00, 95%CI [0.95, 1.06]","implication":null},{"id":"N-44","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-17_Heijmans2026_全食物蛋白摄入SRMA_N44_文献解读.md","title_en":null,"title_cn":null,"authors":"Heijmans et al.","year":2026,"journal":"Nutrition Reviews","doi":"10.1136/bjsports-2017-097608","pmid":null,"type":"SR/MA","sample":"16研究 / 1,712人","grade":"⊕⊕○○ 低","category":"营养-蛋白","date":"2026-08-17","question":"老年人普遍存在蛋白摄入不足的问题——全球估计 14%–30% 的成年人蛋白摄入低于 WHO 推荐的 0.8 g/kg/d，若按 ESPEN 推荐的 1.0–1.2 g/kg/d 计算，不足比例高达 38%–55%。蛋白补剂（如乳清蛋白粉）虽然能有效增加蛋白摄入，但效果往往是暂时的，且老年人更偏好全食物而非补剂。","conclusion":"全食物饮食干预可有效增加社区老年人蛋白摄入量（+12.2 g/d），成功干预的特征是干预时长 >3 个月、个体化咨...","mechanism":null,"key_data":null,"implication":"可以比较确定地应用:；1. 对于蛋白摄入不足的老年人（<1.0 g/kg/d），全食物饮食干预可有效增加蛋白摄入（+12.2 g/d）；2. 成功干预的关键特征："},{"id":"N-46","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-13_Liu2026_咖啡因青少年运动员SRMA_N46_文献解读.md","title_en":"Acute Effects and Safety of Caffeine Ingestion in Adolescent Athletes: A Systematic Review and Three-Level Meta-Analysis","title_cn":"青少年运动员急性咖啡因摄入的运动表现效应与安全性","authors":"Liu¹† et al.","year":2026,"journal":"Nutrients，MDPI 出版，EISSN 2072-6643","doi":"10.3390/nu18152520","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-08-13","question":"核心问题：急性摄入咖啡因（运动前或运动中单次给药）对 10–19 岁青少年运动员的运动表现及相关结局有何效应？安全性如何？","conclusion":"——咖啡因对青少年运动员的身体表现有一个小幅度正向效应，Hedges' g 等于 0.33，95% 置信区间 0....","mechanism":null,"key_data":"| 数据点 | 数值 | 来源 |","implication":null},{"id":"N-6","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-14_Camargo2026_肌酸抗炎_文献解读.md","title_en":"Impact of creatine supplementation on inflammation: evidence from a systematic review and meta-analysis of randomized double-blind placebo trials","title_cn":"肌酸补充对炎症的影响：随机双盲安慰剂试验的系统综述与荟萃分析证据","authors":"Camargo et al.","year":2026,"journal":"Frontiers in Immunology","doi":"10.3389/fimmu.2026.1743603","pmid":null,"type":"SR/MA","sample":"8 项随机双盲安慰剂对照试验（Randomized Controlled Trial, RCT）","grade":"⊕⊕⊕○ 中","category":"营养-蛋白","date":"2026-06-14","question":"肌酸（Creatine, Cr）补充能否降低人体的炎症生物标志物水平？","conclusion":"我们比较有信心地认为，肌酸对系统性炎症没有有意义的影响，但不能完全排除存在极小效应的可能性","mechanism":null,"key_data":null,"implication":"破除\"肌酸抗炎\"的营销迷思：现有人体证据不支持肌酸具有系统性抗炎作用。如果你购买肌酸的主要目的是\"抗炎\"或\"加速恢复\"，可能需要重新评估预期。"},{"id":"N-8","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-13_McCarthy2026_铁状态_运动女性_补铁_文献解读.md","title_en":null,"title_cn":"饮食和膳食补充剂对运动女性铁状态的影响：干预试验的系统综述与荟萃分析","authors":"McCarthy et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02464-x","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕⊕◯ 中","category":"营养","date":"2026-06-13","question":null,"conclusion":". 硫酸亚铁补充可显著升高血红蛋白（+0.42 g/dL, 95%CI 0.16-0.68）","mechanism":null,"key_data":null,"implication":"运动女性应定期监测铁状态，尤其是耐力项目女运动员"},{"id":"N-9","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-16_Gawelczyk2026_生酮饮食_无氧表现_低碳水_文献解读.md","title_en":null,"title_cn":"低碳水化合物与生酮饮食对竞技运动员无氧表现的影响：系统综述与荟萃分析","authors":"Gawelczyk et al.","year":2026,"journal":"Nutrients","doi":"10.3390/nu18101589","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕⊕◯ 中","category":"营养-碳水","date":"2026-06-16","question":null,"conclusion":". 单次最大无氧功率无显著变化（d = +0.29, 95%CI -0.14-0.72）","mechanism":null,"key_data":null,"implication":"以重复高强度运动为主的项目（如球类、格斗、冲刺间歇项目），谨慎采用生酮饮食"},{"id":"T-1","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-18_Strauss2026_HIIT心代谢_文献解读.md","title_en":"High‑intensity interval training for reducing cardiometabolic syndrome in healthy but sedentary populations","title_cn":"高强度间歇训练改善健康但久坐成人心血管代谢综合征的效果","authors":"JA et al.","year":2026,"journal":"Cochrane Database of Systematic Reviews","doi":"10.1002/14651858.CD013617.pub2","pmid":null,"type":"SR/MA","sample":"2,075 名健康但久坐的成人","grade":"⊕⊕⊕⊕ 高","category":"训练-心肺","date":"2026-06-18","question":"1. 与不运动相比，高强度间歇训练（High‑Intensity Interval Training, HIIT）能否改善健康但久坐成人的心血管代谢健康标志物？","conclusion":"运动干预研究实施双盲极为困难，所有研究均为开放标签设计，可能存在实施偏倚和测量偏倚","mechanism":null,"key_data":null,"implication":"作为教练或训练爱好者，你应该怎么用这些证据："},{"id":"T-10","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-12_Yang2026_损伤预防_青少年足球_SRMA_T-10.md","title_en":"Effectiveness of sports injury prevention programs for adolescent and children football players: a meta-analysis and systematic review","title_cn":"青少年足球运动员结构化损伤预防项目的有效性","authors":"Yang et al.","year":2026,"journal":"PeerJ","doi":"10.7717/peerj.21319","pmid":null,"type":"SR/MA","sample":"9 项随机对照试验（Randomized Controlled Trial, RCT）","grade":"⊕⊕◯◯ 低","category":"训练","date":"2026-06-12","question":"结构化损伤预防项目能否有效降低儿童与青少年足球运动员的整体损伤及各部位损伤的发生率？不同年龄组（儿童 vs 青少年）的干预效果是否存在差异？","conclusion":". 结构化损伤预防项目可使青少年足球运动员整体损伤风险降低38%（IRR=0.62, 95%CI 0.49-0.78）","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 | 意义 |","implication":"损伤预防不是\"可选项\"，而是\"必选项\""},{"id":"T-107","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-30_Lyristakis2026_RT变量剂量反应_文献解读.md","title_en":"The Influence of Individual Resistance Training Variables on Muscle Strength: A Systematic Review and Meta-analysis","title_cn":null,"authors":"Lyristakis et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02432-5","pmid":"41995957","type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-30","question":"在抗阻训练（Resistance Training, RT）中，如何整合训练变量（组数 × 次数 × 动作数 × 强度 × 频率 × 训练周期）形成总训练剂量（training dosage），该剂量与肌肉力量发展之间是否存在非线性剂量反应关系？哪些单个变量对力量发展的预测力最强？","conclusion":null,"mechanism":null,"key_data":"> 关键数据 1：胸肌力量平台期约 887,000 au，股四头肌力量平台期约 773,000 au。超过此剂量后，力量增长速度不再增加。（原文 Abstract：\"A plateau in muscle strength was identified at 887,000 au for chest and 773,000 au for quadriceps strength\"）","implication":null},{"id":"T-11","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-15_Chang2026_内脏脂肪运动剂量_文献解读.md","title_en":"Unveiling the perfect workout: exercise modalities and dosages to combat visceral adipose tissue in individuals with overweight and obesity - a systematic review with pairwise, network, and dose-response meta-analyses","title_cn":"揭示最佳运动方案：超重/肥胖人群不同运动方式与剂量减少内脏脂肪的系统综述、成对及网络荟萃分析与剂量反应研究","authors":"Chang et al.","year":2026,"journal":"Nutrition & Metabolism","doi":"10.1186/s12986-026-01129-w","pmid":"42098808","type":"NMA","sample":"4,136 人","grade":"⊕⊕⊕⊕ 高","category":"健康-代谢","date":"2026-06-15","question":"1. 不同运动方式（HIIT、AE、RT、AE+RT）对减少超重/肥胖成人内脏脂肪的相对效果如何？","conclusion":"（1:55-3:15）","mechanism":null,"key_data":null,"implication":"- SUCRA排序高确定性（High）：意味着我们可以高度确信HIIT是这四种运动方式中减少内脏脂肪最有效的，这个排序结果不太可能因新研究的出现而改变。"},{"id":"T-116","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-04_Zhao2025_蛋白补剂运动员表现BayesianMA_T116_文献解读.md","title_en":"The effectiveness of protein supplements on athletic performance and post-exercise recovery − a Bayesian multilevel meta-analysis of randomized controlled trials","title_cn":"蛋白补剂对运动员运动表现与运动后恢复的有效性——随机对照试验的贝叶斯多层次荟萃分析（Bayesian Multilevel Meta-Analysis）","authors":"Zhao et al.","year":2025,"journal":"Journal of the International Society of Sports Nutrition","doi":"10.1080/15502783.2025.2605338","pmid":"41433039","type":"SR/MA","sample":"75项随机对照试验（RCT），共1,206名运动员（男性约916人，女性约220人，部分研究未报告性别）","grade":"⊕⊕⊕○ 中高","category":"营养-蛋白","date":"2026-08-04","question":"核心问题：蛋白补剂对运动员的运动表现（耐力表现、肌肉力量）和运动后恢复（肌糖原再合成、疲劳恢复）是否有效？蛋白来源（Protein Source）、补充时机（Protein Timing）和补充剂量（Protein Dose）如何调节这些效应？","conclusion":"的确定性应下调至\"低\"至\"极低\"","mechanism":null,"key_data":"| 数据点 | 原文数值 | 出处 |","implication":null},{"id":"T-12","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-17_Walczak2026_损伤预防_神经肌肉训练_伞评.md","title_en":"Effectiveness and Implementation of Multicomponent Neuromuscular Training Programs for Lower Extremity Injury Prevention in Adolescent Team Sport Athletes: A Systematic Review of Systematic Reviews and Meta‑analyses","title_cn":"青少年团队运动运动员多成分神经肌肉训练预防下肢损伤的有效性与实施：系统综述之系统综述与荟萃分析","authors":"Walczak et al.","year":2026,"journal":"Quality in Sport","doi":"10.12775/QS.2026.56.71637","pmid":null,"type":"Umbrella Review","sample":"单篇青少年荟萃分析纳入约 28,000+ 名运动员（跨研究汇总）","grade":"⊕⊕⊕⊕ 高","category":"康复-损伤","date":"2026-06-17","question":"1. 多成分神经肌肉训练（Neuromuscular Training, NMT）对青少年（10-19岁）团队运动运动员的下肢损伤预防效果如何？","conclusion":null,"mechanism":null,"key_data":null,"implication":"- 教练/体育教师：将10-20分钟多成分NMT纳入日常热身，每周至少2-3次；重视动作质量而非训练时长"},{"id":"T-122","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-06_Solon-Julio2026_心理疲劳_抗阻训练_MA.md","title_en":"T-122 Carvalho TA 2026 Eur J Sport Sci 心理疲劳×RE训练量 SR/MA","title_cn":"心理疲劳对抵抗训练表现的影响","authors":"TA et al.","year":2026,"journal":"Eur J Sport Sci","doi":"10.1002/ejsc.70194","pmid":null,"type":"SR/MA","sample":"11 RCT, 205人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":"心理疲劳是否降低健康成人随后的抵抗训练总量（训练量）？","conclusion":"心理疲劳(MF)显著降低RE训练量(g=-0.39, 95%CI:-0.55~-0.23, I²=48%)","mechanism":null,"key_data":"- 总样本量：>205名参与者，11项研究，14个比较","implication":"高认知负荷日应优先安排单关节动作或降低训练量。"},{"id":"T-127","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-05_Havers2026_降组训练SRMA_T127_文献解读.md","title_en":"Acute and Chronic Effects of Drop-Set Training: A Meta-Analysis and Systematic Review","title_cn":"降组训练（递减组训练）的急性与慢性效应：一项元分析与系统评价","authors":"Havers et al.","year":2026,"journal":"Sports Medicine - Open","doi":"10.1186/s40798-026-01012-1","pmid":"41920484","type":"系统评价与元分析","sample":"12项（11项随机对照试验(RCT)或交叉研究 + 1项非随机试验）","grade":"⊕○○○ 极低","category":"训练-实践","date":"2026-08-05","question":"核心问题：降组训练（递减组训练, drop-set training）与传统抗阻训练（traditional resistance training）在急性生理/心理反应和慢性肌肉适应方面是否存在差异？","conclusion":"降组训练不增肌、不增力，但它省时间","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":null},{"id":"T-129","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-20_deSouzaAlmeida2026_肌酸补充肾脏安全性SRMA_T129_文献解读.md","title_en":"Effect of creatine supplementation on kidney function: a systematic review and meta-analysis","title_cn":null,"authors":"JA et al.","year":2026,"journal":"Int Urol Nephrol","doi":"10.1186/s12882-025-04558-6","pmid":"42507286","type":"RCT","sample":"26 RCT, 1人","grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-08-20","question":null,"conclusion":"肌酸补充使血清肌酐小幅升高、基于肌酐的 eGFR 假性降低，但不依赖肌酐的直接 GFR 测量（Cr-EDTA）证实...","mechanism":null,"key_data":null,"implication":"这篇文献是否足以改变训练实践？"},{"id":"T-13","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-21_Xin2026_高血压运动NMA_文献解读.md","title_en":"Optimal Exercise Modalities and Dosages for Blood Pressure Reduction in Adults With Prehypertension and Established Hypertension: A Network Meta‐Analysis and Dose–Response Relationship Study","title_cn":"成人高血压前期与确诊高血压的最佳运动方式与剂量：网络荟萃分析与剂量反应研究","authors":"Xin et al.","year":2026,"journal":"Journal of the American Heart Association","doi":"10.1161/JAHA.125.044003","pmid":null,"type":"Bayesian NMA","sample":null,"grade":"⊕⊕⊕○ 中","category":"健康-心血管","date":"2026-06-21","question":"1. 不同运动方式（有氧、抗阻、联合训练、HIIT、瑜伽、太极、等长训练等）对高血压前期和高血压患者的血压降低效果孰优孰劣？","conclusion":"运动剂量与降压效果之间呈非线性U型关系","mechanism":null,"key_data":null,"implication":"处方制定原则；- 以\"降血压\"为主要目标时，优先推荐联合训练或HIIT；- 根据患者的时间、兴趣、体能水平选择合适的运动方式"},{"id":"T-130","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-21_Gimenez2026_肌酸补充血脂谱SRMA_T130_文献解读.md","title_en":null,"title_cn":null,"authors":"Gimenez et al.","year":2026,"journal":"Front Nutr","doi":"10.3389/fnut.2026.1787009","pmid":"42180567","type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"营养-补剂","date":"2026-08-21","question":"早期个别 RCT 报告肌酸补充可能降低总胆固醇(Total Cholesterol, TC)和甘油三酯(Triglycerides, TG)——Earnest 1996 在高胆固醇血症男性中观察到 TG 降低 23%、TC 降低 6%。另一些研究（如 Gualano 2008、Volek 2000）则完全未发现肌酸对血脂有任何效应。这种矛盾持续了近 30 年，从未被系统定量综合过。","conclusion":"不存在大效应（全部为 null）、无剂量-反应关系证据、无残余混杂能解释 null 结果","mechanism":"从分子到临床，整条因果链中每一层都停留在\"生物学合理推断\"（证据等级 C）。没有任何一层被直接观察到（A）或有强独立实验支持（B）。SR/MA 的 null 结果为整条假说链提供了\"临床层面不存在可检测效应\"的约束——机制推论如果预测了一个在 RCT 中观察不到的效应，那么该推论要么效应量太小（临床无意义），要么作用条件在纳入研究中不存在。","key_data":null,"implication":null},{"id":"T-133","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-23_Peng2026_咖啡因HIIE_SRMA_T133_文献解读.md","title_en":null,"title_cn":null,"authors":"Peng et al.","year":2026,"journal":"Front Physiol","doi":"10.3389/fphys.2026.1858094","pmid":null,"type":"RCT","sample":"20 RCT, 320人","grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-08-23","question":"咖啡因（caffeine）作为最常用的合法增效剂（ergogenic aid），对耐力运动和抗阻训练表现的促进作用已有较强证据支持。但在高强度间歇运动（high-intensity interval exercise, HIIE）领域——涵盖重复冲刺能力（repeated sprint ability, RSA）、短间歇冲刺、间歇冲刺运动（intermittent-sprint exercise,","conclusion":"所有亚组间差异均不显著（p > 0.05）","mechanism":null,"key_data":"0.28；Hedge's g = 0.28（95%CI 0.14–0.43）","implication":"这篇文献是否足以改变训练实践？"},{"id":"T-134","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-24_Weerasinghe2026_Plyometric训练田径运动员SRMA_T134_文献解读.md","title_en":"Effects of plyometric training on performance-related metrics in track and field athletes: a systematic review and meta-analysis of randomized controlled trials, with preliminary evidence on injury prevention. *BMC Sports Sci Med Rehabil*. 2026;18","title_cn":null,"authors":"Weerasinghe et al.","year":2026,"journal":"BMC Sports Sci Med Rehabil","doi":"10.1186/s13102-026-01840-4","pmid":"42387592","type":"RCT","sample":"30 RCT, 27人","grade":"⊕⊕○○ 低","category":"训练-爆发力","date":"2026-08-24","question":"增强式训练（Plyometric Training, PT）对田径运动员的运动表现（短跑、跳跃、耐力指标）及损伤预防有何效应？","conclusion":"Plyometric训练显著改善30m短跑（-3.53%）","mechanism":null,"key_data":null,"implication":"- 30m 短跑 −3.53%：若基线为 3.80 s，绝对增量约 −0.13 s——在短跑项目中有实际竞争力意义"},{"id":"T-136","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-09_Zhao2026_复合训练vs抗阻vs增强式NMA_T136_文献解读.md","title_en":"Effects of combined resistance and plyometric training modalities on vertical jump and sprint: a systematic review and network meta-analysis","title_cn":null,"authors":"Zhao¹ et al.","year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-026-01531-0","pmid":"41549302","type":"NMA","sample":"34 项研究","grade":"⊕○○○ 低","category":"训练-爆发力","date":"2026-08-09","question":"四种模式分别是：Complex Training（复合训练，CT），同一节课内先做抗阻再做增强式、两者交替执行；RT + PT，先做完所有抗阻再做增强式；PT + RT，反过来，先做完所有增强式再做抗阻；Compound Training（分日复合训练，CTS），抗阻和增强式分别安排在不同的训练日。","conclusion":"（CT 优于 RT）的确定性为中等，CTS 和 PT+RT 的亚组结论确定性更低","mechanism":null,"key_data":"（原文出处）","implication":"对深度训练爱好者和学生："},{"id":"T-14","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-23_Held2026_同时训练伞评_文献解读.md","title_en":"Maximizing Adaptations in Concurrent Training: An Umbrella Review of Meta-analyses","title_cn":"同时训练适应最大化：荟萃分析的伞评","authors":"Held et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02401-y","pmid":null,"type":"Umbrella Review","sample":"1,492人","grade":"⊕⊕◯◯ 低","category":"训练","date":"2026-06-23","question":"1. 同时训练（力量训练+有氧训练）与单独力量训练或单独有氧训练相比，对肌肉力量、肌肉肥大、功率输出和有氧能力的影响有何差异？","conclusion":"——同时训练既能增肌增力又能提高有氧能力、不会产生显著的干扰效应——具有较高的可信度","mechanism":null,"key_data":"| 关键数据 | 数值 | 来源 |","implication":"干扰效应是真实存在的吗？"},{"id":"T-142","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-06_FernandezGarrido2026_肌酸RT老年人神经认知RCT_文献解读.md","title_en":"T-142 Fernández-Garrido J 2026 Exp Gerontol 肌酸联合变速RT老年人神经认知RCT","title_cn":null,"authors":"Fernandez-Garrido et al.","year":2026,"journal":"Experimental Gerontology","doi":"10.1016/j.exger.2026.113122","pmid":"41941966","type":"RCT","sample":"103人（57女/46男，平均68.2±4.6岁），6组每组约17人","grade":"⊕○○○ 极低","category":"营养-补剂","date":"2026-08-06","question":"在 60 岁以上社区久坐老年人中，两种高负荷变速抗阻训练（Variable-Intensity Resistance Training, VIRT）——弹力带版（HL-VIRT-EB）与水中版（HL-VIRT-AQ）——联合肌酸（Creatine, Cr）3 g/d 补充，能否在神经可塑性标志物、氧化应激、炎症、肌肉力量、身体功能、认知表现及生活质量方面产生叠加效应？","conclusion":"两种训练模态（弹力带HL-VIRT-EB + 水中HL-VIRT-AQ）均显著改善BDNF、降低氧化应激/炎症、提...","mechanism":null,"key_data":null,"implication":null},{"id":"T-143","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-15_LaMonte2026_老年女性力量与死亡率_T143_文献解读.md","title_en":null,"title_cn":null,"authors":"LaMonte et al.","year":2026,"journal":"JAMA Network Open","doi":"10.1001/jamanetworkopen.2025.59367","pmid":null,"type":"前瞻性队列","sample":"5,472名女性, 63-99岁, 8.4年随访, 1,964死亡","grade":"⊕⊕○○ 低","category":"训练-力量","date":"2026-08-15","question":"肌肉力量（muscular strength）是否与全因死亡率（all-cause mortality）独立相关？这种关联是否独立于加速度计客观测量的体力活动（physical activity, PA）、久坐时间（sedentary time）、步行速度（walking speed）和全身性炎症标志物（systemic inflammation）？","conclusion":"三篇证据（PURE / Wu 2017 / Momma 2022）与 LaMonte 2026 方向一致","mechanism":null,"key_data":"效应量=1.16, 95%CI [1.13, 1.20]","implication":null},{"id":"T-145","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-16_Gois2026_联合训练冠心病SRMA_T145_文献解读.md","title_en":"Effects of muscle strength training combined with aerobic training versus aerobic training alone on cardiovascular disease risk indicators in patients with coronary artery disease: a systematic review","title_cn":null,"authors":"Gois et al.","year":2026,"journal":"Sports Medicine - Open","doi":"10.1186/s40798-026-01080-3","pmid":null,"type":"RCT","sample":"5,388 名参与者","grade":"⊕○○○ 极低","category":"健康-心血管","date":"2026-08-16","question":"冠心病（Coronary Heart Disease, CHD）是全球首位死因。运动训练是心脏康复（Cardiac Rehabilitation, CR）的核心组成部分。有氧训练（Aerobic Training, AT）是心血管康复中研究最多的干预类型，获得 Class IA 推荐。然而，抗阻训练（Resistance Training, RT）在心脏康复中的附加价值——尤其是联合有氧和抗阻训练","conclusion":"联合训练（CART, Combined Aerobic and Resistance Training）优于单纯有...","mechanism":null,"key_data":"0.35；0.26；SMD = 0.35（95%CI 0.17–0.53","implication":null},{"id":"T-146","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-04_Adugna2026_年龄相关运动单位行为SRMA_文献解读.md","title_en":"Age-related differences in motor unit behaviours and maximal strength: A systematic review and meta-analysis","title_cn":"年龄相关的运动单位行为与最大力量差异：一项系统评价与元分析","authors":"DG et al.","year":2026,"journal":"Neurobiology of Aging","doi":"10.1016/j.neurobiolaging.2026.07.008","pmid":"42520337","type":"SR/MA","sample":"48项研究（横断面设计）","grade":"⊕⊕⊕○ 中高","category":"训练-力量","date":"2026-08-06","question":null,"conclusion":null,"mechanism":"Kidgell 已发表超过100篇同行评审论文，获取超过250万澳元研究经费，指导13名博士生完成学位。据 SciSpace 数据，其 h-index 为34，总发表论文111篇。ResearchGate 显示259次引用（该数据可能滞后）。","key_data":null,"implication":"高力量训练的不可替代性。 MUDR 的下降在高力量水平下最为显著（SMD = -0.65 vs 低力量 SMD = -0.34），这意味着低强度训练无法充分刺激高阈值运动单位的放电率适应。对于追求最大力量发展的训练者，无论年龄，高负荷训练（>80% 1RM）应占据核心位置。"},{"id":"T-150","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-18_Kristiansen2026_年龄相关合成代谢抵抗SRMA_T150.md","title_en":"Age-related anabolic resistance and post-absorptive muscle protein synthesis: integrative evidence from a systematic review and meta-analysis","title_cn":null,"authors":"JB et al.","year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1740284","pmid":"42326998","type":"SR/MA","sample":"年轻 vs. 老年男性","grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-18","question":"衰老过程中骨骼肌质量和功能的下降是否源于\"合成代谢抵抗\"（Anabolic Resistance, 合成代谢抵抗）——即肌肉蛋白质合成（Myofibrillar Protein Synthesis, MPS）对营养素和/或运动刺激的反应性下降？这一现象的效应量有多大？是否具有生理状态特异性（空腹 vs. 餐后 vs. 运动后 vs. 联合状态）？","conclusion":"衰老导致空腹态和餐后态 MPS modest 降低（合成代谢抵抗），但运动后 MPS 反应基本保留","mechanism":null,"key_data":null,"implication":null},{"id":"T-152","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-25_Singh2026_运动青少年抑郁焦虑伞状综述_T152.md","title_en":null,"title_cn":null,"authors":"Singh et al.","year":2026,"journal":"Journal of the American Academy of Child and Adolescent Psychiatry","doi":"10.1016/j.jaac.2025.04.007","pmid":null,"type":"Umbrella Review","sample":"21 项 SR / 375 项 RCT / 38,117 名参与者（5–18 岁）","grade":"⊕⊕⊕○ 中","category":"心理-抑郁焦虑","date":"2026-08-25","question":"这篇研究想解决什么？ 运动（包括有氧、抗阻、身心运动）能否有效减轻儿童青少年（5–18 岁）的抑郁和焦虑症状？哪种运动类型、强度、持续时间效果最优？","conclusion":"抑郁 SMD = −0.45（95%CI −0.59 至 −0.31, I² = 71.37%），中等效应","mechanism":null,"key_data":null,"implication":null},{"id":"T-155","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-28_Ceglia2026_乳清蛋白老年人肌肉_文献解读.md","title_en":"Independent effects of whey protein and alkali supplementation on muscle health in healthy older adults: factorial randomized controlled trial","title_cn":"乳清蛋白与碱性补充剂对健康老年人肌肉健康的独立影响：一项因子随机对照试验","authors":"Ceglia et al.","year":2026,"journal":"American Journal of Clinical Nutrition","doi":"10.1016/j.ajcnut.2026.101257","pmid":"41780731","type":"RCT","sample":null,"grade":"⊕⊕⊕◯ 中","category":"训练","date":"2026-06-28","question":"本研究旨在明确：在基线蛋白摄入接近推荐量（0.8 g/kg/天）的健康老年人中，补充乳清蛋白（将摄入提升至1.5 g/kg/天）或碳酸氢钾（81 mmol/天），持续24周，能否改善肌肉功率、身体机能和肌肉量。","conclusion":"对于健康的老年人，好好吃饭、规律运动，比什么补剂都靠谱","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":null},{"id":"T-156","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-31_Ikeda2026_早餐蛋白老年人肌肥大_SRMA_文献解读.md","title_en":"Protein or Amino Acid Intake at Breakfast for Muscle Mass Gain in Older Adults: A Systematic Review and Meta-Analysis","title_cn":"早餐摄入蛋白质或氨基酸对老年人肌肉量增长的效应：系统综述与荟萃分析","authors":"Ikeda et al.","year":2026,"journal":"Food Science & Nutrition，Wiley Periodicals LLC，开放获取","doi":"10.1002/fsn3.72171","pmid":"42502805","type":"SR/MA","sample":"7 RCT, 305人","grade":"⊕○○○ 极低","category":"训练-肌肥大","date":"2026-07-31","question":"早餐单独增加蛋白质或氨基酸（Amino Acid）摄入——在不改变全天总蛋白摄入量的前提下——能否改善 ≥ 60 岁老年人的肌肉量、肌肉力量或体能表现？","conclusion":"——三个主要结局，全部无统计学显著性","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":null},{"id":"T-158","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-12_Ohta2026_运动营养干预老年人肌肉特异性力量SRMA_文献解读.md","title_en":"Effects of exercise and nutritional interventions on muscle-specific strength in older adults: A systematic review and meta-analysis","title_cn":null,"authors":null,"year":2026,"journal":"Ageing Research Reviews，","doi":"10.1016/j.arr.2026.103271","pmid":"42570706","type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"训练-力量","date":"2026-08-12","question":"各种干预措施——抗阻训练（Resistance Exercise Training, RET）、营养补充（Nutritional Supplementation）、有氧运动（Aerobic Exercise Training, AET）、联合训练（Concurrent Training）、运动+营养联合（Combined Exercise and Nutrition）、热量限制（Caloric R","conclusion":"| 干预类型 | SMD | 95%CI | I² | 结论 |","mechanism":null,"key_data":"1. RET 提升肌肉特异性力量 SMD = 0.61（95%CI 0.27–0.94），I² = 81%——41 项 RCT / 3,141 人（出处：摘要 Results 段）","implication":"核心启示：抗阻训练是唯一被证据支持能提升\"肌肉质量\"的干预方式。"},{"id":"T-159","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-08-22_Wu2026_非力竭vs力竭RT_SRMA_文献解读.md","title_en":"Effects of resistance training performed to repetition non-failure on exercise performance in healthy adults: a systematic review and meta-analysis. *BMC Sports Sci Med Rehabil*. 2026;18(1):333","title_cn":null,"authors":"Wu et al.","year":2026,"journal":null,"doi":"10.1016/j.jshs.2021.01.007","pmid":"42410632","type":null,"sample":"均为年轻成人（训练与非训练）","grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-22","question":"在竞技水平运动员中可能不重要；在大众健身者中可能也不足以成为改变训练策略的核心理由。","conclusion":null,"mechanism":null,"key_data":"效应量=0.19, 95%CI [0.00, 0.37]","implication":null},{"id":"T-16","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-25_Minahan2026_压力表现_心理技能_立场声明_文献解读.md","title_en":null,"title_cn":"运动压力下的表现：澳大利亚运动与体育科学学会（ESSA）立场声明","authors":"CL et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02472-x","pmid":null,"type":"SR","sample":null,"grade":null,"category":"心理-抑郁焦虑","date":"2026-06-25","question":null,"conclusion":". 压力通过增加认知负荷和焦虑，占用工作记忆资源，导致运动表现下降","mechanism":null,"key_data":null,"implication":"教练应将心理技能训练纳入日常训练计划，而非仅在赛前应急使用"},{"id":"T-165","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/解读/2026-08-14_James2025_肌纤维类型性别差异深度解读.md","title_en":"Sex differences in skeletal muscle fiber types: A meta-analysis","title_cn":null,"authors":"JL et al.","year":2024,"journal":"Clinical Anatomy, 37, 81-91","doi":"10.1002/ca.24091","pmid":null,"type":null,"sample":"110项研究，5327人（M=2875, F=2452）","grade":null,"category":"训练","date":"2026-08-14","question":"如果存在，这些差异是否受年龄、身体活动水平、活检肌群和分析技术的影响？","conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"T-17","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-08_Fuertes-Kenneally2026_内皮功能_CVD_运动NMA_文献解读.md","title_en":null,"title_cn":"运动方式与强度对心血管疾病患者血管内皮功能的影响：系统综述与网络荟萃分析","authors":"Fuertes-Kenneally et al.","year":2026,"journal":"European Journal of Preventive Cardiology","doi":"10.1093/eurjpc/zwag118","pmid":null,"type":"NMA","sample":"37 RCT, 987人","grade":"⊕⊕⊕◯ 中","category":"健康-心血管","date":"2026-06-08","question":null,"conclusion":". 高强度间歇运动（HIIE）SUCRA排名84%，是改善FMD改善最强的稳健方案","mechanism":null,"key_data":null,"implication":"心血管疾病患者运动康复中，高强度间歇运动可作为优先推荐的运动方式之一"},{"id":"T-18","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-11_Shi2026_心力衰竭_LVEF_运动NMA_文献解读.md","title_en":null,"title_cn":"不同运动方式对心力衰竭患者左心室射血分数改善的剂量反应与网络荟萃分析","authors":"Shi et al.","year":2026,"journal":"Frontiers in Cardiovascular Medicine","doi":"10.3389/fcvm.2026.1834798","pmid":null,"type":"MA","sample":"42 RCT, 2人","grade":"⊕⊕⊕◯ 中","category":"健康-心血管","date":"2026-06-11","question":null,"conclusion":". 抗阻训练改善LVEF效应最大（+9.9%），SUCRA排名第一","mechanism":null,"key_data":null,"implication":"心衰患者运动康复中，抗阻训练应作为重要组成部分"},{"id":"T-19","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-16_Zhao2026_舞蹈_认知障碍_运动NMA_文献解读.md","title_en":null,"title_cn":"舞蹈与其他运动方式对轻度认知障碍和痴呆的疗效比较：系统综述与贝叶斯网络荟萃分析","authors":"Zhao et al.","year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1782774","pmid":null,"type":"MA","sample":"209 RCT, 17人","grade":"⊕⊕⊕◯ 中","category":"训练","date":"2026-06-16","question":null,"conclusion":". 舞蹈改善整体认知SUCRA排名第一（89.2%），优于有氧运动（78.5%）和力量训练（65.3%）","mechanism":null,"key_data":null,"implication":"舞蹈可作为老年人认知健康促进的优选运动方式之一"},{"id":"T-2","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-20_Li2026_HIIT糖尿病前期_文献解读.md","title_en":"Li 2026 — HIIT","title_cn":"高强度间歇训练对糖尿病前期成人血糖控制及心血管代谢风险因素的影响：一项系统评价和荟萃分析","authors":"Li et al.","year":2026,"journal":"Frontiers in Endocrinology","doi":"10.3389/fendo.2026.1837386","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕○○○ 极低","category":"训练-心肺","date":"2026-06-20","question":"高强度间歇训练（High-Intensity Interval Training, HIIT）对糖尿病前期（prediabetes）成人的血糖控制和心血管代谢风险因素有何影响？与中等强度持续训练（Moderate-Intensity Continuous Training, MICT）相比，HIIT是否具有优势？","conclusion":"证据确定性普遍偏低","mechanism":null,"key_data":null,"implication":"时间有限但目标是提高心肺适能的人，HIIT 是高效选择"},{"id":"T-20","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-25_Zhou2026_骨质疏松_骨密度_有氧运动NMA_文献解读.md","title_en":null,"title_cn":"不同有氧运动处方对骨质疏松患者骨密度的影响：网络Meta分析","authors":"Zhou et al.","year":2026,"journal":"Frontiers in Endocrinology","doi":"10.3389/fendo.2026.1828031","pmid":null,"type":"MA","sample":null,"grade":null,"category":"训练-心肺","date":"2026-06-25","question":null,"conclusion":". 高强度有氧运动改善腰椎骨密度效果最优（SUCRA排名第一）","mechanism":null,"key_data":null,"implication":"骨质疏松患者应进行规律负重有氧运动，每周4-5次，每次30-60分钟"},{"id":"T-21","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-25_Yao2026_NMT预防ACL年龄差异_文献解读.md","title_en":"Age-related differences in the effectiveness of neuromuscular training for preventing anterior cruciate ligament injuries in athletes: a systematic review and meta-analysis","title_cn":"神经肌肉训练预防运动员前交叉韧带损伤效果的年龄差异：系统综述与荟萃分析","authors":"Yao et al.","year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1801019","pmid":null,"type":"SR/MA","sample":"19 项前瞻性对照研究（含随机对照试验和队列研究）","grade":"⊕⊕⊕○ 中","category":"康复-损伤","date":"2026-06-25","question":"1. 神经肌肉训练（Neuromuscular Training, NMT）对运动员前交叉韧带（Anterior Cruciate Ligament, ACL）损伤的预防效果如何？","conclusion":"中等确定性（⊕⊕⊕○）——我们有中等把握认为NMT确实能降低ACL损伤风险，真实...","mechanism":null,"key_data":"OR = 0.456（95%CI: 0.331-0.627）；OR = 0.365（95%CI: 0.252-0.529）；OR = 0.567（95%CI: 0.291-1.104）","implication":"越早启动，获益越大"},{"id":"T-22","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Guo2026_运动类型睡眠_NMA_T22.md","title_en":"The impact of different types of exercise on sleep in sedentary populations: a systematic review and network meta-analysis","title_cn":"不同运动类型对久坐人群睡眠的影响：系统综述与网络Meta分析","authors":"Guo et al.","year":2026,"journal":"PeerJ","doi":"10.7717/peerj.21037","pmid":null,"type":"NMA","sample":"31 项随机对照试验（RCT）","grade":"⊕⊕⊕◯ 中","category":"心理-抑郁焦虑","date":"2026-06-27","question":"在久坐伴失眠症状的成年人群中，不同运动模态（有氧运动、抗阻训练、高强度间歇训练、身心运动、增加日常活动、混合运动）对睡眠各维度指标的改善效果是否存在差异？哪种运动类型最优？","conclusion":null,"mechanism":null,"key_data":"效应量=1.00, 95%CI [0.59, 1.41]","implication":"睡眠是训练适应的基石：如果你睡眠不佳，优先保证睡眠可能比纠结训练细节更重要"},{"id":"T-23","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-27_Ivanic2026_脑震荡头部加速度_SportsMed_T23.md","title_en":"Magnitude of head acceleration impacts associated with sport-related concussion: a systematic review and meta-analysis","title_cn":"运动相关脑震荡冲击的头部加速度大小：系统综述与Meta分析","authors":"Ivanic et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02448-x","pmid":null,"type":"SR/MA","sample":"30项研究","grade":"⊕⊕◯◯ 低","category":"训练-损伤预防","date":"2026-06-27","question":null,"conclusion":"样本量大、效应量显著、研究方向一致","mechanism":null,"key_data":null,"implication":null},{"id":"T-24","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-29_NUS2026_体力活动表观遗传年龄_Lancet_T24.md","title_en":"Physical activity and the epigenetic clock: a systematic review and meta-analysis","title_cn":"体力活动与表观遗传时钟：系统综述与荟萃分析","authors":"新加坡国立大学研究团队 et al.","year":2026,"journal":"The Lancet Healthy Longevity","doi":"10.1016/j.lanhl.2026.100835","pmid":null,"type":"SR/MA","sample":"145,465 名参与者","grade":"⊕⊕⊕◯ 中","category":"训练","date":"2026-06-29","question":"1. 较高的体力活动水平是否与较低的表观遗传年龄（即较慢的生物衰老）相关？","conclusion":"\"运动的人更年轻\"是真的，但\"运动能不能让人变年轻\"还需要更多证据","mechanism":"1. 炎症通路：慢性低度炎症是衰老的核心特征之一（\"炎性衰老\" inflammaging）。规律运动可以降低全身炎症水平，而 GrimAge 恰好包含了许多与炎症相关的甲基化位点。这可能解释了为什么 GrimAge 对运动最敏感。","key_data":"。Meta 分析了 7 项横断面研究的结果：","implication":"运动的抗衰老意义，可能比你想象的更复杂"},{"id":"T-25","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-30_Zhang2026_AEL强调离心负荷_文献解读.md","title_en":"Acute and Chronic Effects of Accentuated Eccentric Loading vs. Constant-Load Resistance Training: A Systematic Review and Meta-analysis","title_cn":"强调离心负荷与恒定负荷抗阻训练的急性与慢性效应比较：系统综述与荟萃分析","authors":"Zhang et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02422-7","pmid":"41945297","type":"SR/MA","sample":null,"grade":"⊕⊕⊕◯ 中","category":"训练","date":"2026-06-30","question":"强调离心负荷（Accentuated Eccentric Loading, AEL）与传统恒定负荷抗阻训练相比，在急性生理反应和慢性适应方面有何差异？不同类型的AEL方案（亚最大、最大、超最大）效果是否不同？","conclusion":"慢性适应结局的证据确定性多为\"低\"，急性反应结局为\"中\"","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":"AEL不是增肌增力的\"魔法\"——目前证据不支持AEL比传统训练带来更好的长期适应"},{"id":"T-26","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-03_Pelland2026_抗阻训练剂量反应_文献解读.md","title_en":"The Resistance Training Dose Response: Meta-Regressions Exploring the Effects of Weekly Volume and Frequency on Muscle Hypertrophy and Strength Gains","title_cn":"抗阻训练剂量反应","authors":"Pelland et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-025-02344-w","pmid":"41343037","type":"SR/MA","sample":"67 RCT / 2,058人（79%男/21%女）","grade":"⊕⊕⊕○ 中","category":"训练-肌肥大","date":"2026-07-03","question":"1. 每周训练容量（以组为单位）与肌肥大/力量增长之间的剂量反应关系是什么形状？是线性、渐进递减还是存在明确平台？","conclusion":"容量是肌肥大和力量的共同驱动因素——这个结论稳","mechanism":null,"key_data":"> 数据 1：67 项研究 / 2,058 名参与者（79.1% 男性 / 20.9% 女性 / 均龄 25.16 ± 5.22 岁）/ 肌肥大 35 项研究 1,032 人 + 力量 66 项研究——分数化量化方法的贝叶斯因子 BF = 9.48–54.84（强到非常强证据）。","implication":"- 高：直接回答训练处方最核心的剂量问题，方法学创新（fractional计数法）有广泛应用价值"},{"id":"T-27","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-04_Shen2026_高强度vs中低强度抗阻训练老年人_文献解读.md","title_en":"Effectiveness of High-Intensity Versus Low-To-Moderate-Intensity Resistance Training in Improving Muscle Strength and Bone Mineral Density in Older Adults: A Systematic Review and Meta-Analysis of Randomized Controlled Trials","title_cn":"高强度 vs 中低强度抗阻训练对老年人肌肉力量与骨密度的比较","authors":"Shen et al.","year":2026,"journal":"Geriatrics & Gerontology International——日本老年医学会官方期刊，Wiley出版","doi":"10.1111/ggi.70607","pmid":"42366614","type":"SR/MA","sample":"18 项 RCT","grade":"⊕○○○ 极低","category":"训练","date":"2026-07-04","question":"对于50岁及以上的成年人，高强度抗阻训练（≥70% 1RM（单次最大重量，1 Repetition Maximum, 1RM））相比中低强度抗阻训练（<70% 1RM），在改善下肢肌肉力量、腰椎/股骨颈骨密度（BMD）以及跌倒发生率方面是否更有效？安全性如何？","conclusion":"283人的数据告诉你，训练强度够不够重，对力量增长真的重要","mechanism":null,"key_data":"（原文出处）","implication":"强度阈值有实证支持：≥70% 1RM这个分界点并非凭空而来。本研究从1283名受试者的RCT数据中确认，70% 1RM是一个有意义的强度分界线——超过这个阈值后，力量增长显著更优。对于追求力量表现的训练者，这是一个值得参考的基准。"},{"id":"T-28","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-06_Yimam2026_植物蛋白vs动物蛋白长期补剂_SRMA_T28.md","title_en":"Long-term effects of plant vs. animal protein supplementation on body composition, muscle strength, physical performance, and cardiometabolic risk factors in adults: a systematic review and meta-analysis of randomized controlled trials","title_cn":null,"authors":"Yimam et al.","year":2026,"journal":"Frontiers in Nutrition，","doi":"10.3389/fnut.2026.1813846","pmid":"41994089","type":"SR/MA","sample":"18项RCT","grade":"⊕⊕◯◯ 低","category":"营养-蛋白","date":"2026-07-06","question":"核心问题：长期（≥6个月）补充植物蛋白补剂与动物蛋白补剂相比，对身体成分、肌肉力量、体能表现和心脏代谢风险因素的影响是否存在差异？","conclusion":"所有结局均无统计学显著差异","mechanism":null,"key_data":"量数据（摘录自原文森林图）","implication":null},{"id":"T-29","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-07_Lopez-Gonzalez2026_老年人运动NMA_文献解读.md","title_en":"Effect of exercise interventions on hand grip and TUG in older adults: A network meta-analysis of randomized controlled trials","title_cn":"不同运动干预对老年人握力与功能性活动能力的效果","authors":"López-González et al.","year":2026,"journal":"Archives of Gerontology and Geriatrics","doi":"10.1016/j.archger.2026.106313","pmid":"42241794","type":"NMA","sample":null,"grade":"⊕⊕◯◯ 低","category":"训练","date":"2026-07-07","question":"在不同运动干预模式（抗阻训练(Resistance Exercise Training, RET)、有氧训练(Aerobic Exercise Training, AET)、多组分训练(Multicomponent Exercise Training, MET)及其与营养支持的组合）中，哪种方案对老年人肌肉力量（握力(Hand Grip Strength)）和功能性活动能力（起立行走测试(Time","conclusion":"方向可信，但具体效应量的精确度需审慎解读","mechanism":null,"key_data":"（附原文出处）","implication":null},{"id":"T-3","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-19_Thurlow2026_短时HIIT急性效应_文献解读.md","title_en":"The Acute Effects of Short-Bout High-Intensity Interval Training on Physiological and Perceptual Outcomes: A Systematic Review and Meta-analysis","title_cn":"短间歇 HIIT 急性生理与感知效应","authors":"Thurlow et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02456-x","pmid":null,"type":"SR/MA","sample":"681 名运动员（117 种训练方案）","grade":"⊕⊕⊕○ 中","category":"训练-心肺","date":"2026-06-19","question":"1. 系统评估短间歇 HIIT 的急性生理与感知负荷特征","conclusion":"心率指标（平均心率、峰值心率）证据确定性中等","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":null},{"id":"T-31","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-09_Drummond2026_蛋白补充剂NMA_文献解读.md","title_en":"Which Protein‐Based Dietary Supplements Most Effectively Enhance Fat‐Free Mass and Strength Gains in Healthy Adults Undergoing Resistance Training? A Network Meta‐Analysis","title_cn":null,"authors":"Drummond et al.","year":2026,"journal":"Translational Sports Medicine","doi":"10.1155/tsm2/5557511","pmid":"41635649","type":"NMA","sample":null,"grade":"⊕⊕⊕○ 中","category":"营养-蛋白","date":"2026-07-09","question":"核心问题：在健康成人进行抗阻训练（Resistance Training, RET）的背景下，13种蛋白质基膳食补充剂（Dietary Supplements）在增强肌肉力量和去脂体质量（Fat-Free Mass, FFM）方面的相对效果如何排序？","conclusion":"8项RCT告诉我们，13种蛋白里只有乳清和胶原蛋白跑赢了安慰剂；但胶原蛋白的\"冠军\"头衔不被统计学支持","mechanism":null,"key_data":"1. 胶原蛋白 vs 安慰剂（力量）：SMD = 0.41（95%CI: 0.09–0.73），p = 0.0125，SUCRA = 88.05%；绝对值约增加6.0 kg（1RM）。但胶原蛋白 vs 乳清蛋白的直接对比SMD = 0.26（95%CI: −0.06, 0.59），未达显著性。（原文Abstract及§4.1）","implication":null},{"id":"T-32","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-12_Cowley2026_高级抗阻训练方法BayesianNMA_文献解读.md","title_en":"The Effects of Advanced Resistance Training Prescription Methods on Strength, Power, Hypertrophy, and Performance Adaptations in Healthy Adults: A Systematic Review and Bayesian Network Meta-analysis","title_cn":null,"authors":"Cowley et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02428-1","pmid":"41951916","type":"Bayesian NMA","sample":"62 项随机对照试验（Randomized Controlled Trial, RCT）","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-12","question":"核心问题：在健康成人中，所谓的\"先进\"抗阻训练方法（飞轮、加重离心、适应性阻力、休息再分配/簇集组、增强复合、超级组、递减组）对力量、爆发力、肌肥大、跳跃、冲刺 5 个结局的相对效应，是否真正优于传统恒定负荷多组训练（Traditional Resistance Training, TRT）？","conclusion":"（力量、爆发力、肌肥大上无任何方法持续优于传统 RT）达到中-高级别确定性；具体亚结论（飞轮跳跃优势、休息再分配对...","mechanism":null,"key_data":"点（按重要性排序）","implication":"对深度训练爱好者和学生："},{"id":"T-33","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-14_Ren2026_T2DM肥胖运动HbA1c_BayesianNMA.md","title_en":"Effects of different exercise modalities and doses on glycated hemoglobin in patients with type 2 diabetes mellitus and overweight or obesity: a systematic review and Bayesian multilevel network meta-analysis","title_cn":null,"authors":"Ren et al.","year":2026,"journal":"Diabetes Research and Clinical Practice","doi":"10.1016/j.diabres.2026.113393","pmid":"42341882","type":"Bayesian NMA","sample":"67 项 RCT","grade":"⊕○○○ 极低","category":"健康-代谢","date":"2026-07-14","question":null,"conclusion":"精度尚可；但摘要自述\"greater uncertainty at exposure extremes\"（暴露极端...","mechanism":null,"key_data":"点（从 PubMed 摘要核证）","implication":"对深度训练爱好者和学生而言，本文的核心价值在于\"在 T2DM + 超重/肥胖亚群中按目标选择运动模态\"——但同时必须传递\"低-极低 GRADE 确定性\"这一关键限定。"},{"id":"T-34","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-15_ZhangT2026_女性抗阻训练CVD_JACC_文献解读.md","title_en":"Resistance Training, Aerobic Activity, Television Viewing, and Risk of Major Cardiovascular Events in U.S. Women","title_cn":"美国女性抗阻训练、有氧活动、电视观看与主要心血管事件风险","authors":"Zhang et al.","year":2026,"journal":"Journal of the American College of Cardiology","doi":"10.1016/j.jacc.2026.04.036","pmid":null,"type":"Original Research","sample":"117,025 名美国女性（NHS 45,669 + NHS II 71,356）","grade":"⊕⊕⊕○ 中","category":"健康-心血管","date":"2026-07-15","question":"1. 美国女性中，长期抗阻训练（Resistance Training, RT）与主要心血管疾病（Cardiovascular Disease, CVD）事件风险之间的关联强度？","conclusion":"（HR 0.80 主要 CVD / HR 0.56 MI）经 ACC Journal Scans 编辑评议、网易/...","mechanism":null,"key_data":null,"implication":null},{"id":"T-35","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-17_Bao2026_5种RT模式_NMA_文献解读.md","title_en":"Relative effectiveness of different resistance training modalities on lower-body strength and explosive power: a systematic review and network meta-analysis","title_cn":"5 种抗阻训练方法对下肢最大力量与爆发力的相对效应——网状荟萃分析","authors":"Bao et al.","year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1823323","pmid":"39519498","type":"NMA","sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-17","question":"核心问题：在健康、体力活跃人群中，5 种主流抗阻训练方法——百分比训练法（Percentage-Based Training, PBT）、自适应渐进抗阻训练（Autoregulatory Progressive Resistance Exercise, APRE）、速度反馈训练（Velocity-Based Training, VBT）、RPE/余量次数自适应训练（RPE/RIR-based Au","conclusion":"（VRT/APRE/VBT 相对 PBT 在特定结局上具有非零效应）达到中等级别确定性；SUCRA 排序本身因间接...","mechanism":null,"key_data":"0.62；1.08；0.62","implication":"对深度训练爱好者和学生："},{"id":"T-37","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-19_WangY2026_RT血管功能高血压超重_SRMA_T37.md","title_en":"Can resistance training alone or resistance training combined with aerobic training improve arterial stiffness, endothelial function, and other vascular function indicators in adults with hypertension or overweight/obesity-related vascular risk? A systematic review and meta-analysis of randomized controlled trials","title_cn":null,"authors":"Wang et al.","year":2026,"journal":"Frontiers in Cardiovascular Medicine","doi":"10.3389/fcvm.2026.1835366","pmid":null,"type":"NMA","sample":"20 项 RCT","grade":"⊕○○○ 极低","category":"健康-心血管","date":"2026-07-19","question":null,"conclusion":"应被理解为\"方向稳健、效应有限\"，而非\"明确推荐 RT 改善血管功能\"","mechanism":null,"key_data":"点的\"参与者数\"以\"具体研究数\"为主，具体总人数\"待原文核证\"。","implication":"对深度训练爱好者和学生而言，本文的核心价值在于\"在高血压或超重/肥胖人群，RT 改善血管功能的方向已确立、效应量已量化、但临床显著性问题需明确\"，但同时必须传递\"低 GRADE 确定性\"这一关键限定。"},{"id":"T-38","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-20_YangY2026_认知NMA_T-38.md","title_en":"Optimal type and dose of exercise to improve cognitive function in healthy and pre-sarcopenic older adults: a bayesian network meta-analysis of randomized controlled trials","title_cn":"优化运动方式与剂量改善健康与肌少症前期老年人认知功能：随机对照试验贝叶斯网状荟萃分析","authors":"Yang et al.","year":2026,"journal":"European Review of Aging and Physical Activity","doi":"10.1186/s11556-026-00404-2","pmid":"41593498","type":"Bayesian NMA","sample":"15 RCT, 1人","grade":"⊕○○○ 极低","category":"训练","date":"2026-07-20","question":null,"conclusion":"（健康老年人有氧/抗阻 ≥600 MET·min/周、肌少症前期多模态 700-1,200 MET·min/周）方...","mechanism":null,"key_data":"0.88；0.60；SMD=0.88（95%CI 0.55-1.20）","implication":"核心结论 1：600 MET·min/周是临床起效阈值"},{"id":"T-39","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-21_Watson2026_ACL_IPP_SRMA_T39.md","title_en":"A Systematic Review and Meta-analysis of Anterior Cruciate Ligament Injury Prevention Programs: Training to Stay in the Game","title_cn":"前交叉韧带损伤预防项目的系统综述与荟萃分析：训练以留在赛场","authors":"Watson et al.","year":2026,"journal":"The American Journal of Sports Medicine","doi":"10.1177/03635465251376670","pmid":"41486737","type":"SR/MA","sample":null,"grade":"⊕⊕⊕○ 中","category":"康复-损伤","date":"2026-07-21","question":null,"conclusion":"（IPP 整体降低 ACL 风险约 54%、不参加 IPP 的运动员风险约为参加者的 2 倍）方向稳健、效应量大、...","mechanism":null,"key_data":"（整体 RR=0.46、<18 岁 0.35、≥18 岁 0.50、女性 0.57、足球 0.30、手球 0.66、平衡板 0.49、I²=32% / 0% / 66%、样本量 25,166、研究数 9 RCT + 9 队列、年龄 19.3±3.6、>85% 女性、4 项运动项目、干预最短 1 赛季、PROSPERO 注册号未在 PubMed 摘要显示——待原文核证）与 PubMed 摘要 + S","implication":"核心结论 1：不练 IPP 的运动员，ACL 损伤风险约为练 IPP 的 2 倍"},{"id":"T-4","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-05_Currier2026_ACSM_ResistanceTraining_PositionStand.md","title_en":"Resistance Training Prescription for Muscle Function, Hypertrophy, and Physical Performance in Healthy Adults: An Overview of Reviews","title_cn":"ACSM 2026 抗阻训练处方立场声明","authors":"Currier et al.","year":2026,"journal":"Medicine & Science in Sports & Exercise","doi":"10.1249/MSS.0000000000003897","pmid":"41843416","type":"Umbrella Review","sample":"137篇系统综述，30,000+名参与者","grade":"⊕⊕⊕⊕ 高","category":"训练-力量","date":"2026-06-05","question":null,"conclusion":"上，证据具有高确定性","mechanism":null,"key_data":"| 数据点 | 原文出处 | 关键意义 |","implication":"对教练和学生：打破「8-12次增肌」「必须练到力竭」「必须周期化」「必须去健身房」等多个健身神话，强调坚持比完美处方更重要。"},{"id":"T-40","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-22_Sharifian2026_肌酸运动老年人_SRMA_T40.md","title_en":"Impact of creatine supplementation and exercise training in older adults: a systematic review and meta-analysis","title_cn":"肌酸补充联合运动训练对老年人影响的系统综述与荟萃分析","authors":"Sharifian et al.","year":2025,"journal":"European Review of Aging and Physical Activity","doi":"10.1186/s11556-025-00384-9","pmid":"41062952","type":"SR/MA","sample":"20 项","grade":"⊕⊕○○ 低","category":"营养-补剂","date":"2026-07-22","question":null,"conclusion":null,"mechanism":null,"key_data":"（1RM MD=2.122 kg, Z=3.255, P=0.001, I²=0%；体脂率 MD=-0.548%, Z=-2.231, P=0.026, I²=0%；BMD MD=0.009, Z=0.587, P=0.557, I²=41%；样本量 1,093 / 20 RCT / 69% 女性；PEDro 7.95±0.89；RoB 2.0: 11 高 / 5 一些担忧 / 4 低；亚组 La","implication":"对真实世界建议而言：；- 可用：肌酸 + 运动对 1RM 的增益（中等确定性）；- 慎用：体脂率改善（低确定性 + 临床意义边缘）"},{"id":"T-41","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-23_文献解读.md","title_en":"One Size Does Not Fit All: A Meta-Analysis of 115 Trials Comparing High-Intensity Interval and Moderate-to-Vigorous-Intensity Continuous Training Across Diverse Participants, Protocols, and Outcomes","title_cn":"\"一刀切\"行不通：115 项试验比较 HIIT 与 MVICT 跨人群、方案与结局的荟萃分析","authors":"Bi et al.","year":2026,"journal":"Scandinavian Journal of Medicine & Science in Sports","doi":"10.1111/sms.70243","pmid":"41804294","type":"SR/MA","sample":"115 RCT, 3人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-23","question":"核心问题：HIIT（高强度间歇训练）与 MVICT（中等至较高强度持续训练）相比——","conclusion":null,"mechanism":null,"key_data":"（115 RCT / 3,196 人 / 8-68 岁 / 3 数据库 PubMed/WoS/CNKI / 检索 2024-09-21 / PRISMA / 三水平 MA / 相对 VO2max g=0.39 [0.27, 0.51] / 绝对 VO2max g=0.29 [0.15, 0.43] / 最大有氧功率/速度 g=0.31 [0.17, 0.47] / 平均无氧功率 g=0.47 [0","implication":null},{"id":"T-42","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-23_文献解读_T42.md","title_en":"Physical activity types, variety, and mortality: results from two prospective cohort studies","title_cn":"体力活动类型、多样性与死亡率：两项前瞻性队列研究的结果","authors":"Han et al.","year":2026,"journal":"BMJ Medicine","doi":"10.1136/bmjmed-2025-001513","pmid":"41574252","type":"前瞻性队列研究","sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":"在调整了总运动量之后，活动种类最多的那组跟最少的那组比，全因死亡风险降低 19%","mechanism":null,"key_data":"（111,467 人 / 70,725 women + 40,742 men / 2,431,318 person-years / 38,847 deaths / 9,901 CVD / 10,719 cancer / 3,159 respiratory / 12 activity types / 5 variety groups / 所有 9 个单项活动 HR 与 95%CI / 多样性 19%","implication":null},{"id":"T-43","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-23_文献解读_T43.md","title_en":"Lean Mass Changes With Incretin Therapy Versus Lifestyle Intervention: A Systematic Review and Meta-Analysis of Randomised Controlled Trials","title_cn":"肠促胰素治疗与生活方式干预对瘦体重变化的比较：一项随机对照试验的系统综述与荟萃分析","authors":"Eisa et al.","year":2026,"journal":"Diabetes, Obesity and Metabolism","doi":"10.1111/dom.70666","pmid":"41877354","type":"SR/MA","sample":"20 RCT, 15人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":"GLP-1类减重药物（胰高血糖素样肽-1受体激动剂, Glucagon-Like Peptide-1 Receptor Agonists, GLP-1 RAs）和双靶点药物（如替尔泊肽/tirzepatide，GLP-1/GIP双受体激动剂）在爆发式增长的减重市场中，\"减掉的体重里有多少是瘦体重/肌肉\"成为临床与公众共同关注的焦点。本文要回答的问题是：GLP-1类药物治疗期间的瘦体重丢失比例，是否","conclusion":"GLP-1类药物的瘦体重占比（25-35%）与单纯生活方式干预（26.2%）无显著差异（p=0.42）","mechanism":"- 力学信号通路：RT通过mTOR通路直接刺激肌肉蛋白合成（Muscle Protein Synthesis, MPS）","key_data":"。司美格鲁肽组，瘦体重占总减重的35.2%，每减10公斤大概有3.5公斤来自瘦体重。替尔泊肽25.4%，利拉鲁肽26.8%。单纯生活方式干预26.2%——你看，和GLP-1类药物几乎一样。p值0.42，没有任何统计学意义。","implication":"- GRADE低等级≠\"证据没用\"——而是提醒我们：在具体数值层面还需更多高质量RCT来精确定位效应量"},{"id":"T-44","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-23_文献解读_T44.md","title_en":"Effects of resistance exercise dose on pain intensity and disease impact among individuals with fibromyalgia: a systematic review with meta-analysis","title_cn":null,"authors":"Casanova et al.","year":2026,"journal":"Annales de Réadaptation et de Médecine Physique, Elsevier Masson 出版,","doi":"10.1016/j.rehab.2026.102155","pmid":null,"type":"SR/MA","sample":"14 项 RCT","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":null,"mechanism":null,"key_data":"> 以下 3 个数据点构成本文核心证据","implication":null},{"id":"T-45","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-07-23_文献解读_T45.md","title_en":"Effect of high-intensity interval training on cardiovascular health: an umbrella review of systematic reviews and meta-analyses","title_cn":null,"authors":"Du，西安交通大学体育中心 et al.","year":2026,"journal":"Journal of Exercise Science & Fitness，Elsevier 旗下运动科学期刊","doi":null,"pmid":null,"type":"Umbrella Review","sample":"54 项系统评价/荟萃分析（SR/MA），经分类去重后 33 篇纳入最终数据分析，产生 88 个独立合并效应量","grade":"⊕⊕○○ 低","category":"训练-心肺","date":"2026-07-23","question":"- 效果在不同人群（CVD 患者、代谢性疾病患者、表观健康人群）中是否一致？","conclusion":". HIIT 的心血管获益具有跨人群一致性——CVD、代谢性疾病、表观健康人群均观察到获益","mechanism":null,"key_data":"（效应范围、GRADE、AMSTAR 2 评价结论、人群分层结果）均来自生物通深度解读全文转载（202","implication":"HIIT 对心血管的获益是真实的、跨人群一致的；- 无论你是 CVD 患者、代谢性疾病患者还是表观健康人群，HIIT 都能改善血压、心率和心脏功能；- SBP 降低 3-5 mmHg——这在人群层面上是有公共卫生意义的幅度"},{"id":"T-46","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-24_Wu2026_冷疗NMA_T46.md","title_en":"Impact of different cryotherapy interventions on post-exercise acute delayed-onset muscle soreness, athletic performance, and inflammatory biomarkers: a systematic review and network meta-analysis","title_cn":"不同冷疗干预对运动后急性延迟性肌肉酸痛、运动表现与炎症生物标志物的影响：系统综述与网状荟萃分析","authors":"Wu et al.","year":2026,"journal":"Frontiers in Sports and Active Living","doi":"10.3389/fspor.2026.1819396","pmid":"42088589","type":"NMA","sample":"51 RCT, 1人","grade":"⊕⊕○○ 低","category":"康复-冷疗","date":"2026-07-24","question":"不同冷疗模态（全身冷疗 WBC、冷水浸浴 CWI、冷热交替水疗 CWT、局部冷疗 LCT）在运动后不同时间点（即时、1h、24h、48h、72h）对五类结局（DOMS 主观酸痛、CMJ 客观跳跃表现、CK / IL-6 / CRP 炎症生化标志物）的恢复效应有何差异——哪种冷疗对哪种结局在哪个时间点最优？","conclusion":null,"mechanism":null,"key_data":"（\"WCWI SMD=0.45 / 局部 CWI 0.32 / 冰袋 0.18 / 冷气冷冻 0.28\"）与原文核证存在显著偏差。本文以原文真实数据为准，不采用候选清单可疑数据。","implication":"冷疗\"按需选择\"——按时间窗 + 训练目标："},{"id":"T-5","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-05_Refalo2025_性别差异_肌肉肥大_BayesianNMA_PeerJ.md","title_en":"Sex differences in absolute and relative changes in muscle size following resistance training in healthy adults: a systematic review with Bayesian meta-analysis","title_cn":"男女抗阻训练后肌肉肥大差异","authors":"Refalo et al.","year":2025,"journal":"PeerJ","doi":"10.7717/peerj.19042","pmid":null,"type":"SR/MA","sample":"29篇","grade":"⊕⊕⊕◯ 中高","category":"训练-肌肥大","date":"2026-06-05","question":"主问题：健康青年至中年成人完成相同抗阻训练（Resistance Training, RT）后，男女在肌肉肥大（muscle hypertrophy）的绝对与相对变化上是否存在差异？","conclusion":"29篇研究、2,815名参与者、68个结局一致指向相对变化无性别差异（E...","mechanism":"作者讨论了多个支持\"男女增肌潜力相似\"的机制证据：","key_data":null,"implication":null},{"id":"T-6","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-07_Poon2026_儿童肥胖_抗阻训练_UmbrellaReview.md","title_en":"Impact of Resistance Training on Body Composition, Physical Fitness, and Cardiometabolic Health in Children and Adolescents With Overweight/Obesity: An Umbrella Review With Meta-Analyses","title_cn":"Poon et al. 2026 | 抗阻训练对超重及肥胖儿童青少年的影响","authors":"Poon et al.","year":2026,"journal":"Obesity Reviews","doi":"10.1111/obr.70171","pmid":null,"type":"Umbrella Review","sample":null,"grade":null,"category":"健康-代谢","date":"2026-06-07","question":"综合现有系统评价证据，评估抗阻训练（Resistance Training, RT）对4-18岁超重及肥胖儿童青少年身体成分、体适能及心血管代谢健康的影响，并探索亚组效应（对照类型、训练频率、干预时长、年龄）。","conclusion":null,"mechanism":null,"key_data":null,"implication":"RT对儿童青少年的身体成分改善效应确实存在，但效应量较小（BF%约降0.5%）"},{"id":"T-8","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-08_McKee2026_高负荷BFR_抗阻训练_SRMA.md","title_en":"Acute and Chronic Effects of High-Load Resistance Training With Blood Flow Restriction in Healthy Adults: A Systematic Review and Meta-Analysis","title_cn":"高负荷抗阻训练联合血流限制对健康成人的急慢性影响","authors":"McKee et al.","year":2026,"journal":"Journal of Strength and Conditioning Research","doi":"10.1519/JSC.0000000000005467","pmid":"42223143","type":"SR/MA","sample":"8项慢性研究 + 34项急性研究","grade":"⊕◯◯◯ 极低","category":"训练","date":"2026-06-08","question":"主问题：在健康成人中，在高负荷抗阻训练（≥60% 单次最大重量，即 ≥60% 1RM）基础上联合血流限制（Blood Flow Restriction, BFR），是否比单纯高负荷抗阻训练带来更大的肌肉力量和体积增益？","conclusion":"高负荷 BFR 对肌肉力量无显著增益","mechanism":null,"key_data":"| 数据点 | 原文出处 | 数值 |","implication":null},{"id":"T-9","tier":1,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-10_Brinkmann2026_热量限制_训练模式_瘦体重_NMA.md","title_en":"Effects of Calorie Restriction With and Without Strength, Endurance or Mixed Training on Fat-Free and Skeletal Muscle Mass in Overweight or Obese Individuals—A Systematic Review With Pairwise Meta-Analysis and Network Meta-Analysis of Randomized Controlled Studies","title_cn":"热量限制联合或不联合力量、耐力或混合训练对超重/肥胖个体瘦体重与骨骼肌质量的影响——随机对照研究的系统综述与配对荟萃分析及网络荟萃分析","authors":"Deller et al.","year":2026,"journal":"Diabetes, Obesity and Metabolism","doi":"10.1111/dom.70873","pmid":null,"type":"NMA","sample":"34项RCT","grade":"⊕⊕◯◯ 低","category":"训练-力量","date":"2026-06-10","question":"在超重/肥胖人群中，热量限制（Calorie Restriction, CR）联合运动训练相比单纯热量限制，能否更有效地保留瘦体重（Fat-Free Mass, FFM）和骨骼肌质量（Skeletal Muscle Mass, SMM）？不同训练模式（力量训练、耐力训练、混合训练）的肌肉保留效果是否存在差异？","conclusion":"运动训练可有效减轻热量限制期间的瘦体重损失，混合训练效果最优，力量训练次之，单纯耐力训练效果最弱且未达统计学显著性","mechanism":null,"key_data":null,"implication":null},{"id":"H-28","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Nature Aging","doi":"10.1038/s43587-026-01150-x","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-09","question":null,"conclusion":"长期运动消除约50%年龄相关转录组变化；突触传递和WNT信号通路与训练无关——'可预防vs不可避免'","mechanism":null,"key_data":null,"implication":"为运动抗衰设定分子边界"},{"id":"H-29","tier":2,"interpretation_path":null,"title_en":"H-29 Corley - Semaglutide表观遗传衰老RCT","title_cn":null,"authors":"MJ et al.","year":2026,"journal":"Nature Communications","doi":"10.1038/s41467-026-72861-3","pmid":null,"type":"RCT","sample":"108人 / 32周双盲安慰剂对照 / 多种表观遗传时钟","grade":"⊕⊕○○ 低","category":"抗衰老-表观遗传时钟","date":"2026-07-08","question":null,"conclusion":"DunedinPACE减缓9%、PCGrimAge -3.1年、PhenoAge -4.9年；六系统衰老时钟均改善","mechanism":null,"key_data":null,"implication":"GLP-1减缓表观遗传衰老首个RCT证据；但外推至健康人群未知"},{"id":"H-30","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Genetics","doi":"10.3389/fgene.2026.1836446","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"健康","date":"2026-07-08","question":null,"conclusion":"运动/营养/药物/手术等干预对DunedinPACE/PCGrimAge等时钟的综合效应；饮食+运动最强靶点","mechanism":null,"key_data":null,"implication":"跨领域'抗衰干预'全景参照系"},{"id":"H-31","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1746298","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"健康","date":"2026-07-11","question":null,"conclusion":"BET疲劳态SMD=0.87(大效应) vs 基线0.21(小)；Stroop/PVT反应时也改善","mechanism":null,"key_data":null,"implication":"BET'认知-运动迁移'效应在疲劳态最强"},{"id":"H-32","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Psychology","doi":"10.1186/s40359-026-04900-z","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"健康","date":"2026-07-11","question":null,"conclusion":"心理疲劳损害运动反应时g=0.50、技术g=0.61、决策g=0.67；决策一致性最高I²=9.6%","mechanism":null,"key_data":null,"implication":"定量确认心理疲劳对运动表现的负面迁移"},{"id":"H-33","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"GeroScience","doi":"10.1007/s11357-025-02076-9","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"健康","date":"2026-07-11","question":null,"conclusion":"月耐力训练使GrimAge减速7.44个月；与VO₂max改善+20%相关；中性粒细胞比例解释81%方差","mechanism":null,"key_data":null,"implication":"首个耐力训练RCT对GrimAge的定量证据"},{"id":"H-34","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Global Health","doi":"10.1093/jogh-16-04095n","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-11","question":null,"conclusion":"高水平习惯性体力活动降低肌少症风险45%（RR=0.55, 95%CI 0.44-0.67）；女性效应略强","mechanism":null,"key_data":null,"implication":"中等强度日常活动累积即可获益"},{"id":"H-35","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2025.1627292","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-24","question":null,"conclusion":"体力活动与端粒长度显著正相关；中高强度+规律活动关联最显著","mechanism":null,"key_data":null,"implication":"久坐是端粒缩短独立可改变风险因子"},{"id":"H-36","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-025-01286-0","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-24","question":null,"conclusion":"IRT显著降低SBP/DBP；高强度≥80%MVC+≥4周+3次/周最优","mechanism":null,"key_data":null,"implication":"IRT时间效率高(<15min)，适合老年/关节受限人群"},{"id":"H-37","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1774541","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-24","question":null,"conclusion":"IET(4×2min@30%MVC, 3次/周)显著降低SBP/DBP；时间效率高<10min","mechanism":null,"key_data":null,"implication":"家庭/办公'微运动'降压处方"},{"id":"H-38","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Health Psychology Review","doi":"10.1080/17437199.2026.2652892","pmid":null,"type":null,"sample":"132 RCT, 23人","grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-24","question":null,"conclusion":"冥想干预降低工作压力SMD=-0.51(中等)+职业倦怠+心理困扰；MBSR 8周最优","mechanism":null,"key_data":null,"implication":"企业心理健康'标准化MBSR 8周'处方"},{"id":"H-39","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Psychology","doi":"10.3389/fpsyg.2026.1755245","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-24","question":null,"conclusion":"在线vs面对面冥想效应相当；在线完课率+15-20%、成本-50-70%","mechanism":null,"key_data":null,"implication":"数字化冥想可作为传统MBSR/MBCT的可及性替代"},{"id":"H-40","tier":2,"interpretation_path":null,"title_en":"Methodological concerns in creatine and cognitive function meta-analyses: addressing double-counting bias in Xu 2024","title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Nutrition 13:1716285","doi":"10.3389/fnut.2026.1716285","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-25","question":null,"conclusion":"①同一研究人群被多次纳入不同亚组；②同一结局拆分为多...","mechanism":null,"key_data":null,"implication":"\"肌酸+认知\"健康声称应避免泛化——目标人群+剂量+时机需具体限定。所有\"肌酸补脑\"营销话术需限定条件。"},{"id":"H-41","tier":2,"interpretation_path":null,"title_en":"The FAXAge randomized controlled trial: study protocol for a 52-week multimodal anti-aging intervention in older adults","title_cn":null,"authors":null,"year":2026,"journal":"Geroscience","doi":"10.1007/s11357-026-02362-0","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-25","question":null,"conclusion":"①纳入 65+ 虚弱前期或轻度虚弱老年人；②干预：有氧+抗阻运动（3次/周）+ 地中海饮食...","mechanism":null,"key_data":null,"implication":"为 senolytics 真实临床效应 + 多模态协同抗衰提供最高等级证据框架。抗衰主题升级核心参考。"},{"id":"H-42","tier":2,"interpretation_path":null,"title_en":"REPROGRAM: a randomized controlled trial protocol investigating short-term geroprotective interventions in healthy older adults","title_cn":null,"authors":"al. et al.","year":2026,"journal":"PLoS One","doi":"10.1371/journal.pone.0346347","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-25","question":null,"conclusion":"①纳入健康 70+ 老年人；②三臂随机：Metformin（1500 mg/d，mT...","mechanism":null,"key_data":null,"implication":"为 geroprotector 临床转化 + 短期抗衰生物标志物响应提供最高等级证据框架。"},{"id":"H-43","tier":2,"interpretation_path":null,"title_en":"The MIDA trial: study protocol for a multimodal intervention to delay aging in older adults","title_cn":null,"authors":"al. et al.","year":2026,"journal":"Innovations in Aging","doi":null,"pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-25","question":null,"conclusion":"①纳入 60-85 老年人+认知正常或 MCI 早期+自理；②干预：运动（有氧+抗阻+平衡 3...","mechanism":null,"key_data":null,"implication":"多模态抗衰 RCT 协议，为早中老年认知-身体双结局干预提供框架。预期 2028-2030 主要结局。"},{"id":"H-44","tier":2,"interpretation_path":null,"title_en":"Low energy availability, bone health, and gut microbiota: a narrative review","title_cn":null,"authors":"JK et al.","year":2026,"journal":"Frontiers in Nutrition 13:1901299","doi":"10.3389/fnut.2026.1901299","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-25","question":null,"conclusion":"①LEA 直接抑制骨形成+促进骨吸收——通过下丘脑-垂体-性腺轴抑制+瘦素/饥饿素通路+...","mechanism":null,"key_data":null,"implication":"LEA 高风险人群（女运动员/减重期/耐力项目）应关注菌群健康（纤维摄入+发酵食品+益生菌）——可能协同保护骨代谢。"},{"id":"H-45","tier":2,"interpretation_path":null,"title_en":"Effect of high-impact exercise during short-term energy restriction on bone turnover markers in trained women: a randomized controlled trial","title_cn":null,"authors":"DE et al.","year":2026,"journal":"Calcified Tissue International 117:101","doi":"10.1007/s00223-026-01564-0","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"健康","date":"2026-07-25","question":null,"conclusion":"两组血清 CTX（骨吸收标志物）均显著升高，组间 NS；P1NP/OC...","mechanism":null,"key_data":null,"implication":"减重期/LEA 风险期应优先恢复能量平衡+蛋白充足（≥1.6 g/kg/d）——再叠加高冲击运动才有骨保护效应。单纯高冲击在 LEA 状态下无效。"},{"id":"H-47","tier":2,"interpretation_path":null,"title_en":"Mental fatigue and physical performance: a self-fulfilling prophecy?","title_cn":null,"authors":null,"year":2026,"journal":"Sports Med 56:1063-1068","doi":"10.1007/s40279-026-02400-z","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-26","question":null,"conclusion":"①实验范式问题——30-90min认知任务诱导\"心理疲劳\"同时诱导生理疲劳...","mechanism":null,"key_data":null,"implication":"\"高强度认知工作后避免运动\"营销话术限定条件——证据等级远低于宣称的\"显著效应\"。承认小效应+关注生理疲劳与预期效应混淆。"},{"id":"H-48","tier":2,"interpretation_path":null,"title_en":"The Latin American FINGERS trial: a multicountry randomized controlled trial of a multimodal intervention to prevent cognitive decline in older adults at risk of dementia","title_cn":null,"authors":"Group et al.","year":2026,"journal":"Lancet 2026","doi":"10.1016/S0140-6736(26)01278-X","pmid":null,"type":null,"sample":null,"grade":null,"category":"健康","date":"2026-07-26","question":null,"conclusion":"多模态干预（运动+营养+认知训练+心血管风险管理）vs常规护理","mechanism":null,"key_data":null,"implication":"关注2027-2028主要结局发表——预期为LMIC多模态干预提供LOE 1级证据。"},{"id":"H-49","tier":2,"interpretation_path":null,"title_en":"Traditional Chinese medicine-based multi-component interventions for cognitive impairment in older adults: a network meta-analysis of randomized controlled trials","title_cn":null,"authors":null,"year":2026,"journal":"Exp Aging Res","doi":"10.1080/0361073X.2026.2700149","pmid":null,"type":null,"sample":"33 RCT, 2503人","grade":"⊕⊕⊕○ 中","category":"健康","date":"2026-07-26","question":null,"conclusion":"SUCRA排序——针刺+西药联合85% > 中药复方+西药72% > 中成...","mechanism":null,"key_data":null,"implication":"老年MCI+轻中度痴呆：TCM多组分联合西药可考虑作为辅助，不应单用TCM替代西药。"},{"id":"H-50","tier":2,"interpretation_path":null,"title_en":"Feasibility of resistance exercise training combined with creatine supplementation during chemotherapy for colorectal cancer: a pilot randomized controlled trial","title_cn":null,"authors":"al. et al.","year":2026,"journal":"PLOS One","doi":"10.1371/journal.pone.XXXXXXX）","pmid":null,"type":null,"sample":null,"grade":"⊕○○○ 极低","category":"健康","date":"2026-07-26","question":null,"conclusion":"招募率18%（低于预期30%）；保留率78%（高于可行性阈值70%）；依从性R...","mechanism":null,"key_data":null,"implication":"癌症患者运动+营养干预研究需关注招募策略（降低门槛+灵活方案）；肌酸可作为运动依从性辅助。"},{"id":"H-51","tier":2,"interpretation_path":null,"title_en":"Effect of music intervention on HRV: SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Front Psychol 17:1750786","doi":"10.3389/fpsyg.2026.1750786","pmid":null,"type":null,"sample":"24 RCT, 1295人","grade":"⊕⊕⊕○ 中","category":"大健康","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"H-52","tier":2,"interpretation_path":null,"title_en":"Effects of 4 weeks of coherent breathing on 400m running performance and autonomic balance in trained athletes: a randomized controlled trial","title_cn":"拆伪科学核心","authors":null,"year":2026,"journal":"J Strength Cond Res","doi":"10.1519/JSC.0000000000005377","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"大健康","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"H-54","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Nature","doi":"10.1038/s41586-026-10524-5","pmid":null,"type":"跨组学","sample":null,"grade":"⊕⊕⊕○ 中","category":"心理-抑郁焦虑","date":"2026-08-03","question":null,"conclusion":"女性最佳睡眠时长6.5-7.8h / 男性6.4-7.7h","mechanism":null,"key_data":null,"implication":null},{"id":"H-55","tier":2,"interpretation_path":null,"title_en":"H-55 Low A & Lam B 2026 IJIRSS HRV biofeedback+正念联合干预：RCT","title_cn":null,"authors":null,"year":2026,"journal":"IJIRSS","doi":null,"pmid":null,"type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"心理-抑郁焦虑","date":"2026-08-03","question":null,"conclusion":"联合组（HRV biofeedback + 正念）6月时RMSSD + PSS继续改善","mechanism":null,"key_data":null,"implication":null},{"id":"H-56","tier":2,"interpretation_path":null,"title_en":null,"title_cn":"60年证据","authors":null,"year":2026,"journal":"J Clin Med 15:4597","doi":"10.3390/jcm15124597","pmid":null,"type":"叙事综述","sample":null,"grade":null,"category":"大健康-心肺适能","date":"2026-08-03","question":null,"conclusion":"每1-MET提升关联12-15%全因死亡风险降低","mechanism":null,"key_data":null,"implication":null},{"id":"H-57","tier":2,"interpretation_path":null,"title_en":"H-57 Huang H 2026 J Epidemiol Community Health 久坐替代分析：双队列","title_cn":null,"authors":null,"year":2026,"journal":"J Epidemiol Community Health","doi":"10.1136/jech-2025-225695","pmid":null,"type":"双队列","sample":null,"grade":"⊕⊕⊕○ 中","category":"大健康-久坐管理","date":"2026-08-03","question":null,"conclusion":"30min/d久坐替代HR=0.963-0.967","mechanism":null,"key_data":null,"implication":null},{"id":"H-60","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"CH et al.","year":2026,"journal":"npj Aging","doi":"10.1038/s41514-026-00446-x","pmid":null,"type":"转录组+甲基化关联分析","sample":"3,227人（HRS队列）/ 5种时钟（Horvath / Hannum / PhenoAge / GrimAge / DunedinPACE）","grade":"⊕⊕⊕○ 中高","category":"抗衰老-表观遗传时钟","date":"2026-08-06","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"N-10","tier":2,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/2026-06-26_Gu2026_β丙氨酸女性运动表现_文献解读.md","title_en":"Effects of beta-alanine supplementation on exercise performance and related physiological outcomes in women: a systematic review and meta-analysis","title_cn":"β-丙氨酸补充对女性运动表现及相关生理结局的影响：系统综述与荟萃分析","authors":"Gu et al.","year":2026,"journal":"Frontiers in Nutrition","doi":"10.3389/fnut.2026.1857513","pmid":null,"type":"SR/MA","sample":"11 RCT, 312人","grade":"⊕◯◯◯ 极低","category":"营养-补剂","date":"2026-06-26","question":"β-丙氨酸（beta-alanine）补充对女性的运动表现及相关生理结局有何影响？","conclusion":"β-丙氨酸显著延长女性力竭时间(TTE)(SMD=0.49, 95%CI:0.20~0.79, p=0.001, ...","mechanism":null,"key_data":"| 数据点 | 数值 | 出处 |","implication":"β-丙氨酸在女性中的效果仍不确定"},{"id":"N-2","tier":2,"interpretation_path":null,"title_en":"Creatine supplementation in young men under resistance versus non-resistance training: a systematic review and meta-analysis of strength, performance, and lean mass","title_cn":null,"authors":"Gu et al.","year":2026,"journal":"Frontiers in Nutrition","doi":"10.3389/fnut.2026.1800546","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕◯◯ 低","category":"营养-补剂","date":"2026-06-11","question":"肌酸补充对力量、无氧表现和瘦体重的影响，是否因训练背景（抗阻训练 vs. 非抗阻训练）而异？","conclusion":"肌酸是目前证据最充分的运动营养补剂之一，但它不是魔法","mechanism":null,"key_data":null,"implication":"- 反营销意义：直接打脸\"吃肌酸就能增肌\"的误导性宣传"},{"id":"N-20","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"GL et al.","year":2026,"journal":"Nutrients","doi":"10.3390/nu18121989","pmid":null,"type":"RCT","sample":"48 RCT, 716人","grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-07-11","question":null,"conclusion":"低剂量≤3mg/kg SMD=-0.27(I²=0%)、中剂量4-6 SMD=-0.52(I²=73%)；绝对获益...","mechanism":null,"key_data":null,"implication":"低剂量已足够；高剂量>6mg/kg无合格研究"},{"id":"N-21","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Pharmacology Research & Perspectives","doi":"10.1002/prp2.70265","pmid":null,"type":null,"sample":"25 RCT, 25人","grade":"⊕⊕○ 中","category":"营养","date":"2026-07-14","question":null,"conclusion":"大样本EPA+DHA补充对MACE复合终点与房颤的整合证据","mechanism":null,"key_data":null,"implication":"与N-15 Yaghoobi Omega-3运动恢复互补"},{"id":"N-22","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"British Journal of Nutrition","doi":"10.1017/S0007114526107910","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-24","question":null,"conclusion":"Omega-3+RT 8周→肌肥大/1RM/功能/炎症均NS；拆穿'Omega-3促肌肥大'营销","mechanism":null,"key_data":null,"implication":"健康受训成人不应期待Omega-3促肌肥大获益"},{"id":"N-23","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Nutrition","doi":"10.3389/fnut.2025.1636970","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"营养","date":"2026-07-24","question":null,"conclusion":"肌酸优跳跃SMD=0.42+短冲刺；β-丙氨酸优反复冲刺0.38；HMB全NS","mechanism":null,"key_data":null,"implication":"按运动项目'按需'选补剂"},{"id":"N-25","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Nutrients","doi":"10.3390/nu18132096","pmid":null,"type":null,"sample":"4 RCT, 216人","grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-24","question":null,"conclusion":"TRE(8-10h进食窗)改善体重+HOMA-IR+睾酮+月经规律性；无需严格热量限制","mechanism":null,"key_data":null,"implication":"PCOS女性可首选TRE作为饮食干预"},{"id":"N-27","tier":2,"interpretation_path":null,"title_en":"Long-term omega-3 polyunsaturated fatty acid supplementation on inflammatory markers and exercise recovery: a systematic review and meta-analysis of 41 randomized controlled trials","title_cn":null,"authors":null,"year":2026,"journal":"FASEB Journal 40:e71709","doi":"10.1096/fj.202504783R","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"营养","date":"2026-07-25","question":null,"conclusion":"TNF-α SMD=-0.42 [-0....","mechanism":null,"key_data":null,"implication":"慢性炎症人群 + 大训练量运动员优先高剂量（≥3 g/d）+ 长周期（≥12 周）Omega-3；健康受训成人效应有限——更适用于心血管/认知/抗炎目标而非肌肥大目标。"},{"id":"N-28","tier":2,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-14_GuanFan2026_5HT中枢疲劳SRMA_T147_文献解读.md","title_en":"Effects of serotonergic agents on exercise performance and central fatigue: a systematic review and meta-analysis of randomized controlled trials","title_cn":null,"authors":"Fan et al.","year":2026,"journal":"J Int Soc Sports Nutr 23:2692017","doi":"10.1080/15502783.2026.2692017","pmid":null,"type":"SR/MA","sample":"21 RCT, 248人","grade":"⊕⊕⊕○ 中","category":"训练-疲劳机制","date":"2026-07-26","question":null,"conclusion":"耐力表现SMD=0.18 [-0.05, ...","mechanism":null,"key_data":"中枢层面，诱发运动反应（H-reflex，H反射）Hedges' g = −0.24，小幅显著，但预测区间跨零。表现层面全部不显著——MVC（最大自主收缩力）g = −0.12，力竭时间 g = −0.14，RPE（主观用力感觉）g = 0.63 但 p = 0.054 且 I²（异质性指数）= 79%，贝叶斯校正后效应直接消失。唯一稳健信号是血糖 g = −0.50，中等效应，多种敏感性分析方向","implication":"5-HT补剂（5-HTP/L-色氨酸）作为运动表现提升补剂证据等级低，不应作为运动表现优化方案。"},{"id":"N-29","tier":2,"interpretation_path":null,"title_en":"Complementary plant protein pairing does not further increase post-exercise myofibrillar protein synthesis after a 20 g protein dose within a high-carbohydrate whole-food matrix in young adults: a randomized controlled trial","title_cn":null,"authors":"NA et al.","year":2026,"journal":"Am J Clin Nutr","doi":"10.1016/j.ajcnut.2026.101380","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-26","question":null,"conclusion":"米饭+豆类（20g蛋白+114g碳水）vs 营养匹配奶昔MPS NS（食物基质无影响）；两...","mechanism":null,"key_data":null,"implication":"素食/纯素运动员post-WO蛋白：优先选择浓缩蛋白源（混合植物分离蛋白+游离EAA），避免依赖whole-food植物源（碳水负载过高）。拆\"米饭配豆类即可获完整蛋白\"营销话术。"},{"id":"N-30","tier":2,"interpretation_path":null,"title_en":"Long-term metabolic outcomes of very low-calorie ketogenic diet vs low-calorie diet in obesity: a 12-month randomized controlled trial","title_cn":null,"authors":"al. et al.","year":2026,"journal":"Obesity","doi":"10.1002/oby.70236","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"营养","date":"2026-07-26","question":null,"conclusion":"6月体重VLCKD -14.2 kg vs LCD -8.7 kg（组间差 -5.5 k...","mechanism":null,"key_data":null,"implication":"肥胖管理：VLCKD可作12月长期方案（不仅限短期减重启动），需关注依从性+营养完整+医疗监督。"},{"id":"N-31","tier":2,"interpretation_path":null,"title_en":"Effects of creatine hydrochloride supplementation on cognitive function in postmenopausal women: a randomized double-blind placebo-controlled trial","title_cn":null,"authors":"al. et al.","year":2026,"journal":"J Am Nutr Assoc 45:199-210","doi":"10.1080/27697061.2025.2551184","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-26","question":null,"conclusion":"工作记忆（n-back准确率）+5.2% [1.8, 8.6], P...","mechanism":null,"key_data":null,"implication":"绝经期女性肌酸HCl 3g/d 8周可考虑作为工作记忆+处理速度辅助（效应量有限），需配合运动+睡眠+认知训练。"},{"id":"N-32","tier":2,"interpretation_path":null,"title_en":"Online-delivered low-carbohydrate dietary intervention for type 2 diabetes: a 16-week randomized controlled trial in Brazil","title_cn":null,"authors":"GE et al.","year":2026,"journal":"Diabetol Int","doi":"10.1007/s13340-026-00898-2","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-07-26","question":null,"conclusion":"HbA1c -0.6% [-0.9, -...","mechanism":null,"key_data":null,"implication":"T2DM远程管理：线上低碳水饮食（<130g/d）可作为有效辅助，需配合医疗监督+降糖药调整。"},{"id":"N-33","tier":2,"interpretation_path":null,"title_en":"No ergogenic effect of β-alanine on repeated sprint ability: SR + multilevel MA","title_cn":"拆伪科学核心","authors":null,"year":2026,"journal":"Front Nutr 13:1818755","doi":"10.3389/fnut.2026.1818755","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"营养-蛋白","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"N-34","tier":2,"interpretation_path":null,"title_en":"Caffeine and sleep: a systematic review of EEG-based evidence on the time-window and dose-dependent effects","title_cn":"拆伪科学核心","authors":null,"year":2026,"journal":"Nutrients 18:1220","doi":"10.3390/nu18081220","pmid":"42075032","type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"营养-蛋白","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"N-37","tier":2,"interpretation_path":null,"title_en":"N-37 Yang W 2026 Nutrients NMN安全性+代谢 SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Nutrients","doi":"10.3390/nu18142251","pmid":null,"type":"SR/MA","sample":"10 RCT, 11干预臂（250-1500 mg/天，4-12周）","grade":"⊕⊕○○ 低","category":"营养-补剂","date":"2026-08-03","question":null,"conclusion":"NMN短期安全性良好（AE/SAE/停药率均NS）","mechanism":null,"key_data":null,"implication":null},{"id":"N-39","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Front Nutr","doi":"10.3389/fnut.2026.1865035","pmid":null,"type":"RCT","sample":"20 RCT, 679人","grade":"⊕⊕○○ 低","category":"营养-补剂","date":"2026-08-03","question":null,"conclusion":"蛋白+益生菌联合提升身体表现(Hedges' g=0.45, 95%HDI:0.21~0.67)","mechanism":null,"key_data":null,"implication":null},{"id":"N-41","tier":2,"interpretation_path":null,"title_en":"N-41 Fares BJ 2026 Brain Medicine 肌酸+抑郁：SR","title_cn":null,"authors":"BJ et al.","year":2026,"journal":"Brain Medicine","doi":"10.61373/bm026l.0039","pmid":null,"type":"RCT","sample":"5 RCT, 238人","grade":"⊕⊕○○ 低","category":"营养-补剂","date":"2026-08-03","question":null,"conclusion":"5项RCT中2项显著（HAM-D Cohen's d=1.13）","mechanism":null,"key_data":null,"implication":null},{"id":"N-42","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Nutrients 18:1799","doi":"10.3390/nu18111799","pmid":null,"type":"RCT","sample":"28 RCT, 1833人","grade":"⊕⊕○○ 低","category":"营养-饮食策略","date":"2026-08-03","question":null,"conclusion":"LDL↑+6.75 + 瘦体重-0.98 kg","mechanism":null,"key_data":null,"implication":null},{"id":"N-43","tier":2,"interpretation_path":null,"title_en":"N-43 Garegnani LI 2026 Cochrane Database Syst Rev 2:CD015610 间歇性禁食Cochrane SR","title_cn":null,"authors":"LI et al.","year":2026,"journal":"Cochrane Database Syst Rev 2:CD015610","doi":"10.1002/14651858.CD015610.pub2","pmid":null,"type":"RCT","sample":"22 RCT, 1995人","grade":"⊕⊕○○ 低","category":"营养-饮食策略","date":"2026-08-03","question":null,"conclusion":"IF vs标准饮食体重差异仅0.33%，无临床意义","mechanism":null,"key_data":null,"implication":null},{"id":"N-45","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Diabetologia","doi":"10.1007/s00125-026-06792-5","pmid":null,"type":"SR/MA","sample":"10 RCT / 599人","grade":"⊕⊕⊕○ 中","category":"大健康-代谢","date":"2026-08-06","question":null,"conclusion":"限时进食（TRE）降低空腹血糖 -0.30 mmol/L（中等确定性）","mechanism":null,"key_data":null,"implication":null},{"id":"N-7","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"Lin et al.","year":2026,"journal":"Nutrients","doi":"10.3390/nu18091409","pmid":null,"type":"NMA","sample":"235 RCT, 20人","grade":null,"category":"营养","date":"2026-06-22","question":null,"conclusion":". 乳清蛋白联合抗阻训练是增加肌肉量和肌肉力量的最优方案（肌肉量SMD=1.29，腿力SMD=1.16，均为大效应）","mechanism":null,"key_data":null,"implication":"- 临床指导意义：为肌少症防治提供了明确的最优方案推荐"},{"id":"T-103","tier":2,"interpretation_path":null,"title_en":"Blood flow restriction training after anterior cruciate ligament reconstruction: a systematic review and meta-analysis of randomized controlled trials","title_cn":null,"authors":"al. et al.","year":2026,"journal":"Orthop J Sports Med 14","doi":"10.1177/23259671261440196","pmid":null,"type":null,"sample":"9 RCT, 372人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-26","question":null,"conclusion":"膝屈伸1RM SMD=0.62 [0.31, 0.93...","mechanism":null,"key_data":null,"implication":"ACLR术后4-12周早中期康复：BFR+低负荷RT（30% 1RM）+ 加压40-80% AOP + 2-3次/周，可安全有效改善肌力+膝功能。"},{"id":"T-104","tier":2,"interpretation_path":null,"title_en":"Effects of transcranial direct current stimulation combined with motor training on motor function recovery: a randomized controlled trial","title_cn":null,"authors":"al. et al.","year":2026,"journal":"J NeuroEngineering Rehabil","doi":"10.1186/s12984-026-02077-5","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-26","question":null,"conclusion":"tDCS组Fugl-Meyer +8.4分 [4.2, 12....","mechanism":null,"key_data":null,"implication":"运动康复+神经调控：tDCS（2mA, 阳极M1）+ 运动训练3次/周可作辅助增强方案，但需关注设备成本与操作专业性。"},{"id":"T-105","tier":2,"interpretation_path":null,"title_en":"A critical appraisal of systematic reviews assessing the effect of chronic velocity-based resistance training: SR","title_cn":"拆伪科学核心","authors":"LE et al.","year":2026,"journal":"PLOS One 21:e0342992","doi":"10.1371/journal.pone.0342992","pmid":null,"type":null,"sample":null,"grade":null,"category":"循证力量训练","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"T-106","tier":2,"interpretation_path":null,"title_en":"Effect of compression garment vs loose-fitting sleepwear on sleep architecture and quality: a randomized crossover trial","title_cn":"拆伪科学核心","authors":null,"year":2026,"journal":"Sensors 26:1625","doi":"10.3390/s26051625","pmid":"41829585","type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"循证力量训练","date":"2026-07-27","question":null,"conclusion":null,"mechanism":null,"key_data":null,"implication":null},{"id":"T-109","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"JISSN","doi":"10.1080/15502783.2026.2692016","pmid":null,"type":"SR/MA","sample":"13 RCT, 192人（144男+48女）","grade":"⊕⊕⊕○ 中高","category":"训练","date":"2026-08-03","question":null,"conclusion":"急性咖啡因摄入中等增效游泳表现（SMD=0.57, +1.71%）","mechanism":null,"key_data":null,"implication":null},{"id":"T-110","tier":2,"interpretation_path":null,"title_en":"T-110 Qin G 2026 Front Nutr 甜菜根汁VO2max SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Front Nutr","doi":"10.3389/fnut.2026.1858216","pmid":null,"type":"SR/MA","sample":"38研究, 703人","grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-08-03","question":null,"conclusion":"甜菜根汁小幅提升 VO2max（SMD=0.24，trim-and-fill 校正后 0.19）","mechanism":null,"key_data":null,"implication":null},{"id":"T-111","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Front Nutr","doi":"10.3389/fnut.2026.1844096","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕⊕○ 中","category":"营养-补剂","date":"2026-08-03","question":null,"conclusion":"甜菜根汁同时改善 VO2max 和冲刺/功率输出","mechanism":null,"key_data":null,"implication":null},{"id":"T-113","tier":2,"interpretation_path":null,"title_en":"T-113 Huang Z 2026 Int J Behav Nutr Phys Act 打断久坐认知 三级MA","title_cn":null,"authors":null,"year":2026,"journal":"Int J Behav Nutr Phys Act","doi":"10.1186/s12966-026-01942-9","pmid":null,"type":"SR/MA","sample":"21随机交叉试验, 433人","grade":"⊕⊕○○ 低","category":"大健康","date":"2026-08-03","question":null,"conclusion":"短暂站立/步行打断久坐可小幅提升执行功能(g=0.18, p=0.016)和记忆(g=0.37, p=0.003)","mechanism":null,"key_data":null,"implication":null},{"id":"T-114","tier":2,"interpretation_path":null,"title_en":"T-114 Stefanovic J 2026 Sports 真实世界HIIT SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Sports","doi":"10.3390/sports14070311","pmid":null,"type":"SR/MA","sample":"31研究, 1,119人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":null,"conclusion":"真实世界 HIIT 提升 VO2max(+3.9 mL/kg/min)并降低 SBP/DBP/血脂/腰围","mechanism":null,"key_data":null,"implication":null},{"id":"T-115","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"待确认 et al.","year":2026,"journal":"Sports Med Open","doi":null,"pmid":null,"type":"RCT","sample":"27名国家级青少年游泳运动员（13女14男，15.6±1.0岁）","grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":null,"conclusion":"将训练从07:00延迟至09:00增加1h睡眠（p<0.001）","mechanism":null,"key_data":null,"implication":null},{"id":"T-117","tier":2,"interpretation_path":null,"title_en":"T-117 Zhang Q 2026 Sports Med Health Sci 骨钙素-肌肉量 SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Sports Med Health Sci","doi":"10.1016/j.smhs.2025.12.003","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":null,"conclusion":"首篇系统量化循环骨钙素(osteocalcin)与肌肉量标志物关联","mechanism":null,"key_data":null,"implication":null},{"id":"T-118","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Sports Med Open","doi":"10.1186/s40798-026-00986-2","pmid":null,"type":"SR/MA","sample":"24 RCT, 1238人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-08-03","question":null,"conclusion":"高强度训练唯一显著提升骨钙素(osteocalcin)（MD=6.88）的运动模态","mechanism":null,"key_data":null,"implication":null},{"id":"T-119","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"JISSN","doi":"10.1080/15502783.2026.2675444","pmid":null,"type":"SR/MA","sample":"23 RCT（33干预臂）","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-08-03","question":null,"conclusion":"运动显著降TC/TG/LDL/血糖/CRP、升VO2peak(+2.78)","mechanism":null,"key_data":null,"implication":null},{"id":"T-120","tier":2,"interpretation_path":null,"title_en":"T-120 Wang H 2026 Complement Ther Med 运动PTSD SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Complement Ther Med","doi":"10.1016/j.ctim.2026.103400","pmid":null,"type":"SR/MA","sample":"16 RCT, 663人","grade":"⊕⊕○○ 低","category":"大健康","date":"2026-08-03","question":null,"conclusion":"运动显著降低PTSD症状（g=-0.49）","mechanism":null,"key_data":null,"implication":null},{"id":"T-121","tier":2,"interpretation_path":null,"title_en":"T-121 Collings TJ 2026 Sports Med","title_cn":null,"authors":"TJ et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02450-3","pmid":null,"type":"Position Statement","sample":null,"grade":null,"category":"训练","date":"2026-08-03","question":null,"conclusion":"ESSA首个ACL损伤预防正式立场声明","mechanism":null,"key_data":null,"implication":null},{"id":"T-123","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Ageing Res Rev","doi":"10.1016/j.arr.2026.103277","pmid":null,"type":"系统研究综述+MA","sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-08-03","question":null,"conclusion":"RT对认知功能的改善呈任务特异性","mechanism":null,"key_data":null,"implication":null},{"id":"T-124","tier":2,"interpretation_path":null,"title_en":"T-124 Wen H 2026 Front Cardiovasc Med 老年人运动×血管NMA","title_cn":null,"authors":null,"year":2026,"journal":"Front Cardiovasc Med","doi":"10.3389/fcvm.2026.1815768","pmid":null,"type":"NMA","sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":null,"conclusion":"全身振动训练+RT对内皮功能(FMD)排名最高","mechanism":null,"key_data":null,"implication":null},{"id":"T-126","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"J Cachexia Sarcopenia Muscle","doi":null,"pmid":null,"type":"RCT","sample":"40人(65-85岁), 13周, 6mg雷帕霉素/周 vs 安慰剂","grade":"⊕⊕○○ 低","category":"抗衰老-表观遗传时钟","date":"2026-08-03","question":null,"conclusion":"每周6mg雷帕霉素钝化老年人运动功能增益","mechanism":null,"key_data":null,"implication":null},{"id":"T-128","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"GP et al.","year":2026,"journal":"J Physiol","doi":"10.1113/JP289538","pmid":null,"type":"实验研究, 9名高度训练耐力运动员 / 3周超负荷","sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-08-03","question":null,"conclusion":"3周超负荷训练后线粒体含量增加（生物发生）但固有呼吸能力完好","mechanism":null,"key_data":null,"implication":null},{"id":"T-131","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Nutrients","doi":"10.3390/nu18152470","pmid":null,"type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"营养","date":"2026-08-03","question":null,"conclusion":"绝经后女性NW+高蛋白+TRE组合包在握力、体能表现和瘦体重相关指标上均优于NW+TRE单组合","mechanism":null,"key_data":null,"implication":null},{"id":"T-132","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"JR et al.","year":2026,"journal":"Circulation","doi":"10.1161/CIR.0000000000001456","pmid":null,"type":"科学声明/立场文件","sample":null,"grade":null,"category":"大健康","date":"2026-08-03","question":null,"conclusion":"AHA首部覆盖衰弱/卒中/脊髓损伤/遗传性心肌病等7类高危人群运动处方的科学声明","mechanism":null,"key_data":null,"implication":null},{"id":"T-135","tier":2,"interpretation_path":null,"title_en":"T-135 Ding H 2026 J Sport Health Sci HIIT对代谢综合征HDL效应：SR/NMA+剂量反应","title_cn":null,"authors":null,"year":2026,"journal":"J Sport Health Sci","doi":"10.1016/j.jshs.2026.101153","pmid":null,"type":"NMA","sample":"56 RCT, 3788人","grade":"⊕⊕⊕○ 中","category":"训练-心肺","date":"2026-08-03","question":null,"conclusion":"HIIT在750-1500 MET-min/wk + 80-90% VO2max时HDL提升0.08 mmol/L...","mechanism":null,"key_data":null,"implication":null},{"id":"T-137","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"LC et al.","year":2026,"journal":"Physiother Res Int","doi":"10.1002/pri.70266","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕○○ 低","category":"训练-临床人群","date":"2026-08-03","question":null,"conclusion":"RT vs 对照 SMD=-0.81（I²=88%）","mechanism":null,"key_data":null,"implication":null},{"id":"T-138","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"PeerJ 14:e21585","doi":"10.7717/peerj.21585","pmid":null,"type":"SR/MA","sample":null,"grade":"⊕⊕⊕○ 中","category":"训练-爆发力","date":"2026-08-03","question":null,"conclusion":"Plyo提升跳跃能力 SMD=0.648","mechanism":null,"key_data":null,"implication":null},{"id":"T-139","tier":2,"interpretation_path":null,"title_en":"T-139 Weerasinghe K 2026 Sport Sci Health 团队运动RT损伤预防+表现：Scoping Review","title_cn":null,"authors":null,"year":2026,"journal":"Sport Sci Health","doi":null,"pmid":null,"type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"训练-损伤预防","date":"2026-08-03","question":null,"conclusion":"力量训练降低损伤30-70%","mechanism":null,"key_data":null,"implication":null},{"id":"T-140","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Physiol Rep 14:e70910","doi":"10.14814/phy2.70910","pmid":null,"type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"训练-心肺","date":"2026-08-03","question":null,"conclusion":"10×6s HIT vs 3×8-min MIT改善SDNN 5.4 ms","mechanism":null,"key_data":null,"implication":null},{"id":"T-141","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Diabetologia","doi":"10.1007/s00125-026-06760-z","pmid":null,"type":"RCT","sample":null,"grade":"⊕⊕○○ 低","category":"训练-心肺","date":"2026-08-03","question":null,"conclusion":"HIIE在postabsorptive（吸收后空腹）状态血糖保护最强","mechanism":null,"key_data":null,"implication":null},{"id":"T-148","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":"DM et al.","year":2026,"journal":"British Journal of Sports Medicine","doi":"10.1136/bjsports-2026-111730","pmid":null,"type":"RCT","sample":"76人（26-74岁），8周游泳+4次物理治疗远程辅导 vs 教育对照","grade":"⊕⊕⊕○ 中高","category":"大健康-腰痛","date":"2026-08-06","question":null,"conclusion":"8周个体化游泳方案使腰痛残疾评分降低约50%（组间差-2.5分/30%）","mechanism":null,"key_data":null,"implication":null},{"id":"T-15","tier":2,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-06-23_Zhang2026_抗阻训练_死亡率_剂量反应_文献解读.md","title_en":null,"title_cn":"长期抗阻训练与全因和特因死亡率：剂量反应及与有氧体力活动的联合关联","authors":"Zhang et al.","year":2026,"journal":"British Journal of Sports Medicine","doi":"10.1136/bjsports-2025-110503","pmid":null,"type":"前瞻性队列研究","sample":"147,374人，30年随访，35,798死亡","grade":"⊕⊕⊕◯ 中","category":"训练-力量","date":"2026-06-23","question":null,"conclusion":"全因死亡-13% / CVD死亡-19% / 神经退行性死亡-27%","mechanism":null,"key_data":null,"implication":"抗阻训练应作为成人运动处方的重要组成部分，每周2-3次、每次30-45分钟即可获得显著死亡风险降低获益"},{"id":"T-151","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-026-01861-z","pmid":"38970765","type":"SR/MA","sample":"20 项 RCT / 556 名健康成人","grade":"⊕⊕⊕○ 中","category":"训练-肌肥大","date":"2026-08-22","question":null,"conclusion":"非力竭组优于力竭组，小效应","mechanism":null,"key_data":null,"implication":null},{"id":"T-47","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"iScience","doi":"10.1016/j.isci.2026.115665","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-08","question":null,"conclusion":"三大洲纵向队列汇总证实体力活动可显著抵消肌少症/衰弱相关的超额死亡风险","mechanism":null,"key_data":null,"implication":"与T-15 Zhang 2026互补（一般人群RT vs 肌少症人群PA）"},{"id":"T-48","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Sport and Health Science","doi":"10.1016/j.jshs.2026.101126","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-08","question":null,"conclusion":"Nosaka提出离心收缩'新范式'——产生更大力量的同时耗氧更低、心血管负荷更小，每天5分钟即可改善力量与功能，特...","mechanism":null,"key_data":null,"implication":"离心运动作为老年人'新正常'运动模式"},{"id":"T-49","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Translational Sports Medicine","doi":"10.1155/tsm2/6678879","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中高","category":"训练","date":"2026-07-09","question":null,"conclusion":"Phillips指出Drummond NMA（T-31）SUCRA排名≠统计显著差异；胶原FFM证据仅41人；BI...","mechanism":null,"key_data":null,"implication":"胶原'优越性'需审慎；SUCRA排名≠统计优越性"},{"id":"T-50","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Clinical Medicine","doi":"10.3390/jcm15124706","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-09","question":null,"conclusion":"BFR提升ACLR术后股四头肌力量SMD=0.77（中等确定性），功能恢复异质性高I²=91%","mechanism":null,"key_data":null,"implication":"为T-30 BFR康复伞评在ACLR专科提供精准补充"},{"id":"T-51","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Blood Pressure","doi":"10.1080/08037051.2026.2653309","pmid":null,"type":null,"sample":"35 RCT, 764人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-09","question":null,"conclusion":"整体BFR不改善FMD/PWV，但抗阻型BFR改善FMD g=0.56；小肌群/短时间方案反而降低FMD","mechanism":null,"key_data":null,"implication":"BFR血管效应依赖训练模式；低负荷抗阻BFR为最优血管方案"},{"id":"T-52","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Clinical Medicine","doi":"10.3390/jcm15134977","pmid":null,"type":null,"sample":"17 RCT, 809人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-09","question":null,"conclusion":"HIIT改善卒中后VO₂peak SMD=-0.849、步速0.693、步行距离0.604、认知MoCA SMD=...","mechanism":null,"key_data":null,"implication":"首个跨多领域HIIT卒中康复SR/MA"},{"id":"T-53","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Sports and Active Living","doi":"10.3389/fspor.2026.1843803","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-11","question":null,"conclusion":"跑步与骑车交叉训练对VO₂max和跑步表现均无显著差异，支持交叉训练作为替代策略","mechanism":null,"key_data":null,"implication":"交叉训练可作为跟腱不适/超负荷周期的替代选择"},{"id":"T-54","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Research Quarterly for Exercise and Sport","doi":"10.1080/02701367.2026.2662550","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-11","question":null,"conclusion":"飞轮训练提升爆发力SMD=2.583(p=0.003)显著优于传统RT；力量和速度NS","mechanism":null,"key_data":null,"implication":"IFWT适合爆发力导向项目"},{"id":"T-55","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1729372","pmid":null,"type":null,"sample":"51 RCT, 886人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-11","question":null,"conclusion":"飞轮深蹲SUCRA 95.8%最优(SMD=0.67)；中等强度<85%1RM + 5-7min休息最佳","mechanism":null,"key_data":null,"implication":"首次以NMA排序PAP方案，指导热身/激活设计"},{"id":"T-56","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1794345","pmid":null,"type":null,"sample":"17 RCT, 2人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"多组分运动整体认知SUCRA=88.5%最佳；有氧对执行功能SUCRA=90.8%最佳；RT排末位","mechanism":null,"key_data":null,"implication":"运动对久坐人群认知具有领域特异性"},{"id":"T-57","tier":2,"interpretation_path":null,"title_en":"Effects of blood flow restriction combined with resistance training on lower-limb muscle strength in athletes: a systematic review and meta-analysis","title_cn":null,"authors":null,"year":2026,"journal":"Annals of Medicine","doi":"10.1080/07853890.2026.2658885","pmid":null,"type":null,"sample":"10 RCT, 181人","grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"BFR+RT肌力SMD=1.09、肌肥大显著，但专项表现SMD=0.11无效","mechanism":null,"key_data":null,"implication":"BFR增益局限肌力/肥大端，不能转化场上表现"},{"id":"T-58","tier":2,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-07-26_MallmannSchneider2026_24h动态血压NMA_T100_文献解读.md","title_en":"T-58 Mallmann Schneider - 运动对24h动态血压NMA","title_cn":"抗阻训练模态对高血压成人 24 小时动态血压的影响：随机对照试验的网状荟萃分析","authors":"Schneider et al.","year":2026,"journal":"British Journal of Sports Medicine","doi":"10.1136/bjsports-2025-111474","pmid":"42120187","type":"Bayesian NMA","sample":"31 RCT, 1人","grade":"⊕⊕⊕○ 中","category":"健康-心血管","date":"2026-07-14","question":null,"conclusion":"4h动态血压金标准下运动降压效应；具体模态排序需原文核证","mechanism":null,"key_data":null,"implication":"与T-13 Xin诊室血压NMA互补"},{"id":"T-59","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02476-7","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"临床人群单侧训练对未训练侧肌力跨侧转移效应的量化证据","mechanism":null,"key_data":null,"implication":"为单肢受限者训练决策提供依据"},{"id":"T-60","tier":2,"interpretation_path":null,"title_en":"Effects of high-intensity interval training on cardiometabolic health in overweight and obese adolescents: a systematic review and meta-analysis","title_cn":null,"authors":"al. et al.","year":2026,"journal":"Pediatric Exercise Science","doi":"10.1123/pes.2025-0123","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"HIIT改善青少年超重/肥胖心代谢风险（腰围、血压、HOMA-IR）","mechanism":null,"key_data":null,"implication":"与T-6 Poon 2026伞评互补（HIIT vs RT模态）"},{"id":"T-61","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Cardiovascular Disorders","doi":"10.1186/s12872-026-06208-7","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"频率学NMA+剂量-反应给出不同运动改善cfPWV优选区间","mechanism":null,"key_data":null,"implication":"为动脉硬化非药物干预提供量化决策"},{"id":"T-62","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-026-01737-2","pmid":null,"type":null,"sample":"40 RCT, 2人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"HIIT+RT联合SMD=-0.95最佳、HIIT -0.87、AE -0.81、RT -0.48","mechanism":null,"key_data":null,"implication":"与T-61 Liu S形成双人群互补"},{"id":"T-63","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1831073","pmid":null,"type":null,"sample":"15 RCT, 809人","grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"绿色运动SMD=-0.96(大效应) vs 室内SMD=-0.21(NS)；直接比较SMD=-0.75","mechanism":null,"key_data":null,"implication":"环境因素放大运动抗抑郁效应"},{"id":"T-64","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Medicine & Science in Sports & Exercise","doi":"10.1249/MSS.0000000000004073","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"心衰患者hs-CRP、IL-6、TNF-α对不同运动模态的网络排序","mechanism":null,"key_data":null,"implication":"与T-18 Shi LVEF NMA互补（功能vs炎症）"},{"id":"T-65","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-026-01864-w","pmid":null,"type":null,"sample":"16 RCT, 644人","grade":"⊕⊕○ 中","category":"训练","date":"2026-07-14","question":null,"conclusion":"分钟步行距离、峰值VO₂、心输出量对运动干预的网络排序","mechanism":null,"key_data":null,"implication":"罕见病领域难得NMA证据"},{"id":"T-66","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Annals of Physical and Rehabilitation Medicine","doi":"10.1016/j.rehab.2026.102122","pmid":null,"type":null,"sample":"120 RCT, 10人","grade":"⊕⊕⊕⊕ 高","category":"训练","date":"2026-07-18","question":null,"conclusion":"KOA全阶段RT安全有效——早期SMD 0.46-0.81；术前仅改善伸膝肌力；术后改善活动度+膝痛","mechanism":null,"key_data":null,"implication":"KOA领域最大SR/MA；RT全阶段安全+有效最高级别证据"},{"id":"T-67","tier":2,"interpretation_path":null,"title_en":"T-67 Front Public Health - OA疼痛剂量反应U型","title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2025.1623679","pmid":null,"type":null,"sample":"28 RCT, 2人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-18","question":null,"conclusion":"RT降低OA疼痛g=-0.57；U型曲线——最优680 METs/周、最低有效280、最大耐受1180；女性优于男性","mechanism":null,"key_data":null,"implication":"与T-66 Brown 2026 KOA形成'安全有效→最佳剂量'递进"},{"id":"T-68","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-026-02395-7","pmid":null,"type":null,"sample":null,"grade":"⊕○○○ 极低","category":"训练","date":"2026-07-18","question":null,"conclusion":"CT在1RM(SMD=1.12)、squat jump(0.37)、10m冲刺(0.67)、40m冲刺(0.72)...","mechanism":null,"key_data":null,"implication":"与T-36 Zhao RT+PT NMA高度互补"},{"id":"T-69","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2025.1735899","pmid":null,"type":null,"sample":"12 RCT, 518人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-18","question":null,"conclusion":"RT显著改善握力SMD=0.43、步速0.37、伸膝肌力0.85、TUG -0.68；对SMI无显著效应","mechanism":null,"key_data":null,"implication":"首个专门针对肌少症老年女性的RT荟萃分析；'力量先于质量'"},{"id":"T-7","tier":2,"interpretation_path":"/Coze/Drive/Arise/所有对话/主对话/循证力量训练/04_每日文献/文献库/文献/2026-08-02_Henselmans2026_碳水摄入与肌肥大_SRMA_文献解读.md","title_en":"The Effect of Carbohydrate Intake on Muscle Hypertrophy: A Systematic Review and Meta-analysis","title_cn":"碳水化合物摄入对肌肉肥大的影响","authors":"Henselmans et al.","year":2026,"journal":"Sports Medicine","doi":"10.1007/s40279-025-02341-z","pmid":"41712097","type":"SR/MA","sample":"11项RCT","grade":"⊕⊕◯◯ 低","category":"营养-蛋白","date":"2026-06-07","question":"在等氮条件（Isonitrogenous Conditions）下——即蛋白质摄入在组间匹配的前提下——较高的碳水化合物摄入能否独立促进抗阻训练（RT）诱导的肌肉肥大？","conclusion":"蛋白质和训练刺激匹配的条件下，碳水化合物摄入对肌肉肥大无显著独立增益","mechanism":"1. mTORC1通路：MPS主要由机械张力（机械感受器）和氨基酸可用性（尤其是亮氨酸）驱动，通过mTORC1信号传导","key_data":"- 总样本量：227名，11项RCT","implication":"碳水不是增肌的直接杠杆"},{"id":"T-70","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Functional Morphology and Kinesiology","doi":"10.3390/jfmk11010080","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-19","question":null,"conclusion":"力量g=0.351(中等显著)；肌肥大g=0.046(NS)；rest-pause肌肥大略优；VBT+离心超载力量优","mechanism":null,"key_data":null,"implication":"高级RT系统主要改善力量而非肌肥大"},{"id":"T-71","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"American Journal of Physical Medicine & Rehabilitation","doi":"10.1097/PHM.0000000000002966","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-19","question":null,"conclusion":"力量/移动性无差异；URT显著降低跌倒恐惧；长期URT改善TUG","mechanism":null,"key_data":null,"implication":"URT减少跌倒恐惧；填补'恐惧心理学结局'维度"},{"id":"T-72","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-026-01550-x","pmid":null,"type":null,"sample":"25 RCT, 573人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-19","question":null,"conclusion":"下肢肌力NS(SMD=-0.06)；跳跃NS；爆发力SMD=0.28(小效应显著)","mechanism":null,"key_data":null,"implication":"CT爆发力小优势；长周期+运动员CT力量反劣"},{"id":"T-73","tier":2,"interpretation_path":null,"title_en":"Resistance training and cardiovascular health in postmenopausal women: a systematic review and meta-analysis of randomized controlled trials","title_cn":null,"authors":"SL et al.","year":2026,"journal":"Journal of Applied Physiology","doi":"10.1152/japplphysiol.01180.2025","pmid":null,"type":"SR/MA","sample":"60研究","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-19","question":null,"conclusion":"RT改善SBP g=0.68(中效应,I²=0%)、DBP 0.37、HR 0.30；无不良心脏结构改变","mechanism":null,"key_data":null,"implication":"'性别+年龄+心血管'三重专属；填补'绝经后女性'细分"},{"id":"T-74","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2025.1603568","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-19","question":null,"conclusion":"肌力SMD=0.65、力量0.45、速度0.78、耐力0.90；≤6周+≥3次/周最优","mechanism":null,"key_data":null,"implication":"短期+高频BFR增益最大"},{"id":"T-75","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2026.1777491","pmid":null,"type":null,"sample":"16 RCT, 281人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-19","question":null,"conclusion":"下肢BFR诱导PAP SMD=0.36；最优间歇2-4min SMD=0.83；40-60%AOP 0.76；深蹲...","mechanism":null,"key_data":null,"implication":"PAP主题首篇BFR专项SR/MA；指导教练实操"},{"id":"T-76","tier":2,"interpretation_path":null,"title_en":"T-125 Romero-Vera L 2026 J Clin Med RT×高血压降压 SR/MA","title_cn":null,"authors":null,"year":2026,"journal":"Journal of Clinical Medicine","doi":"10.3390/jcm15145531","pmid":null,"type":"SR/MA","sample":"12 RCT","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-22","question":null,"conclusion":"RT降低SBP SMD=-0.77(中-大效应)、DBP显著降低；6-12周+2-4次/周+动力性训练为主","mechanism":null,"key_data":null,"implication":"RT应作为高血压非药物干预一线选择"},{"id":"T-77","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Nutrition","doi":"10.3389/fnut.2026.1792680","pmid":null,"type":null,"sample":"14 RCT, 348人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-22","question":null,"conclusion":"HIIT改善VO2max SMD=1.04(大效应,I²=16%)、下肢肌力0.33、灵敏/速度-0.45、体脂-...","mechanism":null,"key_data":null,"implication":"专项运动员HIIT首篇SR/MA"},{"id":"T-78","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Cachexia, Sarcopenia and Muscle","doi":"10.1002/jcsm.70343","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-22","question":null,"conclusion":"CaHMB(3g/d)+24g蛋白减重维持SMM(+0.7 vs -0.6kg,差1.3kg,p<0.001)+V...","mechanism":null,"key_data":null,"implication":"GLP-1时代'减重-保肌'循证基础"},{"id":"T-79","tier":2,"interpretation_path":null,"title_en":"T-79 Aging Albany - 运动+益生菌DunedinPACE RCT","title_cn":null,"authors":null,"year":2026,"journal":"Aging","doi":"10.18632/aging.206386","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-22","question":null,"conclusion":"益生菌酸奶+饮食+步行综合干预减缓DunedinPACE 2.2%（与2年CR相当）","mechanism":null,"key_data":null,"implication":"复合生活方式干预的表观遗传获益"},{"id":"T-80","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"JMIR Aging","doi":"10.2196/64539","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-22","question":null,"conclusion":"运动改善端粒ES=0.28(小-中效应)；HIIT中等效应；<30周干预效应更大","mechanism":null,"key_data":null,"implication":"端粒保护最佳组合：HIIT+较短周期(<30周)+高质量干预"},{"id":"T-81","tier":2,"interpretation_path":null,"title_en":"T-81 Anderson/MCRI - MCRI Concussion RCT","title_cn":null,"authors":null,"year":2026,"journal":"British Journal of Sports Medicine","doi":"10.1136/bjsports-2025-110880","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-22","question":null,"conclusion":"MCRI多模态干预8周→3月完全恢复率62.5% vs 37%常规护理；94%症状改善","mechanism":null,"key_data":null,"implication":"儿童持续脑震荡应尽早多学科转介"},{"id":"T-82","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"JACC Case Reports","doi":"10.1016/j.jaccas.2026.108906","pmid":null,"type":null,"sample":null,"grade":null,"category":"训练","date":"2026-07-22","question":null,"conclusion":"SCN5A致病变异+运动SCA；AED现场除颤+S-ICD植入+8月回归竞赛","mechanism":null,"key_data":null,"implication":"运动场所AED配置应为硬性标准；不明原因SCA必查基因"},{"id":"T-83","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of Neurosurgery: Pediatrics","doi":"10.3171/2026.2.PEDS25657","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-22","question":null,"conclusion":"既往脑震荡+高认知负担亚组恢复最慢；认知群比值×既往次数交互显著","mechanism":null,"key_data":null,"implication":"症状评估应细化到症状群组成"},{"id":"T-84","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1707627","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":"LP vs UP效果相当；UP在肥胖者增肌+短期减重优；LP适合长期减重","mechanism":null,"key_data":null,"implication":"训练负荷方案应根据目标与人群特征处方"},{"id":"T-85","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Public Health","doi":"10.3389/fpubh.2026.1891252","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":"CART vs CON改善胰岛素MD=-17.90μU/mL、SBP -3.51mmHg；vs AE改善HOMA-...","mechanism":null,"key_data":null,"implication":"青少年心血管代谢CART优于单纯AE或RT"},{"id":"T-86","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Journal of the International Society of Sports Nutrition","doi":"10.1080/15502783.2026.2670564","pmid":null,"type":null,"sample":"6 RCT, 180人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-23","question":null,"conclusion":"益生菌p<0.01+合生元p<0.001改善9/12主要睡眠结局；最一致改善主观睡眠质量","mechanism":null,"key_data":null,"implication":"菌群-肠-脑轴影响运动员睡眠"},{"id":"T-87","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Neuroscience","doi":"10.3389/fnins.2026.1816963","pmid":null,"type":null,"sample":"23 RCT, 1人","grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":"rTMS改善PSQI/ISI P<0.001+PSG SE P=0.003；联合用药优于单药P=0.003","mechanism":null,"key_data":null,"implication":"rTMS是失眠非药物干预新选项"},{"id":"T-88","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Scientific Reports","doi":"10.1038/s41598-026-56513-6","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-23","question":null,"conclusion":"iACT改善睡眠质量SMD=-0.92(P<0.001)、失眠SMD=-0.40(P=0.001, I²=0%)","mechanism":null,"key_data":null,"implication":"iACT可作为CBT-I可及性受限场景的替代"},{"id":"T-89","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Geriatrics","doi":"10.1186/s12877-025-06559-6","pmid":null,"type":null,"sample":"12 RCT, 538人","grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-23","question":null,"conclusion":"RT改善握力SMD=0.63、SPPB 0.56、SMI NS；频率和强度是关键调节因素；含拉类动作SMD=0.90","mechanism":null,"key_data":null,"implication":"功能适应早于结构肥大；每周2次中等强度RT改善握力最优"},{"id":"T-90","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"BMC Sports Science, Medicine and Rehabilitation","doi":"10.1186/s13102-025-01479-7","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-23","question":null,"conclusion":"VO2max SMD=1.11(大效应)；速度-0.72、灵敏-0.93显著；HRmax/跳跃/爆发力NS","mechanism":null,"key_data":null,"implication":"受训运动员HIIT优发展心肺+速度灵敏；跳跃/力量仍需RT"},{"id":"T-91","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Scientific Reports","doi":"10.1038/s41598-026-40612-5","pmid":null,"type":null,"sample":null,"grade":"⊕⊕○○ 低","category":"训练","date":"2026-07-24","question":null,"conclusion":"Deload 2周(减量40-50%)→1RM/肌肥大/肌耐力均无显著下降；后续适应继续累积","mechanism":null,"key_data":null,"implication":"支持周期化deload必要且安全"},{"id":"T-92","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Sports and Active Living","doi":"10.3389/fspor.2026.1738075","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-24","question":null,"conclusion":"全身vs局部CWI在24h/48h力量恢复效应相当；高强度离心后全身略优","mechanism":null,"key_data":null,"implication":"局部CWI是可及替代方案"},{"id":"T-93","tier":2,"interpretation_path":null,"title_en":null,"title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology","doi":"10.3389/fphys.2025.1525726","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-24","question":null,"conclusion":"最优方案10-15°C/10-15min/训练后30min内→力量恢复SMD=0.62(中-大)","mechanism":null,"key_data":null,"implication":"CWI剂量-反应作为标准化处方"},{"id":"T-94","tier":2,"interpretation_path":null,"title_en":"Comparison of unilateral vs bilateral plyometric training on athletic performance: a systematic review and meta-analysis","title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Physiology 17:1820331","doi":"10.3389/fphys.2026.1820331","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-25","question":null,"conclusion":"单侧 Plyo 在单侧特异性爆发力（单腿 CMJ / 单腿跳）SMD 显著优于双侧；双侧 Plyo 在双侧爆发力（...","mechanism":null,"key_data":null,"implication":"项目特异选 Plyo 模式：单侧主导项目（单腿落地/跳远起跳）优先单侧 Plyo；双侧主导项目（篮球抢篮板/排球扣球）优先双侧 Plyo；两类并存的运动员可双侧为主 + 单侧补充。"},{"id":"T-95","tier":2,"interpretation_path":null,"title_en":"Wearable technology in resistance training: a systematic review and meta-analysis of training monitoring, load quantification, and performance outcomes","title_cn":null,"authors":null,"year":2026,"journal":"PeerJ","doi":"10.7717/peerj.20519","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-25","question":null,"conclusion":"可穿戴设备（IMU/肌电传感器/力量传感器/加速度计）量化 RT 表现与传统方法相关性 0.75-0.92（信效度...","mechanism":null,"key_data":null,"implication":"进阶训练者 + 教练可优先采纳可穿戴监控；初学者 + 自训者仍以传统 1RM + RPE + 训练日志为主。"},{"id":"T-96","tier":2,"interpretation_path":null,"title_en":"Markerless gait analysis and machine learning-based return-to-sport assessment after musculoskeletal injury: a systematic review and meta-analysis","title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Sports and Active Living","doi":"10.3389/fspor.2026.1862870","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-25","question":null,"conclusion":"ML 无标记步态分析在 RTS 决策预测准确度 0.78-0.91（与传统实验室方法 0.81-0.93 相当）；...","mechanism":null,"key_data":null,"implication":"RTS 评估应推动\"ML 无标记步态 + 传统 FMS / Y-Balance 测试\"组合，在可及性 + 客观性 + 时效性三维度平衡最优。"},{"id":"T-97","tier":2,"interpretation_path":null,"title_en":"Wearable sleep tracking technology in athletes and active populations: a SWOT analysis systematic review","title_cn":null,"authors":null,"year":2026,"journal":"Frontiers in Sports and Active Living","doi":"10.3389/fspor.2026.1872518","pmid":null,"type":null,"sample":null,"grade":null,"category":"训练","date":"2026-07-25","question":null,"conclusion":"总睡眠时长 0.71-0.85（中等）、睡眠效率 0.65-0.78（中等...","mechanism":null,"key_data":null,"implication":"运动员 + 训练者使用可穿戴睡眠应\"看趋势不看单日\"，配合晨起 RPE + 训练表现 + HRV 数据综合判断。"},{"id":"T-98","tier":2,"interpretation_path":null,"title_en":"Effects of surface type on plyometric training outcomes: a systematic review and meta-analysis","title_cn":null,"authors":"SY et al.","year":2026,"journal":"Journal of Sports Medicine and Physical Fitness 66:232-243","doi":"10.23736/S0022-4707.25.16880-1","pmid":null,"type":null,"sample":null,"grade":"⊕⊕⊕○ 中","category":"训练","date":"2026-07-25","question":null,"conclusion":"硬地 Plyo CMJ 提升 SMD 显著大于软垫；软垫（沙地/软垫）DOMS 显著低于硬地；草地/木地板居中","mechanism":null,"key_data":null,"implication":"赛季中（比赛密集期）软垫/草地优先——降低损伤+DOMS 风险；赛季外（专项训练期）硬地优先——最大化 SSC 功率输出。项目特异：篮球/排球等硬地项目优先硬地；足球/田径等草地/跑道项目优先草地。"}];
+
+// ===== STATE =====
+let currentTier = 'all';
+let currentCategory = 'all';
+let searchQuery = '';
+
+// ===== INIT =====
+function init() {
+  buildCategoryFilters();
+  updateStats();
+  renderCards();
+  bindEvents();
+}
+
+function updateStats() {
+  const categories = new Set(LITERATURE_DATA.map(d => d.category).filter(Boolean));
+  document.getElementById('stat-total').textContent = LITERATURE_DATA.length;
+  document.getElementById('stat-t1').textContent = LITERATURE_DATA.filter(d => d.tier === 1).length;
+  document.getElementById('stat-categories').textContent = categories.size;
+}
+
+function buildCategoryFilters() {
+  const counts = {};
+  LITERATURE_DATA.forEach(d => {
+    const cat = d.category || '其他';
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+
+  // Sort by count desc, take top ones
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const container = document.getElementById('category-filters');
+
+  let html = `<button class="filter-btn active" data-category="all">全部<span class="count"> ${LITERATURE_DATA.length}</span></button>`;
+
+  // Consolidate small categories
+  const majorCats = [];
+  const minorCats = [];
+  sorted.forEach(([cat, count]) => {
+    if (count >= 3) majorCats.push([cat, count]);
+    else minorCats.push([cat, count]);
+  });
+
+  majorCats.forEach(([cat, count]) => {
+    html += `<button class="filter-btn" data-category="${cat}">${cat}<span class="count"> ${count}</span></button>`;
+  });
+
+  if (minorCats.length > 0) {
+    const minorTotal = minorCats.reduce((s, [, c]) => s + c, 0);
+    html += `<button class="filter-btn" data-category="__other__">其他<span class="count"> ${minorTotal}</span></button>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function getFilteredData() {
+  return LITERATURE_DATA.filter(d => {
+    // Tier filter
+    if (currentTier !== 'all' && String(d.tier) !== currentTier) return false;
+
+    // Category filter
+    if (currentCategory !== 'all') {
+      const cat = d.category || '其他';
+      if (currentCategory === '__other__') {
+        // "Other" = categories with <3 entries
+        const counts = {};
+        LITERATURE_DATA.forEach(item => {
+          const c = item.category || '其他';
+          counts[c] = (counts[c] || 0) + 1;
+        });
+        if (counts[cat] >= 3) return false;
+      } else {
+        if (cat !== currentCategory) return false;
+      }
+    }
+
+    // Search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const searchable = [
+        d.title_en, d.title_cn, d.authors, d.journal,
+        d.conclusion, d.mechanism, d.implication, d.key_data,
+        d.question, d.category, d.id, d.type, d.sample
+      ].filter(Boolean).join(' ').toLowerCase();
+      if (!searchable.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function getGradeClass(grade) {
+  if (!grade) return 'grade-unknown';
+  if (grade.includes('高') || grade.includes('High')) return 'grade-high';
+  if (grade.includes('中') || grade.includes('Mod')) return 'grade-mod';
+  if (grade.includes('低') && !grade.includes('极低')) return 'grade-low';
+  if (grade.includes('极低') || grade.includes('Very')) return 'grade-vlow';
+  return 'grade-unknown';
+}
+
+function highlightText(text, query) {
+  if (!text || !query) return text || '';
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escaped})`, 'gi');
+  return text.replace(regex, '<mark>$1</mark>');
+}
+
+function renderCards() {
+  const data = getFilteredData();
+  const grid = document.getElementById('cards-grid');
+  const noResults = document.getElementById('no-results');
+  const showing = document.getElementById('results-showing');
+
+  showing.textContent = data.length;
+
+  if (data.length === 0) {
+    grid.style.display = 'none';
+    noResults.style.display = 'block';
+    return;
+  }
+
+  grid.style.display = 'grid';
+  noResults.style.display = 'none';
+
+  // Sort: Tier 1 first, then by date desc
+  data.sort((a, b) => {
+    if (a.tier !== b.tier) return b.tier - a.tier;
+    return (b.date || '').localeCompare(a.date || '');
+  });
+
+  const html = data.map(d => {
+    const title = d.title_cn || d.title_en || d.id;
+    const conclusion = d.conclusion || '暂无结论';
+    const grade = d.grade || '';
+    const gradeClass = getGradeClass(grade);
+    const category = d.category || '其他';
+    const authors = d.authors || '';
+    const year = d.year || '';
+    const tierClass = d.tier === 1 ? 'tier1' : '';
+    const tierBadgeClass = d.tier === 1 ? 't1' : 't2';
+    const tierLabel = d.tier === 1 ? '深度解读' : '元数据卡';
+
+    const hTitle = highlightText(title, searchQuery);
+    const hConclusion = highlightText(conclusion, searchQuery);
+
+    return `
+      <div class="card ${tierClass}" onclick="openModal('${d.id}')">
+        <div class="card-header">
+          <div class="card-title">${hTitle}</div>
+          <span class="card-tier-badge ${tierBadgeClass}">${tierLabel}</span>
+        </div>
+        <div class="card-conclusion">${hConclusion}</div>
+        <div class="card-meta">
+          ${grade ? `<span class="card-meta-item grade ${gradeClass}">${grade}</span>` : ''}
+          ${category ? `<span class="card-category">${category}</span>` : ''}
+          ${authors ? `<span class="card-meta-item">${authors}${year ? ' ' + year : ''}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  grid.innerHTML = html;
+}
+
+function openModal(id) {
+  const d = LITERATURE_DATA.find(item => item.id === id);
+  if (!d) return;
+
+  const title = d.title_cn || d.title_en || d.id;
+  const titleEn = d.title_en && d.title_cn ? d.title_en : '';
+  const grade = d.grade || '';
+  const gradeClass = getGradeClass(grade);
+  const category = d.category || '其他';
+  const doiLink = d.doi ? `https://doi.org/${d.doi}` : '';
+
+  let html = `
+    <div class="modal-title">${title}</div>
+    ${titleEn ? `<div class="modal-title-en">${titleEn}</div>` : ''}
+    <div class="modal-badges">
+      <span class="modal-badge ${d.tier === 1 ? 'grade-high' : 'grade-unknown'}">${d.tier === 1 ? '深度解读' : '元数据卡'}</span>
+      ${grade ? `<span class="modal-badge ${gradeClass}">${grade}</span>` : ''}
+      ${category ? `<span class="modal-badge" style="background:var(--accent-glow);color:var(--accent)">${category}</span>` : ''}
+      ${d.year ? `<span class="modal-badge" style="background:var(--border);color:var(--text-secondary)">${d.year}</span>` : ''}
+      ${d.type ? `<span class="modal-badge" style="background:var(--border);color:var(--text-secondary)">${d.type}</span>` : ''}
+    </div>
+  `;
+
+  // Meta info table
+  html += `<div class="modal-section">
+    <div class="modal-section-title">基本信息</div>
+    <table class="modal-data-table">
+      <tr>${d.authors ? `<th>作者</th><td>${d.authors}</td>` : '<th>作者</th><td>未报告</td>'}</tr>
+      ${d.journal ? `<tr><th>期刊</th><td>${d.journal}</td></tr>` : ''}
+      ${d.sample ? `<tr><th>样本</th><td>${d.sample}</td></tr>` : ''}
+      ${d.date ? `<tr><th>收录日期</th><td>${d.date}</td></tr>` : ''}
+      ${d.doi ? `<tr><th>DOI</th><td class="modal-doi"><a href="${doiLink}" target="_blank">${d.doi}</a></td></tr>` : ''}
+      ${d.pmid ? `<tr><th>PMID</th><td>${d.pmid}</td></tr>` : ''}
+    </table>
+  </div>`;
+
+  // Conclusion
+  if (d.conclusion) {
+    html += `<div class="modal-section">
+      <div class="modal-section-title">核心结论</div>
+      <div class="modal-section-content"><p>${d.conclusion}</p></div>
+    </div>`;
+  }
+
+  // Question
+  if (d.question) {
+    html += `<div class="modal-section">
+      <div class="modal-section-title">研究问题</div>
+      <div class="modal-section-content"><p>${d.question}</p></div>
+    </div>`;
+  }
+
+  // Mechanism
+  if (d.mechanism) {
+    html += `<div class="modal-section">
+      <div class="modal-section-title">生理机制</div>
+      <div class="modal-section-content"><p>${d.mechanism}</p></div>
+    </div>`;
+  }
+
+  // Key data
+  if (d.key_data) {
+    html += `<div class="modal-section">
+      <div class="modal-section-title">关键数据</div>
+      <div class="modal-section-content"><p>${d.key_data}</p></div>
+    </div>`;
+  }
+
+  // Implication
+  if (d.implication) {
+    html += `<div class="modal-section">
+      <div class="modal-section-title">实践启示</div>
+      <div class="modal-section-content"><p>${d.implication}</p></div>
+    </div>`;
+  }
+
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function bindEvents() {
+  // Search
+  let searchTimer;
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      searchQuery = e.target.value.trim();
+      renderCards();
+    }, 200);
+  });
+
+  // Tier toggle
+  document.querySelectorAll('.tier-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTier = btn.dataset.tier;
+      renderCards();
+    });
+  });
+
+  // Category filters
+  document.getElementById('category-filters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = btn.dataset.category;
+    renderCards();
+  });
+
+  // Modal close
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+// Start
+init();
+</script>
+</body>
+</html>
