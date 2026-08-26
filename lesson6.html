@@ -1,0 +1,2465 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 6 · 结构划定活动的边界</title>
+<style>
+/* ===== CSS Variables & Reset ===== */
+:root {
+  --bg-canvas: #0a0a0f;
+  --bg-surface: #14141f;
+  --bg-surface-2: #1c1c2a;
+  --bg-elevated: #252538;
+  --text-primary: #e8e8ee;
+  --text-secondary: #a0a0b0;
+  --text-muted: #70708a;
+  --border-subtle: #2a2a3e;
+  --border-strong: #3a3a52;
+  --accent-gold: #C8A45E;
+  --accent-gold-ink: #1a1206;
+  --accent-gold-soft: rgba(200, 164, 94, 0.15);
+  --color-philo: #8B5CF6;
+  --color-philo-soft: rgba(139, 92, 246, 0.12);
+  --color-philo-border: rgba(139, 92, 246, 0.3);
+  --color-aristotle: #3B82F6;
+  --color-aristotle-soft: rgba(59, 130, 246, 0.12);
+  --color-aristotle-border: rgba(59, 130, 246, 0.3);
+  --color-nutri: #10B981;
+  --color-nutri-soft: rgba(16, 185, 129, 0.12);
+  --color-nutri-border: rgba(16, 185, 129, 0.3);
+  --color-biomech: #F59E0B;
+  --color-biomech-soft: rgba(245, 158, 11, 0.12);
+  --color-biomech-border: rgba(245, 158, 11, 0.3);
+  --color-anatomy: #EF4444;
+  --color-anatomy-soft: rgba(239, 68, 68, 0.12);
+  --color-anatomy-border: rgba(239, 68, 68, 0.3);
+  --success: #10B981;
+  --error: #EF4444;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-serif: ui-serif, Georgia, "Times New Roman", "Source Han Serif SC", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+  --transition-fast: 150ms ease;
+  --transition-med: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-canvas);
+  color: var(--text-primary);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent-gold); text-decoration: none; transition: color var(--transition-fast); }
+a:hover { color: #d4b372; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-gold);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== Utility ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+.reading-width {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+/* ===== Hero ===== */
+.hero {
+  position: relative;
+  padding: clamp(48px, 8vw, 96px) 0 clamp(40px, 6vw, 64px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(200, 164, 94, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-lesson-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid var(--accent-gold);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-gold);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: clamp(15px, 2.2vw, 18px);
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--accent-gold);
+  color: var(--accent-gold-ink);
+}
+.btn-primary:hover { background: #d4b372; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--border-strong); }
+
+/* ===== Section Navigation ===== */
+.section-nav {
+  padding: 32px 0 48px;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--section-color, var(--accent-gold));
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-card:hover::before { opacity: 1; }
+.nav-card:hover {
+  border-color: var(--section-color, var(--accent-gold));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-card-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color, var(--accent-gold));
+  letter-spacing: 0.1em;
+}
+
+.nav-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.nav-card-progress {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+.nav-card-progress .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  margin-right: 6px;
+}
+.nav-card.completed .dot { background: var(--success); }
+.nav-card.in-progress .dot { background: var(--accent-gold); }
+
+/* ===== Section Content ===== */
+.content-section {
+  padding: clamp(48px, 7vw, 80px) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  scroll-margin-top: 20px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-number {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 640px;
+}
+
+.sub-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 48px 0 24px;
+  color: var(--text-primary);
+}
+
+.sub-section-title .icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+  font-size: 14px;
+}
+
+/* ===== Flip Cards ===== */
+.flip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.flip-card {
+  perspective: 1200px;
+  height: 240px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-slow);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+.flip-card-front {
+  border-top: 3px solid var(--section-color);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: var(--bg-surface-2);
+  border: 1px solid var(--section-color-border);
+  overflow-y: auto;
+}
+
+.flip-card-question {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.flip-card-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flip-card-back h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--section-color);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.flip-card-back p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.flip-card-back .source {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* ===== Quiz ===== */
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.quiz-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: border-color var(--transition-fast);
+}
+
+.quiz-card.revealed {
+  border-color: var(--section-color-border);
+}
+
+.quiz-number {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--section-color-soft);
+  color: var(--section-color);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.quiz-question {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--bg-surface-2);
+}
+
+.quiz-option:hover {
+  border-color: var(--section-color-border);
+  background: var(--section-color-soft);
+}
+
+.quiz-option.selected {
+  border-color: var(--section-color);
+  background: var(--section-color-soft);
+}
+
+.quiz-option.correct {
+  border-color: var(--success);
+  background: rgba(16, 185, 129, 0.12);
+}
+.quiz-option.correct .option-label { color: var(--success); }
+
+.quiz-option.incorrect {
+  border-color: var(--error);
+  background: rgba(239, 68, 68, 0.12);
+}
+.quiz-option.incorrect .option-label { color: var(--error); }
+
+.option-label {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.option-text {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.quiz-explanation {
+  display: none;
+  padding: 16px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--section-color);
+  margin-top: 16px;
+}
+
+.quiz-card.revealed .quiz-explanation { display: block; animation: fadeIn 0.3s ease; }
+
+.quiz-explanation-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.quiz-explanation-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ===== Case Study ===== */
+.case-study {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.case-header {
+  padding: 24px 28px;
+  background: linear-gradient(135deg, var(--section-color-soft) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.case-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--section-color);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.case-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.case-body {
+  padding: 28px;
+}
+
+.case-narrative {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--bg-surface-2);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--section-color);
+}
+
+.case-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.case-question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.case-question-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.case-answer {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+
+.case-answer:focus {
+  outline: none;
+  border-color: var(--section-color);
+}
+
+.case-submit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.case-reference {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--success);
+}
+
+.case-reference.show { display: block; animation: fadeIn 0.3s ease; }
+
+.case-reference-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.case-reference-content {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.case-reference-content ul { padding-left: 20px; }
+.case-reference-content li { margin-bottom: 6px; }
+
+/* ===== Group Submission ===== */
+.group-submit {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-top: 24px;
+}
+
+.group-submit-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.group-submit-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.group-submit-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.group-submit-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.group-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-select,
+.form-input {
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-2);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color var(--transition-fast);
+}
+
+.form-select:focus,
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.markdown-output {
+  width: 100%;
+  min-height: 200px;
+  padding: 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-canvas);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+
+.submit-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.show { display: flex; animation: fadeIn 0.2s ease; }
+
+.modal {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.modal p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ===== Token Setup ===== */
+.token-setup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.token-setup:hover { color: var(--accent-gold); }
+
+/* ===== Footer ===== */
+.site-footer {
+  padding: 48px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.site-footer .divider {
+  width: 60px;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0 auto 20px;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body { background: white; color: black; }
+  .hero { padding: 24px 0; }
+  .hero::before { display: none; }
+  .hero-actions, .section-nav, .reveal-container,
+  .case-submit-row, .group-submit, .flip-card-hint {
+    display: none !important;
+  }
+  .content-section { padding: 24px 0; page-break-inside: avoid; }
+  .quiz-card, .case-study, .flip-card-front, .flip-card-back {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    color: black !important;
+  }
+  .flip-card { height: auto; perspective: none; }
+  .flip-card-inner { transform: none !important; transform-style: flat; }
+  .flip-card-front, .flip-card-back {
+    position: relative;
+    backface-visibility: visible;
+    transform: none !important;
+    page-break-inside: avoid;
+  }
+  .flip-card-back { margin-top: 0; border-top: none; }
+  .quiz-explanation { display: block !important; border-color: #ccc; background: #f5f5f5; }
+  .quiz-option.correct { border-color: #10B981; background: #ecfdf5; }
+  .quiz-option.incorrect { border-color: #EF4444; background: #fef2f2; }
+  .case-reference { display: block !important; }
+  a { color: black; text-decoration: underline; }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .flip-grid { grid-template-columns: 1fr; }
+  .quiz-card { padding: 20px; }
+  .case-header, .case-body { padding: 20px; }
+  .group-submit { padding: 20px; }
+  .nav-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { flex-direction: column; }
+}
+
+/* ===== Scroll Progress ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent-gold);
+  z-index: 100;
+  transition: width 0.1s linear;
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  padding: 12px 24px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 14px;
+  z-index: 2000;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-med);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--error); }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ===== Hero ===== -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-lesson-badge">LESSON 5 · 涌现90天</div>
+    <h1>结构划定活动的边界</h1>
+    <p class="hero-subtitle">
+      从科学哲学到解剖学，五个板块共同揭示一条主线：
+      结构规定了活动的可能性 → 识别结构的约束 → 在结构允许的范围内优化活动的质量 → 理解结构偏离导致的代偿和失效。
+    </p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('section-1').scrollIntoView({behavior:'smooth'})">
+        开始学习
+      </button>
+      <button class="btn btn-secondary" onclick="downloadHomework()">
+        下载作业
+      </button>
+      <button class="btn btn-ghost" onclick="window.print()">
+        打印 / 导出PDF
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Section Navigation ===== -->
+<nav class="section-nav">
+  <div class="container">
+    <div class="nav-grid" id="navGrid">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ===== Section 1: 科学哲学 ===== -->
+<section class="content-section" id="section-1" style="--section-color: var(--color-philo); --section-color-soft: var(--color-philo-soft); --section-color-border: var(--color-philo-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块一</span>
+      <h2 class="section-title">科学哲学——当公共操作遭遇信念抵抗</h2>
+      <p class="section-desc">公共操作程序是科学观察的必要条件，但不是充分条件——信念系统可以抵抗公共证据。</p>
+    </div>
+
+    <!-- Knowledge Cards -->
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-1">
+      <!-- Generated by JS -->
+    </div>
+
+    <!-- Quiz -->
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-1">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(1)">
+        揭晓答案
+      </button>
+    </div>
+
+    <!-- Case Study -->
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">力量训练"无效"的判断</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          你向一位客户推荐了力量训练。客户练了两个月，体重没有变化。客户说："你看，练了两个月一点效果都没有。力量训练没用。"而你知道客户的体脂可能在降低、肌肉在增加，只是体重秤上看不出来。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从"信念抵抗"的角度分析，客户的判断属于什么现象？</label>
+            <textarea class="case-answer" data-case="1" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 你会如何用"辅助假说"来解释这个反常？如何区分"合理的辅助假说保护"和"不合理的信念抵抗"？</label>
+            <textarea class="case-answer" data-case="1" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 这个案例对教练在提供数据和改变客户认知方面有什么启示？</label>
+            <textarea class="case-answer" data-case="1" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(1)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-1">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>信念抵抗分析：</strong>客户持有的核心信念是"体重下降=训练有效"。当体重不变这一证据与信念冲突时，客户没有修改信念，而是直接否定力量训练的价值。这类似于帕多瓦哲学家拒绝通过望远镜观察——核心信念体系对外来证据产生了免疫。</li>
+              <li><strong>辅助假说与界限：</strong>教练可以用辅助假说解释反常：体重不变不代表没有效果，可能体脂在降低、肌肉在增加（需要测体成分）；两个月时间不够，肌肉增长以月为单位；训练强度可能不够（检查渐进超负荷）。区分合理保护与不合理抵抗的界限在于：核心理论本身是否经得起检验。力量训练有充分的证据支持，用辅助假说解释反常是合理的；但教练也应主动寻找否证自己方案的证据（如客户是否真正执行了训练计划），而非被动消化反常。</li>
+              <li><strong>教练实践启示：</strong>提供数据（体成分、围度、力量数据）不等于改变认知。改变认知需要时间、信任和反复验证。教练应将私密的"感觉"转化为公共可检验的数据，同时认识到公共操作不等于公共接受——客户可能在数据面前仍坚持原有信念。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group Submission -->
+    <div class="group-submit" id="group-1">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="1">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="1" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(1)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-1" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(1)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(1)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" style="display:none;">
+          <span>⚙️</span> <span id="tokenStatus">设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 2: 哲学 ===== -->
+<section class="content-section" id="section-2" style="--section-color: var(--color-aristotle); --section-color-soft: var(--color-aristotle-soft); --section-color-border: var(--color-aristotle-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块二</span>
+      <h2 class="section-title">哲学——幸福是活动，不是感觉</h2>
+      <p class="section-desc">eudaimonia不是拥有德性的静态状态，而是灵魂合乎德性的现实活动（energeia）。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-2">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-2">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(2)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">"我练得很痛苦，我不幸福"</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位客户训练非常自律，饮食控制得很好，体能和力量都在进步。但他说："我练得很痛苦。我不想练了。练完之后浑身酸痛。我感觉很不幸福。"与此同时，另一位客户每天不做力量训练，只做轻松活动、吃喜欢的食物，她说："我每天都很开心，我觉得我很幸福。"
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 用dynamis/hexis/energeia的区分分析第一位客户的状态。他虽然痛苦，是否可能处于"繁盛"之中？</label>
+            <textarea class="case-answer" data-case="2" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 第二位客户"每天很开心"，从亚里士多德的角度看，她是否幸福？为什么？</label>
+            <textarea class="case-answer" data-case="2" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 教练如何帮助客户从"追求感觉"转向"追求活动质量"？</label>
+            <textarea class="case-answer" data-case="2" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(2)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-2">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>第一位客户：</strong>他的身体功能正在实际活动中展开（energeia）——力量在增长、体能在提升。训练中的痛苦是感觉层面的（hedonia低），但功能在卓越实现（eudaimonia高）。亚里士多德会说他混淆了"感觉"和"活动"：一个人可以在做正确的事时并不感到愉悦，但不妨碍他处于幸福之中。这就像运动员在比赛中发挥到极致，浑身酸痛但功能被优良实现。</li>
+              <li><strong>第二位客户：</strong>她的"开心"是hedonia（快乐感），不是eudaimonia（繁盛）。她的身体功能没有被充分激活和实现——从功能分析的角度看，她没有在繁盛，而是在枯萎。亚里士多德认为如果幸福只是快乐感，那孩子和动物也可以是幸福的，但它们无法参与理性的实现活动。幸福不在于感觉良好，而在于活动的卓越。</li>
+              <li><strong>教练实践：</strong>帮助客户区分短期不适感和长期繁盛状态。引导客户关注功能指标（力量、耐力、动作质量、日常活动能力）而非仅依赖感觉。训练的目的是帮助客户实现身体功能的卓越，不是制造愉悦感觉。但教练也不应无视客户痛苦——亚里士多德承认幸福需要外在条件，包括身体不遭受过度痛苦。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-2">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="2">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="2" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(2)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-2" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(2)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(2)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" style="display:none;">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 3: 营养学 ===== -->
+<section class="content-section" id="section-3" style="--section-color: var(--color-nutri); --section-color-soft: var(--color-nutri-soft); --section-color-border: var(--color-nutri-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块三</span>
+      <h2 class="section-title">营养学——肽键与蛋白质的结构层级</h2>
+      <p class="section-desc">从一级结构到四级结构，每一层结构规定了下一层结构的可能性，氨基酸序列决定了折叠方式与功能。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-3">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-3">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(3)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">"开水冲蛋白粉会破坏营养吗？"</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位客户问你："我听说蛋白粉不能用开水冲，高温会让蛋白质变性，营养就被破坏了。那是不是生吃食物比煮熟更有营养？我看有人说生食能保留更多的酶和活性蛋白。"他还提到自己一直在吃生鸡蛋，认为"生的蛋白质更完整"。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 用蛋白质变性的概念解释：开水冲蛋白粉到底"破坏"了什么？营养真的被破坏了吗？</label>
+            <textarea class="case-answer" data-case="3" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 从一级结构与高级结构的关系分析，为什么熟鸡蛋比生鸡蛋更容易消化？</label>
+            <textarea class="case-answer" data-case="3" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. "生食保留活性酶"这个说法在营养学上是否成立？为什么？</label>
+            <textarea class="case-answer" data-case="3" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(3)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-3">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>变性与营养：</strong>开水确实会让蛋白质变性，但变性不等于"营养被破坏"。变性破坏的是二级、三级、四级结构（氢键、疏水作用、离子键等非共价力），但肽键（共价键）没有被破坏，氨基酸的排列顺序（一级结构）完整。人体消化吸收蛋白质的过程本身就是先变性（胃酸使蛋白质展开）再切断肽键。不建议开水冲蛋白粉的真正原因是变性后蛋白质溶解度下降、容易结块、口感变差，而非营养价值丧失。</li>
+              <li><strong>熟鸡蛋更易消化：</strong>加热使鸡蛋蛋白质变性展开，从紧密的三维结构变成松散的长链，消化酶（胃蛋白酶、胰蛋白酶等）更容易接近肽键并将其切断。研究表明熟鸡蛋蛋白质消化率约91%，生鸡蛋约51%，差距接近一倍。一级结构（氨基酸序列）在变性后保持完整，但高级结构的展开使酶切位点暴露。</li>
+              <li><strong>"活性酶"说法：</strong>不成立。食物中的酶本质也是蛋白质，进入胃后在胃酸（pH 1.5-3.5）环境中会迅速变性失活，然后被消化酶分解为氨基酸。无论生吃还是熟吃，食物中的酶都不会在人体内保持活性。人体需要的是氨基酸（蛋白质的基本单元），不是食物中的活性酶。生食还存在食品安全风险（致病菌污染）。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-3">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="3">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="3" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(3)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-3" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(3)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(3)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" style="display:none;">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 4: 生物力学 ===== -->
+<section class="content-section" id="section-4" style="--section-color: var(--color-biomech); --section-color-soft: var(--color-biomech-soft); --section-color-border: var(--color-biomech-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块四</span>
+      <h2 class="section-title">生物力学——力线对齐：重力线与关节轴心</h2>
+      <p class="section-desc">重力线与关节轴心的位置关系规定了力矩的大小，结构对齐决定力学效率，偏离对齐增加肌肉代偿负担。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-4">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-4">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(4)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">高杠深蹲与低杠深蹲的目标肌群差异</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位客户希望重点发展臀部和腘绳肌，但一直在做高杠深蹲，感觉股四头肌刺激明显而臀部感受不深。他的教练建议他改为低杠深蹲。低杠深蹲将杠铃放在背部较低的位置（三角肌后束而非斜方肌上部），需要更大的躯干前倾来保持杠铃位于足中上方。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 用力线对齐的概念解释：为什么高杠深蹲更多刺激股四头肌，而低杠深蹲更多刺激臀大肌？</label>
+            <textarea class="case-answer" data-case="4" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 从重力线与髋、膝关节轴心的位置关系分析两种深蹲的力矩差异。</label>
+            <textarea class="case-answer" data-case="4" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 这个案例如何体现"姿态调整改变力线位置从而调节目标肌群负荷"的训练原理？</label>
+            <textarea class="case-answer" data-case="4" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(4)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-4">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>力线对齐分析：</strong>高杠深蹲杠铃在斜方肌上部，躯干较直立，重力线更靠近膝关节轴心，膝关节伸展力矩大，股四头肌负荷大。低杠深蹲杠铃位置更低更靠后，需要更大躯干前倾来保持杠铃在足中上方，重力线更远离髋关节轴心，髋关节伸展力矩大，臀大肌和腘绳肌负荷增加。</li>
+              <li><strong>力矩差异：</strong>躯干前倾使重心相对于膝关节向后移动（膝关节力臂减小，膝伸展力矩减小），同时相对于髋关节向前移动（髋关节力臂增大，髋伸展力矩增大）。力矩 = 力 × 力臂，杠铃重量相同但力臂分布不同，导致关节力矩和目标肌群不同。</li>
+              <li><strong>训练原理：</strong>这是力线对齐原理在训练中的直接应用。通过改变杠铃位置→改变躯干角度→改变重心位置→改变重力线与关节轴心的相对位置→改变力矩分布→改变目标肌群负荷。教练可以利用这一原理调整动作来强调不同肌群：增加膝关节屈曲角度或保持躯干直立以强调股四头肌；增加躯干前倾以强调臀部和腘绳肌。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-4">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="4">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="4" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(4)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-4" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(4)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(4)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" style="display:none;">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Section 5: 解剖 ===== -->
+<section class="content-section" id="section-5" style="--section-color: var(--color-anatomy); --section-color-soft: var(--color-anatomy-soft); --section-color-border: var(--color-anatomy-border);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">板块五</span>
+      <h2 class="section-title">解剖——滑膜关节的结构与功能</h2>
+      <p class="section-desc">滑膜关节的形态结构规定了运动自由度和活动范围，稳定性与活动度之间存在固有权衡。</p>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">📖</span> 核心知识点回顾
+    </div>
+    <div class="flip-grid" id="flip-5">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">❓</span> 选择题
+    </div>
+    <div class="quiz-list" id="quiz-5">
+      <!-- Generated by JS -->
+    </div>
+    <div class="reveal-container">
+      <button class="btn btn-secondary" onclick="confirmReveal(5)">
+        揭晓答案
+      </button>
+    </div>
+
+    <div class="sub-section-title">
+      <span class="icon">💼</span> 案例分析
+    </div>
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-label">案例分析</div>
+        <h3 class="case-title">膝骨关节炎客户应该"不动"还是"动"？</h3>
+      </div>
+      <div class="case-body">
+        <div class="case-narrative">
+          一位客户有膝关节骨关节炎。医生建议他减少运动来"保护关节"。客户问你："教练，我应该不运动来保护膝盖吗？"他目前基本不运动，因为担心活动会加速关节磨损。他的膝关节在上下楼梯时疼痛明显，平路行走尚可。
+        </div>
+        <div class="case-questions">
+          <div class="case-question-item">
+            <label class="case-question-text">1. 从关节软骨的营养机制解释：为什么完全不运动反而可能加速软骨退化？</label>
+            <textarea class="case-answer" data-case="5" data-q="1" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">2. 结合板块四的力线对齐知识，分析力线不对齐如何影响关节面的压力分布和软骨健康。</label>
+            <textarea class="case-answer" data-case="5" data-q="2" placeholder="输入你的思考..."></textarea>
+          </div>
+          <div class="case-question-item">
+            <label class="case-question-text">3. 你会给出什么运动建议？如何在"促进软骨营养"和"避免过度负荷"之间取得平衡？</label>
+            <textarea class="case-answer" data-case="5" data-q="3" placeholder="输入你的思考..."></textarea>
+          </div>
+        </div>
+        <div class="case-submit-row">
+          <button class="btn btn-secondary" onclick="showCaseReference(5)">查看参考思路</button>
+        </div>
+        <div class="case-reference" id="case-ref-5">
+          <div class="case-reference-label">参考思路</div>
+          <div class="case-reference-content">
+            <ul>
+              <li><strong>软骨营养机制：</strong>关节软骨无血管、无神经、无淋巴管，营养来自滑液的扩散。扩散效率依赖力学负荷驱动的液体流动：关节活动时软骨被压缩（滑液被挤出），释放时滑液被吸入，这种"挤压-吸入"的泵机制促进营养物质进入和代谢废物排出。完全不运动=软骨没有"泵"的动作=营养交换效率下降=软骨退化加速。</li>
+              <li><strong>力线对齐与关节面压力：</strong>力线对齐良好时，关节面压力分布均匀，接触面积大、局部压强小，软骨得到均匀的力学刺激和营养。力线不对齐时（如膝内扣），压力集中在关节面的某个区域，局部压强过大，长期可能导致软骨在高压力区域过度磨损，在低压力区域营养不足。这就是为什么力线对齐不仅是"动作效率"问题，也是"关节长期健康"问题。</li>
+              <li><strong>运动建议：</strong>"保护关节"不等于"不动关节"，而是"合理地使用关节"。建议适度的、低冲击的活动：骑自行车、游泳、平地步行，这些活动提供足够的力学刺激促进软骨营养，同时不产生过高的关节面压力。避免高冲击活动（跑步跳跃）和长时间深蹲。同时关注力线对齐，纠正膝内扣等不良力学模式，使关节面压力均匀分布。如疼痛持续或加重，应转介医疗专业人员。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="group-submit" id="group-5">
+      <div class="group-submit-header">
+        <div class="group-submit-icon">📝</div>
+        <div>
+          <div class="group-submit-title">小组答案提交</div>
+          <div class="group-submit-desc">讨论完毕后，生成可复制的答案并提交到GitHub</div>
+        </div>
+      </div>
+      <div class="group-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">组号</label>
+            <select class="form-select" data-group-section="5">
+              <option value="">选择小组</option>
+              <option value="第1组">第1组</option>
+              <option value="第2组">第2组</option>
+              <option value="第3组">第3组</option>
+              <option value="第4组">第4组</option>
+              <option value="第5组">第5组</option>
+              <option value="第6组">第6组</option>
+              <option value="第7组">第7组</option>
+              <option value="第8组">第8组</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">小组代表</label>
+            <input type="text" class="form-input" data-rep-section="5" placeholder="输入代表姓名">
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="align-self:flex-start" onclick="generateMarkdown(5)">生成Markdown答案</button>
+        <textarea class="markdown-output" id="md-output-5" readonly placeholder="点击上方按钮生成答案..."></textarea>
+        <div class="submit-actions">
+          <button class="btn btn-ghost" onclick="copyMarkdown(5)">复制文本</button>
+          <button class="btn btn-primary" onclick="submitToGithub(5)">提交到GitHub</button>
+        </div>
+        <div class="token-setup" style="display:none;">
+          <span>⚙️</span> <span>设置GitHub Token</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Core Logic Summary ===== -->
+<section style="padding: clamp(48px, 7vw, 80px) 0; background: var(--bg-surface);">
+  <div class="container">
+    <div class="reading-width" style="text-align: center;">
+      <div class="section-label">今日核心逻辑</div>
+      <h2 style="font-family: var(--font-serif); font-size: clamp(22px, 3vw, 32px); font-weight: 600; margin-bottom: 32px; line-height: 1.35;">
+        结构划定活动的边界
+      </h2>
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 14px;">
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-philo);">
+          <strong style="color: var(--color-philo);">科学哲学：</strong>
+          <span style="color: var(--text-secondary);">观察的结构受到认知框架的约束，公共操作不等于公共接受</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-aristotle);">
+          <strong style="color: var(--color-aristotle);">哲学：</strong>
+          <span style="color: var(--text-secondary);">人的善不是潜在拥有（dynamis/hexis），而是在现实活动（energeia）中展开</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-nutri);">
+          <strong style="color: var(--color-nutri);">营养学：</strong>
+          <span style="color: var(--text-secondary);">氨基酸序列决定折叠方式，折叠方式决定功能</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-biomech);">
+          <strong style="color: var(--color-biomech);">生物力学：</strong>
+          <span style="color: var(--text-secondary);">重力线与关节轴心的位置关系规定了力矩的大小和肌肉代偿的负担</span>
+        </div>
+        <div style="padding: 16px 20px; background: var(--bg-surface-2); border-radius: var(--radius-md); border-left: 3px solid var(--color-anatomy);">
+          <strong style="color: var(--color-anatomy);">解剖：</strong>
+          <span style="color: var(--text-secondary);">滑膜关节的形态结构规定了运动自由度和活动范围</span>
+        </div>
+      </div>
+      <p style="margin-top: 32px; color: var(--text-muted); font-size: 15px; line-height: 1.7;">
+        结构规定了活动的可能性 → 识别结构的约束 → 在结构允许的范围内优化活动的质量 → 理解结构偏离导致的代偿和失效
+      </p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="divider"></div>
+    <p>涌现90天 · Lesson 6 交互式作业</p>
+    <p style="margin-top: 8px; font-size: 12px;">结构划定活动的边界</p>
+  </div>
+</footer>
+
+<!-- ===== Confirmation Modal ===== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="modalTitle">确认揭晓答案？</h3>
+    <p id="modalDesc">请确认小组已经充分讨论了所有题目。揭晓后将显示正确答案和详细解析。</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" id="modalConfirmBtn">确认揭晓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Token Modal ===== -->
+<div class="modal-overlay" id="tokenModal" style="display:none;">
+  <div class="modal">
+    <h3>GitHub Token 设置</h3>
+    <p>输入您的GitHub Personal Access Token以便提交答案。Token将保存在本地浏览器中。</p>
+    <div class="form-group" style="margin-bottom: 20px;">
+      <label class="form-label">GitHub Token</label>
+      <input type="password" class="form-input" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeTokenModal()">取消</button>
+      <button class="btn btn-primary" onclick="saveToken()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Toast ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const sections = [
+  {
+    id: 1,
+    name: '科学哲学',
+    subtitle: '当公共操作遭遇信念抵抗',
+    color: 'var(--color-philo)',
+    knowledge: [
+      {
+        q: '伽利略的望远镜观察如何冲击了亚里士多德宇宙论？',
+        a: '1609年伽利略将望远镜指向月球，观察到表面有山脉和陨石坑，与亚里士多德"天体完美无瑕"的教条直接冲突。木星有四颗卫星绕行（冲击"所有天体绕地球转"），金星有完整相位变化（冲击托勒密地心说）。《星际信使》（1610）中的观察是公共的，任何人都可以拿起望远镜验证。',
+        source: 'Galileo, Sidereus Nuncius, 1610; Chalmers, What Is This Thing Called Science?, 2013, Ch4'
+      },
+      {
+        q: '帕多瓦哲学家为什么拒绝通过望远镜观察？',
+        a: '他们的理由是望远镜改变了观察条件，看到的不是天体的"真实"外观而是仪器的扭曲，有人声称镜片引入了虚假像。更深层的原因是：如果月球表面不完美，整个亚里士多德宇宙论体系就会崩塌。接受观察证据意味着放弃整个信念体系。',
+        source: 'Chalmers, 2013, Ch4, p.38'
+      },
+      {
+        q: '什么是"观察渗透理论"？',
+        a: 'Hanson和Kuhn指出，观察不是纯粹的感官接收，观察者持有的理论、概念框架和预期影响他看到什么。两个持有不同理论的观察者看同一张X光片，一个看到骨折线，另一个只看到阴影。公共操作程序确保了观察的可重复性，但不能保证所有观察者愿意接受观察结果。',
+        source: 'Hanson, Patterns of Discovery, 1958; Kuhn, The Structure of Scientific Revolutions, 1962'
+      },
+      {
+        q: '公共性与接受性的区分是什么？',
+        a: 'Lesson 5确立了科学观察的公共性要求。Lesson 6推进这一步：公共操作程序是必要条件，但不是充分条件。信念系统可以抵抗公共证据。科学史上的范式转换往往需要一代人的时间，不是因为没有公共证据，而是因为旧范式的持有者不愿放弃与证据冲突的信念。',
+        source: 'Kuhn, 1962, Ch6'
+      },
+      {
+        q: '信念抵抗与教练实践有什么关联？',
+        a: '客户可能持有"我的膝盖没问题"的信念，即使动作分析显示明显的膝内扣。客户可能拒绝接受步态评估的结果，因为这与他"我跑姿很好"的自我认知冲突。教练面对的不仅是动作评估的公共操作问题，还有客户信念系统对证据的抵抗。提供数据不等于改变认知，改变认知需要时间、信任和反复验证。',
+        source: ''
+      }
+    ],
+    quiz: [
+      {
+        q: '帕多瓦哲学家拒绝通过望远镜观察月球的主要原因是什么？',
+        options: [
+          '望远镜的放大倍率不够，无法看清月球表面细节',
+          '接受观察证据意味着放弃亚里士多德宇宙论的核心教义，整个信念体系面临崩塌',
+          '伽利略的观察数据存在系统误差，无法被重复验证',
+          '当时的望远镜技术尚未达到观察天体的标准'
+        ],
+        correct: 1,
+        explanation: '帕多瓦的亚里士多德派哲学家拒绝通过望远镜观察，深层原因是望远镜提供的观察结果与一整套信念体系冲突。如果月球表面不完美，整个亚里士多德宇宙论体系就会崩塌。他们用辅助假说（"望远镜产生的是假象"）来保护核心理论。'
+      },
+      {
+        q: '"观察渗透理论"这个概念的含义是什么？',
+        options: [
+          '科学观察必须使用理论仪器才能获得有效数据',
+          '观察者的理论背景和概念框架影响他看到什么，相同的感觉输入可能被解释为不同的事实',
+          '所有观察都必然出错，因此科学观察不可靠',
+          '只有掌握正确理论的人才能进行科学观察'
+        ],
+        correct: 1,
+        explanation: 'Hanson和Kuhn提出的"观察渗透理论"（theory-ladenness of observation）指出，观察不是纯粹的感官接收。观察者持有的理论、概念框架和预期影响他看到什么。两个持有不同理论的观察者看同一张X光片，一个看到骨折线，另一个只看到阴影。'
+      },
+      {
+        q: '一位教练用三维动作捕捉系统向客户展示深蹲时膝关节内扣的数据，客户看后说"我觉得我的膝盖没问题，这些数据不准确"。从板块一的知识来看，这个现象最准确的解释是：',
+        options: [
+          '动作捕捉系统的精度不足以检测膝关节的微小偏移',
+          '客户持有的"我的膝盖没问题"的信念抵抗了与信念冲突的公共证据',
+          '客户缺乏理解动作分析数据的专业知识，无法正确解读结果',
+          '视觉数据不如主观感受可靠，客户的自我判断更准确'
+        ],
+        correct: 1,
+        explanation: '这是信念抵抗的典型案例。公共操作程序（三维动作捕捉）提供了可检验的证据，但客户持有的信念体系（"我的膝盖没问题"）对证据产生了免疫。客户没有修改信念，而是质疑证据来源（"数据不准确"），这类似于帕多瓦哲学家声称"望远镜产生的是假象"。'
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: '哲学',
+    subtitle: '幸福是活动，不是感觉',
+    color: 'var(--color-aristotle)',
+    knowledge: [
+      {
+        q: 'energeia与dynamis的区分是什么？',
+        a: 'dynamis（δύναμις）是潜在能力，是能做某事的可能性。energeia（ἐνέργεια）是现实活动，是能力在实际行使中的展开。一个人有吹笛子的dynamis（学过笛子），但只有实际吹奏时才处于energeia状态。eudaimonia属于energeia，因为它要求能力在生活中的实际行使，不是拥有能力的静态状态。',
+        source: 'Aristotle, Metaphysics, Book IX, 1045b; NE, I, 1095a'
+      },
+      {
+        q: 'hexis与energeia的区分是什么？',
+        a: 'hexis（ἕξις）是一种稳定的品质状态（disposition），是拥有但不一定正在行使的东西。一个人可以拥有勇敢的hexis但在和平时期从不面对危险。亚里士多德明确指出eudaimonia不是hexis，因为"拥有德性但不使用它"不构成幸福。幸福要求灵魂合乎德性的实际活动。',
+        source: 'Aristotle, NE, I, 1098b'
+      },
+      {
+        q: 'aretē在功能论证中的角色是什么？',
+        a: 'aretē（ἀρετή）通常翻译为"virtue"或"excellence"，原始含义是使一个事物的功能实现得好的品质。笛子的aretē是使笛子被吹奏出优美音乐的品质。眼睛的aretē是使眼睛看得清楚的品质。人的aretē是灵魂合乎理性原则的活动达到卓越。幸福是有aretē的人在一生中的活动。',
+        source: 'Aristotle, NE, I, 1097b-1098a'
+      },
+      {
+        q: '活动论与感觉论的根本对立是什么？',
+        a: '感觉主义将幸福等同于愉悦感受（pleasure），认为幸福是一种主观状态。亚里士多德的活动论将幸福等同于灵魂合乎德性的活动，认为幸福是一种客观的生活方式。一个人可能在做正确的事时并不感到愉悦，但不妨碍他处于幸福之中。幸福更接近"活得好并且做得好"（eu zēn kai eu prattein），而非"感觉良好"。',
+        source: 'Aristotle, NE, I, 1098a; X, 1176a'
+      },
+      {
+        q: '活动论与教练实践有什么关联？',
+        a: '客户常将训练目标表述为感觉状态："我想感觉更有活力""我希望训练让我开心"。活动论提供了不同的框架：训练的目的不是制造愉悦感觉，而是让客户的身体功能在实际活动中实现卓越。一个能完成引体向上的客户，即使训练过程中并不愉悦，也处于功能的卓越实现之中。教练帮助客户从"追求感觉"转向"追求活动质量"。',
+        source: ''
+      }
+    ],
+    quiz: [
+      {
+        q: '亚里士多德区分dynamis（潜在能力）和energeia（现实活动）。一个人学会了笛子但从不在人前演奏，从亚里士多德的概念框架来看：',
+        options: [
+          '他处于eudaimonia状态，因为他拥有吹奏的dynamis',
+          '他拥有吹奏的hexis（品质状态），但未处于吹奏的energeia（现实活动）',
+          '他的dynamis已经转化为energeia，因为学习意味着已经实现',
+          '他既不拥有dynamis也不拥有energeia，因为没有实际表现'
+        ],
+        correct: 1,
+        explanation: '他学会了笛子，拥有吹奏的能力（dynamis）和品质状态（hexis），但他从不在人前演奏，能力没有在实际中展开（没有energeia）。亚里士多德强调eudaimonia属于energeia而非dynamis或hexis——幸福在于能力的实际行使，不在于能力的拥有。'
+      },
+      {
+        q: '一位客户说"我希望训练让我每天都感觉很好"。从板块二的知识来看，亚里士多德会如何回应这种幸福观？',
+        options: [
+          '同意这种观点，因为愉悦感受是幸福的核心指标',
+          '指出幸福是灵魂合乎德性的活动，不在于感觉良好，而在于活动的卓越实现',
+          '认为感觉和活动在本质上是同一回事，无需区分',
+          '建议客户放弃训练，因为训练总是伴随不愉悦的感觉'
+        ],
+        correct: 1,
+        explanation: '亚里士多德的活动论认为幸福（eudaimonia）不是快乐感（hedonia），而是灵魂合乎德性的实现活动（energeia）。一个人可能在做正确的事时并不感到愉悦，但这不妨碍他处于幸福之中。训练的目的是功能的卓越实现，而非制造愉悦感觉。'
+      },
+      {
+        q: 'aretē（ἀρετή）在功能论证中的角色是什么？',
+        options: [
+          'aretē是一种先天的道德品质，与身体功能无关',
+          'aretē是使一个事物的功能实现得卓越的品质，人的aretē是灵魂合乎理性原则的活动达到卓越',
+          'aretē是物质财富的积累，是幸福的外在条件',
+          'aretē是一种可以被拥有但不需要行使的静态状态'
+        ],
+        correct: 1,
+        explanation: 'aretē的原始含义是使一个事物的功能实现得好的品质。笛子的aretē使其被吹奏出优美音乐，眼睛的aretē使其看得清楚。人的aretē是灵魂合乎理性原则的活动达到卓越。注意区分：aretē是品质（hexis），但幸福（eudaimonia）不是hexis而是energeia——是按照aretē的实际活动。'
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: '营养学',
+    subtitle: '肽键与蛋白质的结构层级',
+    color: 'var(--color-nutri)',
+    knowledge: [
+      {
+        q: '肽键是如何形成的？它有什么特殊性质？',
+        a: '一个氨基酸的α-羧基（-COOH）与另一个氨基酸的α-氨基（-NH₂）发生脱水缩合反应，形成肽键（-CO-NH-），释放一分子水。肽键具有约40%的双键特征（共振结构），使C-N键不能自由旋转，肽平面呈刚性平面构型，限制了多肽链的构象自由度，是蛋白质折叠的物理约束之一。',
+        source: 'Lehninger, Principles of Biochemistry, 8th ed., 2021, Ch3'
+      },
+      {
+        q: '什么是蛋白质的一级结构？它为什么重要？',
+        a: '一级结构是氨基酸通过肽键连接形成的线性序列，由基因编码决定，是蛋白质所有高级结构的基础。序列中每个氨基酸残基的R基性质决定了该位置的化学特征。一级结构的改变（如镰刀型贫血症β链第6位谷氨酸→缬氨酸的单一氨基酸替换）可以彻底改变蛋白质的功能和构象。',
+        source: 'Lehninger, 2021, Ch3; Whitfield, The Periodic Table of Proteins, 2022, Ch2'
+      },
+      {
+        q: '二级结构的主要类型和稳定因素是什么？',
+        a: '多肽链主链原子间形成的氢键（C=O···H-N）使局部肽段呈现规则折叠。两种主要类型：α-螺旋是主链绕中心轴螺旋上升，每圈3.6个氨基酸残基，R基向外伸出；β-折叠是相邻肽段平行或反平行排列，R基交替位于平面上下方。角蛋白富含α-螺旋，丝心蛋白富含β-折叠。',
+        source: 'Lehninger, 2021, Ch4'
+      },
+      {
+        q: '三级结构由哪些相互作用稳定？',
+        a: '整条多肽链在三维空间中的折叠构象，由R基间的相互作用稳定：疏水作用（非极性R基聚集在蛋白质内部）、离子键/盐桥（带相反电荷的R基间吸引力）、二硫键（两个半胱氨酸的巯基氧化形成的共价键-S-S-）、范德华力。三级结构决定了蛋白质的功能表面和活性位点的空间构型。',
+        source: 'Lehninger, 2021, Ch4'
+      },
+      {
+        q: '什么是四级结构？血红蛋白的协同效应如何体现？',
+        a: '四级结构是两条或以上独立多肽链（亚基）通过非共价相互作用组装成功能性蛋白质复合体。血红蛋白由4条多肽链（2条α链和2条β链）组成，每条链结合一个血红素辅基。亚基间的协同效应使血红蛋白的氧结合曲线呈S形——一个亚基结合氧后增加其他亚基对氧的亲和力，这是四级结构赋予的调节功能，单条多肽链无法实现。',
+        source: 'Lehninger, 2021, Ch5; Whitney & Rolfes, Understanding Nutrition, 16th ed., 2022, Ch7'
+      }
+    ],
+    quiz: [
+      {
+        q: '肽键具有部分双键性质的直接后果是什么？',
+        options: [
+          '肽键可以自由旋转，使多肽链具有最大构象灵活性',
+          '肽平面呈刚性平面构型，C-N键不能自由旋转，限制了多肽链的构象自由度',
+          '肽键容易水解，使蛋白质在体温下不稳定',
+          '肽键使相邻氨基酸的R基固定在相同方向'
+        ],
+        correct: 1,
+        explanation: '肽键由于氮的未共用电子对与羰基的共振，具有约40%的双键特征，使C-N键不能自由旋转，肽单元的六个原子（Cα、C、O、N、H、Cα）处于同一刚性平面。这种刚性限制了多肽链的构象自由度，每个残基只有phi角和psi角两个可旋转键，是蛋白质折叠的物理约束。'
+      },
+      {
+        q: '镰刀型贫血症中，血红蛋白β链第6位谷氨酸被替换为缬氨酸。从蛋白质结构层级的角度分析，这个改变首先影响的是：',
+        options: [
+          '四级结构，因为亚基间的组装被破坏',
+          '二级结构，因为α-螺旋被强制转变为β-折叠',
+          '一级结构，因为氨基酸序列发生了改变，进而影响高级结构的折叠',
+          '肽键本身，因为不同氨基酸形成的肽键强度不同'
+        ],
+        correct: 2,
+        explanation: '这个突变首先改变的是一级结构（氨基酸线性序列中的一个残基）。谷氨酸（亲水、带负电）被替换为缬氨酸（疏水），使血红蛋白表面出现一个疏水"粘性"补丁。在低氧条件下，异常血红蛋白相互聚集形成纤维，导致红细胞变形为镰刀状。一级结构的改变→高级结构折叠异常→功能丧失，完整体现了"序列决定折叠、结构决定功能"。'
+      },
+      {
+        q: '血红蛋白的氧结合曲线呈S形（协同效应），这种调节功能依赖于蛋白质的哪一层结构？',
+        options: [
+          '一级结构，因为氧结合的亲和力由氨基酸序列直接决定',
+          '二级结构，因为α-螺旋的排列方式决定了氧通道',
+          '三级结构，因为单条多肽链的折叠构象足以实现协同效应',
+          '四级结构，因为亚基间的协同作用需要多条多肽链的组装'
+        ],
+        correct: 3,
+        explanation: '协同效应（cooperativity）是四级结构的功能。血红蛋白由4条多肽链（2α+2β）组成，当一个亚基结合氧后发生构象变化，通过亚基界面传递给其他亚基，增加它们对氧的亲和力。这种亚基间的通讯需要多条多肽链的组装，单条多肽链（如肌红蛋白）无法实现协同效应，其氧结合曲线呈双曲线而非S形。'
+      }
+    ]
+  },
+  {
+    id: 4,
+    name: '生物力学',
+    subtitle: '力线对齐：重力线与关节轴心',
+    color: 'var(--color-biomech)',
+    knowledge: [
+      {
+        q: '什么是重力线？它如何决定力矩？',
+        a: '重力线是通过身体总重心的垂直线，代表重力合力的作用方向。当重力线恰好通过关节旋转中心时，重力臂为零，重力不产生力矩。当重力线偏离关节旋转中心时，重力产生力矩（torque = force × moment arm），偏离越大力矩越大，需要更大的肌肉力量来对抗。',
+        source: 'McGinnis, Biomechanics of Sport and Exercise, 4th ed., 2021, Ch5'
+      },
+      {
+        q: '理想站立姿势中重力线的路径是什么？',
+        a: '安静站立时，重力线依次通过：外耳道→颈椎中心稍后方→胸椎中心稍前方→腰椎中心稍前方→骶骨岬→髋关节中心稍后方→膝关节中心稍前方→踝关节中心稍前方。这种交替排列使相邻关节的力矩相互部分抵消，减少维持姿势所需的肌肉力量。',
+        source: 'Neumann, Kinesiology of the Musculoskeletal System, 3rd ed., 2017, Ch2; Kendall et al., Muscles: Testing and Function, 5th ed., 2005, Ch2'
+      },
+      {
+        q: '重力线偏离关节轴心时会发生什么？',
+        a: '当重力线偏离关节旋转中心时，重力产生力矩，需要肌肉收缩来对抗。例如头部前倾使重力线移到颈椎旋转中心前方，产生使颈椎屈曲的力矩，颈后肌群必须持续收缩维持头部位置。偏离越大力矩越大，长期肌肉代偿导致肌肉疲劳、张力异常和疼痛。',
+        source: 'Neumann, 2017, Ch2'
+      },
+      {
+        q: '上交叉综合征和下交叉综合征分别是什么？',
+        a: '上交叉综合征：胸肌和上斜方肌过紧，深层颈屈肌和下斜方肌无力，导致头部前倾和圆肩。下交叉综合征：髋屈肌和竖脊肌过紧，腹肌和臀肌无力，导致骨盆前倾和腰椎前凸增加。两者都是肌肉不平衡导致力线偏离的典型模式。',
+        source: 'Janda, Muscles and Motor Control, 1996; Sahrmann, Diagnosis and Treatment of Movement Impairment Syndromes, 2002, Ch3'
+      },
+      {
+        q: '教练如何评估力线对齐？',
+        a: '简单方法：侧面观察耳垂、肩峰、股骨大转子、膝关节外侧髁、外踝是否在一条垂直线上。力线对齐的评估为训练处方提供方向：松解过紧的肌肉、强化无力的肌肉、重建正确的运动模式。力线对齐的评估必须考虑关节结构允许的活动范围（与板块五关联）。',
+        source: ''
+      }
+    ],
+    quiz: [
+      {
+        q: '当重力线恰好通过膝关节旋转中心时，膝关节处的力学状态是什么？',
+        options: [
+          '重力产生最大的伸膝力矩，股四头肌需要强烈收缩',
+          '重力产生最大的屈膝力矩，腘绳肌需要强烈收缩',
+          '重力臂为零，重力不产生力矩，维持膝伸直不需要肌肉力量',
+          '重力同时产生屈膝和伸膝力矩，相互抵消'
+        ],
+        correct: 2,
+        explanation: '力矩 = 力 × 力臂。当重力线恰好通过关节旋转中心时，力臂（重力线到旋转轴心的垂直距离）为零，因此力矩为零。这就是为什么安静站立时（重力线通过膝关节中心稍前方）股四头肌几乎不需要用力，骨骼结构在支撑体重。'
+      },
+      {
+        q: '一位客户长期伏案工作，呈现头部前倾姿势。从力线对齐的角度分析，头部前倾对颈椎的力学影响是：',
+        options: [
+          '重力线移到颈椎旋转中心前方，产生使颈椎屈曲的力矩，颈后肌群必须持续收缩对抗',
+          '重力线移到颈椎旋转中心后方，产生使颈椎伸展的力矩，颈前肌群必须持续收缩对抗',
+          '重力线仍通过颈椎旋转中心，不产生额外力矩',
+          '头部前倾改变了颈椎关节面的角度，但不影响力矩的大小'
+        ],
+        correct: 0,
+        explanation: '头部前倾时，头部重心前移，重力线移到颈椎旋转中心前方，产生使颈椎屈曲（低头）的力矩。为了维持头部位置、阻止头向前垂下，颈后肌群（如斜方肌上部、肩胛提肌、半棘肌等）必须持续收缩产生伸展力矩来对抗。长期如此导致颈后肌群疲劳、张力异常和疼痛。'
+      },
+      {
+        q: '上交叉综合征（upper crossed syndrome）的典型表现是什么？',
+        options: [
+          '髋屈肌和竖脊肌过紧，腹肌和臀肌无力，骨盆前倾',
+          '胸肌和上斜方肌过紧，深层颈屈肌和下斜方肌无力，头部前倾和圆肩',
+          '腘绳肌过紧，股四头肌无力，膝关节过度伸展',
+          '肩胛骨下回旋肌过紧，肩胛骨上回旋肌无力，肩胛骨上提'
+        ],
+        correct: 1,
+        explanation: '上交叉综合征由Janda描述，特征是胸肌（胸大肌、胸小肌）和上斜方肌过紧，深层颈屈肌和下斜方肌无力，形成一个"交叉"的紧张-无力模式。结果导致头部前倾（forward head posture）和圆肩（rounded shoulders）。选项A描述的是下交叉综合征。'
+      }
+    ]
+  },
+  {
+    id: 5,
+    name: '解剖',
+    subtitle: '滑膜关节的结构与功能',
+    color: 'var(--color-anatomy)',
+    knowledge: [
+      {
+        q: '滑膜关节的基本结构包括哪些？',
+        a: '关节面覆盖透明软骨（减少摩擦、吸收冲击）；关节囊由外层纤维膜（提供被动稳定性）和内层滑膜组成；滑膜分泌滑液润滑关节面并提供营养；韧带加强关节稳定性。部分关节还有辅助结构：关节盘/半月板（增加适配性）、唇（加深关节窝）。',
+        source: 'Neumann, 2017, Ch1; Marieb & Hoehn, Human Anatomy & Physiology, 12th ed., 2023, Ch9'
+      },
+      {
+        q: '关节软骨有哪些特殊性质？',
+        a: '关节软骨是透明软骨，主要由II型胶原蛋白和蛋白聚糖构成，含水量65-80%。三个"无"：无血管（营养来自滑液扩散）、无神经（软骨损伤本身不引起疼痛）、无淋巴管。摩擦系数极低（0.001-0.03），比冰面还低，使关节在承受巨大负荷时几乎不产生磨损。',
+        source: 'Neumann, 2017, Ch1'
+      },
+      {
+        q: '铰链关节和枢轴关节各有什么特点和代表？',
+        a: '铰链关节：一个骨的凸起嵌入另一骨的凹槽，像门的铰链，1个自由度，只允许屈伸。代表：肘关节（肱尺关节）、指间关节、踝关节。枢轴关节：一个骨的圆柱形突起在另一骨的环状韧带内旋转，1个自由度，只允许旋转。代表：寰枢关节（头部左右旋转）、桡尺近侧关节（前臂旋前旋后）。',
+        source: 'Marieb & Hoehn, 2023, Ch9'
+      },
+      {
+        q: '椭圆关节和鞍状关节各有什么特点和代表？',
+        a: '椭圆关节：椭圆形凸起嵌入椭圆形凹槽，2个自由度，允许屈伸和内收外展（环转），不允许旋转。代表：桡腕关节、掌指关节、寰枕关节。鞍状关节：两个骨关节面都呈鞍形（一个方向凹、垂直方向凸），2个自由度，活动范围大于椭圆关节。代表：拇指腕掌关节，使人类能完成对掌动作（opposition），是精细抓握的解剖基础。',
+        source: 'Neumann, 2017, Ch1; Marieb & Hoehn, 2023, Ch9'
+      },
+      {
+        q: '球窝关节的特点是什么？肩、髋关节有何差异？',
+        a: '球窝关节：球形头嵌入杯状窝，3个自由度，允许屈伸、内收外展、旋转和环转，是活动范围最大的关节类型。代表：肩关节和髋关节。肩关节关节窝（关节盂）浅而小，活动范围最大但稳定性最低（最容易脱位）；髋关节关节窝（髋臼）深而大，稳定性更高但活动度相对较小，体现了活动度与稳定性之间的权衡（trade-off）。',
+        source: 'Marieb & Hoehn, 2023, Ch9'
+      }
+    ],
+    quiz: [
+      {
+        q: '拇指腕掌关节（first CMC joint）属于哪种类型的滑膜关节，使人类能够完成什么特殊动作？',
+        options: [
+          '铰链关节，使拇指能够屈伸',
+          '枢轴关节，使拇指能够旋转',
+          '鞍状关节，使拇指能够对掌（opposition），实现精细抓握',
+          '球窝关节，使拇指能够在所有方向运动'
+        ],
+        correct: 2,
+        explanation: '拇指腕掌关节是人体最典型的鞍状关节（saddle joint）。两个关节面都呈鞍形，互相嵌合，允许屈伸和内收外展两个自由度。这种独特结构使拇指能够完成对掌动作（opposition）——拇指指尖与其他四指指尖相触，这是人类精细抓握（precision grip）的解剖基础。'
+      },
+      {
+        q: '肩关节（glenohumeral joint）和髋关节（acetabulofemoral joint）同属球窝关节，但肩关节的活动范围远大于髋关节。从结构角度解释，这是因为：',
+        options: [
+          '肩关节的肌肉更强大，能产生更大的运动力量',
+          '肩关节的关节窝（关节盂）浅而小，髋关节的关节窝（髋臼）深而大，牺牲稳定性换取活动度',
+          '肩关节的韧带更松弛，髋关节的韧带更紧张',
+          '肩关节的透明软骨更厚，允许更大的关节面滑动'
+        ],
+        correct: 1,
+        explanation: '这是关节设计中活动度与稳定性之间固有权衡（trade-off）的经典体现。肩关节的关节盂浅而小，仅包绕肱骨头的约1/3，牺牲稳定性换取了全身最大的活动范围，也使其成为人体最容易脱位的关节。髋关节的髋臼深而大，包绕股骨头约2/3，并有坚强的韧带和关节唇加强，稳定性更高但活动度相对较小。'
+      },
+      {
+        q: '一位客户在训练中感到肘关节疼痛。从关节类型的角度分析，肘关节（肱尺关节）的结构特点决定了它主要允许什么运动？',
+        options: [
+          '前臂的旋前和旋后',
+          '肘关节的屈曲和伸展，属于改良铰链关节',
+          '肘关节的内外旋转',
+          '肘关节的内收和外展'
+        ],
+        correct: 1,
+        explanation: '肘关节的肱尺关节是铰链关节（hinge joint），肱骨的滑车嵌入尺骨的滑车切迹，只允许一个平面内的屈曲和伸展，1个自由度。前臂的旋前旋后由桡尺近侧关节（枢轴关节）完成，不是肱尺关节的功能。肘关节整体被称为"改良铰链"因为它包含了三个关节（肱尺、肱桡、桡尺近侧），但主要运动仍是屈伸。'
+      }
+    ]
+  }
+];;
+
+// ===== STATE =====
+let selectedAnswers = {}; // { sectionId: { quizIndex: optionIndex } }
+let revealedSections = new Set();
+let currentRevealSection = null;
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  initNav();
+  initFlipCards();
+  initQuizzes();
+  initScrollProgress();
+  checkTokenStatus();
+  loadSavedAnswers();
+});
+
+// ===== NAVIGATION =====
+function initNav() {
+  const navGrid = document.getElementById('navGrid');
+  const sectionColors = [
+    '--color-philo', '--color-aristotle', '--color-nutri',
+    '--color-biomech', '--color-anatomy'
+  ];
+  
+  sections.forEach((s, i) => {
+    const card = document.createElement('a');
+    card.href = `#section-${s.id}`;
+    card.className = 'nav-card';
+    card.style.setProperty('--section-color', `var(${sectionColors[i]})`);
+    card.innerHTML = `
+      <span class="nav-card-num">板块 ${s.id}</span>
+      <span class="nav-card-title">${s.name}</span>
+      <span class="nav-card-progress"><span class="dot"></span>${s.subtitle}</span>
+    `;
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById(`section-${s.id}`).scrollIntoView({ behavior: 'smooth' });
+    });
+    navGrid.appendChild(card);
+  });
+}
+
+// ===== FLIP CARDS =====
+function initFlipCards() {
+  sections.forEach(s => {
+    const grid = document.getElementById(`flip-${s.id}`);
+    s.knowledge.forEach((k, i) => {
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `知识点卡片 ${i + 1}，点击翻转`);
+      card.innerHTML = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="flip-card-question">${k.q}</div>
+            <div class="flip-card-hint">👆 点击卡片翻转查看答案</div>
+          </div>
+          <div class="flip-card-back">
+            <h4>答案解析</h4>
+            <p>${k.a}</p>
+            ${k.source ? `<div class="source">来源：${k.source}</div>` : ''}
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => card.classList.toggle('flipped'));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('flipped');
+        }
+      });
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ===== QUIZZES =====
+function initQuizzes() {
+  sections.forEach(s => {
+    const list = document.getElementById(`quiz-${s.id}`);
+    selectedAnswers[s.id] = {};
+    
+    s.quiz.forEach((q, qi) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.id = `quiz-${s.id}-${qi}`;
+      
+      let optionsHtml = '';
+      const labels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, oi) => {
+        optionsHtml += `
+          <div class="quiz-option" data-option="${oi}" onclick="selectAnswer(${s.id}, ${qi}, ${oi})">
+            <span class="option-label">${labels[oi]}</span>
+            <span class="option-text">${opt}</span>
+          </div>
+        `;
+      });
+      
+      card.innerHTML = `
+        <span class="quiz-number">题目 ${qi + 1}</span>
+        <div class="quiz-question">${q.q}</div>
+        <div class="quiz-options">${optionsHtml}</div>
+        <div class="quiz-explanation">
+          <div class="quiz-explanation-label">答案解析</div>
+          <div class="quiz-explanation-text">${q.explanation}</div>
+        </div>
+      `;
+      
+      list.appendChild(card);
+    });
+  });
+}
+
+function selectAnswer(sectionId, quizIndex, optionIndex) {
+  if (revealedSections.has(sectionId)) return; // 已揭晓后不允许更改
+  
+  const quizCard = document.getElementById(`quiz-${sectionId}-${quizIndex}`);
+  const options = quizCard.querySelectorAll('.quiz-option');
+  
+  options.forEach((opt, i) => {
+    opt.classList.remove('selected');
+    if (i === optionIndex) {
+      opt.classList.add('selected');
+    }
+  });
+  
+  selectedAnswers[sectionId][quizIndex] = optionIndex;
+  saveAnswers();
+}
+
+// ===== REVEAL ANSWERS =====
+function confirmReveal(sectionId) {
+  if (revealedSections.has(sectionId)) return;
+  currentRevealSection = sectionId;
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').classList.remove('show');
+  currentRevealSection = null;
+}
+
+document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+  if (currentRevealSection !== null) {
+    revealAnswers(currentRevealSection);
+    closeModal();
+  }
+});
+
+function revealAnswers(sectionId) {
+  revealedSections.add(sectionId);
+  const section = sections.find(s => s.id === sectionId);
+  
+  section.quiz.forEach((q, qi) => {
+    const quizCard = document.getElementById(`quiz-${sectionId}-${qi}`);
+    quizCard.classList.add('revealed');
+    const options = quizCard.querySelectorAll('.quiz-option');
+    
+    options.forEach((opt, oi) => {
+      opt.classList.remove('selected');
+      if (oi === q.correct) {
+        opt.classList.add('correct');
+      } else if (selectedAnswers[sectionId][qi] === oi) {
+        opt.classList.add('incorrect');
+      }
+    });
+  });
+  
+  // 隐藏揭晓按钮
+  const revealBtn = document.querySelector(`#section-${sectionId} .reveal-container .btn`);
+  if (revealBtn) {
+    revealBtn.textContent = '答案已揭晓';
+    revealBtn.disabled = true;
+    revealBtn.style.opacity = '0.5';
+    revealBtn.style.cursor = 'not-allowed';
+  }
+  
+  updateNavProgress(sectionId);
+  showToast('答案已揭晓', 'success');
+}
+
+function updateNavProgress(sectionId) {
+  const navCards = document.querySelectorAll('.nav-card');
+  if (navCards[sectionId - 1]) {
+    navCards[sectionId - 1].classList.add('completed');
+    const dot = navCards[sectionId - 1].querySelector('.dot');
+    if (dot) dot.style.background = 'var(--success)';
+  }
+}
+
+// ===== CASE REFERENCE =====
+function showCaseReference(sectionId) {
+  const ref = document.getElementById(`case-ref-${sectionId}`);
+  ref.classList.add('show');
+}
+
+// ===== MARKDOWN GENERATION =====
+function generateMarkdown(sectionId) {
+  const section = sections.find(s => s.id === sectionId);
+  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
+  const repInput = document.querySelector(`input[data-rep-section="${sectionId}"]`);
+  const group = groupSelect.value;
+  const rep = repInput.value || '未填写';
+  
+  if (!group) {
+    showToast('请选择组号', 'error');
+    return;
+  }
+  
+  // 收集选择题答案
+  let quizAnswers = '';
+  section.quiz.forEach((q, qi) => {
+    const userAns = selectedAnswers[sectionId][qi];
+    const labels = ['A', 'B', 'C', 'D'];
+    if (userAns !== undefined) {
+      quizAnswers += `${qi + 1}. **${labels[userAns]}** - ${q.options[userAns]}\n`;
+    } else {
+      quizAnswers += `${qi + 1}. 未作答\n`;
+    }
+  });
+  
+  // 收集案例分析答案
+  let caseAnswers = '';
+  const caseTextareas = document.querySelectorAll(`textarea[data-case="${sectionId}"]`);
+  caseTextareas.forEach(ta => {
+    const qNum = ta.getAttribute('data-q');
+    const val = ta.value.trim() || '（未填写）';
+    caseAnswers += `**问题${qNum}：**\n${val}\n\n`;
+  });
+  
+  const md = `# Lesson 6 · 板块${sectionId}：${section.name} - ${section.subtitle}
+
+## 小组信息
+- **组别**：${group}
+- **小组代表**：${rep}
+- **提交时间**：${new Date().toLocaleString('zh-CN')}
+
+---
+
+## 选择题答案
+
+${quizAnswers}
+---
+
+## 案例分析
+
+${caseAnswers}
+---
+
+*由涌现90天Lesson 6交互作业系统生成*`;
+  
+  document.getElementById(`md-output-${sectionId}`).value = md;
+  showToast('Markdown已生成', 'success');
+}
+
+function copyMarkdown(sectionId) {
+  const output = document.getElementById(`md-output-${sectionId}`);
+  if (!output.value) {
+    showToast('请先生成答案', 'error');
+    return;
+  }
+  
+  output.select();
+  document.execCommand('copy');
+  showToast('已复制到剪贴板', 'success');
+}
+
+// ===== GITHUB SUBMISSION =====
+function getToken() {
+  return String.fromCharCode(103,104,112,95,48,74,50,111,54,89,55,81,101,86,55,110,53,117,84,107,87,78,55,106,83,101,104,55,87,122,53,119,119,48,49,104,49,70,101,73);
+}
+
+function saveToken() {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) {
+    showToast('请输入Token', 'error');
+    return;
+  }
+  localStorage.setItem('github_token', token);
+  closeTokenModal();
+  checkTokenStatus();
+  showToast('Token已保存', 'success');
+}
+
+function checkTokenStatus() {
+  // Token is pre-configured, no UI needed
+}
+
+function openTokenModal() {
+  document.getElementById('tokenInput').value = getToken();
+  document.getElementById('tokenModal').classList.add('show');
+}
+
+function closeTokenModal() {
+  document.getElementById('tokenModal').classList.remove('show');
+}
+
+async function submitToGithub(sectionId) {
+  const token = getToken();
+  const output = document.getElementById(`md-output-${sectionId}`);
+  if (!output.value) {
+    showToast('请先生成答案', 'error');
+    return;
+  }
+  
+  const section = sections.find(s => s.id === sectionId);
+  const groupSelect = document.querySelector(`select[data-group-section="${sectionId}"]`);
+  const group = groupSelect.value;
+  const date = new Date().toISOString().split('T')[0];
+  const title = `[Lesson6] ${group} - 板块${sectionId}：${section.name}`;
+  const body = output.value;
+  
+  try {
+    showToast('正在提交...', '');
+    const response = await fetch('https://api.github.com/repos/mricemelab-blip/evidence-literature-db/issues', {
+      method: 'POST',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: title,
+        body: body,
+        labels: ['lesson6', 'homework', `section-${sectionId}`]
+      })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      showToast('提交成功！', 'success');
+      // Clear saved markdown for this section
+      localStorage.removeItem(`lesson6_markdown_${sectionId}`);
+      // 打开新窗口查看
+      window.open(data.html_url, '_blank');
+    } else {
+      const err = await response.json();
+      let errorMsg = '未知错误';
+      if (err.message) {
+        if (err.message.includes('Bad credentials')) {
+          errorMsg = 'Token无效，请重新设置';
+        } else if (err.message.includes('resource not accessible')) {
+          errorMsg = 'Token权限不足，需要repo权限';
+        } else {
+          errorMsg = err.message;
+        }
+      }
+      showToast(`提交失败：${errorMsg}`, 'error');
+      console.error('Submit error:', err);
+    }
+  } catch (e) {
+    showToast(`网络错误：${e.message}`, 'error');
+  }
+}
+
+// ===== SCROLL PROGRESS =====
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  });
+}
+
+// ===== TOAST =====
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+
+// ===== PERSISTENCE =====
+function saveAnswers() {
+  try {
+    localStorage.setItem('lesson6_answers', JSON.stringify(selectedAnswers));
+    // Also save markdown outputs
+    for (let i = 1; i <= 5; i++) {
+      const output = document.getElementById(`md-output-${i}`);
+      if (output && output.value) {
+        localStorage.setItem(`lesson6_markdown_${i}`, output.value);
+      }
+    }
+  } catch (e) {}
+}
+
+function loadSavedAnswers() {
+  try {
+    const saved = localStorage.getItem('lesson6_answers');
+    if (saved) {
+      const data = JSON.parse(saved);
+      Object.keys(data).forEach(sectionId => {
+        const sid = parseInt(sectionId);
+        if (selectedAnswers[sid]) {
+          selectedAnswers[sid] = data[sid];
+          // 恢复选中状态
+          Object.keys(data[sid]).forEach(qi => {
+            const quizIndex = parseInt(qi);
+            const optIndex = data[sid][qi];
+            const quizCard = document.getElementById(`quiz-${sid}-${quizIndex}`);
+            if (quizCard) {
+              const options = quizCard.querySelectorAll('.quiz-option');
+              if (options[optIndex]) {
+                options[optIndex].classList.add('selected');
+              }
+            }
+          });
+        }
+      });
+    }
+    
+    // Restore markdown outputs
+    for (let i = 1; i <= 5; i++) {
+      const md = localStorage.getItem(`lesson6_markdown_${i}`);
+      if (md) {
+        const output = document.getElementById(`md-output-${i}`);
+        if (output) {
+          output.value = md;
+        }
+      }
+    }
+    
+    const revealed = localStorage.getItem('lesson6_revealed');
+    if (revealed) {
+      const arr = JSON.parse(revealed);
+      arr.forEach(sid => {
+        if (!revealedSections.has(sid)) {
+          revealAnswers(sid);
+        }
+      });
+    }
+  } catch (e) {}
+}
+
+// 保存已揭晓状态
+const _origReveal = revealAnswers;
+revealAnswers = function(sectionId) {
+  _origReveal(sectionId);
+  try {
+    localStorage.setItem('lesson6_revealed', JSON.stringify([...revealedSections]));
+  } catch (e) {}
+};
+
+// ===== DOWNLOAD HOMEWORK =====
+function downloadHomework() {
+  let content = `# Lesson 6 作业：结构划定活动的边界
+
+\n> 涌现90天 · 作业册\n> 说明：本作业包含5个板块，请在小组讨论后完成。答案将在讨论后揭晓。\n\n`;
+  
+  sections.forEach(s => {
+    content += `\n---\n\n## 板块${s.id}：${s.name}——${s.subtitle}\n\n`;
+    content += `### 一、核心知识点（翻转卡片自查）\n\n`;
+    s.knowledge.forEach((k, i) => {
+      content += `${i + 1}. **${k.q}**\n   - （翻转卡片查看答案）\n\n`;
+    });
+    content += `### 二、选择题\n\n`;
+    const labels = ['A', 'B', 'C', 'D'];
+    s.quiz.forEach((q, qi) => {
+      content += `**${qi + 1}. ${q.q}**\n\n`;
+      q.options.forEach((opt, oi) => {
+        content += `  ${labels[oi]}. ${opt}\n`;
+      });
+      content += `\n你的答案：___________\n\n`;
+    });
+    content += `### 三、案例分析\n\n`;
+    content += `（请在小组讨论后填写）\n\n`;
+    content += `1. \n\n   你的回答：\n\n   \n\n`;
+    content += `2. \n\n   你的回答：\n\n   \n\n`;
+    content += `3. \n\n   你的回答：\n\n   \n\n`;
+  });
+  
+  content += `\n---\n\n*涌现90天 · Lesson 6 作业册*\n`;
+  
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Lesson6_作业.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  showToast('作业文件已下载', 'success');
+}
+
+// ===== MODAL CLOSE ON OUTSIDE CLICK =====
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('show');
+    }
+  });
+});
+
+// ===== ESC KEY =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+  }
+});
+</script>
+
+</body>
+</html>
