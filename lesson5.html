@@ -2263,11 +2263,24 @@ async function submitToGithub(sectionId) {
     if (response.ok) {
       const data = await response.json();
       showToast('提交成功！', 'success');
+      // Clear saved markdown for this section
+      localStorage.removeItem(`lesson5_markdown_${sectionId}`);
       // 打开新窗口查看
       window.open(data.html_url, '_blank');
     } else {
       const err = await response.json();
-      showToast(`提交失败：${err.message || '未知错误'}`, 'error');
+      let errorMsg = '未知错误';
+      if (err.message) {
+        if (err.message.includes('Bad credentials')) {
+          errorMsg = 'Token无效，请重新设置';
+        } else if (err.message.includes('resource not accessible')) {
+          errorMsg = 'Token权限不足，需要repo权限';
+        } else {
+          errorMsg = err.message;
+        }
+      }
+      showToast(`提交失败：${errorMsg}`, 'error');
+      console.error('Submit error:', err);
     }
   } catch (e) {
     showToast(`网络错误：${e.message}`, 'error');
@@ -2300,6 +2313,13 @@ function showToast(message, type = '') {
 function saveAnswers() {
   try {
     localStorage.setItem('lesson5_answers', JSON.stringify(selectedAnswers));
+    // Also save markdown outputs
+    for (let i = 1; i <= 5; i++) {
+      const output = document.getElementById(`md-output-${i}`);
+      if (output && output.value) {
+        localStorage.setItem(`lesson5_markdown_${i}`, output.value);
+      }
+    }
   } catch (e) {}
 }
 
@@ -2326,6 +2346,17 @@ function loadSavedAnswers() {
           });
         }
       });
+    }
+    
+    // Restore markdown outputs
+    for (let i = 1; i <= 5; i++) {
+      const md = localStorage.getItem(`lesson5_markdown_${i}`);
+      if (md) {
+        const output = document.getElementById(`md-output-${i}`);
+        if (output) {
+          output.value = md;
+        }
+      }
     }
     
     const revealed = localStorage.getItem('lesson5_revealed');
