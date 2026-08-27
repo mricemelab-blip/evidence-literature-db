@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>疼痛管理2H授课教材 · 教学工具包</title>
+<style>
+  :root {
+    --bg: #FFFFFF; --text: #1a1a1a; --text-s: #555; --text-m: #888;
+    --border: #ddd; --accent: #8B1A1A; --accent-blue: #1A4F8B;
+    --accent-green: #1A6B3D; --accent-gold: #8B6914; --accent-purple: #6B2D5B;
+    --bg-light: #f8f8f6; --bg-a: #faf7f2; --bg-b: #f3f7fb; --bg-c: #f2f8f4;
+    --serif: "Noto Serif SC","Songti SC",Georgia,serif;
+    --sans: -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono: "JetBrains Mono","SF Mono",Consolas,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--serif);background:var(--bg);color:var(--text);font-size:15px;line-height:1.85;max-width:1000px;margin:0 auto;padding:40px 32px}
+  h1{font-size:28px;font-weight:700;text-align:center;margin-bottom:8px;letter-spacing:1px}
+  .subtitle{text-align:center;font-family:var(--sans);font-size:13px;color:var(--text-m);margin-bottom:40px;letter-spacing:1px}
+
+  /* TOC */
+  .toc{background:var(--bg-light);border:1px solid var(--border);padding:24px 32px;margin-bottom:48px;page-break-after:avoid}
+  .toc h2{font-size:16px;margin-bottom:12px;font-family:var(--sans)}
+  .toc ul{list-style:none;padding:0;columns:2;column-gap:32px}
+  .toc li{padding:3px 0;font-family:var(--sans);font-size:13px}
+  .toc a{color:var(--text);text-decoration:none}
+  .toc a:hover{color:var(--accent)}
+  .toc .sub{padding-left:16px;font-size:12px;color:var(--text-s)}
+
+  /* Module */
+  .mod{border-top:3px solid var(--text);padding-top:16px;margin-top:56px;margin-bottom:32px;page-break-before:always}
+  .mod:first-of-type{border-top:none;margin-top:0;page-break-before:auto}
+  .mod-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:4px}
+  .mod h2{font-size:22px;font-weight:700;margin-bottom:4px}
+  .mod .timing{font-family:var(--sans);font-size:12px;color:var(--text-m)}
+
+  /* Part headers */
+  .ph{font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;margin:32px 0 20px;page-break-after:avoid}
+  .ph-a{background:var(--bg-a);border-left:4px solid var(--accent-gold)}
+  .ph-b{background:var(--bg-b);border-left:4px solid var(--accent-blue)}
+  .ph-c{background:var(--bg-c);border-left:4px solid var(--accent-green)}
+
+  /* Knowledge points */
+  .kp{margin:20px 0;padding:16px 20px;border:1px solid var(--border);border-radius:3px;page-break-inside:avoid}
+  .kp-t{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;letter-spacing:.5px}
+  .kp-s{margin:8px 0;font-size:14px;line-height:1.85}
+  .kp-l{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1px;display:inline-block;padding:1px 6px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .lc{background:rgba(139,105,20,.1);color:var(--accent-gold)}
+  .lm{background:rgba(26,79,139,.1);color:var(--accent-blue)}
+  .lp{background:rgba(26,107,61,.1);color:var(--accent-green)}
+  .kp-link{font-family:var(--mono);font-size:11px;color:var(--text-m);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+
+  /* Lit cards */
+  .lc-card{display:flex;gap:12px;margin:10px 0;padding:12px 16px;border:1px solid var(--border);border-radius:3px;page-break-inside:avoid;font-size:13px;line-height:1.7;align-items:flex-start}
+  .lc-card .lc-tag{flex-shrink:0;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:2px;white-space:nowrap;height:fit-content;margin-top:2px}
+  .lc-card .lc-body{flex:1;min-width:0}
+  .lc-card .lc-cite{font-weight:700;font-size:13px;margin-bottom:2px}
+  .lc-card .lc-meta{font-family:var(--mono);font-size:11px;color:var(--text-m);word-break:break-all;margin-bottom:4px}
+  .lc-card .lc-role{font-size:13px;color:var(--text-s)}
+  .tag-rct{background:rgba(139,26,26,.1);color:var(--accent)}
+  .tag-sr{background:rgba(26,79,139,.1);color:var(--accent-blue)}
+  .tag-ma{background:rgba(26,107,61,.1);color:var(--accent-green)}
+  .tag-nma{background:rgba(107,45,91,.1);color:var(--accent-purple)}
+  .tag-cross{background:rgba(139,105,20,.1);color:var(--accent-gold)}
+  .tag-cla{background:rgba(139,105,20,.15);color:var(--accent-gold)}
+  .tag-tb{background:#eee;color:#555}
+  .tag-vp{background:#f0f0f0;color:#666}
+
+  /* SOP */
+  .sop{margin:20px 0;padding:18px 22px;border:1px solid var(--border);border-radius:3px;page-break-inside:avoid}
+  .sop-t{font-family:var(--sans);font-size:14px;font-weight:700;color:var(--accent-green);margin-bottom:12px;letter-spacing:.5px}
+  .sop-scope{font-family:var(--sans);font-size:12px;color:var(--text-s);margin-bottom:10px;padding:6px 10px;background:rgba(26,107,61,.05);border-radius:2px}
+  .ss{margin:10px 0;padding:10px 14px;border-left:2px solid var(--accent-green);background:rgba(26,107,61,.02);font-size:13px;line-height:1.8}
+  .ss-n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent-green);margin-bottom:2px}
+  .ss-a{font-weight:600;margin-bottom:2px}
+  .ss-c{font-size:12px;color:var(--text-s);margin-top:4px}
+  .ss-note{font-size:12px;color:var(--accent);margin-top:2px}
+  .sop-warn{margin-top:12px;padding:10px 14px;background:rgba(139,26,26,.05);border-left:3px solid var(--accent);font-size:12px;line-height:1.7}
+  .sop-warn-t{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:4px}
+
+  p{margin-bottom:10px}
+  h3{font-size:16px;margin:24px 0 10px}
+  @media print{body{padding:20px;font-size:12px}.mod{page-break-before:always}.mod:first-of-type{page-break-before:auto}.kp,.lc-card,.sop{page-break-inside:avoid}.toc{page-break-after:always}}
+  @media(max-width:600px){body{padding:16px}.toc ul{columns:1}}
+</style>
+</head>
+<body>
+
+<h1>疼痛管理2H授课教材 · 教学工具包</h1>
+<p class="subtitle">知识详解 · 文献卡片 · 标准操作流程 &nbsp;|&nbsp; 2026.08</p>
+
+<div class="toc">
+<h2>目 录</h2>
+<ul>
+<li><a href="#m01">M0-M1 定位与开场</a></li>
+<li class="sub"><a href="#m01a">A 知识点详解</a> · <a href="#m01b">B 文献卡片</a> · <a href="#m01c">C SOP: 初筛</a></li>
+<li><a href="#m02">M2 四类人群</a></li>
+<li class="sub"><a href="#m02a">A 知识点详解</a> · <a href="#m02b">B 文献卡片</a> · <a href="#m02c">C SOP: 分类+红旗</a></li>
+<li><a href="#m03">M3 因果审查</a></li>
+<li class="sub"><a href="#m03a">A 知识点详解</a> · <a href="#m03b">B 文献卡片</a> · <a href="#m03c">C SOP: 因果推断审查</a></li>
+<li><a href="#m04">M4 疼痛神经科学</a></li>
+<li class="sub"><a href="#m04a">A 知识点详解</a> · <a href="#m04b">B 文献卡片</a> · <a href="#m04c">C SOP: PNE嵌入</a></li>
+<li><a href="#m05">M5 解剖与生物力学</a></li>
+<li class="sub"><a href="#m05a">A 知识点详解</a> · <a href="#m05b">B 文献卡片</a> · <a href="#m05c">C SOP: 区域评估</a></li>
+<li><a href="#m06">M6 五维路径</a></li>
+<li class="sub"><a href="#m06a">A 知识点详解</a> · <a href="#m06b">B 文献卡片</a> · <a href="#m06c">C SOP: 方案设计</a></li>
+<li><a href="#m07">M7 工具审查</a></li>
+<li class="sub"><a href="#m07a">A 知识点详解</a> · <a href="#m07b">B 文献卡片</a> · <a href="#m07c">C SOP: 工具选择</a></li>
+<li><a href="#m08">M8 日复一日</a></li>
+<li class="sub"><a href="#m08a">A 知识点详解</a> · <a href="#m08b">B 文献卡片</a> · <a href="#m08c">C SOP: 四级验证</a></li>
+<li><a href="#m09">M9+M10 临床落地与收口</a></li>
+<li class="sub"><a href="#m09a">A 知识点详解</a> · <a href="#m09b">B 文献卡片</a> · <a href="#m09c">C SOP: 分级+编排+暴露</a></li>
+</ul>
+</div>
+
+<div class="mod" id="m01">
+<div class="mod-num">M0-M1 · 定位与开场</div>
+<h2>疼痛是一种结果，原因通常不在结果的旁边</h2>
+<div class="timing">课程定位 + 开场 6–8 min</div>
+</div>
+
+<div class="ph ph-a" id="m01a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：课程角色边界</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>本课程面向健身教练、体能训练师和运动康复从业者，提供认知框架和循证依据，不替代医疗评估。教练的角色定位在红旗症状之外的运动干预层面。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>疼痛管理涉及医疗诊断和运动干预两个层面。红旗症状以内的病理判断属于医疗范畴（马尾综合征、骨折、肿瘤转移），红旗症状以外的功能性问题（慢性非特异性疼痛、运动模式异常、负荷管理不当）属于教练工作范围。角色边界基于职业范围的法定限制和专业能力的客观边界。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>面对服务对象时，首先排除红旗症状（M2），然后在运动干预层面提供支持。不做医疗诊断，不解释影像报告。教练能做的事是评估运动控制、设计训练方案、管理负荷策略。</div>
+<div class="kp-link">→ 衔接 M2四类人群 → M9分级处理</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：区域相互依存模型（Regional Interdependence）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>一个区域的功能障碍可能源于另一个看似无关的区域。疼痛出现的位置往往只是问题的输出端，而非输入端。Wainner et al. (2007) 将这一现象系统化为区域相互依存模型。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>人体是由多个关节和多个自由度组成的动力系统。膝关节力学环境受髋关节控制能力影响（股骨额状面位置由髋外展肌群决定）；肩关节稳定性受胸椎活动度影响（胸椎后凸增加改变肩胛骨基础位置，影响肩袖力偶力臂关系）；腰椎稳定性受呼吸模式和神经肌肉控制时序影响（膈肌-盆底-腹横肌协同系统）。任何环节的改变通过动力链传递到其他环节。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>评估和治疗不能只盯着疼痛部位。膝痛审查髋关节控制能力，肩痛审查胸椎活动度，腰痛审查呼吸模式和神经肌肉控制。但区域相互依存是审查思路，不是确定性因果判断：远端因素是可能性，确定性有待功能评估和干预反应的检验。</div>
+<div class="kp-link">膝关节 → M5.7 ｜ 肩关节 → M5.1 ｜ 腰椎 → M5.2/M5.3</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：膝关节实例——治疗有效≠找到病因</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>PFP中常观察到髋肌力量和下肢运动学差异，但前瞻性证据显示髋肌无力未必预测PFP发生（Barton et al. 2015）。髋膝联合训练治疗PFP有效，但治疗有效不等于所训练的缺陷就是原始病因。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>髌骨在股骨滑车中的轨迹由股四头肌各头力线平衡决定，髋外展肌群控制能力影响膝关节额状面对线。髌股关节在深蹲时承受体重数倍反作用力。横断面发现的髋肌力量差异可能是疼痛发生后的适应而非原因。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>膝前痛处理时，髋关节控制能力是需要评估的方向之一，但不是唯一方向。膝盖疼痛原因可能在多个层面。</div>
+<div class="kp-link">→ M3因果审查 ｜ → M5.7髋膝生物力学</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：肩关节实例——肩痛原因可能在胸椎</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>肩复合体由四个关节协同工作，动态稳定性依赖两组力偶。胸椎活动度受限→肩胛骨代偿→力偶关系改变→肩峰下间隙力学环境异常。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>第一组力偶（冈上肌、冈下肌、小圆肌、肩胛下肌）协同收缩产生压缩力，将肱骨头压向关节盂。第二组力偶（前锯肌+斜方肌下束）驱动肩胛骨上旋和后倾。胸椎后凸增加→肩胛骨基础位置改变→前锯肌和斜方肌下束力臂关系改变→上旋和后倾能力下降→肩峰下间隙异常。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>肩痛处理中胸椎活动度改善经常被纳入干预方案。远端关联是可能性而非确定性。</div>
+<div class="kp-link">→ M5.1肩袖力偶 ｜ → M3.4肩峰下撞击再审视</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：腰椎实例——退变+多系统不足→疼痛</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Panjabi (1992) 三亚系统模型将脊柱稳定分为被动结构、主动肌肉和神经控制三个亚系统。退变本身不直接导致疼痛，退变加上其他子系统功能不足才更可能产生疼痛。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>三个子系统各司其职又互相代偿。椎间盘退变→被动稳定性下降→主动肌肉增加活动代偿→代偿不足→微运动增加→伤害感受器激活→疼痛输出。膈肌同时承担呼吸和姿势稳定双重功能，与腹横肌和盆底肌协同。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>腰疼原因可能在呼吸模式和神经肌肉控制时序上。治疗应靶向三个子系统，而非仅关注被动结构退变。</div>
+<div class="kp-link">→ M5.2 Panjabi三亚系统 ｜ → M5.3腹横肌前馈 ｜ → M5.6膈肌-盆底协同</div>
+</div>
+
+<div class="ph ph-b" id="m01b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Wainner et al. (2007). <i>Physical Therapy</i>.</div><div class="lc-role">支撑"一个区域的功能障碍可能源于另一看似无关区域"的区域相互依存模型，为评估需审查整个动力链提供理论框架。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Barton et al. (2015). PMID: 24687010.</div><div class="lc-role">支撑"治疗有效不等于所训练缺陷为原始病因"：现有证据不能证明髋肌无力是PFP发生的风险因素。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典理论</span><div class="lc-body"><div class="lc-cite">Panjabi MM (1992). <i>J Spinal Disord</i>. 5(4):383-389. DOI: 10.1097/00002517-199212000-00001</div><div class="lc-role">提出脊柱稳定三亚系统模型，解释为什么退变本身不直接导致疼痛，为M1腰椎实例和M5.2提供理论基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典研究</span><div class="lc-body"><div class="lc-cite">Hodges PW, Richardson CA (1996). 腹横肌前馈机制研究.</div><div class="lc-role">发现慢性腰痛患者腹横肌前馈激活延迟，支撑"神经肌肉控制时序异常可能是腰痛相关因素"的论点。</div></div></div>
+
+<div class="ph ph-c" id="m01c">Part C · SOP：疼痛人群初筛</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M01：疼痛人群初筛SOP</div>
+<div class="sop-scope">适用场景：教练/训练师首次接触有疼痛主诉的服务对象时，判断是否适合在教练职业范围内进行运动干预。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">收集基本信息</div>记录疼痛部位、持续时间、疼痛性质（锐痛/钝痛/烧灼感/麻木）、疼痛评分（0-10）、与体位/活动的关系、既往病史和手术史。<div class="ss-c">判断标准：至少覆盖疼痛部位、持续时间、性质、诱因、既往史五个维度。</div><div class="ss-note">注意：不做医疗诊断，不解释影像报告。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">红旗症状快速筛查</div>依次检查：大小便功能新发改变、鞍区感觉异常、快速进行性神经功能缺失、严重创伤后疼痛、不明原因体重下降、癌症史、持续非机械性夜间痛、长期糖皮质激素使用。<div class="ss-c">判断标准：紧急红旗阳性（大小便改变/鞍区麻木/进行性神经缺失/严重创伤后疼痛）→立即暂停训练，紧急转诊。非紧急红旗阳性→保守转介。</div><div class="ss-note">注意：单个非紧急红旗信号不等于严重病理，教练应保守处理。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">四类人群初步分类</div>根据信息归入四类：第一类（红旗+手术指征）、第二类（慢性疼痛>3个月）、第三类（训练后不适）、第四类（无疼痛但被告知"异常"）。<div class="ss-c">判断标准：<2周无红旗→急性期处理。>3个月无红旗→慢性期，运动干预证据最强区间。无疼痛但焦虑→第四类。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">确定处理方向并沟通</div>第一类→转介医疗。第二类急性→教育+维持活动。第二类慢性→五维路径。第三类→避免被制造焦虑，进入训练系统。第四类→循证教育减少焦虑。<div class="ss-c">判断标准：沟通后服务对象理解自身状态和处理方向。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌与注意事项</div>教练不做医疗诊断。红旗症状识别目的是识别需要转介的信号，不是做医学诊断。当不确定时选择更保守方向。未完成红旗筛查前不得将服务对象归入第二/三/四类并开始训练。</div>
+</div>
+
+<div class="mod" id="m02">
+<div class="mod-num">M2 · 四类人群</div>
+<h2>疼痛的四种状态</h2>
+<div class="timing">授课时长 12–15 min</div>
+</div>
+
+<div class="ph ph-a" id="m02a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：四类人群分类框架</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>对疼痛的在意可分成四类：第一类存在红旗症状与手术指征；第二类为长期慢性疼痛（>3个月）；第三类为训练后不适与动作评估异常但无长期慢性疼痛；第四类为无疼痛但被告知体态"异常"。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>分类逻辑：不同类别处于完全不同状态，应对方式不同。第一类需医疗介入，第二类是运动干预证据最强区间，第三类最大风险是被制造焦虑后进入漫长矫正流程，第四类焦虑来源不在身体感受而在关于身体的错误解释。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>教练首先识别服务对象属于哪一类，再确定处理方向。第二/三类是运动干预主要适用人群。第四类需要循证教育而非训练方案。第一类必须转介。</div>
+<div class="kp-link">→ M2红旗筛查 ｜ → M6五维路径 ｜ → M3因果审查 ｜ → M9分级处理</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：无症状人群影像异常数据</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>影像学退行性改变和体态偏差在无症状人群中极其普遍。20岁约37%有椎间盘退变、30%有膨出；50岁约80%有退变、50%有突出；40岁以上99%至少有一项肩袖MRI异常；85%无症状男性有骨盆前倾。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>如果85%没有疼痛的男性都有骨盆前倾，骨盆前倾在统计学上更接近于"正常变异"而非"需要矫正的异常"。99%的40岁以上人群有肩袖MRI异常，接近正常衰老表现。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>当服务对象被告知"你的骨盆前倾有问题""你的肩袖有撕裂"时，教练应理解这些发现在无症状人群中极其普遍。将它们等同于"有问题"并制造焦虑在伦理和科学上都站不住脚。</div>
+<div class="kp-link">→ M3因果审查 ｜ 数据来自 Brinjikji 2015、Ibounig 2026、Tempelhof 1999、Herrington 2011</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：红旗症状分级与转介逻辑</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>红旗症状需区分紧急程度。紧急转诊信号：大小便功能新发改变、鞍区感觉异常、快速进行性神经功能缺失、严重创伤后疼痛。需进一步评估的信号：不明原因体重下降、癌症史、持续非机械性夜间痛。单独出现时预测能力有限（Underwood & Baba 2014）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>紧急信号提示可能存在马尾综合征、骨折等需紧急手术处理的病理。非紧急信号单个出现时诊断预测能力有限，多个信号组合的信息价值更高。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>教练转介阈值宁可保守。转介基于职业范围管理策略（教练擅长运动干预而非医疗诊断），不是因为所有疼痛都需要就医。紧急信号阳性时训练讨论必须立即暂停。</div>
+<div class="kp-link">→ M9分级处理决策 ｜ Underwood & Baba 2014</div>
+</div>
+
+<div class="ph ph-b" id="m02b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Brinjikji et al. (2015). <i>AJNR</i>. DOI: 10.3174/ajnr.A4173</div><div class="lc-role">系统综述腰椎影像异常在无症状人群中的患病率，为"85%的异常可能是正常变异"提供核心数据。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cross">社区研究</span><div class="lc-body"><div class="lc-cite">Ibounig / Buchbinder et al. (2026). <i>JAMA Intern Med</i>. DOI: 10.1007/jamainternmed.2025.7903</div><div class="lc-role">602人芬兰社区研究，发现40岁以上99%有肩袖MRI异常且与症状无显著关联，支撑"异常≈正常衰老"论点。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cross">横断面</span><div class="lc-body"><div class="lc-cite">Tempelhof et al. (1999). DOI: 10.1016/s1058-2746(99)90148-9. 411人.</div><div class="lc-role">为"肩袖撕裂不等于需要手术"提供数据：>80岁无症状人群中51%有肩袖撕裂。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">正常值</span><div class="lc-body"><div class="lc-cite">Herrington (2011). <i>Manual Therapy</i>. DOI: 10.1016/j.math.2011.04.006</div><div class="lc-role">120名无症状受试者测量，85%男性/75%女性有骨盆前倾，证明骨盆前倾更接近正常变异而非异常。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR/MA</span><div class="lc-body"><div class="lc-cite">Underwood & Baba (2014). <i>BMJ</i>.</div><div class="lc-role">评估红旗症状单独出现时对严重脊柱病理的诊断预测能力，支撑"单个红旗信号预测能力有限"的教学表述。</div></div></div>
+
+<div class="ph ph-c" id="m02c">Part C · SOP：四类人群分类决策 + 红旗症状筛查</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M02A：四类人群分类决策SOP</div>
+<div class="sop-scope">适用场景：教练初次接触服务对象或服务对象报告新症状时，快速判断类别并确定处理方向。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">完成红旗症状筛查（执行SOP-M02B）</div><div class="ss-c">判断标准：紧急红旗阳性→第一类，暂停训练紧急转诊。非紧急红旗阳性→倾向第一/二类边界，保守转介。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">判断疼痛持续时间</div><div class="ss-c">判断标准：<2周→急性期。2周–3个月→亚急性期，视严重程度归入第二或第三类。>3个月→慢性期，第二类。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">判断疼痛对日常活动的影响程度</div><div class="ss-c">判断标准：明显影响日常活动→第二类。仅训练后不适→第三类。无疼痛但被告知"异常"→第四类。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">匹配处理方向</div><div class="ss-c">第一类→转介医疗 ｜ 第二类急性→教育+维持活动 ｜ 第二类慢性→五维路径 ｜ 第三类→避免焦虑制造，进入训练系统 ｜ 第四类→循证教育减少焦虑</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>禁止在未完成红旗筛查的情况下开始训练。边界模糊时选更保守方向。第三类人群被"异常"评估结果制造焦虑是主要风险点。</div>
+</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M02B：红旗症状筛查SOP</div>
+<div class="sop-scope">适用场景：所有首次接触的服务对象，以及现有服务对象报告新症状时。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">询问紧急红旗信号</div>依次询问：大小便功能新发改变？鞍区感觉异常？快速加重的肢体无力或麻木？严重创伤后新发疼痛？<div class="ss-c">判断标准：任一阳性→立即暂停训练，建议紧急就医。</div><div class="ss-note">教练不做诊断，有怀疑即保守处理。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">询问非紧急红旗信号</div>不明原因体重下降？癌症既往史？持续非机械性夜间痛（后半夜痛醒、与体位无关）？长期糖皮质激素使用？<div class="ss-c">判断标准：任一阳性→建议进一步医疗评估，教练保守转介。不立即暂停训练但需更多信息后再判断。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">记录与跟进</div>将筛查结果记录在服务对象档案中。转介时记录原因和建议方向。后续收到医疗评估结果后更新分类。<div class="ss-c">判断标准：所有红旗均阴性→进入常规四类人群分类流程。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>教练不通过红旗筛查来"排除"严重病理。筛查目的是识别需要转介的信号。即使所有红旗阴性也不能保证不存在严重病理。</div>
+</div>
+
+<div class="mod" id="m03">
+<div class="mod-num">M3 · 因果审查</div>
+<h2>相关性 ≠ 因果性：哲学与循证的双重审查</h2>
+<div class="timing">授课时长 16–20 min</div>
+</div>
+
+<div class="ph ph-a" id="m03a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：观察的理论渗透性（Theory-ladenness of Observation）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Hanson (1958) 在Patterns of Discovery中提出：不存在纯粹的观察。所有观察和测量都受观察者已有理论和预期的影响。当治疗师"看到"骨盆前倾就断定"这就是腰痛的原因"时，观察已被理论框架渗透。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>先有"骨盆前倾导致腰痛"的假设，然后在身体上"看到"了这个假设的证据。"看到"和"证明"之间隔着排除混淆变量、建立时间顺序、验证干预效果等一系列工作。这些工作没有做，因果判断就已经下了。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>临床观察本身就可能受到理论预期的污染。教练在评估中"看到"的异常未必是客观事实，可能部分反映了教练自己接受的理论框架的影响。</div>
+<div class="kp-link">→ 与Lakatos退步纲领构成完整审查框架 → 衔接M3循证数据审查</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：退步研究纲领（Degenerating Research Programme）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Lakatos (1970) 提出评估科学理论的标准：科学理论组成"研究纲领"，评估在于它是在进步还是退步。进步纲领的每次修正能预测新事实并被验证；退步纲领的每次修正都是事后的特设假说（ad hoc hypothesis），只为应对反例。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>将"体态异常导致疼痛"视为研究纲领：当研究发现骨盆前倾与腰痛无一致关联时→引入"问题不在绝对角度而在动态控制"的新假说→再被质疑→引入"骨盆前倾+腰椎前凸+胸椎后凸的组合模式"。每个修正都不产生可被独立验证的新预测，只在前一个反例面前增加特设性保护带。这是退步纲领的特征。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>指出因果推断缺乏基础不等于说体态和疼痛"完全没有关系"。关联可能存在，但关联强度和因果方向远不如行业叙事所暗示。将"可能有关联"直接等同于"体态导致疼痛"在科学方法论上不允许。</div>
+<div class="kp-link">→ 与Hanson观察渗透性构成完整审查框架 → 衔接M3.3循证审查</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：体态-疼痛循证审查</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Swain et al. (2020) 的umbrella review纳入41篇系统综述，考察静态姿势与非特异性慢性腰痛的关系。结论：41篇系统综述给出相互矛盾的关联结果，整体证据不足以建立稳定因果关系。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>41篇系统综述的综合，证据权重极高。"不良姿势"在无症状人群中极为常见。但注意Swain主要讨论脊柱姿势与腰痛的关系，不能据此推断圆肩、头前伸等都与疼痛无关。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>"没有因果共识"本身也是需持续更新的证据状态。教练在教授姿态-疼痛关联时应审慎，不应将尚未被确立的因果关系作为确定性知识传授。</div>
+<div class="kp-link">→ 哲学审查+循证审查共同支撑M3教学小结 → 衔接M4疼痛神经科学</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：肩峰下撞击模型的再审视</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>"肩峰下撞击"曾是解释肩痛的主流模型：肩峰下间隙变窄→肌腱被挤压→炎症和疼痛→需手术扩大间隙。CSAW Trial和FIMPACT Trial两项安慰剂对照RCT对其进行了严格检验。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>CSAW (313人, Beard 2018 Lancet)：ASD不优于关节镜安慰手术。FIMPACT (210人, Paavola 2018 BMJ)：ASD不优于安慰手术，运动治疗效果持久。FIMPACT 5年随访(2021 BJSM)：三组长期结果相似。10年随访(2025 BMJ)：ASD在10年内不优于安慰手术或运动治疗，肩峰下疼痛综合征呈良性自然病程。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>这并不等于所有局部机械负荷因素与疼痛无关。单一机械撞击解释受到强烈挑战，更复杂的多因素模型仍是必要的。运动治疗应作为肩峰下疼痛综合征的首选干预。</div>
+<div class="kp-link">CSAW → FIMPACT 12月 → 5年 → 10年，构成完整证据链 ｜ → M5.1肩袖力偶</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：肩胛运动障碍评估的信度问题</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>视觉评估肩胛运动障碍（scapular dyskinesis）的信度仅为低到中等，症状性肩关节与无症状肩关节之间的肩胛运动差异未被一致证实。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>越来越多学者认为"异常"肩胛运动可能是一种适应性策略而非病理改变。影像学发现和功能评估中的"异常"在无症状人群中极为普遍（M2数据已支持）。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>将"异常"肩胛运动等同于病理改变并试图"矫正"可能缺乏科学依据且制造不必要焦虑。治疗应聚焦于症状改善而非"矫正"肩胛位置。</div>
+<div class="kp-link">→ 与M2影像异常数据呼应 → 与M3.3循证审查逻辑一致</div>
+</div>
+
+<div class="ph ph-b" id="m03b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典理论</span><div class="lc-body"><div class="lc-cite">Hanson NR (1958). <i>Patterns of Discovery</i>. Cambridge University Press.</div><div class="lc-role">提出"观察的理论渗透性"概念，为审查"体态导致疼痛"的推断提供认识论工具。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典理论</span><div class="lc-body"><div class="lc-cite">Lakatos I (1970). <i>Criticism and the Growth of Knowledge</i>. Cambridge University Press.</div><div class="lc-role">提出退步研究纲领标准，为评估"体态导致疼痛"理论是否在退步提供方法论框架。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">Umbrella Review</span><div class="lc-body"><div class="lc-cite">Swain C et al. (2020). <i>J Biomech</i>. 102:109312. DOI: 10.1016/j.jbiomech.2019.08.006</div><div class="lc-role">纳入41篇系统综述的综述，结论为"no consensus regarding causality"，直接挑战"不良姿势导致腰痛"。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">Beard DJ et al. (2018). <i>Lancet</i>. DOI: 10.1016/S0140-6736(17)32457-1 (CSAW Trial)</div><div class="lc-role">313人多中心RCT，ASD不优于安慰手术，挑战"机械挤压→必须减压"模型。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">Paavola et al. (2018). <i>BMJ</i>. DOI: 10.1136/bmj.k2860 (FIMPACT Trial)</div><div class="lc-role">210人多中心RCT，ASD不优于安慰手术，运动治疗效果持久。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT 5yr</span><div class="lc-body"><div class="lc-cite">Paavola et al. (2021). <i>BJSM</i>. DOI: 10.1136/bjsports-2020-102216 (FIMPACT 5yr)</div><div class="lc-role">5年随访显示三组长期结果相似，运动治疗维持良好，手术转换率低。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT 10yr</span><div class="lc-body"><div class="lc-cite">Paavola et al. (2025). <i>BMJ</i>. DOI: 10.1136/bmj-2025-086201 (FIMPACT 10yr)</div><div class="lc-role">10年随访(168人, 随访率87%)，ASD不优于安慰手术或运动治疗，肩峰下疼痛呈良性自然病程。</div></div></div>
+
+<div class="ph ph-c" id="m03c">Part C · SOP：体态-疼痛因果推断审查SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M03：体态-疼痛因果推断审查SOP</div>
+<div class="sop-scope">适用场景：教练在评估中发现服务对象存在体态"异常"（如骨盆前倾、圆肩、肩胛运动异常等）且同时报告疼痛时，用于审查是否能建立因果推断。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">识别"同时存在"关系</div>记录观察到的体态特征和疼痛主诉，明确两者仅为"同时存在"关系。<div class="ss-c">判断标准：明确区分"观察到的关联"与"已证明的因果关系"。</div><div class="ss-note">注意：不要因为两者同时存在就向服务对象断言因果关系。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">观察渗透性自查</div>回顾自己对该体态-疼痛配对的理论预设。问自己：这个判断是基于客观证据还是基于我接受培训时的理论框架？如果换一种理论框架，我会"看到"同样的东西吗？<div class="ss-c">判断标准：能识别并承认自己的理论预设，不将预设等同于事实。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">检索循证证据</div>查看该体态-疼痛配对是否有系统综述或RCT层面的因果证据支持。关键问题：前瞻性研究是否证明该体态预测疼痛发生？干预该体态是否优于干预其他因素？<div class="ss-c">判断标准：有高质量前瞻证据支持→可以在沟通中提及"可能有关联"。证据矛盾或不足（如Swain 2020）→不向服务对象断言因果关系。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">审查无症状人群数据</div>查找该"异常"在无症状人群中的检出率。如果检出率>70%，该特征更接近正常变异。<div class="ss-c">判断标准：高检出率→不应将其作为"病因"向服务对象解释。低检出率→该特征可能有一定信息价值，仍需因果证据。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">与服务对象沟通</div>基于上述审查结果，用审慎语言向服务对象解释。避免使用"这就是你的疼痛原因"等确定性表述。可以使用"这个特征和你的疼痛可能有关联，但目前证据不足以确定因果关系"。<div class="ss-c">判断标准：沟通后服务对象没有被制造新的焦虑，理解评估结果的局限性。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>严禁在缺乏因果证据的情况下向服务对象断言"你的XX体态导致了你的疼痛"。严禁将影像学发现或动作评估"异常"直接等同于病理改变。严禁使用"你有问题"等暗示性语言制造焦虑。</div>
+</div>
+
+<div class="mod" id="m04">
+<div class="mod-num">M4 · 疼痛神经科学</div>
+<h2>疼痛到底是什么：神经科学框架</h2>
+<div class="timing">授课时长 14–18 min</div>
+</div>
+
+<div class="ph ph-a" id="m04a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：IASP 2020修订的疼痛定义</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>2020年IASP修订疼痛定义为"疼痛是一种与实际或潜在的组织损伤相关的不愉快的感觉和情绪体验，或类似的体验"。正式承认疼痛是多维体验而非单纯感觉输入。核心三命题：伤害感受（nociception）≠疼痛（pain）；疼痛可在无组织损伤时存在；情绪和认知因素直接影响疼痛体验。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>疼痛是主观体验，是神经系统对一系列输入信号（伤害感受信号、情绪状态、认知评价、过往经验）综合处理后的保护性体验。伤害感受是外周感受器对有害刺激的电化学编码和传导，是可客观记录的神经生理过程。六条注释进一步澄清：疼痛始终是个人体验、通过经验学习概念、报告应被尊重、可能对社会参与产生负面影响、语言因文化差异、无法报告不等于不经历疼痛。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>任何训练方案如果只关注组织损伤而忽略情绪和认知维度将是不完整的。服务对象的疼痛报告应被认真对待，不以"看起来不严重"为由否定其体验。训练设计必须考虑心理状态和对疼痛的认知。</div>
+<div class="kp-link">→ 伤害感受通路 → 中枢敏化 → 恐惧回避模型 → 生物心理社会模型</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：伤害感受通路与疼痛输出</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>伤害感受通路由四个环节构成：外周感受器（Aδ纤维和C纤维）→传入通路（脊髓丘脑束等）→中枢处理（丘脑、体感皮层、岛叶、前扣带回等）→下行调制系统（从中脑导水管周围灰质到延髓头端腹内侧区再到脊髓背角）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>疼痛体验是这些环节综合处理的输出，而非外周输入的简单镜像。下行调制系统可增强或抑制伤害性信号传递。焦虑、恐惧和灾难化思维增强疼痛信号下行调制（易化），安全感、控制感和积极预期抑制疼痛信号（抑制）。同一个外周刺激在不同中枢状态下可产生完全不同的疼痛体验。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>训练环境（音乐、群体氛围、教练沟通方式）本身就可以影响服务对象的疼痛体验，因为它们参与中枢处理过程。运动、情绪、注意力、过往经验和社会情境都在调制疼痛处理。</div>
+<div class="kp-link">→ 下行调制系统 → 中枢敏化 ｜ → 恐惧回避模型中的心理因素</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：中枢敏化（Central Sensitization）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Woolf (2011) 系统阐述：持续伤害性输入导致脊髓背角和大脑内神经元可塑性变化，表现为痛觉过敏（hyperalgesia）、异常痛（allodynia）和牵涉痛范围扩大。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>疼痛系统本身发生了改变。疼痛不再是信号而是"噪音"。组织可能已经修复，疼痛系统仍保持高度警觉状态。慢性疼痛患者的疼痛程度常常与组织损伤程度不成比例。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>慢性疼痛服务对象报告的疼痛强度不能被简单等同于"当前组织损伤程度"。疼痛是一个独立于组织状态的输出变量，需要被独立评估和独立处理。</div>
+<div class="kp-link">→ 解释为什么伤害感受≠疼痛 ｜ → 恐惧回避模型 ｜ → M5.9神经动力学</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：恐惧回避模型（Fear-Avoidance Model）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Vlaeyen与Linton (2000) 描述从急性损伤发展为慢性疼痛的心理社会路径。两条分叉：直面和对抗（confrontation）→恢复；或疼痛体验→疼痛相关恐惧→回避行为→去条件化和功能丧失→残疾和抑郁→反馈加重疼痛。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>该模型解释了为什么同样程度的组织损伤，有些人完全康复，有些人发展为慢性疼痛。疼痛相关恐惧和回避行为是推动急性疼痛转向慢性的关键心理机制。回避行为的减少本身就是治疗目标之一。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>训练方案不能只处理力学层面，必须关注恐惧和回避行为。如果服务对象因害怕某动作而完全回避，需在安全范围内逐步引导重新接触（分级暴露）。关注功能改善和行为改变，不能只盯着疼痛评分。</div>
+<div class="kp-link">→ 分级暴露（M9.4） ｜ → 生物心理社会模型 ｜ → M3因果审查后的"立"</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：生物心理社会模型（Biopsychosocial Model）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Engel (1977) 在Science发表里程碑论文，挑战纯生物医学模式。健康和疾病是生物（生理）、心理（认知、情绪、行为）和社会（文化、经济、人际关系）因素交互作用的结果。在疼痛领域已取代"组织损伤→疼痛"线性模型。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>运动干预之所以对慢性疼痛有效，可能同时通过生物（改善力量和控制能力）、心理（增强自我效能和减少恐惧）和社会（群体支持和规律活动）三个层面机制发挥作用。单一层面干预（如只做被动手法）效果有限。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>多维度干预的具体操作方式在不同情境下有所不同。PNE元素、呼吸觉察、多面向动作、整合性力量训练和长期进展讨论可以在一个session中自然融合，不需要各自占据独立时段。</div>
+<div class="kp-link">→ M6五维路径的多维度覆盖 ｜ → M9.3 PNE嵌入 ｜ → M9.5三类工具功能定位</div>
+</div>
+
+<div class="ph ph-b" id="m04b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">IASP声明</span><div class="lc-body"><div class="lc-cite">Raja SN et al. (2020). <i>Pain</i>. 161(9):1976-1982. DOI: 10.1097/j.pain.0000000000001939</div><div class="lc-role">IASP 2020修订疼痛定义，正式承认疼痛是多维体验，为整个课程提供哲学基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">综述</span><div class="lc-body"><div class="lc-cite">Woolf CJ (2011). <i>Pain</i>. 152(3 Suppl):S2-S15. DOI: 10.1016/j.pain.2010.09.030</div><div class="lc-role">系统阐述中枢敏化概念，支撑"疼痛系统本身可以发生改变"和"疼痛≠组织损伤程度"论点。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-vp">模型</span><div class="lc-body"><div class="lc-cite">Vlaeyen JW, Linton SJ (2000). <i>Pain</i>. 85(3):317-332. DOI: 10.1016/S0304-3959(99)00242-0</div><div class="lc-role">提出恐惧回避模型，解释急性→慢性疼痛的心理社会路径，为分级暴露治疗提供理论基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">里程碑</span><div class="lc-body"><div class="lc-cite">Engel GL (1977). <i>Science</i>. 196(4286):129-136. DOI: 10.1126/science.847460</div><div class="lc-role">提出生物心理社会模型，挑战纯生物医学模式，为多维度疼痛管理提供理论框架。</div></div></div>
+
+<div class="ph ph-c" id="m04c">Part C · SOP：疼痛神经科学教育（PNE）嵌入SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M04：疼痛神经科学教育嵌入SOP</div>
+<div class="sop-scope">适用场景：教练在训练过程中自然嵌入PNE核心信息，帮助服务对象理解疼痛的神经科学，减少恐惧和焦虑。每次1-2分钟自然对话，累积效果大于一次性灌输。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">训练前教育环节：疼痛定义</div>向服务对象解释"疼痛是一种保护机制而非组织损伤的度量器"，区分伤害感受与疼痛。可使用简单类比："疼痛像烟雾报警器，有时候烟雾很大但并没有着火。"<div class="ss-c">判断标准：服务对象能复述"疼痛不等于组织损伤"的核心信息。</div><div class="ss-note">不用学术术语，用日常语言。不超过2分钟。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">热身阶段：神经系统可调节</div>讨论"神经系统可以调节"的概念。呼吸练习时引入"降低警觉性"的信息。<div class="ss-c">判断标准：服务对象理解训练可以影响神经系统的状态。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">力量训练时：负荷促进适应</div>引入"负荷促进适应"信息，帮助服务对象理解渐进性负荷的合理性。当服务对象恐惧某动作时，解释"神经系统可以在安全范围内重新学习"。<div class="ss-c">判断标准：服务对象理解为什么需要渐进增加负荷，对训练的合理性产生信任。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">训练后总结：适应需要时间</div>讨论"适应需要时间"，建立对长期训练的预期。回应服务对象的短期反馈："今天感觉如何？"→ 引导关注长期趋势而非单次波动。<div class="ss-c">判断标准：服务对象对训练节奏有合理预期，不因单次波动焦虑。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">持续评估教育效果</div>观察服务对象是否开始用更准确的语言描述疼痛（如"这是警报，不是损伤"），是否减少恐惧相关表述。根据反馈调整教育内容的深度和频率。<div class="ss-c">判断标准：服务对象的语言和态度反映对疼痛认知的改变。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>PNE单独使用对疼痛和残疾的临床效应可能很小（Louw 2016; Diener 2016），应与运动结合使用。不应将PNE作为独立的治疗手段。医疗支出降低的数据（Louw 2014 RCT）来自特定手术患者人群，不可推广为"PNE普遍能降低45%医疗支出"。避免一次性的知识灌输，贯穿始终效果更佳。</div>
+</div>
+
+<div class="mod" id="m05">
+<div class="mod-num">M5 · 解剖与生物力学</div>
+<h2>解剖与生物力学机制</h2>
+<div class="timing">授课时长 24–30 min（课程最长模块）</div>
+</div>
+
+<div class="ph ph-a" id="m05a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：肩袖力偶与肩胛节律</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>肩复合体是多关节多平面运动系统。盂肱关节盂浅小，仅覆盖肱骨头约1/4表面，静态约束有限。动态稳定性依赖两组力偶：第一组（冈上肌、冈下肌、小圆肌、肩胛下肌）产生压缩力将肱骨头压向关节盂；第二组（前锯肌+斜方肌下束）驱动肩胛骨上旋和后倾提供底座。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>肩袖力偶受损时（如冈上肌撕裂/肌腱病），肱骨头在三角肌收缩时可能向上移位，改变肩峰下间隙力学环境。经典肩肱节律2:1比例个体差异很大，"异常"节律与疼痛的因果关系未被一致证实。胸椎后凸增加→肩胛骨基础位置改变→力臂关系改变→肩峰下间隙动态力学环境异常。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>与其追求"正常"肩肱节律，不如关注功能和症状改善。肩痛处理中胸椎活动度改善常被纳入干预。CSAW和FIMPACT表明单一机械撞击解释不足，需更复杂的多因素模型。</div>
+<div class="kp-link">正常力学→力偶失衡→肩峰下间隙改变→肌腱病连续体启动(M5.4) ｜ → M3.4肩峰下撞击再审视</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：Panjabi三亚系统与脊柱稳定</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Panjabi (1992) 三子系统模型：被动子系统（椎体、椎间盘、韧带、关节囊）提供结构支撑和终末范围限制；主动子系统（肌肉和肌腱）产生主动稳定力；神经控制系统协调肌肉激活时序和力度。三系统协同，任一子系统功能障碍可由其他系统代偿。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>当椎间盘退变→被动稳定性下降→主动肌肉增加代偿→若主动系统也出现功能障碍（如多裂肌萎缩）→代偿失败→微运动增加→疼痛输出。三个子系统之间的代偿关系意味着退变不直接导致疼痛，退变加上其他子系统功能不足才更可能产生疼痛。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>治疗应靶向所有三个子系统。力量训练增强主动子系统→渐进性负荷刺激被动结构适应→神经控制系统重新学习协调策略。单纯力量训练有时不够，还需运动控制训练。</div>
+<div class="kp-link">正常→病理→训练改变的完整推导链 ｜ → M5.3腹横肌前馈 ｜ → M1腰椎实例</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：腹横肌前馈机制与运动控制改变</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Hodges与Richardson (1996) 发现健康人在快速上肢运动前约30-50ms腹横肌先行收缩（前馈机制），慢性腰痛患者此机制延迟或消失。运动控制改变包括五方面：TrA前馈延迟、多裂肌萎缩和脂肪浸润、表浅肌肉过度激活代偿、膈肌-盆底协同异常、整体运动策略从"分离运动"退化为"整体僵硬"。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>前馈机制是一种预激活策略，在肢体运动产生扰动力之前预先增加脊柱刚度。这些改变是神经系统面对持续疼痛威胁时的适应性策略。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>TrA激活延迟是运动控制改变之一，但Cochrane综述(Saragiotto 2016)显示motor control exercise总体上未显示明显优于其他运动的效果。应教"这是可能存在的一种运动控制改变"，不应教成"所有腰痛都必须重新训练深层稳定肌激活顺序"。</div>
+<div class="kp-link">→ Panjabi三亚系统神经控制维度 ｜ → Saragiotto 2016 Cochrane综述</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：肌腱连续体模型</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Cook与Purdam (2009) 将肌腱病分为三阶段：反应性肌腱病（可逆，基质成分改变）→肌腱退变（部分可逆，胶原排列紊乱）→退变性肌腱病（胶原基质退化，细胞活性下降）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>关键转折点：负荷超过肌腱适应能力→向病理推进；负荷在适应能力内并逐步递增→向健康恢复。关于炎症，不能简单等同于经典急性炎症，但免疫与炎症信号可能参与不同阶段（Mosca 2018）。"肌腱炎"在慢性期是不精确术语，但不应说"完全没有炎症"。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>负荷管理是肌腱健康的关键。突增负荷是最常见致病因素，渐进性负荷是最基本治疗原则。完全停止训练非最佳策略，调整负荷类型和量、在耐受范围内维持训练才是促进修复路径。等长、等张、离心及重慢阻力训练均可作为负荷管理工具。</div>
+<div class="kp-link">正常力学(机械传导)→病理(突增负荷)→训练改变(渐进负荷) ｜ → M9.2训练编排渐进性原则</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：筋膜系统的感觉神经支配</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>筋膜组织（深筋膜、肌外膜、肌束膜、肌内膜）含丰富机械感受器和游离神经末梢（Suarez-Rodriguez 2022确认鲁菲尼小体、帕西尼小体、高尔基腱器官样感受器等）。筋膜本身可以是疼痛来源。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>筋膜紧张/纤维化/粘连可激活伤害感受器产生局部或牵涉性疼痛。筋膜受自主神经系统调节，但心理压力与筋膜张力的直接因果关系仍属假说。2025年living review(Keter 2025)显示神经血管机制有低至中等质量支持，纯生物力学机制证据更弱。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>手法可能通过影响筋膜中机械感受器产生神经反射层面调节，但不应过度解读为"筋膜被拉开了""粘连被揉散了"。缺乏充分证据证明常规手法能产生持久的宏观筋膜结构重塑。</div>
+<div class="kp-link">→ M7.2手法治疗审查 ｜ Keter 2025 living review</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点6：膈肌-盆底协同与呼吸功能</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>膈肌-盆底系统构成"圆柱模型"：膈肌顶部、盆底肌底部、腹横肌和多裂肌壁。肢体快速运动前这个圆柱系统预激活：膈肌下降增加腹内压，盆底肌同步收缩，腹横肌收缩增加前侧壁张力。膈肌有双重功能：呼吸（收缩扩胸产生吸气）和姿势稳定（下降增加腹内压）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>慢性腰痛患者膈肌呼吸-姿势协同常出现障碍：呼吸模式变浅变快（胸式呼吸主导）、膈肌活动减少、辅助呼吸肌过度工作、腹内压调节能力下降。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>呼吸训练可通过改善膈肌功能、增强核心稳定、降低交感神经张力辅助慢性疼痛管理。训练设计中应将呼吸控制嵌入力量训练动作中而非作为独立环节。</div>
+<div class="kp-link">→ Panjabi三亚系统 ｜ → M6原则一呼吸与觉察 ｜ → M9.2训练编排原则四</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点7：髋关节与膝关节生物力学</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>FAI分凸轮型（cam，年轻活跃男性多见）和钳型（pincer，中年女性多见），影像学表现在无症状人群中也常见。髌股关节应力峰值出现在屈膝20-90°，Q角正常值约13.5±4.5°。单一Q角增大不能作为病因诊断。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>髋外展肌群控制股骨额状面位置→膝关节保持良好对线→髌骨在滑车中居中运行。髋外展肌控制不足常伴随股骨内收内旋增加→髌骨轨迹偏外→应力集中→PFP。但部分变化可能是疼痛后的适应而非原因。踝背屈不足时深蹲代偿模式改变膝关节运动学（Siewel 2012）。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>膝前痛处理可能需在髋关节控制能力上寻找方向。膝关节力学健康依赖髋关节和踝关节的共同支持。确保髋关节有足够伸展活动度并在深蹲时保持腰椎中立位是保护腰椎的策略。</div>
+<div class="kp-link">→ M1膝关节实例 ｜ → M9.2训练编排 ｜ Siewel 2012踝背屈与深蹲代偿</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点8：关节软骨力学与神经动力学</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>关节软骨具有粘弹性，适度机械负荷通过机械传导（mechanotransduction）促进软骨代谢，运动不会"磨损"软骨。神经系统是机械连续体，神经动力学测试评估的是神经的机械敏感性，阳性结果不特异。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>软骨需要间歇性负荷-卸载循环维持正常代谢。神经松动技术通过逐步机械刺激降低神经敏感性，效果机制更可能涉及降低神经敏感性和改善滑动能力，而非"把卡住的神经松解出来"。阳性结果可能是中枢敏化表现。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>训练设计应避免长时间静态姿势维持，规律变换动作模式。神经松动遵循渐进原则，关注服务对象反馈。不要将阳性神经张力测试等同于"神经被卡住了"。</div>
+<div class="kp-link">→ 支撑M6原则二多面向运动的理论依据 ｜ → M4中枢敏化</div>
+</div>
+
+<div class="ph ph-b" id="m05b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典理论</span><div class="lc-body"><div class="lc-cite">Panjabi MM (1992). <i>J Spinal Disord</i>. 5(4):383-389. DOI: 10.1097/00002517-199212000-00001</div><div class="lc-role">提出脊柱稳定三亚系统模型，为M5.2及M1腰椎实例提供理论框架。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典理论</span><div class="lc-body"><div class="lc-cite">Cook J, Purdam C (2009). <i>BJSM</i>. 43(6):409-416. DOI: 10.1136/bjsm.2008.051193</div><div class="lc-role">提出肌腱病连续体模型，为负荷管理是肌腱健康关键的论点提供框架。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Suarez-Rodriguez et al. (2022). PMID: 35628484.</div><div class="lc-role">系统综述确认筋膜组织中存在丰富机械感受器和游离神经末梢，为筋膜可以是疼痛来源提供证据。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">Living Review</span><div class="lc-body"><div class="lc-cite">Keter et al. (2025). PMID: 40100908.</div><div class="lc-role">2025年living review显示手法效果的神经血管机制有低至中等质量支持，纯生物力学机制证据更弱。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Mosca et al. (2018). PMID: 30018785.</div><div class="lc-role">系统综述与定量分析显示炎症介质在肌腱病早期可能有作用，支撑"不应说完全没有炎症"的精确表述。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">经典研究</span><div class="lc-body"><div class="lc-cite">Hodges PW, Richardson CA (1996). 腹横肌前馈机制研究.</div><div class="lc-role">发现健康人腹横肌前馈激活及慢性腰痛患者的延迟/缺失，为M5.3运动控制改变提供原始证据。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">Cochrane SR</span><div class="lc-body"><div class="lc-cite">Saragiotto et al. (2016). PMID: 27128390.</div><div class="lc-role">Cochrane综述显示motor control exercise总体未显示明显优于其他运动，支撑"TrA训练不是唯一方法"。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cross">横断面</span><div class="lc-body"><div class="lc-cite">Siewel et al. (2012). PMID: 22100617.</div><div class="lc-role">支撑踝背屈活动度不足时深蹲代偿模式改变膝关节运动学，为"膝力学依赖髋踝共同支持"提供证据。</div></div></div>
+
+<div class="ph ph-c" id="m05c">Part C · SOP：各区域生物力学评估SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M05A：肩关节生物力学评估SOP</div>
+<div class="sop-scope">适用场景：肩痛或肩功能受限的服务对象，评估肩袖力偶和肩胛节律功能状态。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">观察肩胛骨静态位置与动态运动</div>在臂部上举（外展/前举）过程中观察肩胛骨上旋、后倾是否充分，是否有翼状肩胛或过早提升。<div class="ss-c">判断标准：肩胛骨运动明显受限或不对称→提示第二组力偶（前锯肌+斜方肌下束）功能可能不足。</div><div class="ss-note">注意：视觉评估信度低到中等，不作为确定性诊断依据。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">评估胸椎活动度</div>评估胸椎旋转和伸展活动度。胸椎活动度受限→肩胛骨需更大代偿→力偶关系改变。<div class="ss-c">判断标准：胸椎活动度明显受限→将胸椎活动度改善纳入干预方案。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">评估肩袖肌群力量与耐力</div>测试冈上肌（空罐试验/外展力量）、肩胛下肌（内旋力量）、冈下肌/小圆肌（外旋力量）。<div class="ss-c">判断标准：特定方向力量明显下降→提示对应肌肉可能在力偶中功能不足，纳入渐进性负荷训练。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">综合判断与训练方向</div>根据评估结果确定训练方向：肩袖力量训练、肩胛骨稳定训练、胸椎活动度改善等。<div class="ss-c">判断标准：优先处理限制功能最大的因素。不追求"正常肩肱节律"，关注功能和症状改善。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>评估结论不等于病因诊断。"异常"肩胛运动可能是适应性策略而非病理改变。不应向服务对象断言"你的肩胛骨位置不对导致了肩痛"。CSAW/FIMPACT表明单一机械撞击模型不足。</div>
+</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M05B：腰椎生物力学评估SOP</div>
+<div class="sop-scope">适用场景：腰痛或腰椎功能受限的服务对象，评估脊柱稳定三子系统功能状态。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">评估呼吸模式</div>观察静息呼吸模式（胸式vs腹式）、呼吸频率、是否有辅助呼吸肌过度工作。评估膈肌-盆底协同：咳嗽或用力时腹内压是否充分。<div class="ss-c">判断标准：胸式呼吸主导+膈肌活动减少→提示呼吸-姿势耦合功能可能受损，纳入呼吸训练。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">评估核心肌群力量与耐力</div>评估主动子系统功能：腹横肌（腹部收紧测试）、多裂肌（俯卧位伸展保持）、竖脊肌（躯干伸展）、臀部肌群（髋伸展力量）。<div class="ss-c">判断标准：主动子系统力量不足→纳入渐进性力量训练。注意：力量不足可能是疼痛的结果而非原因。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">评估运动控制</div>观察功能性动作中是否存在"整体僵硬"策略（所有肌肉同时收缩，牺牲灵活性换取稳定性）、运动模式是否对称。<div class="ss-c">判断标准：整体僵硬策略→在安全范围内逐步引导更灵活的运动策略。TrA激活延迟可能存在但不作为唯一靶点。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">评估髋关节活动度与功能</div>评估髋伸展活动度（髂腰肌/股直肌紧张度）、髋外展力量。髋伸展不足→深蹲时腰椎代偿性前屈。<div class="ss-c">判断标准：髋伸展受限→将髋关节活动度改善纳入训练方案。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>不应将腰痛简单归因于"核心无力"或"深层稳定肌失活"。Cochrane综述显示motor control exercise不优于其他运动方式。评估不产生确定性病因诊断，而是确定训练方向。</div>
+</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M05C：髋关节与膝关节生物力学评估SOP</div>
+<div class="sop-scope">适用场景：膝前痛（PFP）或髋膝功能受限的服务对象。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">评估膝关节运动学</div>在深蹲/单腿下蹲中观察膝关节在额状面的运动：是否有动态膝外翻（膝关节内扣）、髌骨轨迹是否偏移。<div class="ss-c">判断标准：明显动态膝外翻→提示近端控制（髋外展肌群）可能需要评估。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">评估髋关节控制能力</div>测试髋外展肌力量（侧卧外展、蚌式）、髋外旋控制能力、单腿站立时骨盆稳定性。<div class="ss-c">判断标准：髋外展肌力量明显不足或控制不良→纳入渐进性臀部力量训练。但需告知服务对象：关联存在但因果方向不确定。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">评估踝关节背屈活动度</div>负重弓步测试踝背屈活动度。踝背屈不足→深蹲中代偿模式改变→膝关节运动学改变（Siewel 2012）。<div class="ss-c">判断标准：踝背屈明显受限→将踝关节活动度改善纳入方案（小腿三头肌柔韧性、踝关节松动等）。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">综合判断</div>整合髋、膝、踝的评估结果，确定训练方向。<div class="ss-c">判断标准：膝痛的训练方向可能涉及髋关节控制、踝关节活动度、膝关节局部负荷管理等多个层面。不将训练聚焦于单一因素。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>髋肌力量差异可能是疼痛的结果而非原因（Barton 2015）。治疗有效不等于所训练缺陷为原始病因。不向服务对象断言"你的髋肌弱导致了膝痛"。FAI影像学表现在无症状人群中也常见。</div>
+</div>
+
+<div class="mod" id="m06">
+<div class="mod-num">M6 · 五维路径</div>
+<h2>五条原则与五个维度</h2>
+<div class="timing">授课时长 12–15 min</div>
+</div>
+
+<div class="ph ph-a" id="m06a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：原则一——呼吸与觉察</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>呼吸训练目标在于恢复膈肌双重功能（呼吸+姿势稳定）。有意识延长呼气、降低频率、增强膈肌活动度可达到三个效果：改善腹内压调节、降低交感神经张力、重建膈肌-盆底协同。觉察（awareness）的理论基础来自运动学习领域：对当前身体状态的感知是运动控制改善的前提。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>Li et al. (2025) RCT(n=18)显示核心训练联合呼吸训练在VAS和ODI方面优于单纯核心训练（样本量较小）。Masroor et al. (2023) 独立报告呼吸训练对睡眠质量的改善。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>在训练中嵌入呼吸：训练前呼吸重置、组间呼吸恢复。中低负荷训练采用离心吸气/向心呼气模式。高负荷训练需单独讨论腹压维持与Valsalva策略。</div>
+<div class="kp-link">→ M5.6膈肌-盆底协同 ｜ → M9.2训练编排原则四</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：原则二——多面向运动</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>人体在三个平面中运动。矢状面（屈伸）、额状面（侧向）、水平面（旋转）都需覆盖。单一平面重复性训练可能导致其他平面控制能力发展不足。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>Stergiou与Harbourne (2011) 的"最优变异性"（optimal variability）概念：神经系统需要丰富运动经验输入来保持适应性和灵活性。运动变异性降低与过度使用损伤和疼痛存在关联。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>每次训练至少覆盖矢状面和额状面主要动作模式，水平面定期纳入。日常功能活动涉及多平面协同运动（转身取物、上下楼梯旋转、搬重物时躯干稳定），单一平面训练无法覆盖。</div>
+<div class="kp-link">→ M5.8关节软骨力学（间歇性负荷-卸载循环） ｜ M9.2训练编排原则二</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：原则三——整合</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>将多个关节、多个平面、多个系统的运动能力整合到单一任务中。DiStefano et al. (2013) RCT(n=30健康年轻受试者)比较整合训练与孤立训练，8周后整合训练组在LESS评分、敏捷性等运动表现指标上改善更多。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>多关节复合动作同时覆盖力量、控制和协调多个维度，训练效率更高。但该研究仅纳入健康年轻受试者且研究运动表现而非慢性疼痛。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>多关节、多平面动作优先于单关节孤立训练（如弓箭步加旋转、硬拉加划船）。但不能将健康人群的运动表现结论直接外推为"慢性疼痛患者整合训练更有效"。</div>
+<div class="kp-link">→ M9.2训练编排原则三 ｜ 注意证据外推限制</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：原则四——力量训练为主体</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>"力量训练为主体"是本课程基于能力建设、健康收益、可进阶性和教练应用场景提出的实践框架，非现有疼痛研究证明的"最佳疼痛治疗模式"。Hayden et al. (2021) NMA(217项RCT, 20969人)和Li et al. (2023) NMA(75项RCT, 5254人)共同结论：多种运动方式均有效，选择应考虑患者偏好和可及性。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>力量训练同时覆盖多个维度：渐进负荷满足肌腱和骨骼适应需求，多关节动作提供多面向输入，负荷管理要求整合神经肌肉控制。力量训练是一个高效平台，可在其中嵌入呼吸、觉察、多面向和整合元素。预防层面：规律力量训练减缓肌少症和骨质疏松，这些退行性变化本身是疼痛风险因素。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>以渐进抗阻训练为核心平台，在其中嵌入其他原则。NMA排名受研究质量、异质性和依从性影响，不能确定绝对最佳运动类型。Kritz et al. (2026) Nature Human Behaviour的三级Meta分析(n=22042)发现团体与个体运动参与度无显著差异。</div>
+<div class="kp-link">→ M9.2训练编排 ｜ → M8日复一日 ｜ Kritz 2026团体vs个体</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：原则五——日复一日</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>疼痛是长期使用身体的结果，单次干预无法覆盖。运动诱导镇痛涉及内源性阿片系统、内源性大麻素系统和5-羟色胺系统协同作用，这些系统适应需持续训练输入。运动技能巩固和自动化需要数百甚至数千次重复练习。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>新的运动模式需要足够多重复才能替代旧的代偿模式。慢性疼痛患者的EIH反应存在较大个体差异。长期运动训练能否通过"恢复镇痛系统"解释临床改善，现有RCT太少。部分机制证据来自动物研究，不能据此给出固定人体训练次数或时间阈值。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>日复一日是方法论要求，不是具体的训练次数建议。只有持续足够长时间才能区分即时感觉和真实适应。训练不能偶尔为之，需高频次规律练习。短时、高频方案可能有利于提高依从性（Gourlan 2016; Rhodes 2017）。</div>
+<div class="kp-link">→ M8完整论证 ｜ → M9.2训练编排频率策略</div>
+</div>
+
+<div class="ph ph-b" id="m06b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-nma">NMA</span><div class="lc-body"><div class="lc-cite">Hayden et al. (2021). <i>J Physiother</i>. DOI: 10.1016/j.jphys.2021.09.004</div><div class="lc-role">217项RCT/20969人的网络Meta分析，多种运动方式对慢性腰痛均有效，支撑"力量训练为主体"作为实践框架而非唯一最佳。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-nma">NMA</span><div class="lc-body"><div class="lc-cite">Li et al. (2023). <i>Front Public Health</i>. DOI: 10.3389/fpubh.2023.1155225</div><div class="lc-role">75项RCT/5254人的网络Meta分析，得出类似结论：多种运动方式均有效，选择应考虑偏好和可及性。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">DiStefano et al. (2013). <i>JSCR</i>. 27(4):1083-1090. PMID: 23364296.</div><div class="lc-role">30名健康年轻受试者RCT，整合训练在运动表现指标上优于孤立训练，支撑整合训练原则（注意外推限制）。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">Li et al. (2025). <i>Front Public Health</i>. DOI: 10.3389/fpubh.2025.1518612</div><div class="lc-role">n=18 RCT显示核心训练联合呼吸训练在VAS和ODI方面优于单纯核心训练（样本量小，需谨慎解读）。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">Masroor et al. (2023). PMID: 38205226.</div><div class="lc-role">独立报告呼吸训练对睡眠质量的改善。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-ma">Meta分析</span><div class="lc-body"><div class="lc-cite">Kritz et al. (2026). <i>Nat Hum Behav</i>. DOI: 10.1038/s41562-026-02429-0</div><div class="lc-role">71项研究三级Meta分析(n=22042)，团体与个体运动参与度和心理社会结果无显著差异（注意：来自一般成人身体活动研究，非疼痛人群）。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-cla">理论概念</span><div class="lc-body"><div class="lc-cite">Stergiou N, Harbourne R (2011). 最优变异性（Optimal Variability）.</div><div class="lc-role">提出神经系统需要丰富运动经验输入以保持适应性，支撑多面向运动原则。</div></div></div>
+
+<div class="ph ph-c" id="m06c">Part C · SOP：五维训练方案设计SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M06：五维训练方案设计SOP</div>
+<div class="sop-scope">适用场景：为慢性非特异性疼痛（第二类第三级）服务对象设计训练方案时，确保覆盖五条原则和五个维度。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">维度一：呼吸与觉察嵌入</div>在训练前安排2-3分钟呼吸练习（延长呼气、降低频率、增强膈肌活动），组间休息时融入呼吸恢复。<div class="ss-c">判断标准：服务对象能在力量训练中自然整合呼吸（中低负荷：离心吸气/向心呼气）。高负荷时讨论腹压维持而非套用固定公式。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">维度二：多面向覆盖检查</div>设计动作时确认：矢状面（深蹲/硬拉/弯腰起身）、额状面（侧向弓箭步/侧平板/侧向移动）、水平面（旋转/对角线/投掷模式）是否被覆盖。<div class="ss-c">判断标准：每次训练至少覆盖矢状面和额状面，水平面每周至少纳入1-2次。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">维度三：整合性动作选择</div>优先选择多关节、多平面的复合动作（如弓箭步加旋转、硬拉加划船）而非单关节孤立训练。<div class="ss-c">判断标准：训练方案中整合性动作占比>50%。孤立训练仅在特定康复需求时短期使用。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">维度四：以渐进抗阻训练为主体框架</div>以力量训练为核心框架（20-30分钟），在其中嵌入呼吸觉察、多面向和整合元素。负荷从当前可耐受水平开始，每次小幅递增。<div class="ss-c">判断标准：力量训练占总训练时间>60%。每次递增幅度小到服务对象难以察觉，但长期累积足以产生适应。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">维度五：日复一日的频率设计</div>短时高频方案：每天10分钟可拆解为3分钟呼吸觉察+4分钟力量训练(2-3个动作×2组)+3分钟多面向/整合动作。使用训练画像系统追踪长期进展。<div class="ss-c">判断标准：训练频率≥每周4-5次，每次10-30分钟。周和月维度的趋势是判断标准，单次效果不作为判断依据。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>"力量训练为主体"是实践框架而非已证明的"最佳疼痛治疗模式"（NMA证据显示多种运动方式均有效）。不应为每个服务对象设计冗长的"泡沫轴→拉伸→激活→整合→力量训练"线性流程。2026 NMA发现不同session duration间无显著差异，不应过度强调特定训练时长。</div>
+</div>
+
+<div class="mod" id="m07">
+<div class="mod-num">M7 · 工具审查</div>
+<h2>常用工具的有效边界</h2>
+<div class="timing">授课时长 7–10 min</div>
+</div>
+
+<div class="ph ph-a" id="m07a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：泡沫轴的有效边界</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>泡沫轴作用机制尚不完全清楚。可能机制：压力刺激影响筋膜机械感受器调节神经反射、促进局部血液循环和淋巴回流、感觉输入改变降低中枢警觉性。"物理性改变筋膜结构"的解释缺乏直接证据。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>Wiewelhove et al. (2019) Meta分析显示泡沫轴可轻度增加ROM，对DOMS有轻微缓解，对ROM和运动表现有短时效应，但对肌肉结构长期影响缺乏直接证据。现有证据支持"短时效应"表述。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>泡沫轴在训练中的合理位置是热身辅助和恢复手段。滚完训练质量提高则保留，对训练质量无增量价值则不必保留。不应断言"泡沫轴能改变筋膜"也不应断言"肌肉结构无改变"。</div>
+<div class="kp-link">→ M9.5三类工具功能定位：状态调节类 ｜ Wiewelhove 2019</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：手法治疗的有效边界</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>手法治疗短期疼痛缓解效果在小到中等范围内得到Cochrane综述支持，长期效果不优于运动治疗。2025年living review (Keter 2025)显示神经血管机制有低至中等质量支持，纯生物力学机制证据更弱。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>即时变化可能涉及神经反射、自主神经调节和流体效应等多种机制。不应将效果归因于"关节复位""筋膜释放"或某个特定生物力学机制。缺乏充分证据证明常规手法能产生持久的宏观筋膜结构重塑。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>手法可作为训练前准备手段（如果"做完后训练更舒服"）或训练后恢复手段。不应作为训练的替代，不应形成"必须做手法才能训练"的依赖。即时效应对训练质量无增量贡献则无理由保留。</div>
+<div class="kp-link">→ M5.5筋膜感觉神经支配 ｜ → M9.5三类工具功能定位 ｜ Keter 2025</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：静态拉伸的有效边界</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>Ingram et al. (2025) Meta分析纳入65项研究：长期静态拉伸不显著增加肌束长度（慢性效应量g=0.07，几乎可忽略，I²=0%）。ROM改善与stiffness下降和stretch tolerance增加均相关。急性拉伸（训练前单次）对力量表现可能轻微负面影响（尤其>60秒静态拉伸）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>拉伸确实可以增加ROM，但机制是stiffness降低和/或stretch tolerance提高，肌束长度本身几乎没有变化。全幅度力量训练本身可提供等同甚至更好的活动度收益。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>训练前选择动态拉伸（摆腿、手臂绕环），将静态拉伸放在训练后或独立恢复时段。拉伸不应简化为"只是心理作用"也不应理解为"物理性改变肌肉结构"。</div>
+<div class="kp-link">→ Ingram 2025核心发现 ｜ → M9.5工具功能定位 ｜ → M9.2训练编排</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：康复矫正型训练的有效边界</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>多关节、多平面渐进负荷训练对慢性疼痛有明确循证支持。但以"激活某块肌肉""纠正某个角度"为目标的孤立训练在循证层面缺乏支撑。"先评估→再矫正→最后训练"的线性流程暗含"存在正确体态标准"的假设，M2和M3已表明此假设站不住。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>运动干预是慢性非特异性疼痛证据等级最高的管理方式（Hayden 2021; Li 2023 NMA）。有价值的部分融入五条原则训练系统，无价值的部分（孤立激活、追求标准体态角度）不需要。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>核心判断：如果只能做一件事，选择"在训练中矫正"。没有红旗症状的人不需要先通过漫长矫正流程才能开始训练。直接进入力量训练，在训练中覆盖五条原则和五个维度。前提是无红旗症状。</div>
+<div class="kp-link">→ M2/M3数据支撑 ｜ → M6五维路径 ｜ → M9.5三类工具功能定位</div>
+</div>
+
+<div class="ph ph-b" id="m07b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-ma">Meta分析</span><div class="lc-body"><div class="lc-cite">Wiewelhove et al. (2019). <i>Front Physiol</i>. DOI: 10.3389/fphys.2019.00376</div><div class="lc-role">泡沫轴Meta分析，显示轻度增加ROM和轻微缓解DOMS，支撑泡沫轴定位为"短时效应的热身辅助"。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-ma">Meta分析</span><div class="lc-body"><div class="lc-cite">Ingram et al. (2025). <i>Sports Medicine</i>. DOI: 10.1007/s40279-025-02204-7</div><div class="lc-role">65项研究，长期静态拉伸不显著增加肌束长度(g=0.07)，挑战"拉伸拉长肌肉"的传统观念。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">Living Review</span><div class="lc-body"><div class="lc-cite">Keter et al. (2025). PMID: 40100908.</div><div class="lc-role">2025年living review显示手法效果的神经血管机制有低至中等质量支持，纯生物力学机制更弱，支撑"不应归因于单一机制"。</div></div></div>
+
+<div class="ph ph-c" id="m07c">Part C · SOP：工具选择决策SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M07：工具选择决策SOP</div>
+<div class="sop-scope">适用场景：教练在训练方案中决定是否使用泡沫轴、手法、拉伸或矫正训练时，判断各工具的适用与不适用场景。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">评估工具的必要性</div>问：该工具是否提高了训练质量？如果移除该工具，训练效果是否会下降？<div class="ss-c">判断标准：有增量价值→有条件保留。无增量价值→省略。不应因"传统流程"或"客户期待"而保留。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">泡沫轴适用判断</div>适用：滚完后训练质量提高（ROM增加、舒适度改善）、作为热身辅助。<div class="ss-c">不适用：作为独立治疗手段、替代力量训练、追求长期筋膜结构改变。滚完后感觉疲劳而非准备好训练→省略。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">手法适用判断</div>适用：训练前如"做完手法后训练更舒服"、训练后恢复辅助。<div class="ss-c">不适用：作为训练的替代、形成"必须做手法才能训练"的依赖、归因于"关节复位""筋膜释放"等未经证明的机制。长期效果不优于运动治疗。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">拉伸适用判断</div>适用：训练前用动态拉伸（摆腿、手臂绕环）、训练后用静态拉伸或独立恢复时段。<div class="ss-c">不适用：训练前>60秒的静态拉伸（对力量表现可能轻微负面影响）、以"拉长肌肉"为目标的长期静态拉伸方案。全幅度力量训练可替代静态拉伸的活动度收益。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">矫正训练适用判断</div>适用：以渐进负荷为核心的多关节多平面训练（即五条原则训练系统）。<div class="ss-c">不适用：以"激活某块肌肉""纠正某个角度"为目标的孤立训练。"先矫正再训练"的线性流程。追求标准体态角度。</div></div>
+<div class="sop-step" style="border-left-color:var(--accent-blue);background:rgba(26,79,139,.02)">
+<div style="font-weight:700;font-size:13px;margin-bottom:4px;color:var(--accent-blue)">三类工具功能定位总结</div>
+状态调节类（手法、泡沫轴、拉伸、呼吸练习）：按需使用，能改善训练质量时加入。运动学习类（任务约束、外部注意焦点、变式练习）：贯穿训练全程。能力建设类（渐进抗阻+负荷耐受）：训练系统主体。三类工具之间无固定先后顺序，不采用"泡沫轴→拉伸→激活→整合→力量训练"的线性流程。</div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>不应让服务对象形成"必须通过被动干预才能训练"的信念。不应将即时效应等同于长期功能改善（M8四级验证）。"在训练中矫正"而非"先矫正再训练"。</div>
+</div>
+
+<div class="mod" id="m08">
+<div class="mod-num">M8 · 日复一日</div>
+<h2>为什么日复一日是关键</h2>
+<div class="timing">授课时长 6–8 min</div>
+</div>
+
+<div class="ph ph-a" id="m08a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：即时效果的四机制</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>做完泡沫轴/手法/拉伸后当场感觉改善是真实的，但原因通常在于四个机制：安慰剂效应和期待效应（效应量可达中等水平, Hróbjartsson & Gøtzsche 2010）；肌张力短时变化（15-30分钟内回退）；关节运动与血流变化（运动本身的生理效应）；疼痛自然波动与回归均值。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>治疗师的关注、权威感、环境暗示塑造期待→安慰剂效应真实存在但原因不在特定技术操作中。任何关节运动增加局部血流→改善本体感觉输入→短时降低疼痛感知。疼痛高峰期就诊后自然缓解→回归均值。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>理解四机制不是否定被动干预价值，而是正确解释改善：即时感觉变化≠病因纠正。将即时感觉等同于"找到病因"导致反复追求短期效果而忽略长期适应。这是很多人年复一年接受手法治疗但疼痛反复出现的原因。</div>
+<div class="kp-link">→ 四级验证框架 ｜ → M9.5三类工具功能定位</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：四级验证框架</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>本课程的教学框架，用于区分感觉改善和功能适应。四级：即时反应（做完后是否有变化）→短期适应（数天至数周是否持续改善）→保持（减少提示或停止后效果是否仍在）→迁移（改善是否进入目标训练和生活环境）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>即时变化只能说明"能变"，不能说明"为什么变"。四级是渐进式过滤器：第一级说明可变性，第二级接近"学到了新东西"但有波动，第三级说明真正的适应，第四级说明功能性迁移。多数人卡在第一级就宣称"有效"。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>引入新干预手段时不在第一级下结论。至少观察到第二级（数周持续改善）后做初步判断。真正判断标准在第三级（停止后是否保持）和第四级（日常生活中是否迁移）。这是本课程的教学模型，不是已发表的标准化临床量表。</div>
+<div class="kp-link">→ M9.2训练编排的持续记录 ｜ → M6原则五日复一日</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：运动镇痛的神经化学基础</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>急性运动后健康受试者疼痛阈值通常升高（运动诱导镇痛, EIH），有氧和抗阻运动后均可观察到。Naugle et al. (2012) SR/MA确认EIH存在，效应量中等。慢性疼痛人群中EIH可能减弱。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>涉及内源性阿片系统（内啡肽/脑啡肽→μ-阿片受体）、内源性大麻素系统（花生四烯酸乙醇胺等→愉悦感和疼痛阈值升高）、5-羟色胺系统（调节情绪和疼痛感知交互）。慢性疼痛患者EIH个体差异大。长期运动训练能否"恢复镇痛系统"证据有限，相关RCT太少。部分机制证据来自动物研究。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>不能据此给出固定人体训练次数或时间阈值。日复一日是方法论要求：只有持续足够长时间才能区分即时感觉和真实适应。停下来适应会消退。</div>
+<div class="kp-link">→ M6原则五日复一日 ｜ → M9.2训练编排频率策略</div>
+</div>
+
+<div class="ph ph-b" id="m08b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR/MA</span><div class="lc-body"><div class="lc-cite">Naugle et al. (2012). 运动诱导镇痛系统综述.</div><div class="lc-role">确认运动诱导镇痛效应存在且效应量中等，为"日复一日"提供神经化学基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR/MA</span><div class="lc-body"><div class="lc-cite">Hróbjartsson A, Gøtzsche PC (2010). 安慰剂效应系统综述.</div><div class="lc-role">安慰剂效应在疼痛领域效应量可达中等水平，为"即时改善≠特定技术效果"提供证据。</div></div></div>
+
+<div class="ph ph-c" id="m08c">Part C · SOP：四级验证实施SOP</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M08：四级验证实施SOP</div>
+<div class="sop-scope">适用场景：引入任何新干预手段（新动作模式、新工具、新训练方案）时，用于判断是真有效还是暂时有效。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">第一级：即时反应记录</div>实施新干预后立即记录：疼痛评分变化、ROM变化、主观舒适度变化。<div class="ss-c">判断标准：有变化→说明"能变"，但不能下结论。无变化→该干预可能不适合此服务对象。</div><div class="ss-note">注意：不在第一级就宣称"有效"。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">第二级：短期适应追踪（2-4周）</div>持续实施2-4周，每周记录疼痛评分、功能表现、主观感受。观察趋势而非单次数据。<div class="ss-c">判断标准：持续改善趋势→初步判断该干预可能有价值。波动大或无趋势→需调整或更换。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">第三级：保持测试</div>减少干预频率或暂停特定干预手段，观察效果是否仍然存在。<div class="ss-c">判断标准：效果保持→说明真正适应已形成。效果快速回退→之前的改善可能主要是即时效应。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">第四级：迁移验证</div>观察改善是否进入日常生活和训练环境。离开工作室后效果是否维持？回到日常压力环境中功能是否改善？<div class="ss-c">判断标准：改善迁移到日常→真正的功能适应。仅在工作室环境中有效→迁移未完成，需继续训练。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">综合判断与方案调整</div>基于四级验证结果做最终判断。通过第四级→纳入长期训练系统。通过第二级但未通过第四级→继续训练并增加迁移条件。仅通过第一级→该干预可能主要是即时效应，有条件使用。</div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>四级验证是本课程教学模型，不是标准化临床量表。不应因为即时效果良好就跳过后续级别验证。多数被动干预在第四级（迁移）会失败，这正是"日复一日"要求的理论基础。</div>
+</div>
+
+<div class="mod" id="m09">
+<div class="mod-num">M9+M10 · 临床落地与收口</div>
+<h2>从理论到行动</h2>
+<div class="timing">授课时长 8–12 min</div>
+</div>
+
+<div class="ph ph-a" id="m09a">Part A · 知识点详解</div>
+
+<div class="kp">
+<div class="kp-t">知识点1：分级处理决策</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>四个优先级：第一优先→红旗症状筛查（紧急转诊/进一步评估）；第二优先→急性疼痛期（<2周，教育+维持活动）；第三优先→慢性非特异性疼痛（>3个月，运动干预证据最强区间）；第四类→无症状但被告知"异常"（循证教育减少焦虑）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>急性腰痛（无红旗）的NICE/JOSPT指南强调教育、自我管理和鼓励继续正常活动。教练在急性期角色是帮助理解自然病程、减少恐慌、维持可耐受活动。教练转介基于职业范围管理策略。Airaksinen et al. (2006) 欧洲指南推荐运动作为慢性腰痛一线管理策略。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>面对疼痛服务对象时按优先级依次处理。慢性非特异性疼痛是运动干预证据最强区间，五维路径适用。第四类人群需要的是循证教育（M2数据）而非训练方案。</div>
+<div class="kp-link">→ M2四类人群 ｜ → M6五维路径 ｜ Airaksinen 2006欧洲指南</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点2：训练编排五大原则</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>渐进性（负荷从可耐受水平开始，每次小幅递增）、多面向覆盖（至少覆盖矢状面和额状面，水平面定期纳入）、整合优先（多关节多平面动作优先于单关节孤立训练）、呼吸整合（嵌入力量训练动作中而非独立环节）、持续记录（追踪周和月维度趋势）。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>Cook与Purdam (2009) 肌腱连续体模型说明渐进性负荷是所有阶段的共同原则。每次递增幅度应小到服务对象难以察觉但长期累积足以产生适应，最大限度减少"做了之后更疼"的恐惧反馈。短时高频方案有利于提高依从性（Gourlan 2016; Rhodes 2017）。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>每天10分钟可拆解为3分钟呼吸觉察+4分钟力量训练+3分钟多面向/整合动作。高负荷训练需单独讨论腹压维持与Valsalva策略。使用训练画像系统追踪长期进展，单次效果不作为判断依据。</div>
+<div class="kp-link">→ M6五维路径 ｜ → M8四级验证 ｜ → M5肌腱连续体</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点3：PNE在训练中的位置</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>PNE核心内容：疼痛是保护机制非组织损伤度量器、伤害感受≠疼痛、神经系统敏感性可塑。Louw et al. (2016) 和Diener et al. (2016) 研究表明PNE单独使用效应可能很小，与运动结合更合理（Watson 2019）。Louw et al. (2014) RCT中术前PNE组术后医疗支出降低约45%来自特定手术人群，不可推广。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>PNE教育信息可自然嵌入训练各阶段：训练前解释疼痛定义、热身时讨论神经可调节、力量训练时引入负荷促进适应、训练后讨论适应需要时间。每次1-2分钟自然对话，累积效果大于一次性灌输。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>Butler与Moseley (2013) Explain Pain是PNE领域奠基教材。教育不需要独立模块或固定时长，贯穿始终即可。</div>
+<div class="kp-link">→ M4疼痛神经科学 ｜ Louw 2016/2014 ｜ Butler & Moseley 2013</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点4：分级暴露与分级活动</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>分级暴露（graded exposure）针对恐惧回避模型中的回避行为。操作方式：与服务对象共同制定分级活动清单，按恐惧程度从低到高排列，从最低恐惧等级开始逐步暴露。分级暴露关注"恐惧消退"，分级活动（graded activity）关注"量的递增"。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>恐惧回避模型指出疼痛相关恐惧和回避是推动急性→慢性的关键心理机制（Vlaeyen & Linton 2000）。每一次成功的重复都是对恐惧的一次修正。让服务对象参与制定清单本身具有治疗价值：声音被听到、恐惧被尊重→降低恐惧本身。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>对恐惧动作不必回避，在可控范围内降低难度（如箱式深蹲、浅蹲），安全范围内反复练习，逐步递增。用鼓励代替强制。回避行为的减少本身就是治疗目标之一，即使疼痛评分没有明显变化。</div>
+<div class="kp-link">→ M4恐惧回避模型 ｜ → M9.2训练编排</div>
+</div>
+
+<div class="kp">
+<div class="kp-t">知识点5：五个核心判断（收束）</div>
+<div class="kp-s"><span class="kp-l lc">概念</span>判断一：疼痛是结果，原因通常不在旁边。判断二："同时存在"≠"因果关系"。判断三："做完有效"≠"找到病因"。判断四：疼痛是长期使用的结果，单次干预无法覆盖。判断五：在训练中矫正，没有红旗症状不需要先通过漫长矫正流程。</div>
+<div class="kp-s"><span class="kp-l lm">机制</span>五个判断构成有机整体。判断一二完成对"体态导致疼痛"叙事的审查（破）。判断三四完成对"一次就好"思维的审查（立）。判断五提供正面行动方向（行）。从审查到建构，从破到立，构成完整认知闭环。</div>
+<div class="kp-s"><span class="kp-l lp">实践意义</span>教学中按"破-立-行"结构组织。知识如果不变成每天的行为就只是高级消遣。五个核心判断是起点，训练系统的设计、编排和持续执行将知识转化为改变。</div>
+<div class="kp-link">M1+M3 → 判断一二（破） ｜ M4+M8 → 判断三四（立） ｜ M6+M9 → 判断五（行）</div>
+</div>
+
+<div class="ph ph-b" id="m09b">Part B · 文献卡片</div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">指南</span><div class="lc-body"><div class="lc-cite">Airaksinen et al. (2006). 欧洲慢性非特异性腰痛指南.</div><div class="lc-role">推荐运动作为慢性非特异性腰痛一线管理策略，为M9分级处理第三级提供指南级证据。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-vp">观点</span><div class="lc-body"><div class="lc-cite">Louw A et al. (2016). <i>JOSPT</i>. 46(3):131-134. DOI: 10.2519/jospt.2016.0602</div><div class="lc-role">PNE单独使用对疼痛和残疾临床效应可能很小，应与运动结合使用。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Diener I et al. (2016). <i>Physiother Theory Pract</i>. 32(5):332-355. DOI: 10.1080/09593985.2016.1194646</div><div class="lc-role">系统综述确认PNE单独效应有限，与运动或物理治疗结合更合理。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR/MA</span><div class="lc-body"><div class="lc-cite">Watson et al. (2019). PMID: 30831273.</div><div class="lc-role">PNE与运动结合使用的SR/MA，支撑PNE应作为训练嵌入元素而非独立治疗。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-rct">RCT</span><div class="lc-body"><div class="lc-cite">Louw et al. (2014). PMID: 24875964.</div><div class="lc-role">特定腰椎神经根病手术患者RCT中术前PNE降低术后医疗支出，但不能推广为"PNE普遍降低支出"。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">Butler DS, Moseley GL (2013). <i>Explain Pain</i>. 2nd ed. Noigroup. ISBN: 978-0-9873426-6-9.</div><div class="lc-role">PNE领域奠基性教材，以通俗语言和隐喻解释疼痛神经科学。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Gourlan et al. (2016). <i>BJSM</i>. 运动adherence系统综述.</div><div class="lc-role">短时低门槛日常运动方案在提高adherence方面有优势，支撑"每天10分钟"训练编排策略。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-sr">SR</span><div class="lc-body"><div class="lc-cite">Rhodes et al. (2017). <i>Psychology of Sport and Exercise</i>. 运动adherence研究.</div><div class="lc-role">运动行为坚持度是决定长期健康收益最关键因素之一，支撑高频低量训练策略。</div></div></div>
+
+<div class="ph ph-c" id="m09c">Part C · SOP：分级处理 + 训练编排 + 分级暴露</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M09A：分级处理决策SOP</div>
+<div class="sop-scope">适用场景：面对有疼痛的服务对象时，确定处理方向和优先级。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">第一优先：红旗症状筛查</div>执行SOP-M02B红旗筛查。<div class="ss-c">判断标准：紧急红旗→暂停训练紧急转诊。非紧急红旗→保守转介。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">第二优先：急性疼痛期处理（<2周，无红旗）</div>教育急性疼痛自然病程（多数数周内自行缓解）、帮助减少恐慌、维持可耐受低强度活动。<div class="ss-c">判断标准：教练转介基于职业范围管理（擅长运动干预非医疗诊断），不是因为所有<2周疼痛都需要就医。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">第三优先：慢性非特异性疼痛（>3个月）</div>运动干预证据最强区间。执行SOP-M06五维训练方案设计。<div class="ss-c">判断标准：无红旗+>3个月慢性疼痛→五维路径适用，以力量训练为主体。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">第四类：无症状但被告知"异常"</div>提供M2循证数据教育，减少不必要焦虑，帮助维持正常训练和生活。<div class="ss-c">判断标准：无需运动干预处方，需要认知层面的循证教育。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>不得跳过红旗筛查直接开始训练。不得在急性疼痛期强行推进力量训练。不得向第四类人群强化"你有问题"的叙事。</div>
+</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M09B：训练编排SOP（慢性疼痛服务对象）</div>
+<div class="sop-scope">适用场景：为慢性非特异性疼痛服务对象编排每次训练session和长期训练计划。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">确定负荷起点</div>从当前可耐受水平开始。评估方法：服务对象能完成且训练中疼痛不超过可接受水平（通常<3/10）。<div class="ss-c">判断标准：训练中疼痛≤3/10且24小时内不反弹→负荷适当。训练中疼痛>5/10或24小时内明显反弹→降低负荷。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">设计动作组合</div>以力量训练为主体框架（20-30分钟）：选2-3个多关节复合动作，覆盖至少两个平面。嵌入组间呼吸恢复。<div class="ss-c">判断标准：每次训练覆盖矢状面+额状面。水平面每周1-2次。整合性动作占比>50%。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">设计渐进递增策略</div>递增体现在负荷重量、训练量（组数×次数）、动作复杂度或训练频率上。每次递增幅度小到服务对象难以察觉。<div class="ss-c">判断标准：每周递增不超过10%（负荷量或训练量）。递增后24小时疼痛不反弹→递增适当。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">确定频率和时长</div>短时高频方案：每天10-30分钟，每周4-7次。可拆解为呼吸+力量+多面向。<div class="ss-c">判断标准：频率>时长。依从性是决定长期收益的最关键因素（Gourlan 2016; Rhodes 2017）。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">建立记录系统</div>使用训练画像追踪：每次训练的负荷、疼痛评分、主观感受。每周/月回顾趋势。<div class="ss-c">判断标准：单次训练效果不作为判断依据。周/月维度趋势是判断标准。执行四级验证（SOP-M08）。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>不应设计冗长的"泡沫轴→拉伸→激活→整合→力量训练"线性流程。高负荷训练不使用固定呼吸相位公式（需讨论Valsalva策略）。不在第一级验证就判断干预有效。</div>
+</div>
+
+<div class="sop">
+<div class="sop-t">SOP-M09C：分级暴露SOP</div>
+<div class="sop-scope">适用场景：服务对象对特定动作或活动存在恐惧回避行为时（如因怕痛而完全回避弯腰、深蹲等动作）。</div>
+<div class="ss"><div class="ss-n">STEP 01</div><div class="ss-a">共同制定恐惧活动清单</div>与服务对象共同讨论，列出因恐惧而回避的动作/活动。让服务对象参与（训练师单方面指定可能与实际恐惧不一致）。<div class="ss-c">判断标准：清单由服务对象主导，训练师辅助。服务对象感到自己的声音被听到、恐惧被尊重。</div></div>
+<div class="ss"><div class="ss-n">STEP 02</div><div class="ss-a">按恐惧程度排序</div>将清单中每个动作/活动按恐惧程度从低到高排列（可用0-10恐惧评分）。<div class="ss-c">判断标准：至少列出5-8个恐惧动作/活动，形成阶梯。</div></div>
+<div class="ss"><div class="ss-n">STEP 03</div><div class="ss-a">从最低恐惧等级开始暴露</div>选择恐惧评分最低的动作，降低难度使其可完成（如深蹲→箱式深蹲→浅蹲→更浅蹲）。在安全范围内反复练习。<div class="ss-c">判断标准：该动作恐惧评分降至<3/10且能完成→进入下一等级。</div><div class="ss-note">用鼓励代替强制。每次成功的重复是对恐惧的一次修正。</div></div>
+<div class="ss"><div class="ss-n">STEP 04</div><div class="ss-a">逐步递增难度</div>每通过一个等级，进入下一个恐惧等级。递增方式可以是增加动作幅度、增加负荷、增加速度或改变环境。<div class="ss-c">判断标准：每个等级需稳定通过（恐惧评分<3/10且无疼痛反弹）后再递增。</div></div>
+<div class="ss"><div class="ss-n">STEP 05</div><div class="ss-a">回归日常活动</div>最终目标是让服务对象在日常环境中能完成之前恐惧的动作。监控日常活动中的功能改善。<div class="ss-c">判断标准：服务对象能在日常环境中完成之前恐惧的动作，且恐惧评分持续<3/10。</div></div>
+<div class="sop-warn"><div class="sop-warn-t">禁忌</div>不得强制服务对象进入高恐惧等级。不得忽视服务对象的恐惧或否定其体验。回避行为减少是治疗目标之一，即使疼痛评分未变化也是进步（功能改善和行为改变优先于疼痛评分）。</div>
+</div>
+
+<div class="mod" id="ref">
+<div class="mod-num">附录</div>
+<h2>参考教材文献卡片</h2>
+</div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">Neumann DA. <i>Kinesiology of the Musculoskeletal System</i>. 3rd ed. (2016). Mosby/Elsevier. ISBN: 978-0323287531.</div><div class="lc-role">肌肉骨骼系统运动学参考教材，为M5解剖与生物力学各区域力学分析提供系统解剖学基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">McGill S. <i>Low Back Disorders</i>. 3rd ed. (2015/2016). Human Kinetics. ISBN: 978-1450472913.</div><div class="lc-role">腰痛参考教材，为M5脊柱稳定、M6力量训练为主体原则提供腰椎生物力学和训练设计参考。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">Levangie PK, Norkin CC, Lewek MD. <i>Joint Structure and Function</i>. 6th ed. (2021). F.A. Davis. ISBN: 978-0803658783.</div><div class="lc-role">关节结构与功能参考教材，为M5各关节区域力学分析提供关节学基础。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">Kendall FP et al. <i>Kendall's Muscles: Testing and Function</i>. 6th ed. (2023). Wolters Kluwer.</div><div class="lc-role">肌肉测试与功能参考教材，为M5各区域评估中的肌肉功能测试提供方法学参考。</div></div></div>
+
+<div class="lc-card"><span class="lc-tag tag-tb">教材</span><div class="lc-body"><div class="lc-cite">Butler DS. <i>The Sensitive Nervous System</i>. (2000). Noigroup. ISBN: 0957732901.</div><div class="lc-role">神经系统敏感性参考教材，为M4疼痛神经科学和中枢敏化提供神经科学基础。</div></div></div>
+
+<footer style="padding:40px 32px;text-align:center;font-family:var(--sans);font-size:11px;color:var(--text-m);border-top:1px solid var(--border);margin-top:48px">
+疼痛管理2H授课教材 · 教学工具包 · 2026.08
+</footer>
+
+</body>
+</html>
