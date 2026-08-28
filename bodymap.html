@@ -295,11 +295,11 @@ footer p+p{margin-top:6px}
           <div class="map-svg-wrap" id="map-back" style="display:none"></div>
           <div class="map-legend" id="map-legend">
             <span><i style="background:var(--sev-0)"></i>顺畅</span>
-            <span><i style="background:var(--sev-1)"></i>轻微卡顿</span>
-            <span><i style="background:var(--sev-2)"></i>明显卡顿</span>
+            <span><i style="background:var(--sev-1)"></i>轻微卡压</span>
+            <span><i style="background:var(--sev-2)"></i>明显卡压</span>
             <span><i style="background:var(--sev-3)"></i>完全卡住</span>
-            <span><i style="background:var(--sev-4)"></i>恐惧感</span>
-            <span><i style="background:var(--sev-5)"></i>疼痛</span>
+            <span><i style="background:var(--sev-4)"></i>受限</span>
+            <span><i style="background:var(--sev-5)"></i>恐惧感</span>
           </div>
         </div>
         <div class="pain-list" id="pain-list">
@@ -582,12 +582,12 @@ const TRAINDIMS = [
 
 /* ========== 本体感受 6 级光谱 ========== */
 const PROPRIO_LEVELS = [
-  {k:0, name:'顺畅',     desc:'正常，无异常感觉',       color:'#10B981'},
-  {k:1, name:'轻微卡顿',  desc:'轻度卡压感，无痛',       color:'#84CC16'},
-  {k:2, name:'明显卡顿',  desc:'中度卡压/阻塞感',        color:'#F59E0B'},
-  {k:3, name:'完全卡住',  desc:'严重卡压/锁死',          color:'#F97316'},
-  {k:4, name:'恐惧感',   desc:'心理上害怕做动作',        color:'#EF4444'},
-  {k:5, name:'疼痛',     desc:'明确的疼痛',             color:'#DC2626'},
+  {k:0, name:'顺畅',     desc:'正常，无异常感觉',         color:'#10B981'},
+  {k:1, name:'轻微卡压',  desc:'轻度卡压/阻塞感',          color:'#84CC16'},
+  {k:2, name:'明显卡压',  desc:'中度卡压/阻塞感',          color:'#F59E0B'},
+  {k:3, name:'完全卡住',  desc:'严重卡压/锁死感',          color:'#F97316'},
+  {k:4, name:'受限',     desc:'活动受限，功能受限',        color:'#EF4444'},
+  {k:5, name:'恐惧感',   desc:'心理恐惧，害怕做动作',      color:'#DC2626'},
 ];
 
 /* ========== 疼痛性质（SINSS Nature，多选） ========== */
@@ -765,7 +765,7 @@ function cloneTrainTemplate(){
     subs: d.subs.map(s => ({
       k: s.k,
       overall: s.overall || 5,
-      items: s.items.map(it => ({k:it.k, val:it.val, type:it.type})),
+      items: s.items.map(it => ({k:it.k, name:it.name, val:it.val, type:it.type, tip:it.tip})),
       planeRestrictions: s.planeRestrictions ? [...s.planeRestrictions] : undefined,
     })),
   }));
