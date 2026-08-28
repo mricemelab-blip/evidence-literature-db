@@ -13,6 +13,7 @@
   --c1:#8B5CF6; --c2:#3B82F6; --c3:#10B981; --c4:#F59E0B; --c5:#EF4444; --c6:#EC4899;
   --p1:#F97316; --p2:#14B8A6;
   --sev-0:#10B981; --sev-1:#84CC16; --sev-2:#F59E0B; --sev-3:#F97316; --sev-4:#EF4444; --sev-5:#DC2626;
+  --warn:#EF4444;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -59,10 +60,42 @@ a{color:var(--gold);text-decoration:none}
 .slider .val{min-width:34px;text-align:right;font-variant-numeric:tabular-nums;color:var(--gold);font-weight:600;font-size:14px}
 .slider-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-m);margin-top:4px;padding:0 4px}
 .dim-block{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);margin-bottom:10px}
-.dim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.dim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;cursor:pointer;user-select:none}
 .dim-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
 .dim-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dim-score{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px;min-width:50px;justify-content:flex-end}
+.dim-score .warn{color:var(--warn);font-size:14px}
+.dim-body{padding-top:4px}
+.dim-body.collapsed{display:none}
+.dim-toggle{font-size:11px;color:var(--text-m);transition:transform .2s}
+.dim-head.collapsed .dim-toggle{transform:rotate(-90deg)}
 .dim-tip{font-size:11px;color:var(--text-m);margin-top:6px;line-height:1.6}
+/* ====== Sub-dimension blocks ====== */
+.subdim{padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-bottom:10px}
+.subdim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.subdim-name{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
+.subdim-name .warn{color:var(--warn);font-size:13px}
+.subdim-score{font-size:13px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.sub-item{margin-bottom:10px}
+.sub-item:last-child{margin-bottom:0}
+.sub-item-label{font-size:12px;color:var(--text-s);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.sub-item-label b{color:var(--text);font-weight:500;font-size:12px}
+.sub-item-label .warn{color:var(--warn);font-size:12px;font-weight:600}
+/* 0-4 scale: 5 segmented buttons */
+.seg5{display:flex;gap:4px}
+.seg5 .seg5-btn{flex:1;padding:7px 4px;font-size:11px;border:1px solid var(--line);border-radius:6px;background:var(--surface-2);color:var(--text-s);cursor:pointer;font-family:inherit;transition:all .12s;text-align:center;line-height:1.3;font-weight:500}
+.seg5 .seg5-btn:hover{border-color:var(--text-s);color:var(--text)}
+.seg5 .seg5-btn.active{color:var(--gold);border-color:var(--gold);background:var(--gold-soft);font-weight:600}
+.seg5 .seg5-btn.warn{color:var(--warn);border-color:var(--warn);background:rgba(239,68,68,.12);font-weight:600}
+.seg5-label{display:flex;justify-content:space-between;font-size:10px;color:var(--text-m);margin-top:4px;padding:0 2px}
+/* plane restriction buttons */
+.plane-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.plane-tag{padding:6px 12px;font-size:11px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);color:var(--text-s);cursor:pointer;font-family:inherit;transition:all .12s;user-select:none}
+.plane-tag:hover{border-color:var(--text-s);color:var(--text)}
+.plane-tag.active{color:var(--warn);border-color:var(--warn);background:rgba(239,68,68,.10);font-weight:600}
+.plane-tag-label{font-size:11px;color:var(--text-m);margin-bottom:6px}
+/* high-function note */
+.hf-note{font-size:11px;color:var(--c4);margin-bottom:10px;padding:6px 10px;background:rgba(245,158,11,.08);border-radius:6px;border:1px solid rgba(245,158,11,.2)}
 /* ====== Body map (SVG) ====== */
 .map-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}
 @media(max-width:880px){.map-layout{grid-template-columns:1fr}}
@@ -73,13 +106,14 @@ a{color:var(--gold);text-decoration:none}
 .map-svg-wrap{width:100%;max-width:300px;margin:0 auto}
 .map-svg-wrap svg{width:100%;height:auto;display:block}
 .body-outline{fill:rgba(85,80,74,0.10);stroke:var(--text-m);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
-.joint-circle{cursor:pointer;transition:fill .12s,stroke .12s,r .15s}
-.joint-circle:hover{fill:rgba(200,164,94,0.4);stroke:var(--gold);r:12}
+.joint-circle{cursor:pointer;transition:fill .12s,stroke .12s,r .15s,stroke-width .12s}
+.joint-circle:hover{fill-opacity:0.6}
+.joint-circle.selected{stroke:var(--gold) !important;stroke-width:2.5 !important}
 .joint-label{font-size:9px;fill:var(--text-m);pointer-events:none;font-family:inherit;user-select:none}
 .map-legend{margin-top:14px;font-size:11px;color:var(--text-m);display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center}
 .map-legend span{display:inline-flex;align-items:center;gap:4px}
 .map-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
-/* ====== Pain point list ====== */
+/* ====== Pain point list (assessment panel) ====== */
 .pain-list{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;max-height:680px;overflow-y:auto}
 .pain-item{padding:12px;border:1px solid var(--line);border-radius:8px;margin-bottom:10px;background:var(--surface)}
 .pain-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -173,7 +207,7 @@ footer p+p{margin-top:6px}
       持续输入，看见自己在<em>训练</em>与<em>关节</em>上的真实变化。
     </p>
     <div class="hero-meta">
-      <span>训练五维度 <b>对齐策划方案</b></span>
+      <span>训练五维度 <b>子项精细化</b></span>
       <span>关节六维度 <b>SINSS + SFMA</b></span>
       <span>前后视图 <b>具体关节</b></span>
     </div>
@@ -234,10 +268,10 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">训练表现 · 五维度自评</div>
-      <div class="sec-note">每项 0-10 分，10 = 最佳</div>
+      <div class="sec-note">子项评分 → 自动计算维度综合分</div>
     </div>
     <div class="input-card">
-      <div id="train-sliders"></div>
+      <div id="train-assessment"></div>
     </div>
   </div>
 
@@ -250,7 +284,7 @@ footer p+p{margin-top:6px}
 
     <div class="input-card">
       <h3>关节分布与评估</h3>
-      <div class="sub">点击关节圆点添加部位，在右侧逐项填写六个维度</div>
+      <div class="sub">点击关节圆点选中/取消，右侧逐项填写六个维度</div>
       <div class="map-layout">
         <div class="map-view">
           <div class="map-toggle">
@@ -269,7 +303,7 @@ footer p+p{margin-top:6px}
           </div>
         </div>
         <div class="pain-list" id="pain-list">
-          <div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">点击左侧关节添加记录</div>
+          <div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">点击左侧关节选中，开始评估</div>
         </div>
       </div>
       <button class="add-btn" id="add-pain-manual">+ 手动添加未列出的部位</button>
@@ -357,7 +391,7 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">训练五维度趋势</div>
-      <div class="sec-note">时间序列折线</div>
+      <div class="sec-note">时间序列折线（各维度综合分）</div>
     </div>
     <div class="viz-card">
       <div id="trend-train"></div>
@@ -428,13 +462,122 @@ footer p+p{margin-top:6px}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ========== 训练五维度 ========== */
+/* ========== 训练五维度定义（含子项） ========== */
 const TRAINDIMS = [
-  {k:'breathing_rom',  name:'呼吸与关节活动度', tip:'膈肌功能、腹内压、关节基本活动能力', color:'#8B5CF6'},
-  {k:'multi_planar',   name:'多面向运动',       tip:'额状面、水平面、矢状面三维动作能力', color:'#3B82F6'},
-  {k:'neuromotor',     name:'神经控制与动作意识', tip:'动作本身的控制与身体感知', color:'#10B981'},
-  {k:'integration',    name:'区域整合',         tip:'髋-腰-胸联动、肩带-核心协同', color:'#F59E0B'},
-  {k:'high_function',  name:'高功能动作',       tip:'整合前四维度，进入复合动作', color:'#EF4444'},
+  {
+    k:'breathing_rom',
+    name:'呼吸与关节活动度',
+    color:'#8B5CF6',
+    subs:[
+      {
+        k:'breathing',
+        name:'呼吸 (Breathing)',
+        type:'hybrid',
+        overall:5,
+        items:[
+          {k:'overall', name:'综合呼吸评分', type:'slider10', val:5},
+          {k:'obstruction', name:'呼吸不畅', type:'seg5', val:0},
+          {k:'asymmetry', name:'左右不对称', type:'seg5', val:0},
+          {k:'thoracic_link', name:'胸廓联动缺失', type:'seg5', val:0, tip:'无法达到胸廓-骨盆联动'},
+          {k:'breath_hold', name:'训练中有意识憋气', type:'seg5', val:0},
+          {k:'iap', name:'腹内压维持困难', type:'seg5', val:0, tip:'参考DNS：膈肌功能与腹内压稳定'},
+        ],
+      },
+      {
+        k:'joint_rom',
+        name:'关节活动度 (Joint ROM)',
+        type:'hybrid',
+        overall:5,
+        items:[
+          {k:'overall', name:'综合活动度评分', type:'slider10', val:5},
+          {k:'asymmetry', name:'左右不对称', type:'seg5', val:0},
+          {k:'end_feel', name:'末端感受异常', type:'seg5', val:0, tip:'参考Maitland end-feel：正常为组织牵拉感，异常为坚硬/空软/痉挛'},
+          {k:'catching', name:'活动中卡顿/锁死', type:'seg5', val:0},
+          {k:'limitation', name:'活动度受限影响动作', type:'seg5', val:0},
+        ],
+      },
+    ],
+  },
+  {
+    k:'multi_planar',
+    name:'多面向运动',
+    color:'#3B82F6',
+    subs:[
+      {
+        k:'planes',
+        name:'三平面评估 (Multi-planar)',
+        type:'planes',
+        items:[
+          {k:'sag_amp', name:'矢状面 · 幅度', type:'slider10', val:5},
+          {k:'sag_smooth', name:'矢状面 · 流畅性', type:'slider10', val:5},
+          {k:'front_amp', name:'额状面 · 幅度', type:'slider10', val:5},
+          {k:'front_smooth', name:'额状面 · 流畅性', type:'slider10', val:5},
+          {k:'trans_amp', name:'水平面 · 幅度', type:'slider10', val:5},
+          {k:'trans_smooth', name:'水平面 · 流畅性', type:'slider10', val:5},
+        ],
+        planeRestrictions:[], // 'sagittal','frontal','transverse'
+      },
+    ],
+  },
+  {
+    k:'neuromotor',
+    name:'神经控制与动作意识',
+    color:'#10B981',
+    subs:[
+      {
+        k:'neuromotor',
+        name:'神经控制 (Neuromotor Control)',
+        type:'slider10s',
+        items:[
+          {k:'control', name:'动作控制程度', type:'slider10', val:5},
+          {k:'coordination', name:'协调性', type:'slider10', val:5},
+          {k:'smoothness', name:'动作流畅程度', type:'slider10', val:5},
+          {k:'range', name:'整体动作幅度', type:'slider10', val:5},
+          {k:'centration', name:'关节中心位保持', type:'slider10', val:5, tip:'参考DNS joint centration：动作中关节是否保持中立稳定位'},
+        ],
+      },
+    ],
+  },
+  {
+    k:'integration',
+    name:'区域整合',
+    color:'#F59E0B',
+    subs:[
+      {
+        k:'integration',
+        name:'区域整合 (Regional Integration)',
+        type:'slider10s',
+        items:[
+          {k:'alignment', name:'关节对位有效性', type:'slider10', val:5},
+          {k:'breathing', name:'呼吸正确性', type:'slider10', val:5},
+          {k:'symmetry', name:'双侧对称性', type:'slider10', val:5, tip:'双侧动作时左右是否对称'},
+          {k:'smoothness', name:'动作流畅程度', type:'slider10', val:5},
+          {k:'core_stability', name:'核心稳定维持', type:'slider10', val:5, tip:'参考SFMA区域相互依赖模型'},
+        ],
+      },
+    ],
+  },
+  {
+    k:'high_function',
+    name:'高功能动作',
+    color:'#EF4444',
+    note:'RPE 7以上时评估',
+    subs:[
+      {
+        k:'high_func',
+        name:'高功能表现 (High-function Movement)',
+        type:'seg5s',
+        note:'RPE 7以上时评估',
+        items:[
+          {k:'breathing_change', name:'呼吸改变', type:'seg5', val:0, tip:'呼吸模式紊乱/憋气'},
+          {k:'discomfort', name:'关节明显不舒服', type:'seg5', val:0},
+          {k:'insecurity', name:'动作不安全感', type:'seg5', val:0},
+          {k:'deformation', name:'动作形变', type:'seg5', val:0, tip:'姿势崩塌/代偿'},
+          {k:'compensation', name:'代偿动作出现', type:'seg5', val:0, tip:'参考SFMA：相邻区域代偿，如腰代髋、肩代胸椎'},
+        ],
+      },
+    ],
+  },
 ];
 
 /* ========== 本体感受 6 级光谱 ========== */
@@ -607,18 +750,94 @@ const BODY_BACK_LSCAPULA = `
 const BODY_BACK_SPINE = `M 150 100 L 150 290`;
 
 const STORAGE_KEY = 'rijian_yigong_bodymap_v3';
+const OLD_STORAGE_KEY = 'rijian_yigong_bodymap_v2';
 
 /* ========== 状态 ========== */
-let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let currentPainPoints = [];
+let records = [];
+let painPoints = [];        // all joint assessments (persisted when saved)
+let selectedJoint = null;   // currently toggled joint region name
+
+/* deep-copy train template for current form */
+function cloneTrainTemplate(){
+  return TRAINDIMS.map(d => ({
+    k: d.k,
+    overall: 5,
+    subs: d.subs.map(s => ({
+      k: s.k,
+      overall: s.overall || 5,
+      items: s.items.map(it => ({k:it.k, val:it.val, type:it.type})),
+      planeRestrictions: s.planeRestrictions ? [...s.planeRestrictions] : undefined,
+    })),
+  }));
+}
+let currentTrain = cloneTrainTemplate();
 
 /* ========== 工具函数 ========== */
 function getProprio(k){ return PROPRIO_LEVELS.find(s => s.k === k) || PROPRIO_LEVELS[0]; }
 function sevColor(k){ return getProprio(k).color; }
 function sevName(k){ return getProprio(k).name; }
 
+/* seg5 (0-4) to 0-10 scale */
+function seg5to10(v){ return v / 4 * 10; }
+
+/* Compute sub-dimension overall score (0-10) from its items
+   - hybrid: overall slider (0-10) + seg5 items → average of overall and avg(seg5→10)
+   - slider10s: all slider10 items → average
+   - seg5s: all seg5 items → average of (seg5→10)
+   - planes: 6 slider10 items (3 planes × amp/smooth) → average
+*/
+function calcSubOverall(sub){
+  const items = sub.items;
+  if (!items || items.length === 0) return sub.overall || 5;
+  if (sub.k === 'breathing' || sub.k === 'joint_rom') {
+    // hybrid: first item is slider10 (overall), rest are seg5
+    const overallItem = items.find(it => it.k === 'overall');
+    const overallVal = overallItem ? overallItem.val : 5;
+    const segItems = items.filter(it => it.k !== 'overall');
+    const segAvg10 = segItems.length ? segItems.reduce((s,it)=>s+seg5to10(it.val),0)/segItems.length : 0;
+    return +((overallVal + segAvg10) / 2).toFixed(1);
+  }
+  if (sub.k === 'planes') {
+    // 6 sliders
+    return +(items.reduce((s,it)=>s+it.val,0)/items.length).toFixed(1);
+  }
+  if (items[0].type === 'slider10') {
+    return +(items.reduce((s,it)=>s+it.val,0)/items.length).toFixed(1);
+  }
+  if (items[0].type === 'seg5') {
+    return +(items.reduce((s,it)=>s+seg5to10(it.val),0)/items.length).toFixed(1);
+  }
+  return 5;
+}
+
+/* Compute dimension overall score (average of sub-dimension overalls) */
+function calcDimOverall(dimData){
+  if (!dimData.subs || dimData.subs.length === 0) return dimData.overall || 5;
+  const subOvals = dimData.subs.map(s => calcSubOverall(s));
+  return +(subOvals.reduce((a,b)=>a+b,0)/subOvals.length).toFixed(1);
+}
+
+/* Check if a sub-dimension has any warning item
+   - 0-4 scale (seg5): warn if val <= 2
+   - 0-10 scale (slider10): warn if val <= 4
+*/
+function subHasWarning(sub){
+  return sub.items.some(it => {
+    if (it.type === 'seg5') return it.val <= 2;
+    if (it.type === 'slider10') return it.val <= 4;
+    return false;
+  });
+}
+function dimHasWarning(dimData){
+  return dimData.subs.some(s => subHasWarning(s));
+}
+
 /* ========== 初始化 ========== */
 document.addEventListener('DOMContentLoaded', () => {
+  // migrate from v2 if needed
+  migrateFromV2();
+  records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
   document.querySelectorAll('.tab').forEach(t => {
     t.addEventListener('click', () => switchTab(t.dataset.tab));
   });
@@ -627,7 +846,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
 
-  buildTrainSliders();
+  buildTrainAssessment();
   bindSlider('f-rpe','v-rpe');
   bindSlider('f-sleep','v-sleep');
   bindSlider('f-mood','v-mood');
@@ -635,10 +854,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderBodyMap('front');
   renderBodyMap('back');
+  renderAssessmentPanel();
 
   document.getElementById('add-pain-manual').addEventListener('click', () => {
     const name = prompt('请输入身体部位（如：右肩盂肱关节前侧）');
-    if (name && name.trim()) addPainPoint(name.trim());
+    if (name && name.trim()) {
+      addPainPoint(name.trim());
+      selectedJoint = name.trim();
+      renderBodyMap('front');
+      renderBodyMap('back');
+      renderAssessmentPanel();
+    }
   });
 
   document.getElementById('btn-save').addEventListener('click', saveRecord);
@@ -648,6 +874,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderAll();
 });
+
+/* ========== Migration from v2 (simple flat scores) ========== */
+function migrateFromV2(){
+  const old = localStorage.getItem(OLD_STORAGE_KEY);
+  const hasNew = localStorage.getItem(STORAGE_KEY);
+  if (old && !hasNew) {
+    try {
+      const oldRecs = JSON.parse(old);
+      const newRecs = oldRecs.map(r => {
+        // build train with sub-items from the flat scores
+        const train = cloneTrainTemplate();
+        train.forEach(d => {
+          const flatVal = r.train && r.train[d.k] != null ? r.train[d.k] : 5;
+          d.overall = flatVal;
+          // set sub-dim overalls to same flat value (best-effort migration)
+          d.subs.forEach(s => {
+            s.overall = flatVal;
+            // first/overall slider gets the value; items stay at default
+            const overallItem = s.items.find(it => it.k === 'overall');
+            if (overallItem) overallItem.val = flatVal;
+          });
+        });
+        return {
+          ...r,
+          train: serializeTrain(train),
+        };
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newRecs));
+      console.log('Migrated', newRecs.length, 'records from v2 → v3');
+    } catch(e) { console.warn('migration failed', e); }
+  }
+}
 
 /* ========== View toggle ========== */
 function toggleView(view){
@@ -671,35 +929,287 @@ function switchTab(id){
   if (id==='history') renderHistory();
 }
 
-/* ========== 训练 slider ========== */
-function buildTrainSliders(){
-  const host = document.getElementById('train-sliders');
+/* ========== 训练评估构建 ========== */
+function buildTrainAssessment(){
+  const host = document.getElementById('train-assessment');
   host.innerHTML = '';
-  TRAINDIMS.forEach((d,i) => {
-    const row = document.createElement('div');
-    row.className = 'dim-block';
-    row.innerHTML = `
-      <div class="dim-head">
-        <div class="dim-title"><span class="dim-dot" style="background:${d.color}"></span>${d.name}</div>
-        <span class="badge" id="tv-${d.k}">5</span>
+  currentTrain.forEach((dim, di) => {
+    const dimDef = TRAINDIMS[di];
+    const dimBlock = document.createElement('div');
+    dimBlock.className = 'dim-block';
+
+    // header
+    const head = document.createElement('div');
+    head.className = 'dim-head';
+    head.innerHTML = `
+      <div class="dim-title">
+        <span class="dim-dot" style="background:${dimDef.color}"></span>
+        ${dimDef.name}
+        <span class="dim-toggle">▾</span>
       </div>
-      <div class="slider">
-        <input type="range" min="0" max="10" step="1" value="5" data-train="${d.k}">
-        <span class="val" id="tval-${d.k}">5</span>
-      </div>
-      <div class="slider-label"><span>0 差</span><span>10 优</span></div>
-      <div class="dim-tip">${d.tip}</div>
+      <span class="dim-score" id="ds-${dimDef.k}">
+        <span class="dim-score-val">5.0</span>
+        <span class="warn" style="display:none">⚠️</span>
+      </span>
     `;
-    host.appendChild(row);
-    const input = row.querySelector('input');
-    input.addEventListener('input', () => {
-      document.getElementById('tval-'+d.k).textContent = input.value;
-      document.getElementById('tv-'+d.k).textContent = input.value;
+    dimBlock.appendChild(head);
+
+    // body
+    const body = document.createElement('div');
+    body.className = 'dim-body';
+
+    // note for high-function
+    if (dimDef.note) {
+      const note = document.createElement('div');
+      note.className = 'hf-note';
+      note.textContent = '💡 ' + dimDef.note;
+      body.appendChild(note);
+    }
+
+    // sub-dimensions
+    dim.subs.forEach((sub, si) => {
+      const subDef = dimDef.subs[si];
+      const subEl = document.createElement('div');
+      subEl.className = 'subdim';
+      subEl.innerHTML = buildSubdimHTML(dimDef, subDef, sub, di, si);
+      body.appendChild(subEl);
+    });
+
+    dimBlock.appendChild(body);
+    host.appendChild(dimBlock);
+
+    // toggle collapse
+    head.addEventListener('click', (e) => {
+      // don't toggle if clicking score
+      if (e.target.closest('.dim-score')) return;
+      body.classList.toggle('collapsed');
+      head.classList.toggle('collapsed');
+    });
+  });
+
+  bindTrainInputs();
+  updateAllTrainScores();
+}
+
+function buildSubdimHTML(dimDef, subDef, sub, di, si){
+  const warn = subHasWarning(sub) ? '<span class="warn">⚠️</span>' : '';
+  let itemsHTML = '';
+  sub.items.forEach((item, ii) => {
+    const itemWarn = (item.type==='seg5' && item.val <= 2) || (item.type==='slider10' && item.val <= 4)
+      ? '<span class="warn">⚠️</span>' : '';
+    const tipHTML = item.tip ? `<div class="dim-tip" style="margin-top:3px">${item.tip}</div>` : '';
+
+    if (item.type === 'slider10') {
+      itemsHTML += `
+        <div class="sub-item">
+          <div class="sub-item-label"><b>${item.name}</b> ${itemWarn}</div>
+          <div class="slider">
+            <input type="range" min="0" max="10" step="1" value="${item.val}"
+                   data-di="${di}" data-si="${si}" data-ii="${ii}" data-itype="slider10">
+            <span class="val" id="tiv-${di}-${si}-${ii}">${item.val}</span>
+          </div>
+          <div class="slider-label"><span>0 差</span><span>10 优</span></div>
+          ${tipHTML}
+        </div>`;
+    } else if (item.type === 'seg5') {
+      const btnLabels = ['无','轻','中','重','极重'];
+      itemsHTML += `
+        <div class="sub-item">
+          <div class="sub-item-label"><b>${item.name}</b> ${itemWarn}</div>
+          <div class="seg5" data-di="${di}" data-si="${si}" data-ii="${ii}" data-itype="seg5">
+            ${[0,1,2,3,4].map(v => `
+              <button class="seg5-btn${item.val===v?' active':''}${item.val===v && v<=2?' warn':''}" data-val="${v}">
+                ${v}
+                <span style="display:block;font-size:9px;color:var(--text-m);margin-top:1px;font-weight:400">${btnLabels[v]}</span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="seg5-label"><span>正常</span><span>严重</span></div>
+          ${tipHTML}
+        </div>`;
+    }
+  });
+
+  // plane restriction tags (only for planes subdim)
+  let planeTagsHTML = '';
+  if (sub.k === 'planes') {
+    const planes = [
+      {k:'sagittal', name:'矢状面受限'},
+      {k:'frontal', name:'额状面受限'},
+      {k:'transverse', name:'水平面受限'},
+    ];
+    planeTagsHTML = `
+      <div style="margin-top:6px">
+        <div class="plane-tag-label">平面受限标记（可多选）</div>
+        <div class="plane-tags" data-di="${di}" data-si="${si}">
+          ${planes.map(p => `
+            <span class="plane-tag${(sub.planeRestrictions||[]).includes(p.k)?' active':''}" data-plane="${p.k}">${p.name}</span>
+          `).join('')}
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div class="subdim-head">
+      <div class="subdim-name">${subDef.name} ${warn}</div>
+      <div class="subdim-score" id="ss-${di}-${si}">${calcSubOverall(sub).toFixed(1)}</div>
+    </div>
+    ${itemsHTML}
+    ${planeTagsHTML}
+  `;
+}
+
+function bindTrainInputs(){
+  const host = document.getElementById('train-assessment');
+  // sliders
+  host.querySelectorAll('input[type=range][data-itype=slider10]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const di = +inp.dataset.di, si = +inp.dataset.si, ii = +inp.dataset.ii;
+      const val = +inp.value;
+      currentTrain[di].subs[si].items[ii].val = val;
+      document.getElementById('tiv-'+di+'-'+si+'-'+ii).textContent = val;
+      updateAllTrainScores();
+    });
+  });
+  // seg5 buttons
+  host.querySelectorAll('.seg5').forEach(group => {
+    const di = +group.dataset.di, si = +group.dataset.si, ii = +group.dataset.ii;
+    group.querySelectorAll('.seg5-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = +btn.dataset.val;
+        currentTrain[di].subs[si].items[ii].val = val;
+        // update UI
+        group.querySelectorAll('.seg5-btn').forEach(b => {
+          const bv = +b.dataset.val;
+          b.classList.toggle('active', bv === val);
+          b.classList.toggle('warn', bv === val && val <= 2);
+        });
+        updateAllTrainScores();
+      });
+    });
+  });
+  // plane restriction tags
+  host.querySelectorAll('.plane-tags').forEach(group => {
+    const di = +group.dataset.di, si = +group.dataset.si;
+    group.querySelectorAll('.plane-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        const pk = tag.dataset.plane;
+        const sub = currentTrain[di].subs[si];
+        if (!sub.planeRestrictions) sub.planeRestrictions = [];
+        const idx = sub.planeRestrictions.indexOf(pk);
+        if (idx >= 0) sub.planeRestrictions.splice(idx,1);
+        else sub.planeRestrictions.push(pk);
+        tag.classList.toggle('active');
+      });
     });
   });
 }
 
-/* ========== SVG 身体地图渲染 ========== */
+function updateAllTrainScores(){
+  currentTrain.forEach((dim, di) => {
+    const dimDef = TRAINDIMS[di];
+    dim.subs.forEach((sub, si) => {
+      const subScore = calcSubOverall(sub);
+      const el = document.getElementById('ss-'+di+'-'+si);
+      if (el) el.textContent = subScore.toFixed(1);
+      // subdim name warn icon
+      const subdimName = document.querySelectorAll('.subdim-name')[getSubdimIndex(di, si)];
+      if (subdimName) {
+        let warnSpan = subdimName.querySelector('.warn');
+        const hasWarn = subHasWarning(sub);
+        if (hasWarn && !warnSpan) {
+          subdimName.insertAdjacentHTML('beforeend', ' <span class="warn">⚠️</span>');
+        } else if (!hasWarn && warnSpan) {
+          warnSpan.remove();
+        }
+      }
+      // per-item warn
+      sub.items.forEach((item, ii) => {
+        const isWarn = (item.type==='seg5' && item.val <= 2) || (item.type==='slider10' && item.val <= 4);
+        if (item.type === 'seg5') {
+          // update seg5 warn button
+          const group = document.querySelector(`.seg5[data-di="${di}"][data-si="${si}"][data-ii="${ii}"]`);
+          if (group) {
+            group.querySelectorAll('.seg5-btn').forEach(b => {
+              const bv = +b.dataset.val;
+              b.classList.toggle('warn', bv === item.val && item.val <= 2);
+            });
+          }
+        }
+        // update item label warn span
+        const subItems = document.querySelectorAll('.sub-item');
+        const flatIdx = getFlatItemIndex(di, si, ii);
+        if (subItems[flatIdx]) {
+          const label = subItems[flatIdx].querySelector('.sub-item-label');
+          if (label) {
+            let warnSpan = label.querySelector('.warn');
+            if (isWarn && !warnSpan) {
+              label.insertAdjacentHTML('beforeend', ' <span class="warn">⚠️</span>');
+            } else if (!isWarn && warnSpan) {
+              warnSpan.remove();
+            }
+          }
+        }
+      });
+    });
+
+    // dimension overall
+    const dimScore = calcDimOverall(dim);
+    dim.overall = dimScore;
+    const dimScoreEl = document.querySelector(`#ds-${dimDef.k} .dim-score-val`);
+    const dimWarnEl = document.querySelector(`#ds-${dimDef.k} .warn`);
+    if (dimScoreEl) dimScoreEl.textContent = dimScore.toFixed(1);
+    if (dimWarnEl) dimWarnEl.style.display = (dimScore < 6 || dimHasWarning(dim)) ? 'inline' : 'none';
+  });
+}
+
+/* helpers for flat indexing in DOM */
+function getSubdimIndex(di, si){
+  let idx = 0;
+  for (let d=0; d<di; d++) idx += currentTrain[d].subs.length;
+  return idx + si;
+}
+function getFlatItemIndex(di, si, ii){
+  let idx = 0;
+  for (let d=0; d<di; d++) {
+    for (let s=0; s<currentTrain[d].subs.length; s++) {
+      idx += currentTrain[d].subs[s].items.length;
+    }
+  }
+  for (let s=0; s<si; s++) idx += currentTrain[di].subs[s].items.length;
+  return idx + ii;
+}
+
+/* Serialize train data for storage */
+function serializeTrain(train){
+  return train.map(d => ({
+    k: d.k,
+    overall: calcDimOverall(d),
+    subs: d.subs.map(s => ({
+      k: s.k,
+      overall: calcSubOverall(s),
+      items: s.items.map(it => ({k:it.k, val:it.val, type:it.type})),
+      planeRestrictions: s.planeRestrictions || [],
+    })),
+  }));
+}
+
+/* Get dimension overall for a record (handles both old flat format and new structured) */
+function getTrainDimOverall(rec, dimK){
+  if (!rec || !rec.train) return 0;
+  if (typeof rec.train === 'object' && !Array.isArray(rec.train) && rec.train[dimK] != null) {
+    // old flat format
+    return rec.train[dimK];
+  }
+  // new array format
+  if (Array.isArray(rec.train)) {
+    const d = rec.train.find(x => x.k === dimK);
+    return d ? (d.overall != null ? d.overall : 0) : 0;
+  }
+  return 0;
+}
+
+/* ========== SVG 身体地图渲染（带toggle选中态） ========== */
 function renderBodyMap(view){
   const joints = view==='front' ? FRONT_JOINTS : BACK_JOINTS;
   const host = document.getElementById('map-'+view);
@@ -728,16 +1238,24 @@ function renderBodyMap(view){
 
   // 关节圆点
   joints.forEach(j => {
-    const pain = currentPainPoints.find(p => p.region === j.region);
+    const pain = painPoints.find(p => p.region === j.region);
+    const isSelected = selectedJoint === j.region;
     let fill = 'rgba(200,164,94,0.15)';
     let stroke = 'var(--text-m)';
     let strokeWidth = '1.2';
+    let r = j.r;
     if (pain) {
       fill = sevColor(pain.proprioception);
       stroke = sevColor(pain.proprioception);
       strokeWidth = '1.5';
     }
-    svg += `<circle class="joint-circle" cx="${j.cx}" cy="${j.cy}" r="${j.r}"
+    const extraClass = isSelected ? ' selected' : '';
+    if (isSelected) {
+      r = j.r * 1.35;
+      stroke = 'var(--gold)';
+      strokeWidth = '2.5';
+    }
+    svg += `<circle class="joint-circle${extraClass}" cx="${j.cx}" cy="${j.cy}" r="${r}"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
             data-region="${escapeHtml(j.region)}">
             <title>${escapeHtml(j.region)}${pain ? ' · ' + sevName(pain.proprioception) : ''}</title>
@@ -753,66 +1271,85 @@ function renderBodyMap(view){
   svg += '</svg>';
   host.innerHTML = svg;
 
-  // 绑定点击
+  // 绑定点击（toggle）
   host.querySelectorAll('.joint-circle').forEach(el => {
     el.addEventListener('click', () => {
-      addPainPoint(el.dataset.region);
+      toggleJoint(el.dataset.region);
     });
   });
 }
 
-/* ========== 疼痛点管理 ========== */
-function addPainPoint(region){
-  if (currentPainPoints.some(p => p.region === region)) {
-    toast('该部位已添加', 'err');
-    return;
+/* ========== 关节 Toggle 交互 ========== */
+function toggleJoint(region){
+  if (selectedJoint === region) {
+    // 再次点击同一个 → 取消选中，关闭面板
+    selectedJoint = null;
+  } else {
+    // 点击其他关节 → 切换；若该关节无数据，自动创建
+    selectedJoint = region;
+    if (!painPoints.some(p => p.region === region)) {
+      painPoints.push({
+        region,
+        intensity: 3,
+        nature: [],
+        irritability: 0,
+        painMovement: 'FN',
+        proprioception: 1,
+        kinesophobia: 0,
+      });
+    }
   }
-  currentPainPoints.push({
-    region,
-    intensity: 3,
-    nature: [],
-    irritability: 0,
-    painMovement: 'FN',
-    proprioception: 1,
-    kinesophobia: 0,
-  });
-  renderPainList();
   renderBodyMap('front');
   renderBodyMap('back');
+  renderAssessmentPanel();
 }
-function removePainPoint(i){
-  currentPainPoints.splice(i,1);
-  renderPainList();
-  renderBodyMap('front');
-  renderBodyMap('back');
-}
-window.removePainPoint = removePainPoint;
 
-function updatePainField(i, field, value){
-  currentPainPoints[i][field] = value;
+function removeJointAssessment(region){
+  const idx = painPoints.findIndex(p => p.region === region);
+  if (idx >= 0) painPoints.splice(idx, 1);
+  if (selectedJoint === region) selectedJoint = null;
+  renderBodyMap('front');
+  renderBodyMap('back');
+  renderAssessmentPanel();
+}
+window.removeJointAssessment = removeJointAssessment;
+
+function updatePainField(region, field, value){
+  const p = painPoints.find(x => x.region === region);
+  if (p) p[field] = value;
   renderBodyMap('front');
   renderBodyMap('back');
 }
 window.updatePainField = updatePainField;
 
-function toggleNature(i, tag){
-  const p = currentPainPoints[i];
+function toggleNature(region, tag){
+  const p = painPoints.find(x => x.region === region);
+  if (!p) return;
   const idx = p.nature.indexOf(tag);
   if (idx >= 0) p.nature.splice(idx,1);
   else p.nature.push(tag);
-  renderPainList();
+  renderAssessmentPanel();
 }
 window.toggleNature = toggleNature;
 
-function renderPainList(){
+/* ========== 评估面板（右侧，显示选中关节） ========== */
+function renderAssessmentPanel(){
   const host = document.getElementById('pain-list');
-  if (currentPainPoints.length === 0){
-    host.innerHTML = '<div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">点击左侧关节添加记录</div>';
+  if (!selectedJoint) {
+    const count = painPoints.length;
+    host.innerHTML = `<div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">
+      点击左侧关节选中，开始评估<br>
+      <span style="font-size:11px">已添加部位：${count} 个</span>
+    </div>`;
     return;
   }
-  host.innerHTML = currentPainPoints.map((p,i) => {
-    const sev = getProprio(p.proprioception);
-    return `
+  const p = painPoints.find(x => x.region === selectedJoint);
+  if (!p) {
+    host.innerHTML = '<div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">数据加载中…</div>';
+    return;
+  }
+  const sev = getProprio(p.proprioception);
+  host.innerHTML = `
     <div class="pain-item">
       <div class="pain-head">
         <span class="region">
@@ -820,7 +1357,7 @@ function renderPainList(){
           ${escapeHtml(p.region)}
           <span style="color:${sev.color};font-size:11px;font-weight:500">${sev.name}</span>
         </span>
-        <button onclick="removePainPoint(${i})" title="删除">×</button>
+        <button onclick="removeJointAssessment('${escapeAttr(p.region)}')" title="删除此部位数据">×</button>
       </div>
 
       <!-- 1. 疼痛强度 -->
@@ -828,7 +1365,7 @@ function renderPainList(){
         <div class="pain-dim-label"><b>疼痛强度</b><span>NRS</span></div>
         <div class="pain-slider">
           <input type="range" min="0" max="10" step="1" value="${p.intensity}"
-                 oninput="updatePainField(${i},'intensity',+this.value); this.nextElementSibling.textContent=this.value">
+                 oninput="updatePainField('${escapeAttr(p.region)}','intensity',+this.value); this.nextElementSibling.textContent=this.value">
           <span class="val">${p.intensity}</span>
         </div>
         <div class="slider-label"><span>0 无痛</span><span>10 最痛</span></div>
@@ -840,7 +1377,7 @@ function renderPainList(){
         <div class="nature-row">
           ${NATURE_TAGS.map(tag => `
             <span class="nature-tag${p.nature.includes(tag)?' active':''}"
-                  onclick="toggleNature(${i},'${tag}')">${tag}</span>
+                  onclick="toggleNature('${escapeAttr(p.region)}','${tag}')">${tag}</span>
           `).join('')}
         </div>
       </div>
@@ -851,7 +1388,7 @@ function renderPainList(){
         <div class="seg-row">
           ${IRRITABILITY_LEVELS.map(l => `
             <button class="seg-btn${p.irritability===l.k?' active':''}"
-                    onclick="updatePainField(${i},'irritability',${l.k});renderPainList()">
+                    onclick="updatePainField('${escapeAttr(p.region)}','irritability',${l.k});renderAssessmentPanel()">
               ${l.name}
               <span class="seg-sub">${l.desc}</span>
             </button>
@@ -865,7 +1402,7 @@ function renderPainList(){
         <div class="seg-row">
           ${PAIN_MOVEMENT.map(m => `
             <button class="seg-btn${p.painMovement===m.k?' active':''}"
-                    onclick="updatePainField(${i},'painMovement','${m.k}');renderPainList()">
+                    onclick="updatePainField('${escapeAttr(p.region)}','painMovement','${m.k}');renderAssessmentPanel()">
               ${m.name}
               <span class="seg-sub">${m.desc}</span>
             </button>
@@ -879,7 +1416,7 @@ function renderPainList(){
         <div class="seg-row">
           ${PROPRIO_LEVELS.map(s => `
             <button class="sev-btn${p.proprioception===s.k?' active':''}" data-k="${s.k}"
-                    onclick="updatePainField(${i},'proprioception',${s.k});renderPainList()"
+                    onclick="updatePainField('${escapeAttr(p.region)}','proprioception',${s.k});renderAssessmentPanel()"
                     title="${escapeHtml(s.desc)}">
               ${s.name}
             </button>
@@ -893,7 +1430,7 @@ function renderPainList(){
         <div class="seg-row">
           ${KINESOPHOBIA_LEVELS.map(k => `
             <button class="seg-btn${p.kinesophobia===k.k?' active':''}"
-                    onclick="updatePainField(${i},'kinesophobia',${k.k});renderPainList()">
+                    onclick="updatePainField('${escapeAttr(p.region)}','kinesophobia',${k.k});renderAssessmentPanel()">
               ${k.name}
               <span class="seg-sub">${k.desc}</span>
             </button>
@@ -901,7 +1438,34 @@ function renderPainList(){
         </div>
       </div>
     </div>
-  `}).join('');
+    <div style="font-size:11px;color:var(--text-m);text-align:center;margin-top:8px">
+      再次点击关节圆点或 × 可关闭评估面板
+    </div>
+  `;
+}
+
+/* ========== 向后兼容：addPainPoint（manual add 仍可用） ========== */
+function addPainPoint(region){
+  if (painPoints.some(p => p.region === region)) {
+    selectedJoint = region;
+    renderBodyMap('front');
+    renderBodyMap('back');
+    renderAssessmentPanel();
+    return;
+  }
+  painPoints.push({
+    region,
+    intensity: 3,
+    nature: [],
+    irritability: 0,
+    painMovement: 'FN',
+    proprioception: 1,
+    kinesophobia: 0,
+  });
+  selectedJoint = region;
+  renderBodyMap('front');
+  renderBodyMap('back');
+  renderAssessmentPanel();
 }
 
 function bindSlider(inputId, valId){
@@ -914,14 +1478,13 @@ function bindSlider(inputId, valId){
 function saveRecord(){
   const date = document.getElementById('f-date').value;
   if (!date){ toast('请选择日期','err'); return; }
-  const train = {};
-  TRAINDIMS.forEach(d => train[d.k] = +document.querySelector(`input[data-train=${d.k}]`).value);
-  const painPoints = currentPainPoints.map(p => ({...p, nature:[...p.nature]}));
-  const avgIntensity = painPoints.length
-    ? +(painPoints.reduce((s,p)=>s+p.intensity,0)/painPoints.length).toFixed(2)
+  const trainData = serializeTrain(currentTrain);
+  const painPointsCopy = painPoints.map(p => ({...p, nature:[...p.nature]}));
+  const avgIntensity = painPointsCopy.length
+    ? +(painPointsCopy.reduce((s,p)=>s+p.intensity,0)/painPointsCopy.length).toFixed(2)
     : 0;
-  const avgProprio = painPoints.length
-    ? +(painPoints.reduce((s,p)=>s+p.proprioception,0)/painPoints.length).toFixed(2)
+  const avgProprio = painPointsCopy.length
+    ? +(painPointsCopy.reduce((s,p)=>s+p.proprioception,0)/painPointsCopy.length).toFixed(2)
     : 0;
   const rec = {
     date,
@@ -929,8 +1492,8 @@ function saveRecord(){
     duration: +document.getElementById('f-duration').value || 0,
     rpe: +document.getElementById('f-rpe').value,
     note: document.getElementById('f-note').value.trim(),
-    train,
-    painPoints,
+    train: trainData,
+    painPoints: painPointsCopy,
     intensityAvg: avgIntensity,
     proprioAvg: avgProprio,
     sleep: +document.getElementById('f-sleep').value,
@@ -953,16 +1516,13 @@ function clearForm(){
   document.getElementById('f-sleep').value = 0; document.getElementById('v-sleep').textContent='0';
   document.getElementById('f-mood').value = 0; document.getElementById('v-mood').textContent='0';
   document.getElementById('f-func').value = 0; document.getElementById('v-func').textContent='0';
-  TRAINDIMS.forEach(d => {
-    const el = document.querySelector(`input[data-train=${d.k}]`);
-    el.value = 5;
-    document.getElementById('tval-'+d.k).textContent = '5';
-    document.getElementById('tv-'+d.k).textContent = '5';
-  });
-  currentPainPoints = [];
-  renderPainList();
+  currentTrain = cloneTrainTemplate();
+  buildTrainAssessment();
+  painPoints = [];
+  selectedJoint = null;
   renderBodyMap('front');
   renderBodyMap('back');
+  renderAssessmentPanel();
 }
 function exportData(){
   const blob = new Blob([JSON.stringify(records,null,2)], {type:'application/json'});
@@ -992,6 +1552,7 @@ function renderMap(){
 function renderHeatmap(view){
   const joints = view==='front' ? FRONT_JOINTS : BACK_JOINTS;
   const host = document.getElementById('heatmap-'+view);
+  if (!host) return;
   const recent = records.filter(r => daysDiff(r.date) <= 30);
   const load = {};
   recent.forEach(r => r.painPoints.forEach(p => {
@@ -1046,13 +1607,12 @@ function renderHeatmap(view){
 }
 
 function heatColor(t){
-  // 绿→黄绿→黄橙→橙→红 渐变
   const stops = [
-    {t:0.0, r:16, g:185, b:129},   // #10B981
-    {t:0.25, r:132, g:204, b:22},  // #84CC16
-    {t:0.5, r:245, g:158, b:11},   // #F59E0B
-    {t:0.75, r:249, g:115, b:22},  // #F97316
-    {t:1.0, r:220, g:38, b:38},    // #DC2626
+    {t:0.0, r:16, g:185, b:129},
+    {t:0.25, r:132, g:204, b:22},
+    {t:0.5, r:245, g:158, b:11},
+    {t:0.75, r:249, g:115, b:22},
+    {t:1.0, r:220, g:38, b:38},
   ];
   for (let i=0; i<stops.length-1; i++){
     if (t <= stops[i+1].t){
@@ -1068,6 +1628,7 @@ function heatColor(t){
 
 function renderRegionRank(){
   const host = document.getElementById('region-rank');
+  if (!host) return;
   const recent = records.filter(r => daysDiff(r.date) <= 30);
   const agg = {};
   recent.forEach(r => r.painPoints.forEach(p => {
@@ -1100,9 +1661,10 @@ function renderRegionRank(){
 
 function renderRadar(){
   const host = document.getElementById('radar-train');
+  if (!host) return;
   if (records.length === 0){ host.innerHTML = '<div class="empty">暂无数据</div>'; return; }
-  const first = records[0].train;
-  const last = records[records.length-1].train;
+  const first = records[0];
+  const last = records[records.length-1];
   const size = 320, cx=size/2, cy=size/2, R=120;
   const n = TRAINDIMS.length;
   const angle = i => -Math.PI/2 + i*2*Math.PI/n;
@@ -1136,10 +1698,12 @@ function renderRadar(){
     d += 'Z';
     return `<path d="${d}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="1.6" ${dash?'stroke-dasharray="4 3"':''}/>`;
   };
-  svg += poly(TRAINDIMS.map(d=>first[d.k]), '#55504A', true);
-  svg += poly(TRAINDIMS.map(d=>last[d.k]), '#C8A45E', false);
+  const firstVals = TRAINDIMS.map(d => getTrainDimOverall(first, d.k));
+  const lastVals = TRAINDIMS.map(d => getTrainDimOverall(last, d.k));
+  svg += poly(firstVals, '#55504A', true);
+  svg += poly(lastVals, '#C8A45E', false);
   TRAINDIMS.forEach((d,i) => {
-    const [x,y] = point(i, last[d.k]);
+    const [x,y] = point(i, lastVals[i]);
     svg += `<circle cx="${x}" cy="${y}" r="3" fill="#C8A45E"/>`;
   });
   svg += '</svg>';
@@ -1151,7 +1715,11 @@ function renderTrend(){
   renderLineChart('trend-train','legend-train', records,
     TRAINDIMS.map(d=>d.k), TRAINDIMS.map(d=>d.name),
     TRAINDIMS.map(d=>d.color),
-    r => r.train, '训练分');
+    r => {
+      const out = {};
+      TRAINDIMS.forEach(d => { out[d.k] = getTrainDimOverall(r, d.k); });
+      return out;
+    }, '训练分');
 
   // 关节强度趋势：取最多6个高频部位
   const painData = records.filter(r => r.painPoints.length > 0);
@@ -1180,8 +1748,8 @@ function renderTrend(){
   } else {
     const host = document.getElementById('trend-intensity');
     const legend = document.getElementById('legend-intensity');
-    host.innerHTML = '<div class="empty">暂无疼痛数据</div>';
-    legend.innerHTML = '';
+    if (host) host.innerHTML = '<div class="empty">暂无疼痛数据</div>';
+    if (legend) legend.innerHTML = '';
   }
 
   // 整体指标趋势
@@ -1201,6 +1769,7 @@ function renderTrend(){
 function renderLineChart(hostId, legendId, data, keys, names, colors, extractor, yLabel){
   const host = document.getElementById(hostId);
   const legend = document.getElementById(legendId);
+  if (!host || !legend) return;
   if (data.length < 1){ host.innerHTML = '<div class="empty">暂无数据</div>'; legend.innerHTML=''; return; }
   const W=720,H=280,pad={l:44,r:18,t:18,b:36};
   const allY = [];
@@ -1249,12 +1818,13 @@ function renderLineChart(hostId, legendId, data, keys, names, colors, extractor,
 /* ========== 历史表 ========== */
 function renderHistory(){
   const body = document.getElementById('history-body');
+  if (!body) return;
   if (records.length === 0){
     body.innerHTML = `<tr><td colspan="11"><div class="empty">还没有记录，去"每日记录"添加第一条吧</div></td></tr>`;
     return;
   }
   body.innerHTML = records.slice().reverse().map(r => {
-    const tm = trainMean(r.train).toFixed(1);
+    const tm = trainMeanFromRec(r).toFixed(1);
     const tags = r.workout ? `<span class="tag-pill">${escapeHtml(r.workout.slice(0,10))}</span>` : '';
     const sevColorStr = (r.proprioAvg||0) > 0 ? sevColor(Math.round(r.proprioAvg)) : 'var(--text-m)';
     const n = r.painPoints ? r.painPoints.length : 0;
@@ -1271,6 +1841,12 @@ function renderHistory(){
     </tr>`;
   }).join('');
 }
+
+function trainMeanFromRec(r){
+  const vals = TRAINDIMS.map(d => getTrainDimOverall(r, d.k));
+  return vals.reduce((a,b)=>a+b,0) / vals.length;
+}
+
 window.showDetail = function(date){
   const r = records.find(x => x.date===date); if (!r) return;
   const pain = r.painPoints && r.painPoints.length
@@ -1285,14 +1861,26 @@ window.showDetail = function(date){
     运动恐惧: ${kine?kine.name:'-'}`;
       }).join('\n')
     : '（无）';
-  const tr = TRAINDIMS.map(d => `${d.name}=${r.train[d.k]}`).join('\n');
-  alert(`【${r.date}】\n\n训练：${r.workout||'—'}\n时长：${r.duration||'—'}分钟 RPE：${r.rpe}\n\n五维度：\n${tr}\n\n关节部位 ${r.painPoints?r.painPoints.length:0} 个 · 平均强度 ${(r.intensityAvg||0).toFixed(2)} · 平均本体感受 ${(r.proprioAvg||0).toFixed(2)}\n${pain}\n\n睡眠 ${r.sleep} / 情绪 ${r.mood} / 功能 ${r.func}\n\n备注：${r.note||'—'}`);
+
+  const trainDetail = TRAINDIMS.map(d => {
+    const score = getTrainDimOverall(r, d.k);
+    let subStr = '';
+    if (Array.isArray(r.train)) {
+      const dd = r.train.find(x => x.k === d.k);
+      if (dd && dd.subs) {
+        subStr = dd.subs.map(s => `    ${s.k}: ${s.overall != null ? s.overall.toFixed(1) : '?'} / ${s.items.length}子项`).join('\n');
+      }
+    }
+    return `${d.name} = ${score}${subStr ? '\n' + subStr : ''}`;
+  }).join('\n');
+
+  alert(`【${r.date}】\n\n训练：${r.workout||'—'}\n时长：${r.duration||'—'}分钟 RPE：${r.rpe}\n\n五维度：\n${trainDetail}\n\n关节部位 ${r.painPoints?r.painPoints.length:0} 个 · 平均强度 ${(r.intensityAvg||0).toFixed(2)} · 平均本体感受 ${(r.proprioAvg||0).toFixed(2)}\n${pain}\n\n睡眠 ${r.sleep} / 情绪 ${r.mood} / 功能 ${r.func}\n\n备注：${r.note||'—'}`);
 };
 
 /* ========== 工具 ========== */
-function trainMean(t){ return TRAINDIMS.reduce((s,d)=>s+(t[d.k]||0),0)/TRAINDIMS.length; }
 function daysDiff(date){ return Math.floor((Date.now() - new Date(date+'T00:00:00').getTime())/86400000); }
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 function toast(msg, type){
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast show ' + (type||'');
