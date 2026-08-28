@@ -38,7 +38,7 @@ a{color:var(--gold);text-decoration:none}
 .sec-title{font-family:ui-serif,Georgia,serif;font-size:20px;font-weight:600}
 .sec-note{font-size:12px;color:var(--text-m);letter-spacing:.05em}
 .divider{height:1px;background:var(--line);margin:32px 0}
-/* ====== Input grid ====== */
+/* ====== Input card ====== */
 .input-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:14px}
 .input-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
 .input-card .sub{font-size:12px;color:var(--text-s);margin-bottom:16px}
@@ -52,30 +52,40 @@ a{color:var(--gold);text-decoration:none}
 }
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold)}
 .field textarea{min-height:70px;resize:vertical;line-height:1.5}
-/* ====== Slider group ====== */
+/* ====== Slider ====== */
 .slider{display:flex;align-items:center;gap:10px;background:var(--surface-2);padding:8px 12px;border-radius:8px;border:1px solid var(--line)}
 .slider input[type=range]{flex:1;accent-color:var(--gold)}
 .slider .val{min-width:34px;text-align:right;font-variant-numeric:tabular-nums;color:var(--gold);font-weight:600;font-size:14px}
 .slider-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-m);margin-top:4px;padding:0 4px}
 .dim-block{padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);margin-bottom:10px}
-.dim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.dim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .dim-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
 .dim-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-/* ====== Pain body map ====== */
-.bodymap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
-@media(max-width:640px){.bodymap{grid-template-columns:1fr}}
-.map-svg{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:16px}
+.dim-tip{font-size:11px;color:var(--text-m);margin-top:6px;line-height:1.6}
+/* ====== Body map ====== */
+.map-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:16px}
+@media(max-width:880px){.map-layout{grid-template-columns:1fr}}
+.map-view{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative}
+.map-toggle{display:flex;gap:6px;margin-bottom:12px;justify-content:center}
+.map-toggle button{padding:6px 14px;font-size:12px;background:transparent;color:var(--text-s);border:1px solid var(--line);border-radius:6px;cursor:pointer;font-family:inherit}
+.map-toggle button.active{color:var(--gold);border-color:var(--gold);background:var(--gold-soft)}
 .map-svg svg{width:100%;height:auto;display:block}
-.pain-list{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;max-height:480px;overflow-y:auto}
+.map-legend{margin-top:12px;font-size:11px;color:var(--text-m);display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.map-legend span{display:inline-flex;align-items:center;gap:4px}
+.map-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.pain-list{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px;max-height:640px;overflow-y:auto}
 .pain-item{padding:10px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:var(--surface)}
-.pain-item .region{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
-.pain-item .region button{background:transparent;border:none;color:var(--text-m);cursor:pointer;font-size:12px}
-.pain-item .region button:hover{color:var(--c5)}
-.mini-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
-.mini-row label{color:var(--text-s);display:flex;flex-direction:column;gap:4px}
+.pain-item.selected{border-color:var(--gold)}
+.pain-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.pain-head .region{font-size:13px;font-weight:600}
+.pain-head button{background:transparent;border:none;color:var(--text-m);cursor:pointer;font-size:14px;padding:2px 6px}
+.pain-head button:hover{color:var(--c5)}
+.mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-size:12px}
+@media(max-width:640px){.mini-row{grid-template-columns:repeat(2,1fr)}}
+.mini-row label{color:var(--text-s);display:flex;flex-direction:column;gap:3px}
 .mini-row input,.mini-row select{background:var(--surface-2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:5px;font-size:12px;font-family:inherit}
-.add-region{width:100%;padding:10px;border:1px dashed var(--line);background:transparent;color:var(--text-s);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
-.add-region:hover{border-color:var(--gold);color:var(--gold)}
+.add-btn{width:100%;padding:10px;border:1px dashed var(--line);background:transparent;color:var(--text-s);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;margin-top:10px}
+.add-btn:hover{border-color:var(--gold);color:var(--gold)}
 /* ====== Buttons ====== */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
 .btn-primary{background:var(--gold);color:var(--gold-ink)}
@@ -85,7 +95,12 @@ a{color:var(--gold);text-decoration:none}
 .btn-danger{background:transparent;color:var(--c5);border:1px solid var(--line)}
 .btn-danger:hover{background:rgba(239,68,68,.08)}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-/* ====== Radar ====== */
+/* ====== Toast ====== */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);padding:11px 22px;background:var(--elevated);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .25s}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{border-color:var(--c3)}
+.toast.err{border-color:var(--c5)}
+/* ====== Viz ====== */
 .viz-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}
 @media(max-width:880px){.viz-wrap{grid-template-columns:1fr}}
 .viz-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
@@ -94,7 +109,7 @@ a{color:var(--gold);text-decoration:none}
 .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-size:12px;color:var(--text-s)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:10px;height:3px;border-radius:2px;display:inline-block}
-/* ====== History table ====== */
+/* ====== Table ====== */
 .tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
 thead th{background:var(--surface-2);text-align:left;padding:12px 10px;font-weight:600;color:var(--text-s);font-size:12px;letter-spacing:.05em;border-bottom:1px solid var(--line);position:sticky;top:0}
@@ -103,20 +118,15 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr:hover{background:var(--surface-2)}
 .tag-pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:var(--gold-soft);color:var(--gold);margin-right:4px}
 .empty{padding:40px 20px;text-align:center;color:var(--text-m);font-size:13px}
-/* ====== Toast ====== */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);padding:11px 22px;background:var(--elevated);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:13px;z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.4);transition:transform .25s}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.ok{border-color:var(--c3)}
-.toast.err{border-color:var(--c5)}
-/* ====== Footer ====== */
 footer{padding:30px 0 48px;border-top:1px solid var(--line);text-align:center;color:var(--text-m);font-size:12px}
 footer p+p{margin-top:6px}
-/* ====== Helper ====== */
 .hint{font-size:12px;color:var(--text-m);margin-top:6px;line-height:1.6}
 .hint b{color:var(--text-s);font-weight:600}
-.kv{display:flex;gap:6px;font-size:12px;color:var(--text-s);flex-wrap:wrap}
-.kv b{color:var(--text);font-weight:600}
 .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-s)}
+/* SVG clickable zones */
+.zone{cursor:pointer;transition:fill .12s}
+.zone:hover{fill:rgba(200,164,94,.25)!important}
+.zone-label{font-size:8px;fill:var(--text-m);pointer-events:none;font-family:system-ui}
 </style>
 </head>
 <body>
@@ -126,13 +136,13 @@ footer p+p{margin-top:6px}
     <div class="tag">日建一功 · BODY MAP</div>
     <h1>我的<em>身体变化地图</em></h1>
     <p class="hero-sub">
-      每天记录训练后的疼痛感受与运动表现，<br>
-      看见自己在<em>疼痛</em>与<em>功能</em>两个维度上的真实变化。
+      按训练五个维度记录表现，按疼痛多个维度追踪感受。<br>
+      持续输入，看见自己在<em>训练</em>与<em>疼痛</em>上的真实变化。
     </p>
     <div class="hero-meta">
-      <span>数据维度 <b>12</b></span>
-      <span>训练六维 <b>× 疼痛六维</b></span>
-      <span>本地存储 <b>不上传</b></span>
+      <span>训练五维度 <b>对齐策划方案</b></span>
+      <span>疼痛多维度 <b>IASP 2020</b></span>
+      <span>前后视图 <b>具体关节</b></span>
     </div>
   </div>
 </header>
@@ -153,7 +163,7 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">基本信息</div>
-      <div class="sec-note">记录训练当日的基础信息</div>
+      <div class="sec-note">当日训练的基础信息</div>
     </div>
     <div class="input-card">
       <div class="row">
@@ -163,7 +173,7 @@ footer p+p{margin-top:6px}
         </div>
         <div class="field">
           <label>今日训练内容</label>
-          <input type="text" id="f-workout" placeholder="如：维度一 呼吸与关节活动度 / 维度三 稳定性…">
+          <input type="text" id="f-workout" placeholder="如：维度一 呼吸与关节活动度 / 维度三 神经控制…">
         </div>
       </div>
       <div class="row" style="margin-top:12px">
@@ -182,22 +192,19 @@ footer p+p{margin-top:6px}
       </div>
       <div class="field" style="margin-top:12px">
         <label>今日训练感受 / 备注</label>
-        <textarea id="f-note" placeholder="任何想记下的感受：动作质量、睡眠、情绪、生活事件…"></textarea>
+        <textarea id="f-note" placeholder="动作质量、睡眠、情绪、生活事件…"></textarea>
       </div>
     </div>
   </div>
 
-  <!-- 训练六维度 -->
+  <!-- 训练五维度 -->
   <div class="section">
     <div class="sec-head">
-      <div class="sec-title">训练表现 · 六维度自评</div>
+      <div class="sec-title">训练表现 · 五维度自评</div>
       <div class="sec-note">每项 0-10 分，10 = 最佳</div>
     </div>
     <div class="input-card">
       <div id="train-sliders"></div>
-      <div class="hint">
-        <b>动作质量</b>：动作控制是否稳定、是否出现代偿。<b>敏捷</b>：动作转换的速度与流畅度。<b>力量</b>：当日能输出的力量感。<b>耐力</b>：维持动作质量的能力。<b>柔韧性</b>：关节活动度与肌肉延展感。<b>功率</b>：爆发与加速能力。
-      </div>
     </div>
   </div>
 
@@ -205,7 +212,7 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">疼痛与身体感受 · 多维度</div>
-      <div class="sec-note">没有疼痛也可以跳过部分项</div>
+      <div class="sec-note">依据 IASP 2020 疼痛定义的多维结构</div>
     </div>
 
     <div class="input-card">
@@ -219,69 +226,35 @@ footer p+p{margin-top:6px}
 
     <div class="input-card">
       <h3>疼痛性质与分布</h3>
-      <div class="sub">点击身体区域添加疼痛点，或直接在列表中手动添加</div>
-      <div class="bodymap">
-        <div class="map-svg">
-          <svg viewBox="0 0 200 420" id="body-svg">
-            <!-- 简化人体轮廓 -->
-            <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
-              <!-- 头 -->
-              <circle cx="100" cy="28" r="18"/>
-              <!-- 颈 -->
-              <line x1="92" y1="44" x2="92" y2="56"/>
-              <line x1="108" y1="44" x2="108" y2="56"/>
-              <!-- 肩 -->
-              <line x1="92" y1="56" x2="60" y2="70"/>
-              <line x1="108" y1="56" x2="140" y2="70"/>
-              <!-- 躯干 -->
-              <path d="M60 70 L60 170 L85 180 L100 175 L115 180 L140 170 L140 70 Z"/>
-              <!-- 手臂 -->
-              <path d="M60 70 L40 140 L32 200"/>
-              <path d="M140 70 L160 140 L168 200"/>
-              <!-- 腿 -->
-              <path d="M85 180 L78 280 L74 370"/>
-              <path d="M115 180 L122 280 L126 370"/>
-              <!-- 脚 -->
-              <line x1="74" y1="370" x2="62" y2="400"/>
-              <line x1="126" y1="370" x2="138" y2="400"/>
-            </g>
-            <!-- 可点击区域（透明热区） -->
-            <g id="body-zones" fill="rgba(200,164,94,0)" stroke="none" style="cursor:pointer">
-              <rect data-region="头部" x="82" y="10" width="36" height="36"/>
-              <rect data-region="颈部" x="86" y="44" width="28" height="14"/>
-              <rect data-region="左肩" x="40" y="62" width="24" height="20"/>
-              <rect data-region="右肩" x="136" y="62" width="24" height="20"/>
-              <rect data-region="上背" x="70" y="80" width="60" height="28"/>
-              <rect data-region="下背/腰" x="70" y="120" width="60" height="36"/>
-              <rect data-region="胸部" x="72" y="80" width="56" height="28" transform="translate(0,40)"/>
-              <rect data-region="左肘" x="28" y="130" width="20" height="20"/>
-              <rect data-region="右肘" x="152" y="130" width="20" height="20"/>
-              <rect data-region="左腕/手" x="20" y="190" width="24" height="24"/>
-              <rect data-region="右腕/手" x="156" y="190" width="24" height="24"/>
-              <rect data-region="髋/臀" x="66" y="170" width="68" height="24"/>
-              <rect data-region="左膝" x="68" y="260" width="22" height="24"/>
-              <rect data-region="右膝" x="110" y="260" width="22" height="24"/>
-              <rect data-region="左踝/足" x="58" y="360" width="24" height="30"/>
-              <rect data-region="右踝/足" x="118" y="360" width="24" height="30"/>
-            </g>
-            <g id="pain-markers"></g>
-          </svg>
-          <div class="hint" style="margin-top:8px">点击身体区域即可添加该部位的疼痛记录</div>
+      <div class="sub">点击身体具体关节或脊柱节段，添加疼痛点；可切换前视图 / 后视图</div>
+      <div class="map-layout">
+        <div class="map-view">
+          <div class="map-toggle">
+            <button class="toggle-btn active" data-view="front">前视图</button>
+            <button class="toggle-btn" data-view="back">后视图</button>
+          </div>
+          <div class="map-svg" id="map-front"></div>
+          <div class="map-svg" id="map-back" style="display:none"></div>
+          <div class="map-legend">
+            <span><i style="background:rgba(239,68,68,.35)"></i>轻度 1-3</span>
+            <span><i style="background:rgba(245,158,11,.7)"></i>中度 4-6</span>
+            <span><i style="background:rgba(239,68,68,.95)"></i>重度 7-10</span>
+            <span style="color:var(--gold)">点击区域添加 / 在右侧查看已添加</span>
+          </div>
         </div>
         <div class="pain-list" id="pain-list">
           <div style="color:var(--text-m);font-size:13px;text-align:center;padding:20px 0">暂无疼痛记录</div>
         </div>
       </div>
-      <button class="add-region" id="add-pain-manual" style="margin-top:10px">+ 手动添加身体部位</button>
+      <button class="add-btn" id="add-pain-manual">+ 手动添加未列出的部位</button>
     </div>
 
     <div class="input-card">
       <h3>疼痛的多维感受</h3>
-      <div class="sub">对每个疼痛点从六个维度打分，构建你的疼痛画像</div>
-      <div class="hint" style="margin-bottom:12px">
-        依据 IASP 2020 疼痛定义的多维结构：疼痛是感觉+情绪+认知的综合体验。参考 NRS（强度）、VAS（感官）、ODI（功能）、PCS（灾难化）、TSK（恐动）。
+      <div class="sub">在右侧疼痛列表里逐项填写；此处不重复</div>
+      <div class="hint">
+        六个维度：<b>强度（NRS）</b>· <b>感官尖锐度</b>（灼烧/刺痛/酸痛）· <b>情绪不愉悦度</b>（疼痛带来的负面情绪）· <b>灾难化思维</b>（"它会有多糟"）· <b>恐惧回避</b>（对运动的恐惧）· <b>生活干扰度</b>（对日常活动的影响）。
       </div>
-      <div id="pain-dim-sliders"></div>
     </div>
 
     <div class="input-card">
@@ -328,15 +301,14 @@ footer p+p{margin-top:6px}
     </div>
     <div class="viz-wrap">
       <div class="viz-card">
-        <h4>全身热区</h4>
+        <h4>全身热区（前视图 / 后视图）</h4>
         <div class="sub">颜色越深 = 该部位累计疼痛负担越高</div>
-        <div id="heatmap-svg" style="margin-top:10px"></div>
-        <div class="legend" style="margin-top:12px">
-          <span><i style="background:#2a2a2a"></i>无痛</span>
-          <span><i style="background:#C8A45E80"></i>轻度</span>
-          <span><i style="background:#F59E0B"></i>中度</span>
-          <span><i style="background:#EF4444"></i>重度</span>
+        <div class="map-toggle" style="margin-top:10px">
+          <button class="toggle-btn active" data-view="front">前视图</button>
+          <button class="toggle-btn" data-view="back">后视图</button>
         </div>
+        <div id="heatmap-front"></div>
+        <div id="heatmap-back" style="display:none"></div>
       </div>
       <div class="viz-card">
         <h4>各部位负担排行</h4>
@@ -351,22 +323,15 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">训练能力雷达</div>
-      <div class="sec-note">对比最新与基线</div>
+      <div class="sec-note">对比首次与最近一次记录</div>
     </div>
-    <div class="viz-wrap">
-      <div class="viz-card">
-        <h4>训练六维雷达图</h4>
-        <div class="sub">叠加显示首次记录 / 最近一次</div>
-        <div id="radar-train"></div>
-        <div class="legend">
-          <span><i style="background:#55504A"></i>首次记录</span>
-          <span><i style="background:#C8A45E"></i>最近一次</span>
-        </div>
-      </div>
-      <div class="viz-card">
-        <h4>训练 vs 疼痛 关系</h4>
-        <div class="sub">过去 30 天训练总分与总疼痛强度的散点</div>
-        <div id="scatter-tp"></div>
+    <div class="viz-card">
+      <h4>训练五维度雷达图</h4>
+      <div class="sub">叠加显示首次记录 / 最近一次</div>
+      <div id="radar-train"></div>
+      <div class="legend">
+        <span><i style="background:#55504A"></i>首次记录</span>
+        <span><i style="background:#C8A45E"></i>最近一次</span>
       </div>
     </div>
   </div>
@@ -378,7 +343,7 @@ footer p+p{margin-top:6px}
 <div class="container">
   <div class="section">
     <div class="sec-head">
-      <div class="sec-title">训练六维度趋势</div>
+      <div class="sec-title">训练五维度趋势</div>
       <div class="sec-note">时间序列折线</div>
     </div>
     <div class="viz-card">
@@ -421,13 +386,13 @@ footer p+p{margin-top:6px}
   <div class="section">
     <div class="sec-head">
       <div class="sec-title">历史记录</div>
-      <div class="sec-note">按时间倒序 · 点击行可展开详情</div>
+      <div class="sec-note">按时间倒序 · 点击行查看详情</div>
     </div>
     <div class="tbl-wrap">
       <table id="history-table">
         <thead><tr>
           <th>日期</th><th>训练</th><th>RPE</th>
-          <th>训练六维均值</th><th>疼痛 NRS</th><th>睡眠</th><th>情绪</th><th>功能</th><th>恐动</th>
+          <th>五维均值</th><th>疼痛 NRS</th><th>睡眠</th><th>情绪</th><th>功能</th><th>恐动</th>
           <th></th>
         </tr></thead>
         <tbody id="history-body"></tbody>
@@ -442,29 +407,28 @@ footer p+p{margin-top:6px}
 <footer>
   <div class="container">
     <p>日建一功 · 身体变化地图 · 数据仅保存在本浏览器</p>
-    <p>疼痛评估参考 IASP 2020 多维定义；训练维度参考 3HFIT 教培框架</p>
+    <p>训练五维度参考 3HFIT 教培策划方案；疼痛评估参考 IASP 2020 多维定义</p>
   </div>
 </footer>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ========== 常量 ========== */
+/* ========== 训练五维度（严格对齐策划方案） ========== */
 const TRAINDIMS = [
-  {k:'quality', name:'动作质量', tip:'控制稳定、无代偿'},
-  {k:'agility', name:'敏捷',     tip:'动作转换的速度与流畅'},
-  {k:'strength',name:'力量',     tip:'当日可输出的力量感'},
-  {k:'endurance',name:'耐力',    tip:'维持动作质量的能力'},
-  {k:'flexibility',name:'柔韧性',tip:'关节活动度与肌肉延展'},
-  {k:'power',   name:'功率',     tip:'爆发与加速能力'},
+  {k:'breathing_rom',  name:'呼吸与关节活动度', tip:'膈肌功能、腹内压、关节基本活动能力', color:'#8B5CF6'},
+  {k:'multi_planar',   name:'多面向运动',       tip:'额状面、水平面、矢状面三维动作能力', color:'#3B82F6'},
+  {k:'neuromotor',     name:'神经控制与动作意识', tip:'动作本身的控制与身体感知', color:'#10B981'},
+  {k:'integration',    name:'区域整合',         tip:'髋-腰-胸联动、肩带-核心协同', color:'#F59E0B'},
+  {k:'high_function',  name:'高功能动作',       tip:'整合前四维度，进入复合动作', color:'#EF4444'},
 ];
-const TRAINDIM_COLORS = ['#8B5CF6','#3B82F6','#10B981','#F59E0B','#EF4444','#EC4899'];
 
+/* ========== 疼痛六维度（IASP 2020） ========== */
 const PAINDIMS = [
   {k:'intensity',  name:'强度（NRS）',     tip:'0-10 疼痛强度'},
-  {k:'sensory',    name:'感官尖锐度',       tip:'灼烧/刺痛/酸痛等感官强度'},
+  {k:'sensory',    name:'感官尖锐度',       tip:'灼烧/刺痛/酸痛等感官特征'},
   {k:'unpleasant', name:'情绪不愉悦度',     tip:'疼痛带来的负面情绪'},
-  {k:'catastroph', name:'灾难化思维',       tip:"它会有多糟 / 我能否扛住"},
+  {k:'catastroph', name:'灾难化思维',       tip:'它会有多糟 / 我能否扛住'},
   {k:'fearAvoid',  name:'恐惧回避',         tip:'对运动的恐惧感'},
   {k:'interference',name:'生活干扰度',      tip:'对日常活动的干扰'},
 ];
@@ -477,56 +441,154 @@ const IMPACTS = [
   {k:'fear',name:'恐动'},
 ];
 
-const REGION_COORDS = {
-  '头部':[100,28],'颈部':[100,50],'左肩':[52,72],'右肩':[148,72],
-  '上背':[100,94],'胸部':[100,134],'下背/腰':[100,148],
-  '左肘':[38,140],'右肘':[162,140],'左腕/手':[32,202],'右腕/手':[168,202],
-  '髋/臀':[100,182],'左膝':[79,272],'右膝':[121,272],
-  '左踝/足':[70,380],'右踝/足':[130,380],
-};
+/* ========== 身体区域（前视图 + 后视图，具体关节） ========== */
+const FRONT_ZONES = [
+  // 头部
+  {region:'头部',           x:100, y:28,  r:22, shape:'circle'},
+  // 颈前
+  {region:'颈前/喉部',      x:100, y:62,  r:14, shape:'circle'},
+  // 肩前
+  {region:'肩关节前侧（盂肱关节前部）', x:72, y:82, r:16, shape:'circle'},
+  {region:'肩关节前侧（盂肱关节前部）', x:128, y:82, r:16, shape:'circle'},
+  // 锁骨
+  {region:'锁骨',           x:100, y:78,  r:18, shape:'circle'},
+  // 胸椎前
+  {region:'胸骨/肋软骨',    x:100, y:110, r:22, shape:'circle'},
+  // 上肢
+  {region:'右上臂（肱二头肌区）', x:48, y:145, r:14, shape:'circle'},
+  {region:'左上臂（肱二头肌区）', x:152, y:145, r:14, shape:'circle'},
+  {region:'右肘前（肘窝）', x:40, y:188, r:12, shape:'circle'},
+  {region:'左肘前（肘窝）', x:160, y:188, r:12, shape:'circle'},
+  {region:'右前臂',         x:34, y:228, r:12, shape:'circle'},
+  {region:'左前臂',         x:166, y:228, r:12, shape:'circle'},
+  {region:'右腕/手',        x:28, y:275, r:14, shape:'circle'},
+  {region:'左腕/手',        x:172, y:275, r:14, shape:'circle'},
+  // 腹部
+  {region:'腹部',           x:100, y:168, r:26, shape:'circle'},
+  // 髋前
+  {region:'右髋关节前侧（髂股）', x:82, y:210, r:18, shape:'circle'},
+  {region:'左髋关节前侧（髂股）', x:118, y:210, r:18, shape:'circle'},
+  // 大腿前
+  {region:'右大腿前侧（股四头肌）', x:84, y:268, r:18, shape:'circle'},
+  {region:'左大腿前侧（股四头肌）', x:116, y:268, r:18, shape:'circle'},
+  // 膝前
+  {region:'右膝前（髌股关节）', x:84, y:322, r:15, shape:'circle'},
+  {region:'左膝前（髌股关节）', x:116, y:322, r:15, shape:'circle'},
+  // 小腿前
+  {region:'右小腿前侧（胫骨前肌）', x:84, y:370, r:14, shape:'circle'},
+  {region:'左小腿前侧（胫骨前肌）', x:116, y:370, r:14, shape:'circle'},
+  // 踝前
+  {region:'右踝前（距小腿关节前）', x:84, y:412, r:12, shape:'circle'},
+  {region:'左踝前（距小腿关节前）', x:116, y:412, r:12, shape:'circle'},
+  // 足
+  {region:'右足背',         x:78, y:432, r:10, shape:'circle'},
+  {region:'左足背',         x:122, y:432, r:10, shape:'circle'},
+];
 
-const STORAGE_KEY = 'rijian_yigong_bodymap_v1';
+const BACK_ZONES = [
+  // 头后
+  {region:'枕后/后脑',       x:100, y:28,  r:22, shape:'circle'},
+  // 颈后（颈椎节段）
+  {region:'颈椎（C1-C7）',   x:100, y:66,  r:16, shape:'circle'},
+  // 肩后
+  {region:'右肩胛骨',        x:72, y:100, r:22, shape:'circle'},
+  {region:'左肩胛骨',        x:128, y:100, r:22, shape:'circle'},
+  // 肩关节后
+  {region:'右肩关节后侧（盂肱后部）', x:52, y:88, r:14, shape:'circle'},
+  {region:'左肩关节后侧（盂肱后部）', x:148, y:88, r:14, shape:'circle'},
+  // 上肢
+  {region:'右上臂（肱三头肌区）', x:46, y:140, r:14, shape:'circle'},
+  {region:'左上臂（肱三头肌区）', x:154, y:140, r:14, shape:'circle'},
+  {region:'右肘后（鹰嘴）',  x:40, y:180, r:12, shape:'circle'},
+  {region:'左肘后（鹰嘴）',  x:160, y:180, r:12, shape:'circle'},
+  {region:'右前臂后侧',      x:34, y:220, r:12, shape:'circle'},
+  {region:'左前臂后侧',      x:166, y:220, r:12, shape:'circle'},
+  {region:'右腕/手背',       x:28, y:265, r:14, shape:'circle'},
+  {region:'左腕/手背',       x:172, y:265, r:14, shape:'circle'},
+  // 脊柱节段
+  {region:'胸椎（T1-T12）',  x:100, y:125, r:16, shape:'circle'},
+  {region:'胸腰交界（T12-L1）', x:100, y:160, r:15, shape:'circle'},
+  {region:'腰椎（L1-L5）',   x:100, y:190, r:17, shape:'circle'},
+  // 腰两侧
+  {region:'右腰方肌',        x:76, y:195, r:14, shape:'circle'},
+  {region:'左腰方肌',        x:124, y:195, r:14, shape:'circle'},
+  // 骶髂
+  {region:'骶髂关节',        x:100, y:218, r:18, shape:'circle'},
+  // 臀
+  {region:'右臀（臀大肌）',  x:78, y:242, r:20, shape:'circle'},
+  {region:'左臀（臀大肌）',  x:122, y:242, r:20, shape:'circle'},
+  // 髋后
+  {region:'右髋关节后侧',    x:62, y:230, r:13, shape:'circle'},
+  {region:'左髋关节后侧',    x:138, y:230, r:13, shape:'circle'},
+  // 大腿后
+  {region:'右大腿后侧（腘绳肌）', x:82, y:288, r:18, shape:'circle'},
+  {region:'左大腿后侧（腘绳肌）', x:118, y:288, r:18, shape:'circle'},
+  // 膝后
+  {region:'右膝后（腘窝）',  x:84, y:332, r:14, shape:'circle'},
+  {region:'左膝后（腘窝）',  x:116, y:332, r:14, shape:'circle'},
+  // 小腿后
+  {region:'右小腿后侧（腓肠肌）', x:84, y:375, r:15, shape:'circle'},
+  {region:'左小腿后侧（腓肠肌）', x:116, y:375, r:15, shape:'circle'},
+  // 跟腱
+  {region:'右跟腱',          x:84, y:410, r:10, shape:'circle'},
+  {region:'左跟腱',          x:116, y:410, r:10, shape:'circle'},
+  // 足底
+  {region:'右足底',          x:78, y:432, r:10, shape:'circle'},
+  {region:'左足底',          x:122, y:432, r:10, shape:'circle'},
+];
+
+const STORAGE_KEY = 'rijian_yigong_bodymap_v2';
 
 /* ========== 状态 ========== */
 let records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let currentPainPoints = []; // 当前表单里的疼痛点
-let selectedPainIdx = null;
+let currentPainPoints = [];
 
 /* ========== 初始化 ========== */
 document.addEventListener('DOMContentLoaded', () => {
-  // Tabs
   document.querySelectorAll('.tab').forEach(t => {
     t.addEventListener('click', () => switchTab(t.dataset.tab));
   });
-  // 默认日期
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    b.addEventListener('click', () => toggleView(b.dataset.view));
+  });
   document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
-  // 训练 slider
+
   buildTrainSliders();
-  // 疼痛维度 slider（针对已选疼痛点）
-  renderPainDimArea();
-  // 绑定 body map 点击
-  document.querySelectorAll('#body-zones [data-region]').forEach(el => {
-    el.addEventListener('click', () => addPainPoint(el.dataset.region));
-  });
-  document.getElementById('add-pain-manual').addEventListener('click', () => {
-    const name = prompt('请输入身体部位名称（如：左肩前侧）');
-    if (name) addPainPoint(name.trim());
-  });
-  // 总疼痛 NRS
   bindSlider('f-pain-int','v-pain-int');
   bindSlider('f-rpe','v-rpe');
   bindSlider('f-sleep','v-sleep');
   bindSlider('f-mood','v-mood');
   bindSlider('f-func','v-func');
   bindSlider('f-fear','v-fear');
-  // 按钮
+
+  renderBodyMap('front');
+  renderBodyMap('back');
+
+  document.getElementById('add-pain-manual').addEventListener('click', () => {
+    const name = prompt('请输入身体部位（如：右肩盂肱关节前侧）');
+    if (name && name.trim()) addPainPoint(name.trim());
+  });
+
   document.getElementById('btn-save').addEventListener('click', saveRecord);
   document.getElementById('btn-clear').addEventListener('click', clearForm);
   document.getElementById('btn-export').addEventListener('click', exportData);
   document.getElementById('btn-wipe').addEventListener('click', wipeData);
-  // 渲染
+
   renderAll();
 });
+
+/* ========== View toggle ========== */
+function toggleView(view){
+  document.querySelectorAll('.toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === view);
+  });
+  document.getElementById('map-front').style.display = view==='front' ? 'block' : 'none';
+  document.getElementById('map-back').style.display = view==='back' ? 'block' : 'none';
+  const hf = document.getElementById('heatmap-front');
+  const hb = document.getElementById('heatmap-back');
+  if (hf) hf.style.display = view==='front' ? 'block' : 'none';
+  if (hb) hb.style.display = view==='back' ? 'block' : 'none';
+}
 
 /* ========== Tabs ========== */
 function switchTab(id){
@@ -537,17 +599,16 @@ function switchTab(id){
   if (id==='history') renderHistory();
 }
 
-/* ========== 训练 sliders ========== */
+/* ========== 训练 slider ========== */
 function buildTrainSliders(){
   const host = document.getElementById('train-sliders');
   host.innerHTML = '';
   TRAINDIMS.forEach((d,i) => {
-    const color = TRAINDIM_COLORS[i];
     const row = document.createElement('div');
     row.className = 'dim-block';
     row.innerHTML = `
       <div class="dim-head">
-        <div class="dim-title"><span class="dim-dot" style="background:${color}"></span>${d.name}</div>
+        <div class="dim-title"><span class="dim-dot" style="background:${d.color}"></span>${d.name}</div>
         <span class="badge" id="tv-${d.k}">5</span>
       </div>
       <div class="slider">
@@ -555,6 +616,7 @@ function buildTrainSliders(){
         <span class="val" id="tval-${d.k}">5</span>
       </div>
       <div class="slider-label"><span>0 差</span><span>10 优</span></div>
+      <div class="dim-tip">${d.tip}</div>
     `;
     host.appendChild(row);
     const input = row.querySelector('input');
@@ -565,25 +627,93 @@ function buildTrainSliders(){
   });
 }
 
-/* ========== Pain points ========== */
+/* ========== 身体地图渲染 ========== */
+function renderBodyMap(view){
+  const zones = view==='front' ? FRONT_ZONES : BACK_ZONES;
+  const host = document.getElementById('map-'+view);
+  // 人体轮廓
+  let svg;
+  if (view==='front'){
+    svg = `
+      <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="100" cy="28" r="18"/>
+        <line x1="92" y1="44" x2="92" y2="56"/><line x1="108" y1="44" x2="108" y2="56"/>
+        <line x1="88" y1="56" x2="56" y2="72"/><line x1="112" y1="56" x2="144" y2="72"/>
+        <path d="M56 72 Q50 120 42 170 L36 230 L28 275"/>
+        <path d="M144 72 Q150 120 158 170 L164 230 L172 275"/>
+        <path d="M70 80 L66 175 L80 215 L84 330 L84 415 L78 438"/>
+        <path d="M130 80 L134 175 L120 215 L116 330 L116 415 L122 438"/>
+      </g>
+    `;
+  } else {
+    svg = `
+      <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+        <circle cx="100" cy="28" r="18"/>
+        <line x1="92" y1="44" x2="92" y2="56"/><line x1="108" y1="44" x2="108" y2="56"/>
+        <line x1="88" y1="56" x2="56" y2="72"/><line x1="112" y1="56" x2="144" y2="72"/>
+        <path d="M56 72 Q50 120 42 170 L36 230 L28 265"/>
+        <path d="M144 72 Q150 120 158 170 L164 230 L172 265"/>
+        <path d="M70 80 L66 175 L80 218 L84 335 L84 410 L78 432"/>
+        <path d="M130 80 L134 175 L120 218 L116 335 L116 410 L122 432"/>
+        <!-- 肩胛骨提示 -->
+        <path d="M66 88 Q60 110 70 120" stroke="#2a2a2a"/>
+        <path d="M134 88 Q140 110 130 120" stroke="#2a2a2a"/>
+      </g>
+    `;
+  }
+
+  // 可点击区域
+  zones.forEach(z => {
+    svg += `<circle class="zone" data-region="${escapeHtml(z.region)}" data-view="${view}" cx="${z.x}" cy="${z.y}" r="${z.r}" fill="rgba(200,164,94,0)" stroke="none"/>`;
+    // 小标签
+    svg += `<text class="zone-label" x="${z.x}" y="${z.y + z.r + 10}" text-anchor="middle">${shortLabel(z.region)}</text>`;
+  });
+
+  // 当前疼痛点标记（覆盖在上面）
+  let markers = '';
+  currentPainPoints.forEach(p => {
+    const z = zones.find(zz => zz.region === p.region);
+    if (!z) return;
+    const color = p.intensity<=3 ? 'rgba(239,68,68,.35)' :
+                  p.intensity<=6 ? 'rgba(245,158,11,.7)' : 'rgba(239,68,68,.95)';
+    const r = 4 + p.intensity*0.8;
+    markers += `<circle cx="${z.x}" cy="${z.y}" r="${r}" fill="${color}" stroke="#EF4444" stroke-width="1" pointer-events="none">
+      <title>${escapeHtml(p.region)} · NRS ${p.intensity}</title></circle>`;
+  });
+
+  host.innerHTML = `<svg viewBox="0 0 200 450" style="width:100%;max-width:280px;display:block;margin:0 auto">${svg}${markers}</svg>`;
+  // 绑定点击
+  host.querySelectorAll('.zone').forEach(el => {
+    el.addEventListener('click', () => {
+      addPainPoint(el.dataset.region);
+    });
+  });
+}
+
+function shortLabel(s){
+  // 简化标签：去掉括号内说明
+  return s.replace(/（[^）]+）/g,'').slice(0,8);
+}
+
 function addPainPoint(region){
+  // 避免重复添加
+  if (currentPainPoints.some(p => p.region === region)) {
+    toast('该部位已添加', 'err');
+    return;
+  }
   currentPainPoints.push({region, intensity:3, sensory:3, unpleasant:3, catastroph:2, fearAvoid:2, interference:3});
   renderPainList();
-  renderPainMarkers();
-  renderPainDimArea();
+  renderBodyMap('front');
+  renderBodyMap('back');
 }
 function removePainPoint(i){
   currentPainPoints.splice(i,1);
-  selectedPainIdx = null;
   renderPainList();
-  renderPainMarkers();
-  renderPainDimArea();
+  renderBodyMap('front');
+  renderBodyMap('back');
 }
-function selectPainPoint(i){
-  selectedPainIdx = i;
-  renderPainList();
-  renderPainDimArea();
-}
+window.removePainPoint = removePainPoint;
+
 function renderPainList(){
   const host = document.getElementById('pain-list');
   if (currentPainPoints.length === 0){
@@ -591,12 +721,9 @@ function renderPainList(){
     return;
   }
   host.innerHTML = currentPainPoints.map((p,i) => `
-    <div class="pain-item" style="${selectedPainIdx===i?'border-color:var(--gold)':''}">
-      <div class="region">
-        <span>
-          <input type="checkbox" ${selectedPainIdx===i?'checked':''} style="margin-right:6px;accent-color:var(--gold)">
-          ${escapeHtml(p.region)}
-        </span>
+    <div class="pain-item">
+      <div class="pain-head">
+        <span class="region">${escapeHtml(p.region)}</span>
         <button onclick="removePainPoint(${i})" title="删除">×</button>
       </div>
       <div class="mini-row">
@@ -609,36 +736,11 @@ function renderPainList(){
       </div>
     </div>
   `).join('');
-  host.querySelectorAll('.pain-item').forEach((el,i) => {
-    el.addEventListener('click', (e) => {
-      if (e.target.tagName==='INPUT' || e.target.tagName==='BUTTON') return;
-      selectPainPoint(i);
-    });
-  });
 }
 window.updatePain = function(i,k,v){
   currentPainPoints[i][k] = Math.max(0, Math.min(10, +v||0));
 };
-function renderPainMarkers(){
-  const g = document.getElementById('pain-markers');
-  g.innerHTML = '';
-  currentPainPoints.forEach(p => {
-    const c = REGION_COORDS[p.region];
-    if (!c) return;
-    const r = 4 + p.intensity*0.8;
-    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('cx', c[0]); circle.setAttribute('cy', c[1]);
-    circle.setAttribute('r', r);
-    circle.setAttribute('fill', `rgba(239,68,68,${0.3 + p.intensity*0.07})`);
-    circle.setAttribute('stroke', '#EF4444'); circle.setAttribute('stroke-width','1.2');
-    g.appendChild(circle);
-  });
-}
-function renderPainDimArea(){
-  // 这个区域已经整合到每个 pain-item 内，这里仅做选中态的展示增强（可选）
-}
 
-/* ========== Slider 绑定 ========== */
 function bindSlider(inputId, valId){
   const i = document.getElementById(inputId); const v = document.getElementById(valId);
   if (!i) return;
@@ -670,7 +772,6 @@ function saveRecord(){
     fear: +document.getElementById('f-fear').value,
     createdAt: Date.now(),
   };
-  // 同一天覆盖
   const existIdx = records.findIndex(r => r.date === date);
   if (existIdx >= 0) records[existIdx] = rec; else records.push(rec);
   records.sort((a,b) => a.date.localeCompare(b.date));
@@ -694,8 +795,10 @@ function clearForm(){
     document.getElementById('tval-'+d.k).textContent = '5';
     document.getElementById('tv-'+d.k).textContent = '5';
   });
-  currentPainPoints = []; selectedPainIdx = null;
-  renderPainList(); renderPainMarkers();
+  currentPainPoints = [];
+  renderPainList();
+  renderBodyMap('front');
+  renderBodyMap('back');
 }
 function exportData(){
   const blob = new Blob([JSON.stringify(records,null,2)], {type:'application/json'});
@@ -712,54 +815,63 @@ function wipeData(){
 }
 function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); }
 
-/* ========== 渲染：地图 ========== */
+/* ========== 渲染：地图页 ========== */
 function renderAll(){ renderMap(); renderTrend(); renderHistory(); }
 
 function renderMap(){
-  renderHeatmap();
+  renderHeatmap('front');
+  renderHeatmap('back');
   renderRegionRank();
   renderRadar();
-  renderScatter();
 }
-function renderHeatmap(){
-  const host = document.getElementById('heatmap-svg');
+function renderHeatmap(view){
+  const zones = view==='front' ? FRONT_ZONES : BACK_ZONES;
+  const host = document.getElementById('heatmap-'+view);
   const recent = records.filter(r => daysDiff(r.date) <= 30);
-  const load = {}; // region -> avg intensity weighted by days
-  recent.forEach(r => {
-    r.painPoints.forEach(p => {
-      load[p.region] = (load[p.region]||0) + p.intensity;
-    });
-  });
-  // 归一化
+  const load = {};
+  recent.forEach(r => r.painPoints.forEach(p => {
+    load[p.region] = (load[p.region]||0) + p.intensity;
+  }));
   const maxLoad = Math.max(1, ...Object.values(load));
-  let svg = `<svg viewBox="0 0 200 420" style="width:100%;max-width:260px;display:block;margin:0 auto">
+  let body = view==='front' ? `
     <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
       <circle cx="100" cy="28" r="18"/>
       <line x1="92" y1="44" x2="92" y2="56"/><line x1="108" y1="44" x2="108" y2="56"/>
-      <line x1="92" y1="56" x2="60" y2="70"/><line x1="108" y1="56" x2="140" y2="70"/>
-      <path d="M60 70 L60 170 L85 180 L100 175 L115 180 L140 170 L140 70 Z"/>
-      <path d="M60 70 L40 140 L32 200"/><path d="M140 70 L160 140 L168 200"/>
-      <path d="M85 180 L78 280 L74 370"/><path d="M115 180 L122 280 L126 370"/>
-      <line x1="74" y1="370" x2="62" y2="400"/><line x1="126" y1="370" x2="138" y2="400"/>
+      <line x1="88" y1="56" x2="56" y2="72"/><line x1="112" y1="56" x2="144" y2="72"/>
+      <path d="M56 72 Q50 120 42 170 L36 230 L28 275"/>
+      <path d="M144 72 Q150 120 158 170 L164 230 L172 275"/>
+      <path d="M70 80 L66 175 L80 215 L84 330 L84 415 L78 438"/>
+      <path d="M130 80 L134 175 L120 215 L116 330 L116 415 L122 438"/>
+    </g>` : `
+    <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
+      <circle cx="100" cy="28" r="18"/>
+      <line x1="92" y1="44" x2="92" y2="56"/><line x1="108" y1="44" x2="108" y2="56"/>
+      <line x1="88" y1="56" x2="56" y2="72"/><line x1="112" y1="56" x2="144" y2="72"/>
+      <path d="M56 72 Q50 120 42 170 L36 230 L28 265"/>
+      <path d="M144 72 Q150 120 158 170 L164 230 L172 265"/>
+      <path d="M70 80 L66 175 L80 218 L84 335 L84 410 L78 432"/>
+      <path d="M130 80 L134 175 L120 218 L116 335 L116 410 L122 432"/>
+      <path d="M66 88 Q60 110 70 120" stroke="#2a2a2a"/>
+      <path d="M134 88 Q140 110 130 120" stroke="#2a2a2a"/>
     </g>`;
-  Object.entries(REGION_COORDS).forEach(([region,c]) => {
-    const v = load[region]||0;
+  zones.forEach(z => {
+    const v = load[z.region]||0;
     const t = v/maxLoad;
-    const color = t===0 ? 'rgba(42,42,42,0.4)' : heatColor(t);
-    svg += `<circle cx="${c[0]}" cy="${c[1]}" r="${6+t*8}" fill="${color}" stroke="${t>0?'#EF4444':'none'}" stroke-width="0.8">
-      <title>${region}: 累计 ${v.toFixed(1)}</title></circle>`;
+    const color = t===0 ? 'rgba(42,42,42,0.3)' : heatColor(t);
+    const r = z.r*0.6 + t*z.r*0.6;
+    body += `<circle cx="${z.x}" cy="${z.y}" r="${r}" fill="${color}" stroke="${t>0?'#EF4444':'none'}" stroke-width="0.8">
+      <title>${z.region}: 累计 ${v.toFixed(1)}</title></circle>`;
+    body += `<text class="zone-label" x="${z.x}" y="${z.y + z.r + 10}" text-anchor="middle">${shortLabel(z.region)}</text>`;
   });
-  svg += '</svg>';
-  host.innerHTML = svg;
+  host.innerHTML = `<svg viewBox="0 0 200 450" style="width:100%;max-width:280px;display:block;margin:0 auto">${body}</svg>`;
 }
 function heatColor(t){
-  // 0 -> 金色, 0.5 -> 橙, 1 -> 红
   if (t < 0.5){
     const k = t/0.5;
-    return `rgba(${Math.round(200+(245-200)*k)},${Math.round(164+(158-164)*k)},${Math.round(94+(11-94)*k)},0.75)`;
+    return `rgba(${Math.round(200+(245-200)*k)},${Math.round(164+(158-164)*k)},${Math.round(94+(11-94)*k)},0.8)`;
   }
   const k = (t-0.5)/0.5;
-  return `rgba(${Math.round(245+(239-245)*k)},${Math.round(158+(68-158)*k)},${Math.round(11+(68-11)*k)},0.85)`;
+  return `rgba(${Math.round(245+(239-245)*k)},${Math.round(158+(68-158)*k)},${Math.round(11+(68-11)*k)},0.9)`;
 }
 function renderRegionRank(){
   const host = document.getElementById('region-rank');
@@ -780,7 +892,7 @@ function renderRegionRank(){
   const maxLoad = arr[0].load;
   host.innerHTML = arr.map(a => `
     <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;flex-wrap:wrap;gap:4px">
         <span>${escapeHtml(a.region)}</span>
         <span style="color:var(--text-s)">${a.load.toFixed(1)} · ${a.days} 天 · 均 ${a.avg.toFixed(1)}</span>
       </div>
@@ -803,7 +915,6 @@ function renderRadar(){
     return [cx + r*Math.cos(a), cy + r*Math.sin(a)];
   };
   let svg = `<svg viewBox="0 0 ${size} ${size}" style="width:100%;max-width:${size}px;display:block;margin:0 auto">`;
-  // grid
   for (let k=1;k<=5;k++){
     const r = k/5*R;
     let d='';
@@ -814,16 +925,15 @@ function renderRadar(){
     d += 'Z';
     svg += `<path d="${d}" fill="none" stroke="#2a2a2a" stroke-width="1"/>`;
   }
-  // axes + labels
   for (let i=0;i<n;i++){
     const a = angle(i);
     const x1 = cx+R*Math.cos(a), y1 = cy+R*Math.sin(a);
     svg += `<line x1="${cx}" y1="${cy}" x2="${x1}" y2="${y1}" stroke="#2a2a2a"/>`;
-    const lx = cx + (R+20)*Math.cos(a);
-    const ly = cy + (R+20)*Math.sin(a);
-    svg += `<text x="${lx}" y="${ly}" fill="#8A8478" font-size="11" text-anchor="middle" dominant-baseline="middle">${TRAINDIMS[i].name}</text>`;
+    const lx = cx + (R+30)*Math.cos(a);
+    const ly = cy + (R+30)*Math.sin(a);
+    const name = TRAINDIMS[i].name.length > 6 ? TRAINDIMS[i].name.slice(0,6)+'…' : TRAINDIMS[i].name;
+    svg += `<text x="${lx}" y="${ly}" fill="#8A8478" font-size="11" text-anchor="middle" dominant-baseline="middle">${name}</text>`;
   }
-  // polygons
   const poly = (vals, color, dash) => {
     let d = '';
     vals.forEach((v,i)=>{ const [x,y]=point(i,v); d+=(i?'L':'M')+x+','+y; });
@@ -832,7 +942,6 @@ function renderRadar(){
   };
   svg += poly(TRAINDIMS.map(d=>first[d.k]), '#55504A', true);
   svg += poly(TRAINDIMS.map(d=>last[d.k]), '#C8A45E', false);
-  // points
   TRAINDIMS.forEach((d,i) => {
     const [x,y] = point(i, last[d.k]);
     svg += `<circle cx="${x}" cy="${y}" r="3" fill="#C8A45E"/>`;
@@ -840,44 +949,17 @@ function renderRadar(){
   svg += '</svg>';
   host.innerHTML = svg;
 }
-function renderScatter(){
-  const host = document.getElementById('scatter-tp');
-  const recent = records.filter(r => daysDiff(r.date) <= 30);
-  if (recent.length < 2){ host.innerHTML = '<div class="empty">至少需要 2 条记录（近 30 天）</div>'; return; }
-  const W=420,H=240,pad={l:36,r:16,t:16,b:28};
-  const xs = recent.map(r => trainMean(r.train));
-  const ys = recent.map(r => r.painOverall);
-  const xMax=10, yMax=10;
-  const x = v => pad.l + v/xMax*(W-pad.l-pad.r);
-  const y = v => H-pad.b - v/yMax*(H-pad.t-pad.b);
-  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">`;
-  // grid
-  for (let i=0;i<=5;i++){
-    const xv = i*2, yv=i*2;
-    svg += `<line x1="${x(xv)}" y1="${pad.t}" x2="${x(xv)}" y2="${H-pad.b}" stroke="#1e1e1e"/>`;
-    svg += `<line x1="${pad.l}" y1="${y(yv)}" x2="${W-pad.r}" y2="${y(yv)}" stroke="#1e1e1e"/>`;
-    svg += `<text x="${x(xv)}" y="${H-pad.b+14}" fill="#55504A" font-size="10" text-anchor="middle">${xv}</text>`;
-    svg += `<text x="${pad.l-8}" y="${y(yv)+3}" fill="#55504A" font-size="10" text-anchor="end">${yv}</text>`;
-  }
-  svg += `<text x="${(pad.l+W-pad.r)/2}" y="${H-4}" fill="#8A8478" font-size="11" text-anchor="middle">训练六维均值</text>`;
-  svg += `<text x="10" y="${(pad.t+H-pad.b)/2}" fill="#8A8478" font-size="11" text-anchor="middle" transform="rotate(-90,10,${(pad.t+H-pad.b)/2})">疼痛 NRS</text>`;
-  recent.forEach((r,i) => {
-    const cxv = xs[i], cyv = ys[i];
-    svg += `<circle cx="${x(cxv)}" cy="${y(cyv)}" r="4.5" fill="#C8A45E" stroke="#1a1206" stroke-width="1">
-      <title>${r.date}: 训练=${cxv.toFixed(1)}，疼痛=${cyv.toFixed(1)}</title></circle>`;
-  });
-  svg += '</svg>';
-  host.innerHTML = svg;
-}
 
 /* ========== 趋势 ========== */
 function renderTrend(){
-  renderLineChart('trend-train','legend-train', records, TRAINDIMS.map(d=>d.k), TRAINDIMS.map(d=>d.name), TRAINDIM_COLORS, r => r.train, '训练分');
+  renderLineChart('trend-train','legend-train', records,
+    TRAINDIMS.map(d=>d.k), TRAINDIMS.map(d=>d.name),
+    TRAINDIMS.map(d=>d.color),
+    r => r.train, '训练分');
   renderLineChart('trend-pain','legend-pain',
     records.filter(r => r.painPoints.length>0 || r.painOverall>0),
     PAINDIMS.map(d=>d.k), PAINDIMS.map(d=>d.name), PAINDIM_COLORS,
     r => {
-      // 取各疼痛点该维度均值
       const out = {};
       PAINDIMS.forEach(d => {
         if (r.painPoints.length === 0) out[d.k] = (d.k==='intensity'? r.painOverall : 0);
@@ -894,8 +976,7 @@ function renderLineChart(hostId, legendId, data, keys, names, colors, extractor,
   const host = document.getElementById(hostId);
   const legend = document.getElementById(legendId);
   if (data.length < 1){ host.innerHTML = '<div class="empty">暂无数据</div>'; legend.innerHTML=''; return; }
-  const W=720,H=280,pad={l:38,r:18,t:18,b:36};
-  const xs = data.map((_,i)=>i);
+  const W=720,H=280,pad={l:44,r:18,t:18,b:36};
   const allY = [];
   data.forEach(r => { const v = extractor(r); keys.forEach(k => allY.push(v[k]||0)); });
   const yMax = Math.max(10, ...allY);
@@ -907,7 +988,6 @@ function renderLineChart(hostId, legendId, data, keys, names, colors, extractor,
     svg += `<line x1="${pad.l}" y1="${y(yv)}" x2="${W-pad.r}" y2="${y(yv)}" stroke="#1e1e1e"/>`;
     svg += `<text x="${pad.l-8}" y="${y(yv)+3}" fill="#55504A" font-size="10" text-anchor="end">${yv.toFixed(0)}</text>`;
   }
-  // x labels
   const step = Math.max(1, Math.floor(data.length/6));
   data.forEach((r,i) => {
     if (i%step===0 || i===data.length-1){
@@ -943,7 +1023,6 @@ function renderHistory(){
   body.innerHTML = records.slice().reverse().map(r => {
     const tm = trainMean(r.train).toFixed(1);
     const tags = r.workout ? `<span class="tag-pill">${escapeHtml(r.workout.slice(0,10))}</span>` : '';
-    const regions = r.painPoints.map(p=>escapeHtml(p.region)).slice(0,3).join('、');
     return `<tr>
       <td>${r.date}</td>
       <td>${tags||'<span style="color:var(--text-m)">—</span>'}</td>
@@ -960,8 +1039,8 @@ window.showDetail = function(date){
   const pain = r.painPoints.length
     ? r.painPoints.map(p => `· ${p.region}：强度${p.intensity} 感官${p.sensory} 情绪${p.unpleasant} 灾难化${p.catastroph} 恐动${p.fearAvoid} 干扰${p.interference}`).join('\n')
     : '（无）';
-  const tr = TRAINDIMS.map(d => `${d.name}=${r.train[d.k]}`).join(' / ');
-  alert(`【${r.date}】\n\n训练：${r.workout||'—'}\n时长：${r.duration||'—'}分钟 RPE：${r.rpe}\n六维：${tr}\n\n疼痛 NRS：${r.painOverall}\n${pain}\n\n睡眠 ${r.sleep} / 情绪 ${r.mood} / 功能 ${r.func} / 恐动 ${r.fear}\n\n备注：${r.note||'—'}`);
+  const tr = TRAINDIMS.map(d => `${d.name}=${r.train[d.k]}`).join('\n');
+  alert(`【${r.date}】\n\n训练：${r.workout||'—'}\n时长：${r.duration||'—'}分钟 RPE：${r.rpe}\n\n五维度：\n${tr}\n\n疼痛 NRS：${r.painOverall}\n${pain}\n\n睡眠 ${r.sleep} / 情绪 ${r.mood} / 功能 ${r.func} / 恐动 ${r.fear}\n\n备注：${r.note||'—'}`);
 };
 
 /* ========== 工具 ========== */
