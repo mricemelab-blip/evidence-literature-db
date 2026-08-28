@@ -446,95 +446,118 @@ const FRONT_ZONES = [
   // 头部
   {region:'头部',           x:100, y:28,  r:22, shape:'circle'},
   // 颈前
-  {region:'颈前/喉部',      x:100, y:62,  r:14, shape:'circle'},
-  // 肩前
-  {region:'肩关节前侧（盂肱关节前部）', x:72, y:82, r:16, shape:'circle'},
-  {region:'肩关节前侧（盂肱关节前部）', x:128, y:82, r:16, shape:'circle'},
+  {region:'颈前/喉部',      x:100, y:62,  r:13, shape:'circle'},
+  // 颈椎前（从前面看颈椎）
+  {region:'颈椎（C1-C7）',  x:100, y:74,  r:11, shape:'circle'},
   // 锁骨
-  {region:'锁骨',           x:100, y:78,  r:18, shape:'circle'},
-  // 胸椎前
-  {region:'胸骨/肋软骨',    x:100, y:110, r:22, shape:'circle'},
+  {region:'锁骨',           x:100, y:84,  r:14, shape:'circle'},
+  // 肩前
+  {region:'肩关节前侧（盂肱关节前部）', x:72, y:90, r:16, shape:'circle'},
+  {region:'肩关节前侧（盂肱关节前部）', x:128, y:90, r:16, shape:'circle'},
+  // 胸椎前段（从前面看胸椎节段）
+  {region:'胸椎上段（T1-T4）', x:82,  y:108, r:11, shape:'circle'},
+  {region:'胸椎中段（T5-T8）', x:100, y:118, r:11, shape:'circle'},
+  {region:'胸椎下段（T9-T12）',x:118, y:128, r:11, shape:'circle'},
+  // 胸骨/肋软骨
+  {region:'胸骨/肋软骨',    x:100, y:140, r:18, shape:'circle'},
   // 上肢
-  {region:'右上臂（肱二头肌区）', x:48, y:145, r:14, shape:'circle'},
-  {region:'左上臂（肱二头肌区）', x:152, y:145, r:14, shape:'circle'},
-  {region:'右肘前（肘窝）', x:40, y:188, r:12, shape:'circle'},
-  {region:'左肘前（肘窝）', x:160, y:188, r:12, shape:'circle'},
-  {region:'右前臂',         x:34, y:228, r:12, shape:'circle'},
-  {region:'左前臂',         x:166, y:228, r:12, shape:'circle'},
-  {region:'右腕/手',        x:28, y:275, r:14, shape:'circle'},
-  {region:'左腕/手',        x:172, y:275, r:14, shape:'circle'},
+  {region:'右上臂（肱二头肌区）', x:48, y:152, r:14, shape:'circle'},
+  {region:'左上臂（肱二头肌区）', x:152, y:152, r:14, shape:'circle'},
+  {region:'右肘前（肘窝）', x:40, y:195, r:12, shape:'circle'},
+  {region:'左肘前（肘窝）', x:160, y:195, r:12, shape:'circle'},
+  {region:'右前臂',         x:34, y:235, r:12, shape:'circle'},
+  {region:'左前臂',         x:166, y:235, r:12, shape:'circle'},
+  {region:'右腕/手',        x:28, y:282, r:14, shape:'circle'},
+  {region:'左腕/手',        x:172, y:282, r:14, shape:'circle'},
   // 腹部
-  {region:'腹部',           x:100, y:168, r:26, shape:'circle'},
+  {region:'腹部',           x:100, y:170, r:22, shape:'circle'},
+  // 腰椎前（从前面看腰椎节段）
+  {region:'腰椎（L1-L5）',  x:100, y:195, r:13, shape:'circle'},
   // 髋前
-  {region:'右髋关节前侧（髂股）', x:82, y:210, r:18, shape:'circle'},
-  {region:'左髋关节前侧（髂股）', x:118, y:210, r:18, shape:'circle'},
+  {region:'右髋关节前侧（髂股）', x:82, y:215, r:18, shape:'circle'},
+  {region:'左髋关节前侧（髂股）', x:118, y:215, r:18, shape:'circle'},
   // 大腿前
-  {region:'右大腿前侧（股四头肌）', x:84, y:268, r:18, shape:'circle'},
-  {region:'左大腿前侧（股四头肌）', x:116, y:268, r:18, shape:'circle'},
+  {region:'右大腿前侧（股四头肌）', x:84, y:272, r:18, shape:'circle'},
+  {region:'左大腿前侧（股四头肌）', x:116, y:272, r:18, shape:'circle'},
   // 膝前
-  {region:'右膝前（髌股关节）', x:84, y:322, r:15, shape:'circle'},
-  {region:'左膝前（髌股关节）', x:116, y:322, r:15, shape:'circle'},
+  {region:'右膝前（髌股关节）', x:84, y:326, r:15, shape:'circle'},
+  {region:'左膝前（髌股关节）', x:116, y:326, r:15, shape:'circle'},
   // 小腿前
-  {region:'右小腿前侧（胫骨前肌）', x:84, y:370, r:14, shape:'circle'},
-  {region:'左小腿前侧（胫骨前肌）', x:116, y:370, r:14, shape:'circle'},
+  {region:'右小腿前侧（胫骨前肌）', x:84, y:375, r:14, shape:'circle'},
+  {region:'左小腿前侧（胫骨前肌）', x:116, y:375, r:14, shape:'circle'},
   // 踝前
-  {region:'右踝前（距小腿关节前）', x:84, y:412, r:12, shape:'circle'},
-  {region:'左踝前（距小腿关节前）', x:116, y:412, r:12, shape:'circle'},
+  {region:'右踝前（距小腿关节前）', x:84, y:418, r:12, shape:'circle'},
+  {region:'左踝前（距小腿关节前）', x:116, y:418, r:12, shape:'circle'},
   // 足
-  {region:'右足背',         x:78, y:432, r:10, shape:'circle'},
-  {region:'左足背',         x:122, y:432, r:10, shape:'circle'},
+  {region:'右足背',         x:78, y:438, r:10, shape:'circle'},
+  {region:'左足背',         x:122, y:438, r:10, shape:'circle'},
 ];
 
 const BACK_ZONES = [
   // 头后
   {region:'枕后/后脑',       x:100, y:28,  r:22, shape:'circle'},
-  // 颈后（颈椎节段）
-  {region:'颈椎（C1-C7）',   x:100, y:66,  r:16, shape:'circle'},
+  // 颈椎节段（细分）
+  {region:'颈椎上段（C1-C3）', x:100, y:58,  r:12, shape:'circle'},
+  {region:'颈椎下段（C4-C7）', x:100, y:72,  r:12, shape:'circle'},
+  // 颈旁肌
+  {region:'右侧颈旁肌（斜角肌/胸锁乳突肌）', x:84, y:66, r:11, shape:'circle'},
+  {region:'左侧颈旁肌（斜角肌/胸锁乳突肌）', x:116, y:66, r:11, shape:'circle'},
   // 肩后
-  {region:'右肩胛骨',        x:72, y:100, r:22, shape:'circle'},
-  {region:'左肩胛骨',        x:128, y:100, r:22, shape:'circle'},
+  {region:'右肩胛骨',        x:72, y:104, r:22, shape:'circle'},
+  {region:'左肩胛骨',        x:128, y:104, r:22, shape:'circle'},
   // 肩关节后
-  {region:'右肩关节后侧（盂肱后部）', x:52, y:88, r:14, shape:'circle'},
-  {region:'左肩关节后侧（盂肱后部）', x:148, y:88, r:14, shape:'circle'},
+  {region:'右肩关节后侧（盂肱后部）', x:52, y:94, r:14, shape:'circle'},
+  {region:'左肩关节后侧（盂肱后部）', x:148, y:94, r:14, shape:'circle'},
   // 上肢
-  {region:'右上臂（肱三头肌区）', x:46, y:140, r:14, shape:'circle'},
-  {region:'左上臂（肱三头肌区）', x:154, y:140, r:14, shape:'circle'},
-  {region:'右肘后（鹰嘴）',  x:40, y:180, r:12, shape:'circle'},
-  {region:'左肘后（鹰嘴）',  x:160, y:180, r:12, shape:'circle'},
-  {region:'右前臂后侧',      x:34, y:220, r:12, shape:'circle'},
-  {region:'左前臂后侧',      x:166, y:220, r:12, shape:'circle'},
-  {region:'右腕/手背',       x:28, y:265, r:14, shape:'circle'},
-  {region:'左腕/手背',       x:172, y:265, r:14, shape:'circle'},
-  // 脊柱节段
-  {region:'胸椎（T1-T12）',  x:100, y:125, r:16, shape:'circle'},
-  {region:'胸腰交界（T12-L1）', x:100, y:160, r:15, shape:'circle'},
-  {region:'腰椎（L1-L5）',   x:100, y:190, r:17, shape:'circle'},
-  // 腰两侧
-  {region:'右腰方肌',        x:76, y:195, r:14, shape:'circle'},
-  {region:'左腰方肌',        x:124, y:195, r:14, shape:'circle'},
-  // 骶髂
-  {region:'骶髂关节',        x:100, y:218, r:18, shape:'circle'},
+  {region:'右上臂（肱三头肌区）', x:46, y:148, r:14, shape:'circle'},
+  {region:'左上臂（肱三头肌区）', x:154, y:148, r:14, shape:'circle'},
+  {region:'右肘后（鹰嘴）',  x:40, y:188, r:12, shape:'circle'},
+  {region:'左肘后（鹰嘴）',  x:160, y:188, r:12, shape:'circle'},
+  {region:'右前臂后侧',      x:34, y:228, r:12, shape:'circle'},
+  {region:'左前臂后侧',      x:166, y:228, r:12, shape:'circle'},
+  {region:'右腕/手背',       x:28, y:275, r:14, shape:'circle'},
+  {region:'左腕/手背',       x:172, y:275, r:14, shape:'circle'},
+  // 胸椎节段（细分）
+  {region:'胸椎上段（T1-T4）', x:100, y:95,  r:12, shape:'circle'},
+  {region:'胸椎中段（T5-T8）', x:100, y:122, r:12, shape:'circle'},
+  {region:'胸椎下段（T9-T12）',x:100, y:150, r:12, shape:'circle'},
+  // 胸椎旁
+  {region:'右胸椎旁（竖脊肌胸段）', x:82, y:122, r:11, shape:'circle'},
+  {region:'左胸椎旁（竖脊肌胸段）', x:118, y:122, r:11, shape:'circle'},
+  // 胸腰交界
+  {region:'胸腰交界（T12-L1）', x:100, y:170, r:13, shape:'circle'},
+  // 腰椎节段（细分）
+  {region:'腰椎上段（L1-L3）', x:100, y:188, r:13, shape:'circle'},
+  {region:'腰椎下段（L4-L5）', x:100, y:205, r:13, shape:'circle'},
+  // 腰旁
+  {region:'右腰方肌',        x:76, y:200, r:14, shape:'circle'},
+  {region:'左腰方肌',        x:124, y:200, r:14, shape:'circle'},
+  // 骶髂与骶尾
+  {region:'右骶髂关节',      x:82, y:222, r:14, shape:'circle'},
+  {region:'左骶髂关节',      x:118, y:222, r:14, shape:'circle'},
+  {region:'骶骨',            x:100, y:234, r:13, shape:'circle'},
+  {region:'尾骨',            x:100, y:250, r:9,  shape:'circle'},
   // 臀
-  {region:'右臀（臀大肌）',  x:78, y:242, r:20, shape:'circle'},
-  {region:'左臀（臀大肌）',  x:122, y:242, r:20, shape:'circle'},
+  {region:'右臀（臀大肌）',  x:78, y:258, r:20, shape:'circle'},
+  {region:'左臀（臀大肌）',  x:122, y:258, r:20, shape:'circle'},
   // 髋后
-  {region:'右髋关节后侧',    x:62, y:230, r:13, shape:'circle'},
-  {region:'左髋关节后侧',    x:138, y:230, r:13, shape:'circle'},
+  {region:'右髋关节后侧',    x:62, y:245, r:13, shape:'circle'},
+  {region:'左髋关节后侧',    x:138, y:245, r:13, shape:'circle'},
   // 大腿后
-  {region:'右大腿后侧（腘绳肌）', x:82, y:288, r:18, shape:'circle'},
-  {region:'左大腿后侧（腘绳肌）', x:118, y:288, r:18, shape:'circle'},
+  {region:'右大腿后侧（腘绳肌）', x:82, y:300, r:18, shape:'circle'},
+  {region:'左大腿后侧（腘绳肌）', x:118, y:300, r:18, shape:'circle'},
   // 膝后
-  {region:'右膝后（腘窝）',  x:84, y:332, r:14, shape:'circle'},
-  {region:'左膝后（腘窝）',  x:116, y:332, r:14, shape:'circle'},
+  {region:'右膝后（腘窝）',  x:84, y:345, r:14, shape:'circle'},
+  {region:'左膝后（腘窝）',  x:116, y:345, r:14, shape:'circle'},
   // 小腿后
-  {region:'右小腿后侧（腓肠肌）', x:84, y:375, r:15, shape:'circle'},
-  {region:'左小腿后侧（腓肠肌）', x:116, y:375, r:15, shape:'circle'},
+  {region:'右小腿后侧（腓肠肌）', x:84, y:388, r:15, shape:'circle'},
+  {region:'左小腿后侧（腓肠肌）', x:116, y:388, r:15, shape:'circle'},
   // 跟腱
-  {region:'右跟腱',          x:84, y:410, r:10, shape:'circle'},
-  {region:'左跟腱',          x:116, y:410, r:10, shape:'circle'},
-  // 足底
-  {region:'右足底',          x:78, y:432, r:10, shape:'circle'},
-  {region:'左足底',          x:122, y:432, r:10, shape:'circle'},
+  {region:'右跟腱',          x:84, y:422, r:10, shape:'circle'},
+  {region:'左跟腱',          x:116, y:422, r:10, shape:'circle'},
+  // 足
+  {region:'右足底',          x:78, y:442, r:10, shape:'circle'},
+  {region:'左足底',          x:122, y:442, r:10, shape:'circle'},
 ];
 
 const STORAGE_KEY = 'rijian_yigong_bodymap_v2';
@@ -643,6 +666,8 @@ function renderBodyMap(view){
         <path d="M144 72 Q150 120 158 170 L164 230 L172 275"/>
         <path d="M70 80 L66 175 L80 215 L84 330 L84 415 L78 438"/>
         <path d="M130 80 L134 175 L120 215 L116 330 L116 415 L122 438"/>
+        <!-- 脊椎中线（前视图） -->
+        <path d="M100 58 L100 220" stroke="#C8A45E" stroke-dasharray="1.5 2.5" stroke-width="0.7" opacity="0.35"/>
       </g>
     `;
   } else {
@@ -658,6 +683,8 @@ function renderBodyMap(view){
         <!-- 肩胛骨提示 -->
         <path d="M66 88 Q60 110 70 120" stroke="#2a2a2a"/>
         <path d="M134 88 Q140 110 130 120" stroke="#2a2a2a"/>
+        <!-- 脊椎中线（后视图） -->
+        <path d="M100 58 L100 250" stroke="#C8A45E" stroke-dasharray="1.5 2.5" stroke-width="0.7" opacity="0.4"/>
       </g>
     `;
   }
@@ -842,6 +869,8 @@ function renderHeatmap(view){
       <path d="M144 72 Q150 120 158 170 L164 230 L172 275"/>
       <path d="M70 80 L66 175 L80 215 L84 330 L84 415 L78 438"/>
       <path d="M130 80 L134 175 L120 215 L116 330 L116 415 L122 438"/>
+      <!-- 脊椎中线（前视图） -->
+      <path d="M100 58 L100 220" stroke="#C8A45E" stroke-dasharray="1.5 2.5" stroke-width="0.7" opacity="0.35"/>
     </g>` : `
     <g fill="none" stroke="#3a3a3a" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round">
       <circle cx="100" cy="28" r="18"/>
@@ -853,6 +882,8 @@ function renderHeatmap(view){
       <path d="M130 80 L134 175 L120 218 L116 335 L116 410 L122 432"/>
       <path d="M66 88 Q60 110 70 120" stroke="#2a2a2a"/>
       <path d="M134 88 Q140 110 130 120" stroke="#2a2a2a"/>
+      <!-- 脊椎中线（后视图） -->
+      <path d="M100 58 L100 250" stroke="#C8A45E" stroke-dasharray="1.5 2.5" stroke-width="0.7" opacity="0.4"/>
     </g>`;
   zones.forEach(z => {
     const v = load[z.region]||0;
