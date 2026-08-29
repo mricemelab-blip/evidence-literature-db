@@ -180,99 +180,6 @@ a{color:var(--gold);text-decoration:none}
 .heatmap-svg-wrap svg{width:100%;height:auto;display:block}
 .heat-joint{pointer-events:none}
 .heat-label{font-size:8px;fill:var(--text-m);pointer-events:none;font-family:inherit;opacity:.7}
-/* ====== 伤部分诊模块 ====== */
-.triage-hero{background:linear-gradient(135deg,rgba(220,38,38,.08),rgba(245,158,11,.06));border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:18px}
-.triage-hero h3{font-size:17px;font-weight:600;margin-bottom:8px}
-.triage-hero p{font-size:13px;color:var(--text-s);line-height:1.7}
-.triage-steps{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
-.triage-step{flex:1;min-width:80px;padding:10px 6px;text-align:center;font-size:12px;color:var(--text-m);border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
-.triage-step.active{color:var(--text);border-color:var(--gold);background:var(--gold-soft);font-weight:600}
-.triage-step.done{color:var(--c3);border-color:rgba(16,185,129,.4)}
-.tq-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:14px}
-.tq-q{font-size:14px;font-weight:600;line-height:1.6;margin-bottom:12px}
-.tq-q .tq-idx{color:var(--gold);margin-right:6px}
-.tq-why{font-size:12px;color:var(--text-s);background:var(--surface-2);border-left:2px solid var(--gold);padding:8px 12px;border-radius:0 6px 6px 0;margin-bottom:12px;line-height:1.7;display:none}
-.tq-why.open{display:block}
-.tq-why-toggle{font-size:11px;color:var(--gold);cursor:pointer;background:none;border:none;font-family:inherit;padding:0;margin-bottom:10px;text-decoration:underline}
-.tq-opts{display:flex;gap:10px}
-.tq-opt{flex:1;padding:14px 10px;font-size:15px;font-weight:600;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);color:var(--text-s);cursor:pointer;font-family:inherit;transition:all .12s}
-.tq-opt:hover{border-color:var(--text-s);color:var(--text)}
-.tq-opt.sel-yes{background:rgba(220,38,38,.14);border-color:#EF4444;color:#FCA5A5}
-.tq-opt.sel-no{background:rgba(16,185,129,.12);border-color:#10B981;color:#6EE7B7}
-.tq-opts-5{display:flex;gap:6px}
-.tq-opt-5{flex:1;padding:10px 4px;font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);color:var(--text-s);cursor:pointer;font-family:inherit;line-height:1.4;transition:all .12s}
-.tq-opt-5:hover{border-color:var(--text-s);color:var(--text)}
-.tq-opt-5.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
-.region-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.region-chip{padding:9px 15px;font-size:13px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);color:var(--text-s);cursor:pointer;font-family:inherit;transition:all .12s}
-.region-chip:hover{border-color:var(--gold);color:var(--gold)}
-.region-chip.active{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:600}
-.region-chip.back-path{border-color:rgba(245,158,11,.45)}
-.region-chip.back-path.active{background:rgba(245,158,11,.14);border-color:#F59E0B;color:#FBBF24}
-.triage-map-wrap{width:100%;max-width:240px;margin:0 auto}
-.triage-map-wrap svg{width:100%;height:auto;display:block}
-.tj-circle{cursor:pointer;transition:fill-opacity .12s,stroke .12s}
-.tj-circle:hover{fill-opacity:.7}
-.tj-circle.picked{stroke:var(--gold)!important;stroke-width:2.5!important}
-.light-banner{border-radius:12px;padding:24px 22px;margin-bottom:16px;border:1px solid}
-.light-banner.red{background:rgba(220,38,38,.12);border-color:#DC2626}
-.light-banner.yi{background:rgba(239,68,68,.08);border-color:#EF4444}
-.light-banner.yw{background:rgba(245,158,11,.10);border-color:#F59E0B}
-.light-banner.green{background:rgba(16,185,129,.10);border-color:#10B981}
-.light-tag{display:inline-block;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em;margin-bottom:10px}
-.light-banner.red .light-tag,.light-banner.yi .light-tag{background:#DC2626;color:#fff}
-.light-banner.yw .light-tag{background:#F59E0B;color:#1a1206}
-.light-banner.green .light-tag{background:#10B981;color:#04221a}
-.light-title{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.5}
-.light-banner.red .light-title,.light-banner.yi .light-title{color:#FCA5A5}
-.light-banner.yw .light-title{color:#FBBF24}
-.light-banner.green .light-title{color:#6EE7B7}
-.light-text{font-size:13px;color:var(--text);line-height:1.8}
-.why-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
-.why-box h4{font-size:14px;font-weight:600;margin-bottom:10px}
-.why-box ul{list-style:none;padding:0;margin:0}
-.why-box li{font-size:13px;color:var(--text-s);line-height:1.7;padding:7px 0 7px 18px;position:relative;border-bottom:1px dashed var(--line-s)}
-.why-box li:last-child{border-bottom:none}
-.why-box li::before{content:'';position:absolute;left:2px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--gold)}
-.why-box li.pos::before{background:#EF4444}
-.why-box li.neg::before{background:#10B981}
-.why-box li span{color:var(--text-m)}
-.advice-box{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
-.advice-box h4{font-size:14px;font-weight:600;margin-bottom:10px}
-.advice-box ul{padding-left:20px;font-size:13px;color:var(--text-s);line-height:1.9}
-.advice-box ul li b{color:var(--text)}
-.disclaimer-bar{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--text-m);text-align:center;line-height:1.8;margin-top:18px}
-.safety-banner{border-radius:10px;padding:13px 18px;margin-bottom:16px;font-size:13px;line-height:1.7;border:1px solid;display:none}
-.safety-banner.show{display:block}
-.safety-banner.lock{background:rgba(220,38,38,.10);border-color:#DC2626;color:#FCA5A5}
-.safety-banner.caution{background:rgba(245,158,11,.09);border-color:#F59E0B;color:#FCD34D}
-.safety-banner a{text-decoration:underline;cursor:pointer;margin-left:6px}
-.triage-hist-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);margin-bottom:8px;cursor:pointer;flex-wrap:wrap}
-.triage-hist-item:hover{border-color:var(--text-s)}
-.triage-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-.triage-hist-main{flex:1;min-width:160px}
-.triage-hist-main .r{font-size:13px;font-weight:600}
-.triage-hist-main .d{font-size:11px;color:var(--text-m);margin-top:2px}
-.triage-lock-tag{font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(220,38,38,.15);color:#FCA5A5;border:1px solid rgba(220,38,38,.4);white-space:nowrap}
-.triage-review-tag{font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(245,158,11,.12);color:#FBBF24;border:1px solid rgba(245,158,11,.4);white-space:nowrap}
-.compare-box{font-size:12px;color:var(--text-s);background:var(--surface-2);border:1px dashed var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px;line-height:1.7}
-/* 就医报告打印视图 */
-#print-report{display:none}
-@media print{
-  header.hero,nav.tabs,main,footer,.toast{display:none!important}
-  #print-report{display:block!important;width:100%;background:#fff;color:#111;font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:0}
-  .rp-body{font-size:11px;line-height:1.55;color:#111;max-width:100%}
-  .rp-body h1{font-size:17px;margin:0 0 4px;color:#111}
-  .rp-body h2{font-size:13px;margin:12px 0 6px;border-bottom:1.5px solid #111;padding-bottom:3px;color:#111}
-  .rp-body p{color:#111}
-  .rp-body table{width:100%;border-collapse:collapse;font-size:10px;min-width:0;margin:4px 0}
-  .rp-body th,.rp-body td{border:1px solid #999;padding:3px 6px;text-align:left;color:#111;vertical-align:top}
-  .rp-body th{background:#eee}
-  .rp-pos{color:#B91C1C;font-weight:700}
-  .rp-neg{color:#15803D;font-weight:600}
-  .rp-summary{background:#f3f4f6;border:1px solid #999;padding:8px 10px;border-radius:4px;margin-bottom:8px;line-height:1.8}
-  .rp-foot{margin-top:10px;font-size:9px;color:#444;border-top:1px solid #999;padding-top:6px;line-height:1.6}
-}
 /* ====== Table ====== */
 .tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
@@ -312,7 +219,6 @@ footer p+p{margin-top:6px}
   <button class="tab" data-tab="map">② 关节地图</button>
   <button class="tab" data-tab="trend">③ 变化趋势</button>
   <button class="tab" data-tab="history">④ 历史记录</button>
-  <button class="tab" data-tab="triage">⑤ 伤部分诊</button>
 </nav>
 
 <main>
@@ -544,23 +450,7 @@ footer p+p{margin-top:6px}
 </div>
 </section>
 
-<!-- ============ Panel 5: 伤部分诊 ============ -->
-<section class="panel" id="panel-triage">
-<div class="container">
-  <div class="section" style="margin-top:32px">
-    <div class="sec-head">
-      <div class="sec-title">伤部分诊评估</div>
-      <div class="sec-note">风险分层与就医导航，不做诊断</div>
-    </div>
-    <div id="triage-content"></div>
-  </div>
-</div>
-</section>
-
 </main>
-
-<!-- 打印用就医报告视图 -->
-<div id="print-report"></div>
 
 <footer>
   <div class="container">
@@ -859,10 +749,8 @@ const BODY_BACK_LSCAPULA = `
 
 const BODY_BACK_SPINE = `M 150 100 L 150 290`;
 
-const STORAGE_KEY = 'rijian_yigong_bodymap_v4';
-const OLD_STORAGE_KEY = 'rijian_yigong_bodymap_v3';   // v3 用于本次自动迁移
-const V2_STORAGE_KEY = 'rijian_yigong_bodymap_v2';
-const TRIAGE_KEY = 'rijian_yigong_bodymap_v4_triages';
+const STORAGE_KEY = 'rijian_yigong_bodymap_v3';
+const OLD_STORAGE_KEY = 'rijian_yigong_bodymap_v2';
 
 /* ========== 状态 ========== */
 let records = [];
@@ -946,10 +834,9 @@ function dimHasWarning(dimData){
 
 /* ========== 初始化 ========== */
 document.addEventListener('DOMContentLoaded', () => {
-  // 自动迁移 v3 → v4（及更早 v2 → v3），旧键数据保留不删除
-  migrateRecordsToV4();
+  // migrate from v2 if needed
+  migrateFromV2();
   records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  loadTriages();
 
   document.querySelectorAll('.tab').forEach(t => {
     t.addEventListener('click', () => switchTab(t.dataset.tab));
@@ -968,10 +855,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderBodyMap('front');
   renderBodyMap('back');
   renderAssessmentPanel();
-
-  // 分诊模块：注入训练安全横幅 + 初始化首页
-  injectSafetyBanner();
-  renderTriageHome();
 
   document.getElementById('add-pain-manual').addEventListener('click', () => {
     const name = prompt('请输入身体部位（如：右肩盂肱关节前侧）');
@@ -992,38 +875,35 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAll();
 });
 
-/* ========== 数据迁移 v2/v3 → v4（旧键保留，不删除） ========== */
-function migrateRecordsToV4(){
-  if (localStorage.getItem(STORAGE_KEY)) return;   // v4 已存在，无需迁移
-  // 优先取 v3；若无 v3 则取 v2 并先按 v2→v3 逻辑升级
-  let v3raw = localStorage.getItem(OLD_STORAGE_KEY);
-  let recs = null;
-  if (v3raw) {
-    try { recs = JSON.parse(v3raw); } catch(e){ recs = null; }
-  } else {
-    const v2raw = localStorage.getItem(V2_STORAGE_KEY);
-    if (v2raw) {
-      try {
-        const oldRecs = JSON.parse(v2raw);
-        recs = oldRecs.map(r => {
-          const train = cloneTrainTemplate();
-          train.forEach(d => {
-            const flatVal = r.train && r.train[d.k] != null ? r.train[d.k] : 5;
-            d.overall = flatVal;
-            d.subs.forEach(s => {
-              s.overall = flatVal;
-              const overallItem = s.items.find(it => it.k === 'overall');
-              if (overallItem) overallItem.val = flatVal;
-            });
+/* ========== Migration from v2 (simple flat scores) ========== */
+function migrateFromV2(){
+  const old = localStorage.getItem(OLD_STORAGE_KEY);
+  const hasNew = localStorage.getItem(STORAGE_KEY);
+  if (old && !hasNew) {
+    try {
+      const oldRecs = JSON.parse(old);
+      const newRecs = oldRecs.map(r => {
+        // build train with sub-items from the flat scores
+        const train = cloneTrainTemplate();
+        train.forEach(d => {
+          const flatVal = r.train && r.train[d.k] != null ? r.train[d.k] : 5;
+          d.overall = flatVal;
+          // set sub-dim overalls to same flat value (best-effort migration)
+          d.subs.forEach(s => {
+            s.overall = flatVal;
+            // first/overall slider gets the value; items stay at default
+            const overallItem = s.items.find(it => it.k === 'overall');
+            if (overallItem) overallItem.val = flatVal;
           });
-          return { ...r, train: serializeTrain(train) };
         });
-      } catch(e){ recs = null; }
-    }
-  }
-  if (recs) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(recs));
-    console.log('Migrated', recs.length, 'records → v4 (旧版数据键保留)');
+        return {
+          ...r,
+          train: serializeTrain(train),
+        };
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(newRecs));
+      console.log('Migrated', newRecs.length, 'records from v2 → v3');
+    } catch(e) { console.warn('migration failed', e); }
   }
 }
 
@@ -1047,7 +927,6 @@ function switchTab(id){
   if (id==='map') renderMap();
   if (id==='trend') renderTrend();
   if (id==='history') renderHistory();
-  if (id==='triage') renderTriageHome();
 }
 
 /* ========== 训练评估构建 ========== */
@@ -1628,7 +1507,6 @@ function saveRecord(){
   persist();
   toast('已保存 ' + date, 'ok');
   renderAll();
-  if (typeof injectSafetyBanner === 'function') injectSafetyBanner();
 }
 function clearForm(){
   document.getElementById('f-workout').value = '';
@@ -1997,737 +1875,6 @@ window.showDetail = function(date){
   }).join('\n');
 
   alert(`【${r.date}】\n\n训练：${r.workout||'—'}\n时长：${r.duration||'—'}分钟 RPE：${r.rpe}\n\n五维度：\n${trainDetail}\n\n关节部位 ${r.painPoints?r.painPoints.length:0} 个 · 平均强度 ${(r.intensityAvg||0).toFixed(2)} · 平均本体感受 ${(r.proprioAvg||0).toFixed(2)}\n${pain}\n\n睡眠 ${r.sleep} / 情绪 ${r.mood} / 功能 ${r.func}\n\n备注：${r.note||'—'}`);
-};
-
-/* ================================================================
-   伤部分诊导航模块（风险分层 + 就医导航 + 安全锁 + 报告导出）
-   定位：分诊导航，不做诊断。依据：NICE NG59（2016, 2020更新）、
-   Keele 大学 STarT Back Screening Tool（Hill et al. 2008; Hill et al. 2011 RCT）
-   ================================================================ */
-
-/* ---------- 红旗征题库（腰痛，依据 NICE NG59） ---------- */
-const RF_BACK = [
-  {k:'saddle', q:'你的臀部内侧、会阴或生殖器区域（"马鞍区"）是否出现麻木或感觉减退？',
-   why:'鞍区麻木是马尾综合征的警示信号之一。马尾神经受压可导致大小便功能永久性损伤，需要急诊评估。',emergency:true},
-  {k:'bladder', q:'你是否出现新的排尿困难、尿潴留（尿不出来），或无法控制的尿失禁？',
-   why:'新发膀胱功能障碍（尤其尿潴留或充溢性失禁）提示马尾综合征可能，属外科急症，需要尽快急诊做MRI评估。',emergency:true},
-  {k:'bowel', q:'你是否出现新的大便失禁，或肛门周围感觉异常？',
-   why:'新发肠道功能障碍或会阴感觉丧失与马尾综合征相关，属于需要急诊评估的红旗征。',emergency:true},
-  {k:'weakness', q:'你的双腿是否出现进行性加重的无力、麻木，或双腿同时出现明显放射痛？',
-   why:'双侧下肢进行性无力或麻木提示神经受压（如马尾综合征或脊髓问题），需要急诊评估。',emergency:true},
-  {k:'cancer', q:'你既往是否被诊断过癌症，并且近期有不明原因的体重下降，或夜间持续疼痛（休息不缓解）？',
-   why:'既往癌症史伴不明原因体重下降或夜间持续痛，是脊柱肿瘤转移的红旗征，需要尽快就医评估。',emergency:false},
-  {k:'fever', q:'你是否伴有发热，或近期有感染、长期使用激素/免疫抑制剂、静脉用药等免疫抑制情况？',
-   why:'发热伴腰痛，或存在免疫抑制、近期感染，需警惕脊柱感染（如椎间盘炎、硬膜外脓肿），需要尽快就医。',emergency:false},
-  {k:'trauma', q:'本次疼痛是否发生在严重外伤后；或你有骨质疏松、长期用激素，在轻微外伤后出现剧烈腰痛？',
-   why:'严重外伤后腰痛需排查脊柱骨折；骨质疏松或长期激素使用者轻微外伤即可发生椎体压缩骨折。',emergency:false},
-  {k:'age', q:'你是否为首次发作腰痛，且年龄小于20岁，或大于55岁？',
-   why:'20岁以下或55岁以后新发腰痛，严重病理的可能性相对升高，NICE NG59建议就医进一步评估。',emergency:false},
-];
-
-/* ---------- 红旗征题库（通用肌骨部位，依据 NICE NG59 红旗征原则） ---------- */
-const RF_GENERIC = [
-  {k:'redhot', q:'不适的关节或部位是否出现明显的急性红肿、发热，或你同时伴有发热？',
-   why:'关节急性红肿热痛或伴发热，提示感染性关节炎、痛风急性发作或其他需要尽快明确的病因，不建议自行训练处理。',emergency:false},
-  {k:'deformity', q:'受伤后该部位是否出现明显畸形、完全无法站立或负重，或受伤时听到断裂声？',
-   why:'外伤后畸形、无法负重或断裂感提示骨折、脱位或严重软组织撕裂可能，需要尽快就诊骨科或急诊。',emergency:true},
-  {k:'neuro', q:'你是否出现进行性加重的肢体麻木、无力、感觉减退，或神经症状范围在扩大？',
-   why:'进行性加重的神经症状提示神经受压或损伤在进展，需要尽快就医评估，不宜继续运动刺激。',emergency:true},
-  {k:'cancer', q:'你既往是否被诊断过癌症，并且近期有不明原因的体重下降，或夜间持续骨痛（休息不缓解）？',
-   why:'既往癌症史伴不明原因体重下降或夜间持续痛，是骨转移的红旗征，需要尽快就医评估。',emergency:false},
-  {k:'fever', q:'你是否伴有发热、寒战，或近期有感染、长期使用激素/免疫抑制剂、静脉用药等情况？',
-   why:'发热伴肌骨疼痛，或存在免疫抑制、近期感染，需警惕深部感染（如感染性关节炎、骨髓炎）。',emergency:false},
-  {k:'circulation', q:'受伤部位远端是否发凉、颜色发白或发紫，或你完全摸不到该侧肢体脉搏？',
-   why:'肢体远端发凉、颜色异常或脉搏消失提示血管损伤或骨筋膜室综合征可能，属于急诊范畴。',emergency:true},
-  {k:'age_fracture', q:'该疼痛是否为外伤后出现，且你年龄较大、有骨质疏松，或长期使用激素？',
-   why:'老年人、骨质疏松或长期激素使用者外伤后疼痛，骨折风险显著升高，需要就医影像评估。',emergency:false},
-];
-
-/* ---------- STarT Back 9 条目（Keele 大学官方版中文翻译，忠实原文）
-   来源：Hill JC, Dunn KM, Lewis M, et al. A primary care back pain screening tool:
-   identifying patient subgroups for initial treatment. Arthritis Rheum. 2008;59(5):632-641.
-   STarT Back 为 Keele 大学版权工具。Q1-8 为是/否，Q9 五档。 ---------- */
-const START_ITEMS = [
-  {k:1, q:'过去两周内，我的背痛曾扩散（放射）到腿部', sub:false},
-  {k:2, q:'过去两周内，我有时也会出现肩或颈部疼痛', sub:false},
-  {k:3, q:'我曾因为背痛而只能短距离步行', sub:false},
-  {k:4, q:'过去两周内，我曾因为背痛导致穿衣比平时慢', sub:false},
-  {k:5, q:'我认为，对于一个和我情况相同的人来说，进行体力活动是不安全的', sub:true,
-   why:'恐惧回避信念条目：越回避活动，背痛越容易慢性化，是康复教育的重点。'},
-  {k:6, q:'最近大部分时间我脑子里总有挥之不去的担忧想法', sub:true,
-   why:'焦虑条目：持续担忧与背痛慢性化相关，心理因素是重要的预后指标。'},
-  {k:7, q:'我觉得我的背痛很严重，而且永远不会好转', sub:true,
-   why:'灾难化/负向预期条目："不会好转"的预期本身就是恢复不佳的预测因素。'},
-  {k:8, q:'总的来说，我已经不再享受过去喜欢做的事情了', sub:true,
-   why:'情绪/抑郁条目：活动兴趣下降反映情绪受影响程度，与慢性化风险相关。'},
-];
-// 官方评分：Not at all / Slightly / Moderately = 0；Very much / Extremely = 1
-const START_Q9_OPTIONS = [
-  {v:0, label:'完全没有影响'}, {v:0, label:'轻微影响'}, {v:0, label:'中度影响'},
-  {v:1, label:'非常影响'}, {v:1, label:'极度影响'},
-];
-
-/* ---------- 通用肌骨简易分层（无专用预后工具，按症状负担逻辑） ---------- */
-const GENERIC_ITEMS = [
-  {k:'duration', q:'这次不适持续时间是否超过2周？'},
-  {k:'function', q:'不适是否明显影响你的日常功能或睡眠（如睡眠被痛醒、无法完成日常动作）？'},
-  {k:'radiating', q:'疼痛是否向远端放射（如肩放射到手指、髋放射到脚、颈放射到手臂），或伴麻木刺痛？'},
-  {k:'fear', q:'你是否担心运动会造成伤害，因而不敢活动不适部位？（恐惧回避）'},
-];
-
-const LIGHT_META = {
-  red:   {name:'红灯', color:'#DC2626', label:'需立即就医'},
-  yi:    {name:'黄灯偏红（高风险）', color:'#EF4444', label:'建议尽快就医评估'},
-  yw:    {name:'预警黄灯', color:'#F59E0B', label:'自我管理 + 复评'},
-  green: {name:'绿灯', color:'#10B981', label:'可保持活动'},
-};
-
-/* ---------- 部位快捷选项 ---------- */
-const REGION_CHIPS = ['腰椎','颈椎','右肩','左肩','右肘','左肘','右腕','左腕',
-  '胸椎','右髋','左髋','右膝','左膝','右踝','左踝'];
-
-/* ---------- 分诊状态与存档 ---------- */
-let triages = [];
-let tState = null;   // 当前进行中的评估会话
-
-function loadTriages(){
-  try { triages = JSON.parse(localStorage.getItem(TRIAGE_KEY) || '[]'); }
-  catch(e){ triages = []; }
-}
-function persistTriages(){ localStorage.setItem(TRIAGE_KEY, JSON.stringify(triages)); }
-function latestTriage(){ return triages.length ? triages[triages.length-1] : null; }
-function regionIsBack(region){ return /腰/.test(region); }
-function regionNorm(region){ return (region||'').replace(/(后|前)$/,''); }
-function triageLightColor(light){
-  return {red:'#DC2626', yi:'#EF4444', yw:'#F59E0B', green:'#10B981'}[light] || '#8A8478';
-}
-
-/* ---------- 分诊首页 ---------- */
-function renderTriageHome(){
-  const host = document.getElementById('triage-content');
-  if (!host) return;
-  const lt = latestTriage();
-  let histHTML = '';
-  if (triages.length) {
-    const recent = triages.slice().reverse().slice(0, 6);
-    histHTML = `
-      <div class="section" style="margin-bottom:8px">
-        <div class="sec-head"><div class="sec-title" style="font-size:16px">分诊历史</div>
-          <div class="sec-note">共 ${triages.length} 次 · 点击查看结果与报告</div></div>
-        ${recent.map(t => `
-          <div class="triage-hist-item" onclick="showTriageResult('${t.id}')">
-            <span class="triage-dot" style="background:${triageLightColor(t.light)}"></span>
-            <div class="triage-hist-main">
-              <div class="r">${escapeHtml(t.region)} · ${LIGHT_META[t.light].name}</div>
-              <div class="d">${t.date}${t.tool==='start'?` · STarT 总分${t.startTotal} 心理子量表${t.startSub}`:''}</div>
-            </div>
-            ${t.locked ? '<span class="triage-lock-tag">训练锁定</span>' : ''}
-            ${t.reviewDate ? `<span class="triage-review-tag">复评 ${t.reviewDate}</span>` : ''}
-          </div>`).join('')}
-      </div>`;
-  }
-  host.innerHTML = `
-    <div class="triage-hero">
-      <h3>出现不适，先做分诊，再决定怎么练</h3>
-      <p>分两步完成：第一步红旗征排查（必答），第二步症状分层问卷。
-      腰痛使用 Keele 大学 STarT Back 分层工具，其他部位使用通用肌骨分层。
-      红旗征任一阳性将立即提示就医。本工具提供风险分层与就医导航，不做诊断。</p>
-    </div>
-    <div class="btn-row" style="margin-bottom:28px">
-      <button class="btn btn-primary" onclick="triageStart()">开始分诊评估</button>
-    </div>
-    ${lt ? `<div class="advice-box"><h4>最近一次分诊结果</h4>
-      <p style="font-size:13px;color:var(--text-s);line-height:1.8">
-      ${lt.date} · ${escapeHtml(lt.region)} ·
-      <b style="color:${triageLightColor(lt.light)}">${LIGHT_META[lt.light].name}</b>
-      （${LIGHT_META[lt.light].label}）
-      <button class="btn btn-ghost" style="padding:4px 12px;font-size:12px;margin-left:8px"
-        onclick="showTriageResult('${lt.id}')">查看详情 / 导出报告</button></p></div>` : ''}
-    ${histHTML}
-    <div class="disclaimer-bar">
-      红旗征依据 NICE NG59《Low back pain and sciatica in over 16s》（2016，2020更新）；
-      腰痛分层使用 Keele 大学 STarT Back Screening Tool（Hill JC et al. 2008；Hill JC et al. 2011, Lancet）。<br>
-      本工具提供风险分层与就医导航，不能替代医生面诊。
-    </div>`;
-}
-window.triageStart = function(){
-  tState = {step:'region', region:null, view:'front', rf:{}, start:{}, startQ9:null, generic:{}, history:'', meds:''};
-  renderTriageStep();
-};
-
-/* ---------- 步骤一：选择部位 ---------- */
-function renderTriageStep(){
-  const host = document.getElementById('triage-content');
-  const s = tState;
-  if (!s) { renderTriageHome(); return; }
-
-  if (s.step === 'region') {
-    const marked = [];
-    const recent = records.slice(-10);
-    recent.forEach(r => (r.painPoints||[]).forEach(p => {
-      const nm = regionNorm(p.region);
-      if (!marked.includes(nm)) marked.push(nm);
-    }));
-    host.innerHTML = `
-      <div class="triage-steps">
-        <div class="triage-step active">1 选择部位</div>
-        <div class="triage-step">2 红旗征排查</div>
-        <div class="triage-step">3 分层问卷</div>
-        <div class="triage-step">4 结果</div>
-      </div>
-      <div class="input-card">
-        <h3>第一步：选择不适部位</h3>
-        <div class="sub">点选下方部位，或在人体图上直接点选关节。腰痛将走 STarT Back 完整分层流程，其他部位走通用肌骨分层。</div>
-        <div class="region-chips">
-          ${REGION_CHIPS.map(r => `<button class="region-chip${regionIsBack(r)?' back-path':''}${s.region===r?' active':''}"
-            onclick="triagePickRegion('${r}')">${r}${regionIsBack(r)?'（STarT）':''}</button>`).join('')}
-        </div>
-        ${marked.length ? `<div class="sub" style="margin-bottom:6px">你近期记录过的部位：</div>
-          <div class="region-chips">
-            ${marked.map(r => `<button class="region-chip${s.region===r?' active':''}"
-              onclick="triagePickRegion('${escapeAttr(r)}')">${escapeHtml(r)}</button>`).join('')}
-          </div>` : ''}
-        <div class="map-toggle" style="justify-content:center;margin:10px 0">
-          <button class="toggle-btn ${s.view==='front'?'active':''}" onclick="triageSetView('front')">前视图</button>
-          <button class="toggle-btn ${s.view==='back'?'active':''}" onclick="triageSetView('back')">后视图</button>
-        </div>
-        <div class="triage-map-wrap" id="triage-map"></div>
-        <div style="margin-top:14px;font-size:13px;color:var(--text-s)">
-          已选部位：<b style="color:var(--gold);font-size:15px">${s.region ? escapeHtml(s.region) : '尚未选择'}</b>
-          <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;margin-left:10px"
-            onclick="tState.region=prompt('输入不适部位（如：右膝外侧）')||tState.region;renderTriageStep()">手动输入部位</button>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="triage-next-1" ${s.region?'':'disabled style="opacity:.4;cursor:not-allowed"'}
-            onclick="triageGoRedflag()">下一步：红旗征排查</button>
-          <button class="btn btn-ghost" onclick="triageCancel()">取消</button>
-        </div>
-      </div>`;
-    renderTriageMap(s.view);
-  }
-
-  else if (s.step === 'redflag') {
-    const items = regionIsBack(s.region) ? RF_BACK : RF_GENERIC;
-    const answered = items.every(it => s.rf[it.k] != null);
-    host.innerHTML = `
-      <div class="triage-steps">
-        <div class="triage-step done">1 选择部位</div>
-        <div class="triage-step active">2 红旗征排查</div>
-        <div class="triage-step">3 分层问卷</div>
-        <div class="triage-step">4 结果</div>
-      </div>
-      <div class="input-card" style="border-color:rgba(220,38,38,.35)">
-        <h3>第二步：红旗征排查（必答）</h3>
-        <div class="sub">请如实回答以下问题。任一问题答"是"，系统将立即提示就医，不再进入自我训练建议。依据：NICE NG59（2016，2020更新）。</div>
-      </div>
-      ${items.map((it,i) => `
-        <div class="tq-card">
-          <div class="tq-q"><span class="tq-idx">${i+1}.</span>${it.q}</div>
-          <button class="tq-why-toggle" onclick="triageToggleWhy('why-${it.k}')">为什么问这个？（依据：NICE NG59）</button>
-          <div class="tq-why" id="why-${it.k}">${it.why}</div>
-          <div class="tq-opts">
-            <button class="tq-opt ${s.rf[it.k]===true?'sel-yes':''}" onclick="triageSetRF('${it.k}',true)">是</button>
-            <button class="tq-opt ${s.rf[it.k]===false?'sel-no':''}" onclick="triageSetRF('${it.k}',false)">否</button>
-          </div>
-        </div>`).join('')}
-      <div class="btn-row">
-        <button class="btn btn-primary" id="triage-next-2" ${answered?'':'disabled style="opacity:.4;cursor:not-allowed"'}
-          onclick="triageSubmitRedflag()">提交红旗征</button>
-        <button class="btn btn-ghost" onclick="tState.step='region';renderTriageStep()">上一步</button>
-      </div>`;
-  }
-
-  else if (s.step === 'layer') {
-    const isBack = regionIsBack(s.region);
-    const startAnswered = isBack && START_ITEMS.every(it => s.start[it.k] != null) && s.startQ9 != null;
-    const genAnswered = !isBack && GENERIC_ITEMS.every(it => s.generic[it.k] != null);
-    const answered = startAnswered || genAnswered;
-    let questionsHTML = '';
-    if (isBack) {
-      questionsHTML = `
-        <div class="input-card">
-          <h3>STarT Back 分层问卷（腰痛专用）</h3>
-          <div class="sub">Keele 大学 STarT Back Screening Tool 官方条目中文翻译，请按过去两周的情况回答。
-          本工具评估背痛慢性化风险，不做诊断。</div>
-        </div>
-        ${START_ITEMS.map((it,i) => `
-          <div class="tq-card">
-            <div class="tq-q"><span class="tq-idx">${i+1}.</span>${it.q}</div>
-            ${it.why ? `<button class="tq-why-toggle" onclick="triageToggleWhy('why-s${it.k}')">为什么问这个？</button>
-              <div class="tq-why" id="why-s${it.k}">${it.why}</div>` : ''}
-            <div class="tq-opts">
-              <button class="tq-opt ${s.start[it.k]===1?'sel-yes':''}" onclick="triageSetStart(${it.k},1)">同意（是）</button>
-              <button class="tq-opt ${s.start[it.k]===0?'sel-no':''}" onclick="triageSetStart(${it.k},0)">不同意（否）</button>
-            </div>
-          </div>`).join('')}
-        <div class="tq-card">
-          <div class="tq-q"><span class="tq-idx">9.</span>总的来说，过去两周内背痛对你的影响（困扰）程度如何？</div>
-          <div class="tq-opts-5">
-            ${START_Q9_OPTIONS.map((o,oi) => `<button class="tq-opt-5 ${s.startQ9===oi?'active':''}"
-              onclick="triageSetStartQ9(${oi})">${o.label}</button>`).join('')}
-          </div>
-        </div>`;
-    } else {
-      questionsHTML = `
-        <div class="input-card">
-          <h3>通用肌骨症状分层</h3>
-          <div class="sub">该部位暂无专用预后分层工具，以下问题按通用症状负担逻辑分层（疼痛持续时间、功能影响、放射痛、恐惧回避信念）。</div>
-        </div>
-        ${GENERIC_ITEMS.map((it,i) => `
-          <div class="tq-card">
-            <div class="tq-q"><span class="tq-idx">${i+1}.</span>${it.q}</div>
-            <div class="tq-opts">
-              <button class="tq-opt ${s.generic[it.k]===true?'sel-yes':''}" onclick="triageSetGeneric('${it.k}',true)">是</button>
-              <button class="tq-opt ${s.generic[it.k]===false?'sel-no':''}" onclick="triageSetGeneric('${it.k}',false)">否</button>
-            </div>
-          </div>`).join('')}`;
-    }
-    host.innerHTML = `
-      <div class="triage-steps">
-        <div class="triage-step done">1 选择部位</div>
-        <div class="triage-step done">2 红旗征排查（阴性）</div>
-        <div class="triage-step active">3 分层问卷</div>
-        <div class="triage-step">4 结果</div>
-      </div>
-      ${questionsHTML}
-      <div class="input-card">
-        <h3>既往史与用药（选填，将写入就医报告）</h3>
-        <div class="row">
-          <div class="field"><label>既往史 / 手术史 / 相关诊断</label>
-            <textarea id="t-history" placeholder="如：腰椎间盘突出史、骨质疏松、近期手术…">${escapeHtml(s.history)}</textarea></div>
-          <div class="field"><label>当前用药</label>
-            <textarea id="t-meds" placeholder="如：布洛芬、降压药、长期激素…">${escapeHtml(s.meds)}</textarea></div>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" ${answered?'':'disabled style="opacity:.4;cursor:not-allowed"'}
-          onclick="triageSubmitLayer()">查看分层结果</button>
-        <button class="btn btn-ghost" onclick="triageCancel()">取消</button>
-      </div>`;
-    const hEl = document.getElementById('t-history'), mEl = document.getElementById('t-meds');
-    if (hEl) hEl.addEventListener('input', e => tState.history = e.target.value);
-    if (mEl) mEl.addEventListener('input', e => tState.meds = e.target.value);
-  }
-}
-
-/* ---------- 分诊人体图（复用现有SVG资源） ---------- */
-function renderTriageMap(view){
-  const host = document.getElementById('triage-map');
-  if (!host) return;
-  const joints = view==='front' ? FRONT_JOINTS : BACK_JOINTS;
-  let svg = `<svg viewBox="0 0 300 520" xmlns="http://www.w3.org/2000/svg">`;
-  const op = '0.5';
-  svg += `<path class="body-outline" d="${BODY_FRONT_TORSO}" style="opacity:${op}"/>
-    <path class="body-outline" d="${BODY_FRONT_RARM}" style="opacity:${op}"/>
-    <path class="body-outline" d="${BODY_FRONT_LARM}" style="opacity:${op}"/>
-    <path class="body-outline" d="${BODY_FRONT_RLEG}" style="opacity:${op}"/>
-    <path class="body-outline" d="${BODY_FRONT_LLEG}" style="opacity:${op}"/>
-    <ellipse class="body-outline" cx="150" cy="50" rx="28" ry="38" style="opacity:${op}"/>`;
-  if (view==='back') {
-    svg += `<path class="body-outline" d="${BODY_BACK_RSCAPULA}" style="opacity:${op}"/>
-      <path class="body-outline" d="${BODY_BACK_LSCAPULA}" style="opacity:${op}"/>
-      <path d="${BODY_BACK_SPINE}" stroke="var(--text-m)" stroke-width="1" fill="none" stroke-dasharray="3 3" opacity="0.4"/>`;
-  }
-  joints.forEach(j => {
-    const nm = regionNorm(j.region);
-    const isBack = regionIsBack(nm);
-    const picked = tState.region === nm;
-    svg += `<circle class="tj-circle${picked?' picked':''}" cx="${j.cx}" cy="${j.cy}" r="${picked?13:10}"
-      fill="${isBack?'rgba(245,158,11,.25)':'rgba(200,164,94,.15)'}"
-      stroke="${isBack?'#F59E0B':'var(--text-m)'}" stroke-width="${picked?2.5:1.2}"
-      onclick="triagePickRegion('${escapeAttr(nm)}')"><title>${escapeHtml(nm)}</title></circle>`;
-    const tx = j.cx + j.lx, ty = j.cy + j.ly, anchor = j.lx>=0?'start':'end';
-    svg += `<text class="joint-label" x="${tx}" y="${ty}" text-anchor="${anchor}" dominant-baseline="middle">${j.label}</text>`;
-  });
-  svg += '</svg>';
-  host.innerHTML = svg;
-}
-window.triageSetView = function(v){ tState.view = v; renderTriageStep(); };
-window.triagePickRegion = function(r){ tState.region = r; renderTriageStep(); };
-window.triageCancel = function(){ tState = null; renderTriageHome(); };
-window.triageToggleWhy = function(id){ const el = document.getElementById(id); if (el) el.classList.toggle('open'); };
-window.triageSetRF = function(k,v){ tState.rf[k]=v; renderTriageStep(); };
-window.triageSetStart = function(k,v){ tState.start[k]=v; renderTriageStep(); };
-window.triageSetStartQ9 = function(oi){ tState.startQ9=oi; renderTriageStep(); };
-window.triageSetGeneric = function(k,v){ tState.generic[k]=v; renderTriageStep(); };
-window.triageGoRedflag = function(){
-  if (!tState.region) { toast('请先选择不适部位','err'); return; }
-  tState.step = 'redflag'; renderTriageStep();
-  window.scrollTo({top: document.getElementById('triage-content').getBoundingClientRect().top + window.scrollY - 60, behavior:'smooth'});
-};
-
-/* ---------- 红旗征提交：任一阳性 → 红灯 ---------- */
-window.triageSubmitRedflag = function(){
-  const items = regionIsBack(tState.region) ? RF_BACK : RF_GENERIC;
-  if (!items.every(it => tState.rf[it.k] != null)) { toast('请回答全部红旗征问题','err'); return; }
-  const positives = items.filter(it => tState.rf[it.k] === true);
-  if (positives.length) {
-    const anyEmergency = positives.some(p => p.emergency);
-    saveTriage({
-      light:'red',
-      rfPositives: positives.map(p => ({q:p.q, why:p.why, emergency:p.emergency})),
-      emergency: anyEmergency,
-      tool: regionIsBack(tState.region) ? 'redflag-back' : 'redflag-generic',
-      refs:['NICE NG59（2016，2020更新）'],
-    });
-  } else {
-    tState.step = 'layer';
-    renderTriageStep();
-  }
-};
-
-/* ---------- 分层问卷提交 ---------- */
-window.triageSubmitLayer = function(){
-  if (regionIsBack(tState.region)) {
-    if (!START_ITEMS.every(it => tState.start[it.k] != null) || tState.startQ9 == null) {
-      toast('请完成全部 STarT 条目','err'); return;
-    }
-    const q9score = START_Q9_OPTIONS[tState.startQ9].v;
-    const total = START_ITEMS.reduce((s,it)=>s+(tState.start[it.k]||0),0) + q9score;
-    const sub = START_ITEMS.filter(it=>it.sub).reduce((s,it)=>s+(tState.start[it.k]||0),0) + q9score;
-    let light, note;
-    if (total <= 3) { light='green'; note='STarT Back 总分 0-3：低风险，预后良好可能性高。'; }
-    else if (sub >= 4) { light='yi'; note='STarT Back 总分 ≥4 且心理子量表（Q5-Q9）≥4：高风险，提示症状持续与功能受限风险较高。'; }
-    else { light='yw'; note='STarT Back 总分 ≥4 但心理子量表（Q5-Q9）<4：中风险。'; }
-    saveTriage({
-      light, tool:'start',
-      startTotal: total, startSub: sub,
-      startAnswers: START_ITEMS.map(it=>({k:it.k, q:it.q, a:tState.start[it.k], sub:it.sub})).concat([{k:9, q:'背痛总体影响（困扰）程度', a:START_Q9_OPTIONS[tState.startQ9].label, sub:true, score:q9score}]),
-      refs:['STarT Back Screening Tool, Keele University（© Keele University 01/08/07）',
-            'Hill JC, Dunn KM, Lewis M, et al. Arthritis Rheum. 2008;59(5):632-641',
-            'Hill JC et al. Lancet. 2011;378:1560-1571'],
-    });
-  } else {
-    if (!GENERIC_ITEMS.every(it => tState.generic[it.k] != null)) { toast('请完成全部问题','err'); return; }
-    const count = GENERIC_ITEMS.filter(it => tState.generic[it.k] === true).length;
-    const positives = GENERIC_ITEMS.filter(it => tState.generic[it.k] === true);
-    let light, note;
-    if (count === 0) { light='green'; note='通用症状负担分层：4 项均阴性，症状负担低。'; }
-    else if (count >= 3) { light='yi'; note='通用症状负担分层：4 项中 ' + count + ' 项阳性，症状负担重，建议尽快就医评估并对接物理治疗。'; }
-    else { light='yw'; note='通用症状负担分层：4 项中 ' + count + ' 项阳性，提示需要自我管理并安排复评。'; }
-    saveTriage({
-      light, tool:'generic',
-      genericTotal: count,
-      genericAnswers: GENERIC_ITEMS.map(it=>({q:it.q, a:tState.generic[it.k]})).concat(positives.map(p=>({q:p.q,a:true,pos:true}))).filter((v,i,arr)=>i<GENERIC_ITEMS.length || positives.some(p=>p.q===v.q)),
-      refs:['NICE NG59 红旗征原则（2016，2020更新）',
-            '通用肌骨症状负担分层（本部位暂无专用预后分层工具）'],
-    });
-  }
-};
-
-/* ---------- 保存分诊结果 ---------- */
-function saveTriage(extra){
-  const t = {
-    id: 't' + Date.now(),
-    date: new Date().toISOString().slice(0,10),
-    createdAt: Date.now(),
-    region: tState.region,
-    light: extra.light,
-    locked: extra.light === 'red' || extra.light === 'yi',
-    reviewDate: null,
-    history: (tState.history||'').trim(),
-    meds: (tState.meds||'').trim(),
-    rfAnswers: (regionIsBack(tState.region)?RF_BACK:RF_GENERIC).map(it=>({q:it.q, a:tState.rf[it.k]===true, emergency:it.emergency})),
-    ...extra,
-  };
-  triages.push(t);
-  persistTriages();
-  tState = null;
-  injectSafetyBanner();
-  showTriageResult(t.id);
-}
-
-/* ---------- 结果页 ---------- */
-window.showTriageResult = function(id){
-  const t = triages.find(x=>x.id===id);
-  if (!t) return;
-  const host = document.getElementById('triage-content');
-  const meta = LIGHT_META[t.light];
-  const rc = {
-    red:'red', yi:'yi', yw:'yw', green:'green'
-  }[t.light];
-  const {title, intro, advice} = buildLightContent(t);
-
-  // 同部位上次结果对比
-  let compareHTML = '';
-  const prior = triages.filter(x=>x.region===t.region && x.createdAt < t.createdAt).slice(-1)[0];
-  if (prior) {
-    compareHTML = `<div class="compare-box">同部位上次分诊（${prior.date}）：
-      <b style="color:${triageLightColor(prior.light)}">${LIGHT_META[prior.light].name}</b>
-      ${prior.tool==='start'?` · STarT 总分${prior.startTotal}/子量表${prior.startSub}`:''}
-      ；本次：<b style="color:${triageLightColor(t.light)}">${meta.name}</b>
-      ${t.tool==='start'?` · STarT 总分${t.startTotal}/子量表${t.startSub}`:''}</div>`;
-  }
-
-  let whyHTML = '';
-  if (t.light === 'red') {
-    whyHTML = `<div class="why-box"><h4>为什么是这个结果</h4><ul>
-      ${(t.rfPositives||[]).map(p=>`<li class="pos"><b>阳性：</b>${p.q}${p.emergency?' <span>［需急诊］</span>':''}<br><span>${p.why}</span></li>`).join('')}
-      <li><span>依据：NICE NG59《Low back pain and sciatica in over 16s》（2016，2020更新）红旗征。</span></li>
-      </ul></div>`;
-  } else if (t.tool === 'start') {
-    const scoreItems = (t.startAnswers||[]).filter(a=>a.score!==undefined || [5,6,7,8].includes(a.k) || a.k===9);
-    whyHTML = `<div class="why-box"><h4>为什么是这个结果</h4><ul>
-      <li>STarT Back 总分（Q1-Q9）：<b>${t.startTotal}</b> / 9
-        <span>0-3 低风险；4 及以上需看心理子量表</span></li>
-      <li>心理子量表（Q5-Q9）：<b>${t.startSub}</b> / 5
-        <span>≥4 高风险；&lt;4 中风险</span></li>
-      ${scoreItems.filter(a=>a.a===1||a.a==='非常影响'||a.a==='极度影响').map(a=>`<li class="pos"><b>阳性条目：</b>${a.q}</li>`).join('')}
-      <li><span>依据：STarT Back Screening Tool（© Keele University）；Hill JC et al. Arthritis Rheum. 2008;59:632-641；Hill JC et al. Lancet. 2011;378:1560-1571。</span></li>
-      </ul></div>`;
-  } else if (t.tool === 'generic') {
-    whyHTML = `<div class="why-box"><h4>为什么是这个结果</h4><ul>
-      <li>通用症状负担 4 项中阳性：<b>${t.genericTotal}</b> 项
-        <span>0 项低负担；1-2 项中等；3-4 项较重</span></li>
-      ${(t.genericAnswers||[]).filter(a=>a.a===true).map(a=>`<li class="pos"><b>阳性：</b>${a.q}</li>`).join('')}
-      <li><span>说明：该部位暂无专用预后分层工具，按通用症状负担逻辑（持续时间、功能影响、放射痛、恐惧回避）分层。</span></li>
-      <li><span>依据：NICE NG59 红旗征原则（2016，2020更新）。</span></li>
-      </ul></div>`;
-  } else {
-    whyHTML = `<div class="why-box"><h4>为什么是这个结果</h4><ul>
-      <li class="neg">红旗征排查全部阴性：你标记的症状不提示严重病理。</li></ul></div>`;
-  }
-
-  host.innerHTML = `
-    <div class="triage-steps">
-      <div class="triage-step done">1 选择部位</div>
-      <div class="triage-step done">2 红旗征排查</div>
-      <div class="triage-step done">3 分层问卷</div>
-      <div class="triage-step active">4 结果</div>
-    </div>
-    ${compareHTML}
-    <div class="light-banner ${rc}">
-      <span class="light-tag">${meta.label}</span>
-      <div class="light-title">${title}</div>
-      <div class="light-text">${intro}</div>
-    </div>
-    ${whyHTML}
-    <div class="advice-box"><h4>建议行动</h4><ul>${advice.map(a=>`<li>${a}</li>`).join('')}</ul></div>
-    <div class="input-card">
-      <h3>复评提醒</h3>
-      <div class="sub">仅在本工具内显示提示，不发送系统通知。</div>
-      <div class="row">
-        <div class="field"><label>设定复评日期</label>
-          <input type="date" id="t-review-date" value="${t.reviewDate||''}"></div>
-      </div>
-      <button class="btn btn-ghost" style="margin-top:10px" onclick="triageSetReview('${t.id}')">保存复评提醒</button>
-      ${t.reviewDate?`<div class="sub" style="margin-top:8px;color:var(--gold)">已设定：${t.reviewDate} 复评（${escapeHtml(t.region)}）</div>`:''}
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="exportTriageReport('${t.id}')">导出就医报告（可打印 / 另存 PDF）</button>
-      <button class="btn btn-ghost" onclick="triageStart()">对其他部位再评估</button>
-      <button class="btn btn-ghost" onclick="renderTriageHome()">返回分诊首页</button>
-    </div>
-    <div class="disclaimer-bar">本工具提供风险分层与就医导航，不能替代医生面诊。</div>`;
-  window.scrollTo({top: document.getElementById('triage-content').getBoundingClientRect().top + window.scrollY - 60, behavior:'smooth'});
-};
-
-function buildLightContent(t){
-  if (t.light === 'red') {
-    const emerg = t.emergency;
-    return {
-      title:'你的排查结果提示需要立即就医评估',
-      intro: emerg
-        ? '你有红旗征阳性，且包含需要急诊处理的征象。请立即前往最近医院急诊（或拨打急救电话 120）。若出现鞍区麻木、大小便障碍或下肢无力，提示马尾综合征可能，延误可能造成神经功能永久性损伤。'
-        : '你有红旗征阳性，提示需要尽快（24小时内）线下就医评估，不建议自行训练或等待观察。',
-      advice:[
-        `<b>立即行动：</b>${emerg?'现在就去急诊（骨科/脊柱外科急诊），不要等到明天。':'24小时内就诊骨科/脊柱外科或康复医学科。'}`,
-        '<b>就诊时：</b>向医生说明阳性症状的出现时间和变化；可使用本报告（导出就医报告）辅助沟通。',
-        '<b>训练方面：</b>在医生评估前暂停力量训练和引起症状的动作，仅保持日常轻度活动。',
-        '<b>复核：</b>请在24小时内联系你的教练或医生复核本结果。',
-      ],
-    };
-  }
-  if (t.light === 'yi') {
-    return {
-      title:'你的分层结果提示需要尽快就医评估',
-      intro: t.tool==='start'
-        ? 'STarT Back 高风险：红旗征阴性，但症状负担与心理社会因素得分较高，提示恢复可能较慢。建议尽快对接物理治疗/康复医学科，不建议自行加量训练。'
-        : '通用分层显示症状负担较重（持续时间长、功能影响大或伴明显恐惧回避），建议尽快就医评估并对接物理治疗。',
-      advice:[
-        '<b>尽快就医：</b>1周内就诊康复医学科/骨科或物理治疗，获取专业评估。',
-        '<b>保持活动：</b>避免卧床，可进行疼痛教育与温和的保持活动（如短时间步行），避免高冲击和引起放射痛/麻木的动作。',
-        '<b>暂停进阶：</b>进阶训练建议已锁定，待物理治疗师评估后再恢复。',
-        '<b>复评：</b>建议4-8周后复评本分层工具，观察变化。',
-      ],
-    };
-  }
-  if (t.light === 'yw') {
-    return {
-      title:'预警黄灯：可自我管理，请安排复评',
-      intro: '红旗征阴性，分层为中等风险。多数这类不适可通过保持活动与科学自我管理改善，但需要在数周内复查确认趋势。',
-      advice:[
-        '<b>保持活动：</b>避免长时间休息或卧床，维持日常活动与轻量训练（graded activity 渐进活动原则）。',
-        '<b>疼痛教育：</b>疼痛不等于损伤；回避活动反而会降低耐受。避免高冲击动作和引起放射痛/麻木加重的动作。',
-        '<b>训练调整：</b>降低负荷与幅度，以不加重症状24小时为限；可继续记录每日身体地图。',
-        '<b>复评：</b>建议4-8周后复评；若症状加重或出现新的麻木、无力、大小便异常，立即就医。',
-      ],
-    };
-  }
-  return {
-    title:'绿灯：红旗征全部阴性，可继续科学训练',
-    intro: '红旗征排查全部阴性，你标记的症状不提示严重病理。这类不适通常预后良好，保持活动是促进恢复的核心。',
-    advice:[
-      '<b>保持活动：</b>继续日常活动与训练，避免因轻微不适完全停训。',
-      '<b>训练调整：</b>适度降低不适部位负荷，注重热身与动作质量；症状多在数周内缓解。',
-      '<b>持续记录：</b>继续使用身体地图记录，观察趋势而非单次波动。',
-      '<b>何时就医：</b>若出现麻木无力、大小便异常、发热、夜间持续痛或外伤后加重，请立即回到本工具做红旗征排查。',
-    ],
-  };
-}
-
-/* ---------- 复评提醒 ---------- */
-window.triageSetReview = function(id){
-  const t = triages.find(x=>x.id===id);
-  if (!t) return;
-  const v = document.getElementById('t-review-date').value;
-  t.reviewDate = v || null;
-  persistTriages();
-  toast(v ? '已设定复评提醒 ' + v : '已清除复评提醒', 'ok');
-  showTriageResult(id);
-};
-
-/* ---------- 训练安全锁横幅（注入每日记录页） ---------- */
-function injectSafetyBanner(){
-  const panel = document.getElementById('panel-input');
-  if (!panel) return;
-  let bar = document.getElementById('safety-banner');
-  if (!bar) {
-    bar = document.createElement('div');
-    bar.id = 'safety-banner';
-    bar.className = 'safety-banner';
-    const sec = panel.querySelector('.container');
-    if (sec) sec.insertBefore(bar, sec.firstChild);
-  }
-  const lt = latestTriage();
-  const recentDays = lt ? Math.floor((Date.now()-lt.createdAt)/86400000) : 999;
-  if (lt && recentDays <= 90 && lt.locked) {
-    bar.className = 'safety-banner show lock';
-    bar.innerHTML = `<b>训练安全锁：</b>最近一次分诊（${lt.date}，${escapeHtml(lt.region)}，${LIGHT_META[lt.light].name}）提示需先就医评估。
-      进阶训练建议已锁定，当前仅建议疼痛教育、保持活动与尽快转介。
-      <a onclick="switchTab('triage')">查看分诊结果</a>`;
-  } else if (lt && recentDays <= 90 && lt.light === 'yw') {
-    bar.className = 'safety-banner show caution';
-    bar.innerHTML = `<b>训练提示：</b>最近一次分诊（${lt.date}，${escapeHtml(lt.region)}，预警黄灯）。
-      可进行渐进活动，避免高冲击动作和引起放射痛/麻木的动作；建议4-8周复评。
-      <a onclick="switchTab('triage')">查看分诊结果</a>`;
-  } else {
-    bar.className = 'safety-banner';
-    bar.innerHTML = '';
-  }
-}
-
-/* ---------- 就医报告导出（打印视图 + window.print） ---------- */
-window.exportTriageReport = function(id){
-  const t = triages.find(x=>x.id===id);
-  if (!t) return;
-  const today = t.date.replace(/-/g,'');
-  const meta = LIGHT_META[t.light];
-
-  // 近8周 NRS 疼痛趋势（取自每日记录）
-  const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-56);
-  const trend = records.filter(r => new Date(r.date+'T00:00:00') >= cutoff && r.painPoints && r.painPoints.length)
-    .map(r => ({date:r.date, avg:(r.intensityAvg||0), points:r.painPoints.map(p=>`${regionNorm(p.region)} NRS${p.intensity}`).join('；')}));
-  const trendRows = trend.length
-    ? trend.map(r=>`<tr><td>${r.date}</td><td>${r.avg.toFixed(1)}</td><td>${escapeHtml(r.points)}</td></tr>`).join('')
-    : '<tr><td colspan="3">近8周无疼痛记录</td></tr>';
-
-  // 身体地图标记部位（最近一条记录）
-  const lastRec = records[records.length-1];
-  const markedSites = (lastRec && lastRec.painPoints && lastRec.painPoints.length)
-    ? lastRec.painPoints.map(p=>`${regionNorm(p.region)}（强度${p.intensity}/${sevName(p.proprioception)}）`).join('；')
-    : '无';
-
-  // 训练自评警示项（最近一条记录中的低分子项）
-  let trainWarn = '无明显低分警示项';
-  if (lastRec && Array.isArray(lastRec.train)) {
-    const warns = [];
-    lastRec.train.forEach(dim => {
-      (dim.subs||[]).forEach(sub => {
-        (sub.items||[]).forEach(it => {
-          const low = (it.type==='seg5' && it.val <= 2) || (it.type==='slider10' && it.val <= 4);
-          if (low) warns.push(`${dim.k}/${sub.k}/${it.k}=${it.val}`);
-        });
-      });
-    });
-    if (warns.length) trainWarn = warns.slice(0,12).join('；') + (warns.length>12?' 等':'');
-  }
-
-  // 红旗征逐条
-  const rfRows = (t.rfAnswers||[]).map(a=>`<tr>
-      <td>${escapeHtml(a.q)}</td>
-      <td class="${a.a?'rp-pos':'rp-neg'}">${a.a?'阳性':'阴性'}</td>
-      <td>${a.emergency?'需急诊':'尽快就诊'}</td></tr>`).join('');
-
-  // 分层得分
-  let layerHTML = '';
-  if (t.tool === 'start') {
-    layerHTML = `<h2>STarT Back 分层（腰痛专用，Keele 大学）</h2>
-      <table><thead><tr><th>指标</th><th>得分</th><th>判定</th></tr></thead><tbody>
-      <tr><td>总分（Q1-Q9，0-9）</td><td>${t.startTotal}</td><td>${t.startTotal<=3?'0-3 低风险':'≥4，进入心理子量表判定'}</td></tr>
-      <tr><td>心理子量表（Q5-Q9，0-5）</td><td>${t.startSub}</td><td>${t.startSub>=4?'≥4 高风险':'<4 中风险'}</td></tr>
-      <tr><td><b>分层结果</b></td><td colspan="2"><b class="${t.light==='green'?'rp-neg':'rp-pos'}">${meta.name}</b></td></tr>
-      </tbody></table>
-      <p style="margin-top:4px">STarT Back Screening Tool 为 Keele 大学版权工具（© Keele University 01/08/07）；
-      来源：Hill JC et al. Arthritis Rheum. 2008;59(5):632-641；Hill JC et al. Lancet. 2011;378:1560-1571。</p>`;
-  } else if (t.tool === 'generic') {
-    layerHTML = `<h2>通用肌骨症状分层</h2>
-      <table><thead><tr><th>指标</th><th>结果</th></tr></thead><tbody>
-      <tr><td>症状负担阳性项数（共4项：持续&gt;2周 / 功能睡眠影响 / 放射痛 / 恐惧回避）</td><td>${t.genericTotal} / 4</td></tr>
-      <tr><td><b>分层结果</b></td><td><b class="${t.light==='green'?'rp-neg':'rp-pos'}">${meta.name}</b></td></tr>
-      </tbody></table>
-      <p style="margin-top:4px">该部位暂无专用预后分层工具，按通用症状负担逻辑分层。</p>`;
-  } else {
-    layerHTML = `<h2>分层结果</h2><p class="rp-pos">红旗征阳性，触发红灯就医导航（未进入分层问卷）。</p>`;
-  }
-
-  const summaryLight = t.light==='red' ? '红灯：需立即就医评估'
-    : t.light==='yi' ? '黄灯偏红（高风险）：建议尽快就医评估 + 物理治疗'
-    : t.light==='yw' ? '预警黄灯（中风险）：自我管理 + 4-8周复评'
-    : '绿灯：红旗征阴性，可保持活动';
-
-  const html = `<div class="rp-body">
-    <h1>身体地图就医报告</h1>
-    <p>报告日期：${t.date} ｜ 不适部位：${escapeHtml(t.region)} ｜ 分诊结果：<b>${meta.name}（${summaryLight}）</b></p>
-
-    <h2>给医生的信息摘要</h2>
-    <div class="rp-summary">
-      患者因 <b>${escapeHtml(t.region)}</b> 不适于 ${t.date} 完成自助分诊。<br>
-      红旗征排查：<b class="${t.light==='red'?'rp-pos':'rp-neg'}">${t.light==='red'?(t.rfPositives||[]).length+' 项阳性':'全部阴性'}</b>；
-      ${t.tool==='start'?`STarT Back 总分 <b>${t.startTotal}/9</b>、心理子量表 <b>${t.startSub}/5</b>，分层：<b>${meta.name}</b>。`
-        :t.tool==='generic'?`通用症状负担分层：<b>${t.genericTotal}/4</b> 项阳性，分层：<b>${meta.name}</b>。`
-        :'红旗征阳性，已建议立即就医。'}<br>
-      既往史：${escapeHtml(t.history||'（未填写）')}<br>
-      当前用药：${escapeHtml(t.meds||'（未填写）')}
-    </div>
-
-    <h2>一、红旗征排查（逐条结果）</h2>
-    <table><thead><tr><th>排查条目</th><th>结果</th><th>紧急程度</th></tr></thead><tbody>${rfRows}</tbody></table>
-    <p style="margin-top:4px">依据：NICE NG59《Low back pain and sciatica in over 16s: assessment and management》（2016，2020更新）。</p>
-
-    ${layerHTML}
-
-    <h2>二、身体地图标记部位（最近一次记录）</h2>
-    <p>${escapeHtml(markedSites)}</p>
-
-    <h2>三、近8周 NRS 疼痛趋势</h2>
-    <table><thead><tr><th>日期</th><th>平均强度</th><th>部位明细</th></tr></thead><tbody>${trendRows}</tbody></table>
-
-    <h2>四、训练自评警示项（最近一次记录）</h2>
-    <p>${escapeHtml(trainWarn)}</p>
-
-    <div class="rp-foot">
-      本报告由"日建一功 · 身体地图"分诊导航模块自动生成，数据仅保存在本人浏览器。<br>
-      红旗征依据 NICE NG59（2016，2020更新）；腰痛分层使用 Keele 大学 STarT Back Screening Tool（Hill JC et al. 2008；Hill JC et al. 2011, Lancet）。<br>
-      本工具提供风险分层与就医导航，不能替代医生面诊。
-    </div>
-  </div>`;
-
-  const reportHost = document.getElementById('print-report');
-  reportHost.innerHTML = html;
-  document.title = '身体地图就医报告_' + today;
-  window.print();
-  setTimeout(()=>{ document.title = '日建一功 · 我的身体变化地图'; }, 1500);
 };
 
 /* ========== 工具 ========== */
