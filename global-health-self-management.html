@@ -1,0 +1,1341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>国外大健康体系调研：亚健康·慢性病·关节损伤评估与自我管理工具包框架（深度可视化报告）</title>
+<style>
+:root{
+  --paper:#F8F6F0;
+  --ink:#102A43;
+  --text:#1D2733;
+  --muted:#52606D;
+  --blue:#2978B5;
+  --blue-deep:#1D5685;
+  --orange:#F59E0B;
+  --card:#FFFFFF;
+  --line:#E6E1D8;
+  --green:#2E7D32;
+  --green-bg:#E9F3EA;
+  --yellow:#F59E0B;
+  --yellow-bg:#FDF3DC;
+  --red:#C62828;
+  --red-bg:#FAE7E7;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","Menlo","Consolas",monospace;
+  --shadow:0 1px 3px rgba(16,42,67,.07),0 6px 18px rgba(16,42,67,.06);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.num,.kpi-value,td:nth-child(n),th{font-variant-numeric:tabular-nums;}
+.num{font-family:var(--mono);font-size:.92em;white-space:nowrap;}
+a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+a:hover{color:var(--blue);}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:2px;}
+
+/* ---------- top navigation ---------- */
+.topnav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(248,246,240,.94);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1080px;margin:0 auto;padding:8px 20px;
+  display:flex;align-items:center;gap:14px;
+}
+.nav-brand{
+  font-family:var(--serif);font-weight:700;color:var(--ink);
+  font-size:14px;white-space:nowrap;letter-spacing:.02em;
+}
+.nav-links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+}
+.nav-links a{
+  display:block;white-space:nowrap;
+  font-size:13px;color:var(--muted);text-decoration:none;
+  padding:5px 10px;border-radius:6px;
+}
+.nav-links a:hover{background:#EFEBE0;color:var(--ink);}
+.nav-links a.active{background:var(--ink);color:#fff;}
+
+/* ---------- hero ---------- */
+.hero{
+  max-width:1080px;margin:0 auto;padding:56px 20px 28px;
+}
+.hero .eyebrow{
+  display:inline-block;font-family:var(--mono);font-size:12.5px;
+  letter-spacing:.14em;color:var(--blue-deep);
+  border:1px solid var(--blue);border-radius:999px;
+  padding:4px 14px;margin-bottom:18px;background:#fff;
+}
+.hero h1{
+  font-family:var(--serif);color:var(--ink);
+  font-size:clamp(26px,4.2vw,40px);line-height:1.32;
+  margin:0 0 14px;font-weight:800;letter-spacing:.01em;
+}
+.hero .sub{color:var(--muted);font-size:15.5px;max-width:860px;margin:0 0 22px;}
+.hero .meta{
+  font-family:var(--mono);font-size:13px;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:30px;
+}
+.hero .meta span b{color:var(--ink);font-weight:600;}
+.kpi-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:12px;
+}
+.kpi{
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 14px 12px;box-shadow:var(--shadow);
+}
+.kpi-value{
+  font-family:var(--mono);font-size:clamp(19px,2.4vw,26px);
+  font-weight:700;color:var(--blue-deep);line-height:1.2;
+}
+.kpi-value .unit{font-size:.55em;color:var(--muted);font-weight:500;}
+.kpi-label{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45;}
+
+/* ---------- layout ---------- */
+main{max-width:1080px;margin:0 auto;padding:10px 20px 60px;}
+.chapter{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);
+  padding:30px 34px 32px;margin:26px 0;
+  scroll-margin-top:64px;
+}
+.chapter h2{
+  font-family:var(--serif);color:var(--ink);
+  font-size:clamp(21px,2.8vw,27px);line-height:1.4;
+  margin:0 0 6px;font-weight:800;
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+}
+.chapter h2 .ch-no{
+  font-family:var(--mono);font-size:13px;font-weight:600;color:#fff;
+  background:var(--ink);border-radius:6px;padding:3px 9px;letter-spacing:.08em;
+  flex:none;
+}
+.chapter .ch-lead{
+  color:var(--muted);font-size:14.5px;border-left:3px solid var(--orange);
+  padding:2px 0 2px 14px;margin:12px 0 22px;
+}
+h3{
+  font-family:var(--serif);color:var(--ink);
+  font-size:18.5px;margin:30px 0 10px;font-weight:700;
+  padding-top:14px;border-top:1px dashed var(--line);
+}
+h3 .h3-tag{
+  font-family:var(--mono);font-size:11.5px;color:var(--blue-deep);
+  background:#E8F1F8;border-radius:4px;padding:2px 7px;margin-right:8px;
+  vertical-align:2px;letter-spacing:.06em;
+}
+h4{font-size:15.5px;color:var(--ink);margin:18px 0 6px;font-weight:700;}
+p{margin:10px 0;}
+ul,ol{margin:10px 0;padding-left:1.4em;}
+li{margin:5px 0;}
+strong{color:var(--ink);}
+.sec-note{
+  background:#F3F7FB;border:1px solid #D6E6F2;border-radius:8px;
+  padding:12px 16px;font-size:14px;color:var(--ink);margin:16px 0;
+}
+
+/* ---------- risk dots & chips ---------- */
+.dot{
+  display:inline-block;width:11px;height:11px;border-radius:50%;
+  vertical-align:-1px;margin-right:5px;flex:none;
+}
+.dot-g{background:var(--green);}
+.dot-y{background:var(--yellow);}
+.dot-r{background:var(--red);}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12.5px;font-weight:600;border-radius:999px;
+  padding:2px 11px;white-space:nowrap;line-height:1.7;
+}
+.chip-g{background:var(--green-bg);color:var(--green);}
+.chip-y{background:var(--yellow-bg);color:#9A6700;}
+.chip-r{background:var(--red-bg);color:var(--red);}
+
+/* ---------- callouts ---------- */
+.alert{
+  border:1.5px solid var(--orange);background:#FFF8EC;
+  border-left:6px solid var(--orange);
+  border-radius:10px;padding:18px 22px;margin:22px 0;
+}
+.alert .alert-title{
+  font-family:var(--serif);font-weight:800;color:#8A5A00;
+  font-size:17px;margin:0 0 8px;display:flex;align-items:center;gap:9px;
+}
+.alert .alert-title::before{
+  content:"!";display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;
+  font-family:var(--mono);font-weight:700;flex:none;
+}
+.alert p{margin:6px 0;font-size:14.5px;}
+.findings-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0;
+}
+.finding-card{
+  border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:#FBFAF6;
+}
+.finding-card h4{margin:0 0 6px;font-size:15px;color:var(--ink);}
+.finding-card p{font-size:13.5px;color:var(--muted);margin:4px 0;}
+.loop-strip{
+  display:flex;align-items:stretch;gap:0;margin:18px 0;flex-wrap:wrap;
+}
+.loop-step{
+  flex:1;min-width:150px;background:var(--ink);color:#fff;border-radius:8px;
+  padding:12px 16px;margin:4px;position:relative;
+}
+.loop-step b{font-family:var(--serif);font-size:15.5px;display:block;}
+.loop-step span{font-size:12.5px;color:#C9D6E2;}
+.loop-arrow{align-self:center;color:var(--orange);font-family:var(--mono);font-size:18px;padding:0 2px;}
+
+/* ---------- stat / mini cards ---------- */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0;}
+.stat{
+  border:1px solid var(--line);border-top:3px solid var(--blue);
+  border-radius:8px;padding:12px 14px;background:#fff;
+}
+.stat .v{font-family:var(--mono);font-weight:700;font-size:19px;color:var(--ink);}
+.stat .l{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+.mini-card{border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:#FBFAF6;}
+.mini-card h4{margin:0 0 6px;color:var(--blue-deep);font-size:15px;}
+.mini-card p,.mini-card li{font-size:13.8px;color:var(--muted);}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:10px;}
+table{
+  border-collapse:collapse;width:100%;font-size:13.6px;background:#fff;
+  min-width:560px;
+}
+caption{
+  text-align:left;font-family:var(--serif);font-weight:700;color:var(--ink);
+  font-size:14.5px;padding:12px 16px;background:#F1EDE4;
+  border-bottom:1px solid var(--line);
+}
+caption .cap-note{font-family:var(--sans);font-weight:400;font-size:12.5px;color:var(--muted);margin-left:8px;}
+th,td{
+  border:1px solid var(--line);padding:9px 12px;text-align:left;
+  vertical-align:top;line-height:1.6;
+}
+thead th{
+  background:var(--ink);color:#fff;font-weight:600;font-size:13px;
+  white-space:nowrap;
+}
+tbody tr:nth-child(even){background:#FAF8F3;}
+tbody tr:hover{background:#EEF4FA;}
+td .num,th .num{color:var(--ink);}
+.cell-g{background:var(--green-bg)!important;}
+.cell-y{background:var(--yellow-bg)!important;}
+.cell-r{background:var(--red-bg)!important;}
+td.rowhead,th[scope="row"]{background:#F3F0E8;font-weight:600;color:var(--ink);white-space:nowrap;}
+
+/* ---------- figures / svg ---------- */
+figure{margin:22px 0;border:1px solid var(--line);border-radius:10px;background:#fff;padding:16px 18px 12px;}
+figure svg{width:100%;height:auto;display:block;}
+figcaption{
+  font-size:13px;color:var(--muted);margin-top:10px;padding-top:9px;
+  border-top:1px dashed var(--line);line-height:1.6;
+}
+figcaption b{color:var(--ink);}
+.svg-text{font-family:var(--sans);}
+.svg-mono{font-family:var(--mono);}
+
+/* ---------- source list ---------- */
+.src-list{list-style:none;padding:0;margin:14px 0;}
+.src-list li{
+  padding:9px 14px;border:1px solid var(--line);border-radius:8px;
+  margin:8px 0;font-size:13.8px;background:#FBFAF6;
+}
+.src-list .src-id{font-family:var(--mono);font-weight:700;color:var(--blue-deep);margin-right:8px;}
+footer{
+  max-width:1080px;margin:0 auto;padding:24px 20px 50px;
+  color:var(--muted);font-size:13px;border-top:1px solid var(--line);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr);}
+  .findings-grid{grid-template-columns:1fr;}
+  .stat-row{grid-template-columns:repeat(2,1fr);}
+  .mini-grid{grid-template-columns:1fr;}
+  .chapter{padding:22px 20px 24px;}
+}
+@media (max-width:560px){
+  body{font-size:15px;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .stat-row{grid-template-columns:1fr;}
+  .hero{padding:36px 16px 18px;}
+  main{padding:6px 12px 40px;}
+  .nav-inner{padding:7px 12px;}
+}
+@media print{
+  .topnav{display:none;}
+  body{background:#fff;}
+  .chapter,figure,.table-wrap,.alert{break-inside:avoid;box-shadow:none;}
+  a{text-decoration:none;color:var(--text);}
+  a[href^="http"]::after{content:"（" attr(href) "）";font-size:11px;color:var(--muted);font-family:var(--mono);word-break:break-all;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+}
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="章节目录">
+  <div class="nav-inner">
+    <span class="nav-brand">大健康体系调研 · 深度报告</span>
+    <div class="nav-links">
+      <a href="#ch1">核心发现</a>
+      <a href="#ch2">来源与方法</a>
+      <a href="#ch3">慢病路径</a>
+      <a href="#ch4">功能医学</a>
+      <a href="#ch5">抗炎体系</a>
+      <a href="#ch6">肌骨评估</a>
+      <a href="#ch7">数字整合</a>
+      <a href="#ch8">整合框架</a>
+      <a href="#ch9">信息缺口</a>
+      <a href="#ch10">附录速查</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">DEEP-DIVE RESEARCH REPORT · 2026</span>
+  <h1>国外大健康体系调研：亚健康·慢性病·关节损伤评估与自我管理工具包框架</h1>
+  <p class="sub">横跨慢性病自我管理、功能医学/抗衰评估、抗炎指标体系与肌骨/关节损伤评估四大领域，系统梳理 WHO/Stanford CDSMP、Flinders Program、澳洲 Medicare CDM、NHS PHM/Q-Risk、芬兰 HWC、IFM、NICE NG59、STarT Back、DII、PROMIS、Livongo 等 10+ 标杆体系的评估维度、分级截断值与记录模板，并提出「3 维度输入 × 3 层级输出 × 闭环追踪」的三合一身体地图工具整合框架。</p>
+  <div class="meta">
+    <span>报告完成日期：<b>2026-08-28</b></span>
+    <span>覆盖标杆体系：<b>10+</b></span>
+    <span>关键数字来源：<b>官方指南 / 同行评审论文 / 权威机构文件</b></span>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-value">851<span class="unit"> 人</span></div><div class="kpi-label">STarT Back 试验样本（10 家全科诊所）</div></div>
+    <div class="kpi"><div class="kpi-value">£34.39</div><div class="kpi-label">分层护理平均每患者节省费用</div></div>
+    <div class="kpi"><div class="kpi-value">1211<span class="unit"> 人</span></div><div class="kpi-label">STarT MSK 泛化 RCT 阴性结果</div></div>
+    <div class="kpi"><div class="kpi-value">OR 1.76</div><div class="kpi-label">高促炎饮食心血管-肾脏-代谢风险</div></div>
+    <div class="kpi"><div class="kpi-value">70<span class="unit"> 万+</span></div><div class="kpi-label">Livongo/Teladoc 服务用户</div></div>
+    <div class="kpi"><div class="kpi-value">20<span class="unit"> 倍</span></div><div class="kpi-label">高 ACE 评分关联慢性病风险增幅</div></div>
+  </div>
+</header>
+
+<main>
+<!-- ============ CH 1 ============ -->
+<section class="chapter" id="ch1">
+<h2><span class="ch-no">01</span>核心发现摘要</h2>
+<p class="ch-lead">全球大健康自我管理工具已形成成熟的四环联动范式；红黄绿三级分层跨领域共通，但分层依据各不相同。</p>
+
+<h3><span class="h3-tag">1.1</span>四环联动范式：评估 → 分层 → 干预 → 记录</h3>
+<p>横跨慢性病自我管理、功能医学/抗衰评估、抗炎指标体系、肌骨/关节损伤评估四大领域的关键共识是：<strong>红黄绿三级风险分层是跨领域共通的决策逻辑</strong>，但不同领域的分层依据和触发条件差异显著：</p>
+<div class="loop-strip" role="list" aria-label="四环联动范式">
+  <div class="loop-step" role="listitem"><b>评估</b><span>问卷 / 生物标志物 / 功能筛查多轨采集</span></div>
+  <div class="loop-arrow" aria-hidden="true">→</div>
+  <div class="loop-step" role="listitem"><b>分层</b><span>红黄绿三级截断值与加权评分</span></div>
+  <div class="loop-arrow" aria-hidden="true">→</div>
+  <div class="loop-step" role="listitem"><b>干预</b><span>匹配强度的转诊、教练或自助资源</span></div>
+  <div class="loop-arrow" aria-hidden="true">→</div>
+  <div class="loop-step" role="listitem"><b>记录</b><span>时间线、快照对比与随访闭环</span></div>
+</div>
+<div class="mini-grid">
+  <div class="mini-card"><h4><span class="dot dot-g" aria-hidden="true"></span>慢性病领域</h4><p>侧重<strong>疾病控制与自我管理能力</strong>（PAM 激活水平、PIH 四维评分、Q-Risk 心血管风险）。</p></div>
+  <div class="mini-card"><h4><span class="dot dot-y" aria-hidden="true"></span>功能医学领域</h4><p>侧重<strong>症状负荷与生物标志物</strong>（MSQ 总分、炎症谱、代谢与激素谱）。</p></div>
+  <div class="mini-card"><h4><span class="dot dot-r" aria-hidden="true"></span>肌骨领域</h4><p>侧重<strong>预后风险与红旗征识别</strong>（STarT Back 总分/心理社会子分、NICE NG59 红旗征）。</p></div>
+  <div class="mini-card"><h4>共通逻辑</h4><p>三级分层均回答同一问题：谁需要立即转介、谁需要主动干预、谁可以自助维持，仅输入变量与截断值不同。</p></div>
+</div>
+
+<h3><span class="h3-tag">1.2</span>最反直觉的发现：工具的病种特异性与效度正相关</h3>
+<div class="alert">
+  <p class="alert-title">STarT Back 被 NICE 推荐，STarT MSK 泛化却未优于常规护理</p>
+  <p>STarT MSK（将 STarT Back 从腰痛扩展到全身肌骨疼痛的通用版本）在一项 <span class="num">1211</span> 人随机对照试验（RCT）中，6 个月随访时疼痛水平与成本均<strong>无显著差异</strong>；而原版 STarT Back（<span class="num">851</span> 人、10 家全科诊所）因 4 与 12 个月残疾显著改善、平均每患者节省 <span class="num">£34.39</span> 被 NICE 指南推荐。</p>
+  <p><strong>设计含义：</strong>过度泛化会稀释预测能力。三合一身体地图工具应保留各模块的特异性评估逻辑，避免追求单一通用评分（详见第 6 章警示卡）。</p>
+</div>
+
+<h3><span class="h3-tag">1.3</span>三大信息缺口</h3>
+<div class="findings-grid">
+  <div class="finding-card"><h4>① 商业平台算法黑箱</h4><p>Hinge Health、Omada Health 等头部数字健康平台的内部算法与详细分层逻辑<strong>未公开</strong>，只能通过产品体验与行业报告侧面补充。</p></div>
+  <div class="finding-card"><h4>② WOSAAM 框架缺位</h4><p>世界抗衰老医学会（WOSAAM）的官方评估框架<strong>缺乏公开的英文详细文档</strong>，抗衰模块需更多依赖同行评审文献。</p></div>
+  <div class="finding-card"><h4>③ NLR 无统一截断值</h4><p>中性粒细胞/淋巴细胞比（NLR）的标准化临床截断值在不同研究间<strong>存在差异</strong>，宜作为探索性指标纳入，待自有数据积累后校准。</p></div>
+</div>
+
+<h3><span class="h3-tag">1.4</span>整合判断：三轨输入 + 红灯双轨触发 + 动态评估频率</h3>
+<ul>
+  <li><strong>三轨输入：</strong>以「主观症状 + 生物标志物 + 功能行为」三个维度构建三合一身体地图工具。</li>
+  <li><strong>红灯双轨触发：</strong>第一轨为绝对红旗征直接转介（高特异性、零容忍，不可被中和）；第二轨为综合加权评分 ≥ <span class="num">80/100</span> 的高风险转介（更灵敏、可调整）。</li>
+  <li><strong>黄灯多维加权：</strong>评分 <span class="num">40–79</span> 区间，细分预警黄（<span class="num">40–59</span>，生活方式干预）与干预黄（<span class="num">60–79</span>，教练 + 专科）。</li>
+  <li><strong>绿灯自助：</strong>评分 &lt; <span class="num">40</span> 且无任何红旗征，以健康教育与自我监测维持。</li>
+</ul>
+<div class="table-wrap">
+<table>
+<caption>表 1-1　分级评估频率总览<span class="cap-note">频率按分级动态调整，细节见第 8 章表 F</span></caption>
+<thead><tr><th scope="col">风险等级</th><th scope="col">全面评估频率</th><th scope="col">轻量监测频率</th><th scope="col">核心支持方式</th></tr></thead>
+<tbody>
+<tr><td><span class="chip chip-g"><span class="dot dot-g" aria-hidden="true"></span>绿灯</span></td><td class="num">6–12 个月/次</td><td>每月 1 次自评</td><td>健康教育 + 自我监测</td></tr>
+<tr><td><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>黄灯</span></td><td class="num">1–3 个月/次</td><td>每 1–2 周 1 次</td><td>健康教练 + 针对性干预</td></tr>
+<tr><td><span class="chip chip-r"><span class="dot dot-r" aria-hidden="true"></span>红灯</span></td><td>即时评估</td><td>转介后周级监测</td><td>专科转诊 / 急诊指导</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============ CH 2 ============ -->
+<section class="chapter" id="ch2">
+<h2><span class="ch-no">02</span>数据来源与方法</h2>
+<p class="ch-lead">关键数字与分级标准均来自官方指南、同行评审论文或权威机构发布文件；通用网络检索仅用于补充定性背景。</p>
+<p>本报告基于对全球权威机构公开资料的系统性检索，核心数据来源如下表。正文引用以括号内标识（PMC 编号、MBS Item、NICE 指南号等）标注，附录第 10 章汇总可核验的文献条目。</p>
+<div class="table-wrap">
+<table>
+<caption>表 2-1　核心数据来源一览（11 项）<span class="cap-note">按覆盖维度排列</span></caption>
+<thead><tr><th scope="col">数据来源</th><th scope="col">覆盖维度</th><th scope="col">在本报告中的角色</th></tr></thead>
+<tbody>
+<tr><td scope="row">WHO / Stanford CDSMP（Lorig et al.）<br><a href="https://selfmanagementresource.com/" target="_blank" rel="noopener noreferrer">Stanford Self-Management Resource Center</a></td><td>慢性病自我管理课程框架</td><td>社区化自我管理鼻祖模型</td></tr>
+<tr><td scope="row">Flinders Program / PIH Scale（澳大利亚）<br><a href="https://www.flindersprogram.com.au/" target="_blank" rel="noopener noreferrer">The Flinders Program 官网</a></td><td>慢性病自我管理评估工具、护理计划模板</td><td>通用 CDSM 金标准</td></tr>
+<tr><td scope="row">澳洲 Medicare MBS CDM/GPMP</td><td>慢性病管理计划结构、支付与评审规范</td><td>保险驱动的规范化模板</td></tr>
+<tr><td scope="row">NHS England（Q-Risk / PHM）</td><td>人口健康风险分层、长期疾病管理路径</td><td>公立体系分层护理范式</td></tr>
+<tr><td scope="row">芬兰 Health Village HWC<br><a href="https://www.terveyskyla.fi/en" target="_blank" rel="noopener noreferrer">Health Village / Terveyskylä</a></td><td>数字化健康教练模式、评估频率</td><td>数字 + 人工混合模式</td></tr>
+<tr><td scope="row">IFM（功能医学研究院）</td><td>功能医学矩阵、MSQ 问卷、GOTOIT 流程</td><td>亚健康评估核心框架</td></tr>
+<tr><td scope="row">NICE NG59 + STarT Back（Keele University）<br><a href="https://www.nice.org.uk/guidance/ng59" target="_blank" rel="noopener noreferrer">NICE NG59 官方指南</a></td><td>腰痛管理路径、红旗征、三级分层</td><td>肌骨风险分层金标准</td></tr>
+<tr><td scope="row">DII（饮食炎症指数，Shivappa et al.）</td><td>饮食炎症评分方法</td><td>行为-炎症关联工具</td></tr>
+<tr><td scope="row">hs-CRP / IL-6 等炎症标志物研究（PMC）</td><td>慢性低度炎症截断值</td><td>客观炎症指标参考</td></tr>
+<tr><td scope="row">PROMIS 自我效能量表</td><td>自我管理能力五维度评估</td><td>PROMs 标准化度量</td></tr>
+<tr><td scope="row">Livongo / Teladoc Health<br><a href="https://www.livongo.com" target="_blank" rel="noopener noreferrer">Livongo by Teladoc Health 官网</a></td><td>数字化慢病管理平台、预警机制</td><td>数字工具标杆参考</td></tr>
+</tbody>
+</table>
+</div>
+<p class="sec-note">方法说明：所有截断值、样本量、效应量与费用数字均照录自上述官方指南、同行评审论文或权威机构文件，未做外推；示意性图表（时间轴、矩阵、流程图、架构图、界面示意）均在图注中标明「示意图」性质，不代表实测数据拟合。</p>
+</section>
+<!-- ============ CH 3 ============ -->
+<section class="chapter" id="ch3">
+<h2><span class="ch-no">03</span>慢性病自我管理路径：五大体系</h2>
+<p class="ch-lead">「评估 → 分层 → 个性化支持 → 随访闭环」已成标准化路径：PIH 提供通用度量、Medicare GPMP 提供最规范记录模板、芬兰 HWC 展示数字 + 教练最佳实践。</p>
+
+<h3><span class="h3-tag">3.1</span>WHO/Stanford CDSMP：社区化自我管理的鼻祖</h3>
+<p>慢性病自我管理计划（Chronic Disease Self-Management Program, CDSMP）由斯坦福大学 Kate Lorig 团队于 1990 年代开发，后经 WHO 推广至全球，是传播最广、验证最充分的慢性病自我管理干预模型。</p>
+<div class="stat-row">
+  <div class="stat"><div class="v">6 周</div><div class="l">社区研讨会周期</div></div>
+  <div class="stat"><div class="v">2.5 h/次</div><div class="l">每次工作坊时长</div></div>
+  <div class="stat"><div class="v">双组长</div><div class="l">至少一位为「同伴领导者」（非健康专业人士）</div></div>
+  <div class="stat"><div class="v">13 项</div><div class="l">PAM 患者激活度量表题数</div></div>
+</div>
+<p><strong>六大课程主题：</strong>问题应对技巧（沮丧、疲劳、疼痛、孤独感）、适宜运动（力量、柔韧性、耐力）、合理用药（正确使用与副作用管理）、有效沟通（家人、朋友、医护人员）、营养管理（饮食影响与健康策略）、新疗法评估（理性评价新治疗方法）。</p>
+<p><strong>PAM 激活度量表：</strong>基于 Rasch 模型构建的单维度、等距古特曼式量表，将患者分为四个激活水平，从「被动接受者」到「主动自我管理者」；临床团队可按激活水平精准匹配干预强度。PAM 的预测谱覆盖健康行为（规律运动、低脂饮食、阅读食品标签、压力与体重管理）、疾病特异性自我管理（用药依从性、血压/血糖监测、足部护理、血糖日记）与「消费型」健康行为（主动查询新药副作用），是可横跨多个疾病领域的通用分层指标。</p>
+
+<h3><span class="h3-tag">3.2</span>Flinders Program / PIH 量表：澳大利亚金标准</h3>
+<p>弗林德斯慢性病管理计划（The Flinders Program）理论基础整合健康信念模型、社会学习理论、行为改变阶段模型、复发预防与 5A 模型（Ask, Advise, Assess, Assist, Arrange），由四个相互关联的工具构成完整评估-干预闭环：</p>
+<ol>
+  <li><strong>Partners in Health（PIH）量表：</strong>12 题患者自填问卷，评估四个维度：知识（对自身疾病的了解）、伙伴关系（与医护人员的协作程度）、识别与管理（识别症状变化并采取行动的能力）、应对（应对疾病带来的心理与社会挑战）；每题 Likert 评分，用于基线与随访追踪。</li>
+  <li><strong>Cue and Response 访谈（C&amp;R）：</strong>健康工作者以开放式对话对相同 12 个问题进行专业视角评分，与患者自评对比，找出共识与差异；「双视角校准」本身即激励过程，可发现患者自我感知的盲区或过度担忧（SELFMAN-HF, Frontiers in Medicine 2023）。</li>
+  <li><strong>Problems and Goals 评估（P&amp;G）：</strong>基于认知行为疗法，以开放式问题引导患者定义最关心的问题并制定 SMART 行为目标；问题评分 0–8 分（0 = 完全不是问题，8 = 严重问题），目标评分同为 0–8 分（0 = 无进展，8 = 已实现）。</li>
+  <li><strong>慢性病管理护理计划：</strong>记录自我管理问题、目标、实现步骤、责任人与评审日期，形成可操作的书面计划。</li>
+</ol>
+<p>该四步法的优势在于持续协作的过程，区别于一次性评估；在关节炎、糖尿病、心血管疾病、严重精神疾病、越南退伍军人共病人群的随机对照试验中，均显示出患者报告结局与临床结局的改善（Flinders Program Evidence Summary；3+ RCT 验证）。</p>
+
+<h3><span class="h3-tag">3.3</span>澳洲 Medicare CDM/GPMP：支付制度驱动的规范化模板</h3>
+<p>澳大利亚 Medicare 慢性病管理计划（Chronic Disease Management, CDM）是少有的由国家医保支付制度驱动、高度结构化的模板体系。<strong>2025 年 7 月起</strong>，原有 GP 管理计划（GPMP）与团队护理安排（TCA）整合更新为 GP 慢性病管理计划（GP chronic condition management plan），对应 <strong>MBS Item 92030</strong>（澳洲卫生与老年护理部）。合格计划必须包含六个要素：</p>
+<ul>
+  <li>患者的慢性病及相关医疗保健需求描述；</li>
+  <li>通过共同决策由患者与医生共同制定的健康和生活方式目标；</li>
+  <li>患者需要采取的行动项；</li>
+  <li>患者可能需要的治疗和服务清单；</li>
+  <li>多学科护理获益者所需转诊的治疗或服务及目的说明；</li>
+  <li>计划评审安排，包括建议的评审周期（MBS AN.0.47 注释）。</li>
+</ul>
+<p>关键设计洞察：<strong>支付制度塑造记录行为</strong>。每份计划对应明确的医保报销项目（MBS Item 392 为制定计划，Item 393 为评审计划），临床有动力完成规范记录与定期随访；计划制定后须取得患者同意、共享给多学科团队并提供患者副本，形成天然的患者参与机制。其记录链路适合数字化移植：患者基本信息 → 慢性病列表（ICD-10 编码、确诊日期、严重程度）→ 患者评估（功能状态、认知状态、心理社会需求、营养需求、用药管理、生活方式因素）→ 计划干预与服务 → 健康目标（短期 + 长期）→ 监测与支持服务 → 联盟健康专业人员转诊 → 评审与再评估 → 计费与合规记录。</p>
+
+<h3><span class="h3-tag">3.4</span>NHS 长期疾病管理与人口健康分层</h3>
+<p>NHS 英格兰的长期疾病管理建立在人口健康管理（Population Health Management, PHM）框架上，风险分层明确分为三个阶段：</p>
+<ul>
+  <li><strong>Targeting（目标定位）：</strong>确定优先干预的高风险人群（如潜在可预防住院人群），可在诊所、初级保健网络或综合护理系统层面进行。</li>
+  <li><strong>Identification（个体识别）：</strong>对电子数据库中常规收集的临床与人口统计数据进行手动或自动化搜索，以标准化风险预测因子集合识别目标队列中的个体。</li>
+  <li><strong>Selection（选择评估）：</strong>用评估工具对识别出的患者进行可改变风险的进一步评估，将需求与最合适的综合护理干预匹配，通常通过电话或面对面交互提供（NHS England, 2023）。</li>
+</ul>
+<p>心血管领域使用 <strong>Q-Risk</strong> 工具（NHS 健康检查核心组成，几乎每年更新）：基于年龄、性别、血压、总胆固醇/HDL 比、吸烟状况、糖尿病、种族、社会经济剥夺等十余个因素计算 <strong>10 年心血管疾病风险</strong>，<strong>≥10% 定义为高风险</strong>，启动他汀类药物等预防性干预（NHS England podcast, 2025）。分层护理（stratified care）理念同样用于肌骨疼痛领域：STarT Back 因成本效益被纳入 NICE 指南，而扩展版 STarT MSK 效果参差不齐（详见第 6 章）。</p>
+
+<h3><span class="h3-tag">3.5</span>芬兰 HWC：数字化 + 教练的混合模式</h3>
+<p>健康体重教练（Healthy Weight Coaching, HWC）由 Helsinki 大学医院运营的 Health Village（Terveyskylä.fi）数字平台提供，覆盖全国，费用由患者所在市镇承担。项目为期 <strong>12 个月</strong>，面向 <strong>BMI ≥ 30 kg/m²</strong> 或 <strong>BMI ≥ 27 kg/m² 合并共病</strong>的成年患者，需医生转诊；理论基础整合认知行为疗法、接纳承诺疗法、焦点解决疗法与心理动力学疗法（PMC11376302）。</p>
+<div class="stat-row">
+  <div class="stat"><div class="v">每 4 周</div><div class="l">至少称重一次（高频轻量监测）</div></div>
+  <div class="stat"><div class="v">3/6/9/12 月</div><div class="l">完整问卷 + 腰围测量（低频全面评估）</div></div>
+  <div class="stat"><div class="v">52 周</div><div class="l">自动训练课程，每周 3–8 个练习 + 音视频资源</div></div>
+  <div class="stat"><div class="v">1 名</div><div class="l">个人教练 + 日记 + 同伴小组聊天</div></div>
+</div>
+<p>「高频轻量监测 + 低频全面评估」的节奏既保证追踪密度，又不造成过重用户负担；「自动化内容 + 人工教练」的混合模式在成本效益与个性化之间取得平衡。</p>
+
+<figure>
+<svg viewBox="0 0 960 300" role="img" aria-labelledby="svg1-title svg1-desc">
+<title id="svg1-title">图 1　芬兰 HWC 12 个月评估节奏时间轴（示意图）</title>
+<desc id="svg1-desc">横向时间轴展示 0 个月基线、每 4 周一次的轻量称重点，以及第 3、6、9、12 个月的全面评估大点。</desc>
+<rect x="0" y="0" width="960" height="300" fill="#FFFFFF"/>
+<text x="480" y="34" text-anchor="middle" class="svg-text" font-size="17" font-weight="700" fill="#102A43">HWC 12 个月评估节奏：高频轻量监测 + 低频全面评估</text>
+<line x1="70" y1="170" x2="900" y2="170" stroke="#E6E1D8" stroke-width="4"/>
+<line x1="70" y1="170" x2="900" y2="170" stroke="#2978B5" stroke-width="2" stroke-dasharray="2 6"/>
+<!-- baseline big -->
+<circle cx="90" cy="170" r="13" fill="#102A43"/>
+<text x="90" y="140" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#102A43">基线</text>
+<text x="90" y="205" text-anchor="middle" class="svg-text" font-size="12" fill="#52606D">体重/身高/腰围</text>
+<text x="90" y="222" text-anchor="middle" class="svg-text" font-size="12" fill="#52606D">+ 完整问卷</text>
+<!-- monthly light dots at months 1,2,4,5,7,8,10,11 -->
+<g fill="#F59E0B">
+<circle cx="157.5" cy="170" r="6"/><circle cx="225" cy="170" r="6"/>
+<circle cx="360" cy="170" r="6"/><circle cx="427.5" cy="170" r="6"/>
+<circle cx="562.5" cy="170" r="6"/><circle cx="630" cy="170" r="6"/>
+<circle cx="765" cy="170" r="6"/><circle cx="832.5" cy="170" r="6"/>
+</g>
+<text x="500" y="255" text-anchor="middle" class="svg-text" font-size="12" fill="#9A6700">● 每 4 周至少称重 1 次（轻量点）</text>
+<!-- full assessments at months 3,6,9,12 -->
+<g fill="#2978B5">
+<circle cx="292.5" cy="170" r="12"/><circle cx="495" cy="170" r="12"/>
+<circle cx="697.5" cy="170" r="12"/><circle cx="900" cy="170" r="12"/>
+</g>
+<g class="svg-text" font-size="13" font-weight="700" fill="#1D5685" text-anchor="middle">
+<text x="292.5" y="140">第 3 月</text><text x="495" y="140">第 6 月</text>
+<text x="697.5" y="140">第 9 月</text><text x="900" y="140">第 12 月</text>
+</g>
+<g class="svg-text" font-size="12" fill="#52606D" text-anchor="middle">
+<text x="292.5" y="205">全面评估</text><text x="495" y="205">全面评估</text>
+<text x="697.5" y="205">全面评估</text><text x="900" y="205">全面评估</text>
+</g>
+<g class="svg-mono" font-size="11" fill="#98A2AD" text-anchor="middle">
+<text x="90" y="285">M0</text><text x="292.5" y="285">M3</text><text x="495" y="285">M6</text>
+<text x="697.5" y="285">M9</text><text x="900" y="285">M12</text>
+</g>
+</svg>
+<figcaption><b>图 1　HWC 12 个月评估节奏时间轴（示意图）。</b>依据源文 PMC11376302 描述重绘：基线完成体重、身高、腰围与生活方式/饮食/身体活动/睡眠/心理完整问卷；此后每 4 周至少称重一次；完整问卷与腰围测量在第 3、6、9、12 个月重复。点位间距为等距示意，不代表实测时间分布。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">3.6</span>表 A：五大慢性病自我管理体系对比</h3>
+<div class="table-wrap">
+<table>
+<caption>表 A　五大慢性病自我管理体系对比（8 维度 × 5 体系）<span class="cap-note">内容照录源文对比表</span></caption>
+<thead><tr>
+<th scope="col">维度</th>
+<th scope="col">WHO/Stanford CDSMP</th>
+<th scope="col">Flinders Program</th>
+<th scope="col">澳洲 Medicare CDM</th>
+<th scope="col">NHS PHM + Q-Risk</th>
+<th scope="col">芬兰 HWC</th>
+</tr></thead>
+<tbody>
+<tr><th scope="row">起源机构</th><td>Stanford / WHO</td><td>Flinders 大学</td><td>澳大利亚联邦政府</td><td>NHS England</td><td>芬兰 Helsinki 大学医院</td></tr>
+<tr><th scope="row">核心评估工具</th><td>PAM 患者激活度量表（13 题）</td><td>PIH 量表（12 题）+ C&amp;R 访谈 + P&amp;G</td><td>GPMP 多维度评估表</td><td>Q-Risk 心血管评分</td><td>生活方式 + 饮食 + 运动 + 睡眠 + 心理问卷</td></tr>
+<tr><th scope="row">分层逻辑</th><td>PAM 四激活水平</td><td>基于 PIH 评分的个性化目标设定</td><td>疾病严重度 + 多学科需求判定</td><td>三阶段风险分层（目标-识别-选择）</td><td>BMI + 共病准入 + 过程性目标追踪</td></tr>
+<tr><th scope="row">记录模板核心结构</th><td>自我管理行为日志</td><td>问题与目标 + 护理计划</td><td>6 要素结构化计划（MBS 标准）</td><td>人口健康数据集 + 护理计划</td><td>数字平台自动记录 + 教练笔记</td></tr>
+<tr><th scope="row">随访路径</th><td>6 周课程 + 社区同伴支持</td><td>定期评审 + 目标再校准</td><td>3–6 月 GP 评审 + 多学科团队协作</td><td>分层匹配干预强度</td><td>12 个月项目 + 每 4 周称重 + 季度全面评估</td></tr>
+<tr><th scope="row">交付模式</th><td>面对面社区工作坊</td><td>临床/社区均可</td><td>全科医生主导 + 联盟健康</td><td>公立医疗体系</td><td>数字平台 + 个人教练</td></tr>
+<tr><th scope="row">证据强度</th><td>大量 RCT 验证</td><td>3+ RCT 验证</td><td>国家级政策 + MBS 支付</td><td>国家级政策 + Q-Risk 验证</td><td>真实世界数据 + 预实验</td></tr>
+<tr><th scope="row">适用范围</th><td>所有慢性病（通用）</td><td>所有慢性病（通用）</td><td>所有慢性病（通用）</td><td>人群水平 + 心血管为主</td><td>体重管理（可扩展）</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ============ CH 4 ============ -->
+<section class="chapter" id="ch4">
+<h2><span class="ch-no">04</span>亚健康 / 功能医学评估体系</h2>
+<p class="ch-lead">IFM 7 节点矩阵 + MSQ 症状问卷构成「主观症状负荷 + 客观分子指标」双轴评估范式；GOTOIT 六步流程提供从评估到干预的完整临床路径。</p>
+
+<h3><span class="h3-tag">4.1</span>IFM 功能医学矩阵：7 节点失衡模型</h3>
+<p>美国功能医学研究院（Institute for Functional Medicine, IFM）的功能医学矩阵（Functional Medicine Matrix）不按器官系统分类，而将生理组织为七个核心临床失衡节点。七个节点之外，矩阵还有一条横贯所有节点的横向维度：患者的精神、情绪与灵性健康。不良童年经历（ACEs）、未解决的创伤、孤独感、意义感丧失均为实在的生理驱动因素；<strong>高 ACE 评分与慢性病风险增加 20 倍相关</strong>，在功能医学范式中属核心考量。矩阵左侧为叙事时间线（前置因素 Antecedents / 触发因素 Triggers / 介导因素 Mediators），底部为五大生活方式因素。</p>
+
+<figure>
+<svg viewBox="0 0 960 480" role="img" aria-labelledby="svg2-title svg2-desc">
+<title id="svg2-title">图 2　IFM 功能医学矩阵 7 节点结构（示意图）</title>
+<desc id="svg2-desc">七个功能失衡节点围绕中心患者分布，顶部为精神情绪灵性横向维度条，左侧为前置/触发/介导时间线，底部为五大生活方式因素条。</desc>
+<rect x="0" y="0" width="960" height="480" fill="#FFFFFF"/>
+<!-- mental band -->
+<rect x="180" y="18" width="740" height="44" rx="8" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="550" y="38" text-anchor="middle" class="svg-text" font-size="14" font-weight="700" fill="#8A5A00">横向维度：精神 · 情绪 · 灵性健康（Mental / Emotional / Spiritual）</text>
+<text x="550" y="55" text-anchor="middle" class="svg-text" font-size="11.5" fill="#9A6700">高 ACE 评分 → 慢性病风险增加 20 倍</text>
+<!-- timeline left -->
+<rect x="20" y="90" width="140" height="260" rx="8" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.2"/>
+<text x="90" y="114" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#102A43">叙事时间线</text>
+<text x="90" y="150" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D5685">前置因素</text>
+<text x="90" y="166" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">家族史 · 早年经历</text>
+<text x="90" y="182" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">遗传倾向</text>
+<text x="90" y="222" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D5685">触发因素</text>
+<text x="90" y="238" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">感染 · 创伤</text>
+<text x="90" y="254" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">重大压力</text>
+<text x="90" y="294" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D5685">介导因素</text>
+<text x="90" y="310" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">持续失衡</text>
+<text x="90" y="326" text-anchor="middle" class="svg-text" font-size="10.5" fill="#52606D">维持疾病存在</text>
+<!-- center patient -->
+<circle cx="550" cy="250" r="52" fill="#102A43"/>
+<text x="550" y="246" text-anchor="middle" class="svg-text" font-size="14" font-weight="700" fill="#FFFFFF">患者</text>
+<text x="550" y="266" text-anchor="middle" class="svg-text" font-size="10.5" fill="#C9D6E2">Patient-Centered</text>
+<!-- nodes -->
+<g class="svg-text">
+<rect x="200" y="92" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="300" y="114" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">① 同化 Assimilation</text>
+<text x="300" y="133" text-anchor="middle" font-size="10.5" fill="#52606D">消化吸收 · 微生物组</text>
+<text x="300" y="148" text-anchor="middle" font-size="10.5" fill="#52606D">肠道屏障完整性</text>
+
+<rect x="700" y="92" width="220" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="810" y="114" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">② 防御与修复 Defense &amp; Repair</text>
+<text x="810" y="133" text-anchor="middle" font-size="10.5" fill="#52606D">免疫 · 炎症 · 感染</text>
+<text x="810" y="148" text-anchor="middle" font-size="10.5" fill="#52606D">伤口愈合与炎症级联</text>
+
+<rect x="200" y="180" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="300" y="202" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">③ 能量 Energy</text>
+<text x="300" y="221" text-anchor="middle" font-size="10.5" fill="#52606D">线粒体功能 · 氧化应激</text>
+<text x="300" y="236" text-anchor="middle" font-size="10.5" fill="#52606D">B 族维生素 · 铁 · 甲状腺</text>
+
+<rect x="700" y="180" width="220" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="810" y="202" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">④ 生物转化与消除</text>
+<text x="810" y="219" text-anchor="middle" font-size="12" font-weight="700" fill="#102A43">Biotransformation &amp; Elimination</text>
+<text x="810" y="237" text-anchor="middle" font-size="10.5" fill="#52606D">I/II/III 相解毒 · 肾肠皮肤肺排泄</text>
+
+<rect x="200" y="268" width="200" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="300" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">⑤ 运输 Transport</text>
+<text x="300" y="309" text-anchor="middle" font-size="10.5" fill="#52606D">心血管与淋巴系统</text>
+<text x="300" y="324" text-anchor="middle" font-size="10.5" fill="#52606D">血脂 · 内皮 · 血压调节</text>
+
+<rect x="700" y="268" width="220" height="66" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="810" y="290" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">⑥ 通讯 Communication</text>
+<text x="810" y="309" text-anchor="middle" font-size="10.5" fill="#52606D">激素 · 神经递质</text>
+<text x="810" y="324" text-anchor="middle" font-size="10.5" fill="#52606D">免疫信使（细胞因子）</text>
+
+<rect x="380" y="356" width="340" height="62" rx="8" fill="#FFFFFF" stroke="#2978B5" stroke-width="1.5"/>
+<text x="550" y="379" text-anchor="middle" font-size="13" font-weight="700" fill="#102A43">⑦ 结构完整性 Structural Integrity</text>
+<text x="550" y="398" text-anchor="middle" font-size="10.5" fill="#52606D">肌肉骨骼 · 细胞膜流动性 · 筋膜网络 · 黏膜与血脑屏障</text>
+</g>
+<!-- lifestyle bottom -->
+<rect x="180" y="430" width="740" height="38" rx="8" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="550" y="454" text-anchor="middle" class="svg-text" font-size="12.5" font-weight="700" fill="#2E7D32">底部五大生活方式因素：睡眠与放松 · 运动与活动 · 营养与水合 · 压力与韧性 · 关系与社交网络</text>
+</svg>
+<figcaption><b>图 2　IFM 功能医学矩阵 7 节点结构（示意图）。</b>依据 IFM Functional Medicine Matrix 概念框架重绘：七个功能性失衡节点环绕以患者为中心的核心，横向精神情绪灵性维度贯穿全部节点，左侧时间线记录前置/触发/介导三类因素，底部为五大生活方式因素。节点位置为布局示意，不表示解剖或权重关系。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">4.2</span>MSQ 医学症状问卷与四级分级</h3>
+<p>医学症状问卷（Medical Symptoms Questionnaire, MSQ）是 IFM 最常用的症状负荷评估工具，包含 <strong>70+ 个症状</strong>，覆盖 <strong>15 个</strong>身体部位/系统类别（头部、眼睛、耳朵、鼻子、口/喉、皮肤、心脏、肺、消化、关节/肌肉、体重、能量、心智、情绪及其他）。每个症状按<strong>过去两周</strong>严重程度评 0–4 分（0 = 从未有过，1 = 偶尔轻微，2 = 偶尔严重，3 = 经常轻微，4 = 经常严重），总分视为全身炎症/毒性负荷的度量（IFM MSQ Questionnaire）。每次随访重新施测 MSQ 观察分数变化趋势，是功能医学中最好的结局测量工具之一；15 个类别分项可直接映射到「身体地图」的不同部位与系统。</p>
+<div class="table-wrap">
+<table>
+<caption>表 B　MSQ 四级分级标准与红绿灯映射<span class="cap-note">分级照录 IFM MSQ 标准；风险色为本报告框架映射</span></caption>
+<thead><tr><th scope="col">MSQ 总分</th><th scope="col">分级</th><th scope="col">对应状态</th><th scope="col">红绿灯映射</th></tr></thead>
+<tbody>
+<tr><td class="num">&lt; 20</td><td>最优（Optimal）</td><td>无明显系统性功能障碍</td><td class="cell-g"><span class="chip chip-g"><span class="dot dot-g" aria-hidden="true"></span>绿灯</span></td></tr>
+<tr><td class="num">21–50</td><td>轻度功能障碍</td><td>局部/轻度亚健康状态</td><td class="cell-y"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>黄灯</span></td></tr>
+<tr><td class="num">51–100</td><td>中度功能障碍</td><td>多系统/中度亚健康</td><td class="cell-y"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>黄灯</span></td></tr>
+<tr><td class="num">&gt; 100</td><td>重度功能障碍</td><td>严重系统性功能障碍</td><td class="cell-r"><span class="chip chip-r"><span class="dot dot-r" aria-hidden="true"></span>红灯</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="h3-tag">4.3</span>GOTOIT 临床流程：从评估到干预的闭环</h3>
+<p>IFM 的 GOTOIT 框架描述功能医学临床诊疗六步，对数字化工具的用户流程设计具有直接参考价值（digitaldharma.io）。</p>
+<figure>
+<svg viewBox="0 0 960 260" role="img" aria-labelledby="svg3-title svg3-desc">
+<title id="svg3-title">图 3　GOTOIT 六步临床流程（示意图）</title>
+<desc id="svg3-desc">六个横向流程框依次为 Gather 收集、Organize 整理、Tell the Story 讲述故事、Order 开单检测、Initiate 启动治疗、Track 追踪。</desc>
+<rect x="0" y="0" width="960" height="260" fill="#FFFFFF"/>
+<text x="480" y="30" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">GOTOIT 六步：评估到干预的闭环</text>
+<g class="svg-text">
+<rect x="30" y="70" width="135" height="120" rx="8" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.5"/>
+<text x="97" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#1D5685" class="svg-mono">G</text>
+<text x="97" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">Gather</text>
+<text x="97" y="138" text-anchor="middle" font-size="11" fill="#52606D">收集</text>
+<text x="97" y="158" text-anchor="middle" font-size="10" fill="#52606D">入组表格</text>
+<text x="97" y="173" text-anchor="middle" font-size="10" fill="#52606D">+ MSQ</text>
+
+<rect x="190" y="70" width="135" height="120" rx="8" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.5"/>
+<text x="257" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#1D5685" class="svg-mono">O</text>
+<text x="257" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">Organize</text>
+<text x="257" y="138" text-anchor="middle" font-size="11" fill="#52606D">整理</text>
+<text x="257" y="158" text-anchor="middle" font-size="10" fill="#52606D">归入时间线</text>
+<text x="257" y="173" text-anchor="middle" font-size="10" fill="#52606D">与矩阵</text>
+
+<rect x="350" y="70" width="135" height="120" rx="8" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.5"/>
+<text x="417" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#1D5685" class="svg-mono">T</text>
+<text x="417" y="120" text-anchor="middle" font-size="12" font-weight="700" fill="#102A43">Tell the Story</text>
+<text x="417" y="138" text-anchor="middle" font-size="11" fill="#52606D">讲述故事</text>
+<text x="417" y="158" text-anchor="middle" font-size="10" fill="#52606D">深度倾听</text>
+<text x="417" y="173" text-anchor="middle" font-size="10" fill="#52606D">建立治疗联盟</text>
+
+<rect x="510" y="70" width="135" height="120" rx="8" fill="#FFF8EC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="577" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#9A6700" class="svg-mono">O</text>
+<text x="577" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">Order</text>
+<text x="577" y="138" text-anchor="middle" font-size="11" fill="#52606D">开单检测</text>
+<text x="577" y="158" text-anchor="middle" font-size="10" fill="#52606D">针对性检测</text>
+<text x="577" y="173" text-anchor="middle" font-size="10" fill="#52606D">非散弹筛查</text>
+
+<rect x="670" y="70" width="135" height="120" rx="8" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="737" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#2E7D32" class="svg-mono">I</text>
+<text x="737" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">Initiate</text>
+<text x="737" y="138" text-anchor="middle" font-size="11" fill="#52606D">启动治疗</text>
+<text x="737" y="158" text-anchor="middle" font-size="10" fill="#52606D">抗炎饮食</text>
+<text x="737" y="173" text-anchor="middle" font-size="10" fill="#52606D">睡眠/运动</text>
+
+<rect x="830" y="70" width="110" height="120" rx="8" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="885" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#2E7D32" class="svg-mono">T</text>
+<text x="885" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">Track</text>
+<text x="885" y="138" text-anchor="middle" font-size="11" fill="#52606D">追踪</text>
+<text x="885" y="158" text-anchor="middle" font-size="10" fill="#52606D">MSQ 复评</text>
+<text x="885" y="173" text-anchor="middle" font-size="10" fill="#52606D">结局指标</text>
+</g>
+<g class="svg-text" font-size="18" fill="#F59E0B" text-anchor="middle">
+<text x="172" y="138">→</text><text x="332" y="138">→</text><text x="492" y="138">→</text>
+<text x="652" y="138">→</text><text x="812" y="138">→</text>
+</g>
+<text x="480" y="225" text-anchor="middle" class="svg-text" font-size="11.5" fill="#52606D">基线检测总包含：综合代谢组、CBC、甲状腺功能、炎症标志物（hs-CRP、ESR）、维生素 D、B12、铁蛋白、空腹胰岛素</text>
+</svg>
+<figcaption><b>图 3　GOTOIT 六步临床流程（示意图）。</b>依据 IFM GOTOIT 框架重绘：Gather（就诊前收集数据）→ Organize（整理入时间线与矩阵）→ Tell the Story（患者叙事、建立治疗联盟）→ Order（针对性开单检测）→ Initiate（安全普遍有益的基础干预可先于实验室结果启动）→ Track（从第一天建立结局指标，每次随访复评 MSQ）。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">4.4</span>抗衰医学的生物标志物评估范式</h3>
+<p>抗衰医学（Anti-Aging / Longevity Medicine）与功能医学的评估框架有重叠但侧重不同：功能医学侧重失衡与根因，抗衰医学侧重生物年龄量化与衰老速率追踪。欧洲临床实践中的抗衰评估通常包含以下 8 类标志物组合（Clínica Eupnea, 2026）。</p>
+<div class="table-wrap">
+<table>
+<caption>表 4-1　抗衰评估 8 类核心生物标志物<span class="cap-note">照录源文抗衰标志物表</span></caption>
+<thead><tr><th scope="col">检测类别</th><th scope="col">核心标志物</th><th scope="col">临床意义</th></tr></thead>
+<tbody>
+<tr><th scope="row">表观遗传时钟</th><td>PhenoAge、GrimAge、DunedinPACE（基于 DNA 甲基化）</td><td>生物年龄估算，比实际年龄更准确地预测健康风险</td></tr>
+<tr><th scope="row">端粒长度</th><td>qPCR 或 flow-FISH 检测端粒长度</td><td>细胞老化的经典标志物</td></tr>
+<tr><th scope="row">炎症标志物</th><td>hs-CRP（超敏 C 反应蛋白）、IL-6、铁蛋白、纤维蛋白原</td><td>慢性低度炎症是衰老的核心驱动（炎症衰老）</td></tr>
+<tr><th scope="row">代谢谱</th><td>空腹血糖、胰岛素、HOMA-IR、HbA1c、高级血脂谱</td><td>代谢健康与衰老速度密切相关</td></tr>
+<tr><th scope="row">激素状态</th><td>甲状腺功能、性激素、皮质醇、IGF-1、DHEA</td><td>内分泌系统衰退是衰老的重要表现</td></tr>
+<tr><th scope="row">氧化应激</th><td>8-OHdG（DNA 氧化损伤）、MDA、谷胱甘肽、抗氧化维生素</td><td>氧化损伤累积与衰老相关</td></tr>
+<tr><th scope="row">身体成分</th><td>生物阻抗分析、肌肉量、内脏脂肪</td><td>肌肉减少症和内脏肥胖是衰老相关风险因素</td></tr>
+<tr><th scope="row">心血管功能</th><td>血压、ECG、超声心动图、踝臂指数</td><td>心血管衰老是总体衰老的关键窗口</td></tr>
+</tbody>
+</table>
+</div>
+<div class="alert" style="border-color:#2E7D32;border-left-color:#2E7D32;background:#F3F8F3;">
+<p class="alert-title" style="color:#2E7D32;">生活方式主导：可干预性是自我管理工具的价值根基</p>
+<p style="color:#1D2733;">基因对衰老的影响仅占约 <span class="num">20–25%</span>，其余 <span class="num">75–80%</span> 取决于表观遗传与生活方式。基于上述标志物的评估结果，通过生活方式干预可产生实质性改变，这为自我管理工具的价值主张提供了有力的科学支撑。</p>
+</div>
+</section>
+<!-- ============ CH 5 ============ -->
+<section class="chapter" id="ch5">
+<h2><span class="ch-no">05</span>抗炎评估与记录体系</h2>
+<p class="ch-lead">hs-CRP 3 mg/L 是慢性低度炎症的核心截断值，DII 是行为干预的关键量化工具；二者构成「血液客观指标 + 饮食行为评分」双核心，A/L 比值提供脂肪组织功能的补充视角。</p>
+
+<h3><span class="h3-tag">5.1</span>饮食炎症指数（DII）</h3>
+<p>饮食炎症指数（Dietary Inflammatory Index, DII）由南卡罗来纳大学 Shivappa 等人于 2014 年开发，是目前最系统量化饮食炎症潜力的工具。评分范围 <span class="num">−8.87</span>（最大抗炎潜力）至 <span class="num">+7.98</span>（最大促炎潜力），负值表示抗炎饮食、正值表示促炎饮食，绝对值越大炎症倾向越强（PMC11992876）。</p>
+<div class="stat-row">
+  <div class="stat"><div class="v">1943 篇</div><div class="l">开发所基于的系统综述论文</div></div>
+  <div class="stat"><div class="v">45 种</div><div class="l">食物参数（全食物、营养素、类黄酮）</div></div>
+  <div class="stat"><div class="v">6 种</div><div class="l">核心炎症标志物：IL-1β、IL-4、IL-6、IL-10、TNF-α、CRP</div></div>
+  <div class="stat"><div class="v">28–29 种</div><div class="l">营养素简版仍可靠（无需完整 45 种）</div></div>
+</div>
+<p>DII 计算经五步设计以减少数据偏态：个体摄入量与全球标准数据库比较计算 Z 分数 → 转换为百分位分数（减少右偏影响）→ 翻倍减 1 使值居中于 0（范围 −1 至 +1）→ 乘以对应食物参数的炎症效应分数 → 全部求和得到总体 DII 分数（LWW Supplementary Material, 2026）。</p>
+<p><strong>剂量反应证据：</strong>美国人群研究中，与 DII 最低四分位（最抗炎，<span class="num">DII &lt; 0.46</span>）相比，最高四分位（最促炎，<span class="num">DII ≥ 3.12</span>）的心血管-肾脏-代谢综合征风险增加 76%，即 <span class="num">OR = 1.76（95% CI 1.42–2.18）</span>；<strong>每增加 1 个 DII 单位，风险升高 12%</strong>（PMC11992876）。</p>
+
+<figure>
+<svg viewBox="0 0 960 300" role="img" aria-labelledby="svg4-title svg4-desc">
+<title id="svg4-title">图 4　DII 饮食炎症指数刻度示意条（示意图）</title>
+<desc id="svg4-desc">从 −8.87 抗炎端到 +7.98 促炎端的线性刻度尺，标注小于 0、0–3、≥3 三个区间与最高四分位端点 OR=1.76。</desc>
+<rect x="0" y="0" width="960" height="300" fill="#FFFFFF"/>
+<text x="480" y="36" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">DII 刻度：−8.87（最大抗炎） ←→ +7.98（最大促炎）</text>
+<!-- scale geometry: x 90..870 maps -8.87..+7.98 (range 16.85) -->
+<g>
+<rect x="90" y="120" width="465.5" height="44" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1"/>
+<rect x="555.5" y="120" width="158.3" height="44" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1"/>
+<rect x="713.8" y="120" width="156.2" height="44" fill="#FAE7E7" stroke="#C62828" stroke-width="1"/>
+</g>
+<!-- zone labels -->
+<text x="322" y="148" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#2E7D32">抗炎区 DII &lt; 0</text>
+<text x="634" y="148" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#9A6700">轻度促炎 0–3</text>
+<text x="792" y="148" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#C62828">显著促炎 ≥ 3</text>
+<!-- end ticks -->
+<g class="svg-mono" font-size="13" fill="#102A43" text-anchor="middle">
+<text x="90" y="105">−8.87</text>
+<text x="870" y="105">+7.98</text>
+</g>
+<text x="90" y="190" text-anchor="middle" class="svg-text" font-size="11.5" fill="#2E7D32">最大抗炎潜力</text>
+<text x="870" y="190" text-anchor="middle" class="svg-text" font-size="11.5" fill="#C62828">最大促炎潜力</text>
+<!-- quartile markers: 0.46 -> x = 90+(0.46+8.87)/16.85*780 = 90+431.7=521.7 ; 3.12 -> 90+(3.12+8.87)/16.85*780=90+555.3=645.3 -->
+<line x1="521.7" y1="112" x2="521.7" y2="172" stroke="#102A43" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="645.3" y1="112" x2="645.3" y2="172" stroke="#C62828" stroke-width="2.5"/>
+<text x="521.7" y="220" text-anchor="middle" class="svg-text" font-size="11.5" fill="#52606D">最低四分位 DII &lt; 0.46</text>
+<text x="645.3" y="220" text-anchor="middle" class="svg-text" font-size="11.5" font-weight="700" fill="#C62828">最高四分位 DII ≥ 3.12</text>
+<text x="645.3" y="245" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#C62828">OR = 1.76（95% CI 1.42–2.18）</text>
+<text x="645.3" y="266" text-anchor="middle" class="svg-text" font-size="11.5" fill="#C62828">心血管-肾脏-代谢综合征风险；每 +1 单位风险 +12%</text>
+<text x="300" y="266" text-anchor="middle" class="svg-text" font-size="11" fill="#98A2AD">刻度为线性示意，非剂量反应拟合曲线</text>
+</svg>
+<figcaption><b>图 4　DII 饮食炎症指数刻度示意条（刻度示意图，非拟合曲线）。</b>刻度尺照录源文数值：范围 −8.87 至 +7.98；三区按表 C 截断（&lt; 0 / 0–3 / ≥ 3）着色；虚线标注研究四分位端点 DII &lt; 0.46 与 DII ≥ 3.12，最高四分位较最低四分位心血管-肾脏-代谢综合征风险 OR = 1.76（95% CI 1.42–2.18），每增加 1 个 DII 单位风险升高 12%（PMC11992876）。端点间距为线性等距示意，不代表真实剂量反应曲线形状。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">5.2</span>系统性炎症标志物与截断值</h3>
+<p>超敏 C 反应蛋白（hs-CRP）是临床最敏感、最常用的全身性炎症标志物，也是慢性低度炎症（Chronic Low-Grade Inflammation, CLGI / LGI）的核心指标。文献中存在两个略有不同的低度炎症截断标准，反映不同研究领域的实践差异：</p>
+<ul>
+  <li><strong>2–10 mg/L 标准（流行病学）：</strong>多用于一般人群流行病学研究，将 hs-CRP ≥ 2 mg/L 且 &lt; 10 mg/L 定义为低度系统性炎症（Low-Grade Systemic Inflammation, LGSI），常用于心血管风险与一般人群研究（PMC10216062）。</li>
+  <li><strong>3–10 mg/L 标准（临床研究）：</strong>更多用于抑郁症、糖尿病等临床研究；与美国心脏协会（AHA）心血管风险分层一致：<span class="num">&lt; 1 mg/L</span> 低风险，<span class="num">1–3 mg/L</span> 中风险，<span class="num">&gt; 3 mg/L</span> 高风险（PMC11430340、PMC12033637）。</li>
+</ul>
+<p class="sec-note">无论采用哪一标准，<strong>hs-CRP &gt; 10 mg/L 都需首先排除急性感染、组织损伤或其他急性炎症过程</strong>，不能直接归因于慢性低度炎症。</p>
+<ul>
+  <li><strong>白细胞介素-6（IL-6）：</strong>炎症反应的「核心调控因子」，既能启动炎症（促进 TNF-α、CRP 生成），也反映炎症对代谢的影响。国内临床常用参考值 <span class="num">&lt; 7 pg/mL</span>；升高常伴随胰岛素抵抗、血脂异常等代谢问题（沈阳市卫健委, 2025）。</li>
+  <li><strong>纤维蛋白原：</strong>连接炎症与凝血。正常参考值 <span class="num">2–4 g/L</span>；<span class="num">&gt; 4 g/L</span> 提示血管炎症风险升高并可能增加血栓风险（尤其合并 hs-CRP、TNF-α 升高时）；<span class="num">&gt; 6 g/L</span> 为红灯（沈阳市卫健委, 2025）。</li>
+  <li><strong>血沉（ESR）：</strong>间接反映炎症，受年龄、性别影响大：50 岁以下男性 &lt; 15 mm/h、女性 &lt; 20 mm/h；50–85 岁男性 &lt; 20 mm/h、女性 &lt; 30 mm/h；85 岁以上男性 &lt; 30 mm/h、女性 &lt; 42 mm/h。特异性较低，作为辅助指标。</li>
+  <li><strong>多指标联合原则：</strong>慢性炎症判断不能依赖单一指标；若同时出现 <strong>≥ 2 个指标异常</strong>（如 hs-CRP 5 mg/L + IL-6 10 pg/mL + 纤维蛋白原 4.5 g/L），诊断可信度显著提高；仅单一指标轻度升高（如仅血沉略高）则需排除干扰因素。</li>
+</ul>
+
+<h3><span class="h3-tag">5.3</span>代谢炎症指标：脂联素/瘦素比（A/L ratio）</h3>
+<p>脂联素/瘦素比值（Adiponectin/Leptin ratio, A/L ratio）是近年涌现的代谢炎症生物标志物：肥胖时瘦素（与体脂量成正比）升高而脂联素反向降低，反映脂肪组织从健康代谢器官转变为功能失调的炎症器官。A/L 比值与胰岛素抵抗的相关性<strong>优于单独的脂联素、瘦素，甚至优于 HOMA-IR</strong>，随代谢综合征组分数量增加而降低，被提议作为代谢综合征预测标志物（PMC5915018）。参考值：<span class="num">&gt; 1.0</span> 为健康；对照研究中对照组约 <span class="num">1.6</span>（中位数 0.8），肥胖组仅 <span class="num">0.3</span>（中位数 0.2）（PMC10196397）。同样超重者，A/L 比值高的人代谢炎症水平可能较低，该指标比单纯 BMI 更能反映代谢健康。</p>
+
+<h3><span class="h3-tag">5.4</span>表 C：核心抗炎标志物红黄绿分级参考</h3>
+<div class="table-wrap">
+<table>
+<caption>表 C　核心抗炎标志物红黄绿分级参考表<span class="cap-note">截断值照录源文；单元格底色对应风险三色</span></caption>
+<thead><tr><th scope="col">标志物</th><th scope="col"><span class="dot dot-g" aria-hidden="true"></span>绿灯（正常）</th><th scope="col"><span class="dot dot-y" aria-hidden="true"></span>黄灯（慢性低度炎症）</th><th scope="col"><span class="dot dot-r" aria-hidden="true"></span>红灯（急性/显著升高）</th><th scope="col">备注</th></tr></thead>
+<tbody>
+<tr><th scope="row">hs-CRP</th><td class="cell-g num">&lt; 2–3 mg/L</td><td class="cell-y num">2/3–10 mg/L</td><td class="cell-r num">&gt; 10 mg/L</td><td>&gt; 10 需先排除急性感染；流行病学用 2–10、临床研究用 3–10 双标准</td></tr>
+<tr><th scope="row">IL-6</th><td class="cell-g num">&lt; 7 pg/mL</td><td class="cell-y num">7–15 pg/mL（参考）</td><td class="cell-r num">&gt; 15 pg/mL</td><td>不同实验室参考值有差异</td></tr>
+<tr><th scope="row">纤维蛋白原</th><td class="cell-g num">2–4 g/L</td><td class="cell-y num">4–6 g/L</td><td class="cell-r num">&gt; 6 g/L</td><td>需排除急性时相反应</td></tr>
+<tr><th scope="row">ESR（男/女，&lt; 50 岁）</th><td class="cell-g num">&lt; 15 / &lt; 20 mm/h</td><td class="cell-y num">15–30 / 20–30 mm/h</td><td class="cell-r num">&gt; 30 mm/h</td><td>随年龄分层调整</td></tr>
+<tr><th scope="row">A/L 比值</th><td class="cell-g num">&gt; 1.0</td><td class="cell-y num">0.5–1.0</td><td class="cell-r num">&lt; 0.5</td><td>反映脂肪组织功能障碍程度</td></tr>
+<tr><th scope="row">DII 评分</th><td class="cell-g num">&lt; 0（抗炎）</td><td class="cell-y num">0–3（轻度促炎）</td><td class="cell-r num">≥ 3（显著促炎）</td><td>基于饮食的行为炎症评分</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- ============ CH 6 ============ -->
+<section class="chapter" id="ch6">
+<h2><span class="ch-no">06</span>关节损伤 / 肌骨系统评估路径</h2>
+<p class="ch-lead">STarT Back 是风险分层 + 转介路径最成熟、验证最充分的肌骨评估工具；NICE NG59 红旗征体系提供绝对转诊标准清单。关键警示：泛化版本 STarT MSK 未优于常规护理。</p>
+
+<h3><span class="h3-tag">6.1</span>STarT Back 筛查工具：预后分层的金标准</h3>
+<p>STarT Back 筛查工具（STarT Back Screening Tool, SBST）由英国 Keele 大学开发，是初级保健中腰痛患者预后筛查的金标准。其独特之处在于评估的是患者发展为持续性致残性腰痛的<strong>预后风险</strong>，属于前瞻性分层工具，区别于单纯的诊断工具（PMC8132393）。工具共 9 个条目、两个维度：</p>
+<div class="mini-grid">
+  <div class="mini-card"><h4>身体维度（第 1–4 项）</h4><ul><li>放射痛（背痛扩散到腿部）</li><li>共病疼痛（肩颈疼痛）</li><li>行走困难</li><li>穿衣困难</li></ul></div>
+  <div class="mini-card"><h4>心理社会维度（第 5–9 项）</h4><ul><li>体力活动恐惧</li><li>焦虑担忧</li><li>疼痛灾难化（认为疼痛严重且永不改善）</li><li>抑郁情绪（不再享受过去喜欢的事）</li><li>疼痛总体困扰程度</li></ul></div>
+</div>
+<p>第 1–8 项为同意/不同意二选一，第 9 项（总体困扰程度）为 5 级 Likert 量表（完全不受影响 → 极度影响）。所有条目相加得<strong>总分 0–9</strong>，第 5–9 项构成<strong>心理社会子分 0–5</strong>。三级截断：低危为总分 ≤ 3；中危为总分 ≥ 4 且子分 ≤ 3；高危为总分 ≥ 4 且子分 ≥ 4（Physio-pedia）。</p>
+
+<figure>
+<svg viewBox="0 0 960 470" role="img" aria-labelledby="svg5-title svg5-desc">
+<title id="svg5-title">图 5　STarT Back 三级风险分层决策流程（示意图）</title>
+<desc id="svg5-desc">总分与心理社会子分经两级判断分为低危、中危、高危三条路径，分别匹配单次咨询自我管理、循证物理治疗、心理知情物理治疗。</desc>
+<rect x="0" y="0" width="960" height="470" fill="#FFFFFF"/>
+<text x="480" y="32" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">STarT Back 决策流程：9 项评分 → 三级预后风险 → 匹配路径</text>
+<!-- input -->
+<rect x="360" y="52" width="240" height="52" rx="8" fill="#102A43"/>
+<text x="480" y="74" text-anchor="middle" class="svg-text" font-size="13.5" font-weight="700" fill="#FFFFFF">SBST 9 项评分</text>
+<text x="480" y="93" text-anchor="middle" class="svg-text" font-size="11" fill="#C9D6E2">总分 0–9 ｜ 心理社会子分 0–5</text>
+<line x1="480" y1="104" x2="480" y2="126" stroke="#52606D" stroke-width="1.5"/>
+<!-- decision 1 -->
+<polygon points="480,126 600,166 480,206 360,166" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="480" y="162" text-anchor="middle" class="svg-text" font-size="12.5" font-weight="700" fill="#8A5A00">总分 ≤ 3 ?</text>
+<text x="480" y="180" text-anchor="middle" class="svg-text" font-size="11" fill="#9A6700">是 → 低危</text>
+<!-- low path left -->
+<line x1="360" y1="166" x2="190" y2="166" stroke="#52606D" stroke-width="1.5"/>
+<line x1="190" y1="166" x2="190" y2="240" stroke="#52606D" stroke-width="1.5"/>
+<rect x="60" y="240" width="260" height="150" rx="10" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1.8"/>
+<text x="190" y="266" text-anchor="middle" class="svg-text" font-size="14" font-weight="700" fill="#2E7D32">低危（总分 ≤ 3）</text>
+<text x="190" y="290" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D2733">单次高质量咨询 + 自我管理</text>
+<text x="190" y="310" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">保证良性预后、保持活动</text>
+<text x="190" y="328" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">书面/在线材料强化</text>
+<text x="190" y="352" text-anchor="middle" class="svg-text" font-size="11" font-weight="700" fill="#C62828">避免：onward 转诊 · 影像</text>
+<text x="190" y="370" text-anchor="middle" class="svg-text" font-size="11" font-weight="700" fill="#C62828">病假证明 · 强阿片类药物</text>
+<!-- decision 2 -->
+<line x1="480" y1="206" x2="480" y2="232" stroke="#52606D" stroke-width="1.5"/>
+<polygon points="480,232 610,272 480,312 350,272" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="480" y="268" text-anchor="middle" class="svg-text" font-size="12" font-weight="700" fill="#8A5A00">心理社会子分 ≥ 4 ?</text>
+<text x="480" y="286" text-anchor="middle" class="svg-text" font-size="10.5" fill="#9A6700">（总分 ≥ 4 前提下）</text>
+<!-- mid path -->
+<line x1="350" y1="272" x2="370" y2="272" stroke="#52606D" stroke-width="0"/>
+<line x1="480" y1="312" x2="480" y2="240" stroke="#52606D" stroke-width="0"/>
+<polyline points="350,272 330,272 330,240" fill="none" stroke="#52606D" stroke-width="1.5"/>
+<text x="300" y="266" text-anchor="end" class="svg-text" font-size="10.5" fill="#9A6700">否（子分 ≤ 3）</text>
+<rect x="350" y="240" width="260" height="150" rx="10" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.8"/>
+<text x="480" y="266" text-anchor="middle" class="svg-text" font-size="14" font-weight="700" fill="#9A6700">中危（总分 ≥ 4 且子分 ≤ 3）</text>
+<text x="480" y="292" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D2733">循证物理治疗</text>
+<text x="480" y="314" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">含低危干预包全部内容</text>
+<text x="480" y="334" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">减轻疼痛与残疾的理疗课程</text>
+<text x="480" y="354" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">促进当前与未来发作的自我管理</text>
+<!-- high path right -->
+<polyline points="610,272 770,272 770,240" fill="none" stroke="#52606D" stroke-width="1.5"/>
+<text x="640" y="264" class="svg-text" font-size="10.5" fill="#9A6700">是（子分 ≥ 4）</text>
+<rect x="640" y="240" width="260" height="150" rx="10" fill="#FAE7E7" stroke="#C62828" stroke-width="1.8"/>
+<text x="770" y="266" text-anchor="middle" class="svg-text" font-size="14" font-weight="700" fill="#C62828">高危（总分 ≥ 4 且子分 ≥ 4）</text>
+<text x="770" y="292" text-anchor="middle" class="svg-text" font-size="11.5" fill="#1D2733">心理知情物理治疗</text>
+<text x="770" y="314" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">含中危干预全部内容</text>
+<text x="770" y="334" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">整合 CBT 元素：处理恐惧、焦虑、</text>
+<text x="770" y="352" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">灾难化思维与抑郁情绪</text>
+<text x="770" y="372" text-anchor="middle" class="svg-text" font-size="11" font-weight="700" fill="#C62828">可转诊疼痛管理专科服务</text>
+<!-- evidence strip -->
+<rect x="60" y="410" width="840" height="44" rx="8" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.2"/>
+<text x="480" y="430" text-anchor="middle" class="svg-text" font-size="12" font-weight="700" fill="#1D5685">STarT Back 试验证据：851 名患者 · 10 家全科诊所</text>
+<text x="480" y="447" text-anchor="middle" class="svg-text" font-size="11" fill="#52606D">4 与 12 个月残疾显著改善、病假减少，平均每患者节省 £34.39 → 成本效益依据 → NICE 指南纳入</text>
+</svg>
+<figcaption><b>图 5　STarT Back 三级风险分层决策流程（示意图）。</b>截断值与匹配路径照录源文：低危（总分 ≤ 3）单次咨询 + 自我管理，一次性咨询后出院，避免 onward 转诊、不必要影像、病假证明与强阿片类药物；中危（总分 ≥ 4 且心理社会子分 ≤ 3）接受循证物理治疗；高危（总分 ≥ 4 且子分 ≥ 4）接受整合 CBT 元素的心理知情物理治疗，可转疼痛专科（PMC6095099）。试验数据：851 名患者、10 家全科诊所，4 与 12 个月残疾显著改善，平均每患者节省 £34.39。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">6.2</span>NICE NG59 红旗征与四级转诊体系</h3>
+<p>NICE 指南 NG59《16 岁以上腰痛和坐骨神经痛：评估与管理》定义了腰痛管理中的红旗征（Red Flags）体系，即提示可能存在严重病理、需要紧急或尽快转诊的警示信号。转诊分为四个紧急等级（NICE NG59 Appendix P）：</p>
+<div class="table-wrap">
+<table>
+<caption>表 D　NICE NG59 四级转诊紧急度<span class="cap-note">紧急度按 4/3/2/1 四级标注（源文以星标数量表示）；内容照录源文</span></caption>
+<thead><tr><th scope="col">紧急等级</th><th scope="col">紧急度</th><th scope="col">转诊条件</th><th scope="col">建议就诊时间</th></tr></thead>
+<tbody>
+<tr><th scope="row">立即转诊</th><td><span class="chip chip-r">4 级 · 最高紧急度</span></td><td>马尾综合征神经学表现（括约肌障碍、进行性肌无力、会阴麻木、双侧神经根受累证据）</td><td class="num">当天 / 立即</td></tr>
+<tr><th scope="row">紧急转诊</th><td><span class="chip chip-r">3 级 · 紧急</span></td><td>疑似严重脊柱病理；进行性神经功能缺损（无力、麻木）；6 周后仍不缓解的神经根痛</td><td class="num">1 周内</td></tr>
+<tr><th scope="row">尽快转诊</th><td><span class="chip chip-y">2 级 · 尽快</span></td><td>疑似强直性脊柱炎等炎症性疾病；单纯背痛 3 个月未恢复正常活动</td><td class="num">2 周内（当地定义）</td></tr>
+<tr><th scope="row">常规转诊</th><td><span class="chip chip-g">1 级 · 常规</span></td><td>常规转诊情形</td><td>常规预约</td></tr>
+</tbody>
+</table>
+</div>
+<p>NHS 苏格兰脊柱临床路径提供了更详细的红旗征清单，可系统分为三类（NHS Dumfries and Galloway Spinal Pathway）：</p>
+<div class="mini-grid">
+  <div class="mini-card"><h4>通用红旗征（所有脊柱节段）</h4><ul>
+    <li>首次急性发作年龄 &lt; 20 岁或 &gt; 55 岁</li>
+    <li>非机械性疼痛（不随活动/姿势变化）</li>
+    <li>癌症病史（尤其乳腺、肺、前列腺、肾、甲状腺癌）</li>
+    <li>全身不适、体重减轻</li>
+    <li>广泛神经症状：单侧或双侧肢体无力/麻木累及多个皮节</li>
+    <li>新发双侧根性疼痛</li>
+    <li>结构畸形：新发、加重或有症状的畸形</li>
+  </ul></div>
+  <div class="mini-card"><h4>腰椎特异性红旗征</h4><ul>
+    <li>新发足下垂</li>
+    <li>急性马尾综合征（CES，最紧急）：新发或恶化（&lt; 2 周）的膀胱/肠/性功能障碍；新发或恶化的鞍区/会阴/肛周感觉变化</li>
+    <li>椎间盘炎/感染：突发急性脊柱疼痛或模式可疑变化、无外伤史、全身症状、发热、脉搏快、夜间痛、所有脊柱活动因疼痛和痉挛严重受限</li>
+    <li>恶性脊髓压迫（MSCC）：已知癌症病史 + 新发背痛 + 神经症状</li>
+  </ul></div>
+</div>
+<div class="sec-note"><strong>炎性脊柱关节病提示（需转诊风湿科）共 7 项：</strong>45 岁前开始的腰痛且持续超过 3 个月；夜间痛（后半夜痛醒）；臀部疼痛；活动后改善；NSAID 48 小时内显著改善；一级亲属患有脊柱关节炎；当前或既往关节炎、附着点炎、银屑病。<strong>满足 ≥ 4 项可转诊风湿科；满足 3 项则先做 HLA-B27 检测，阳性再转诊。</strong></div>
+<p>对自我管理工具而言，红旗征清单可直接转化为「红灯」自动触发条件：用户在症状记录中报告任何红旗征条目，系统立即弹出警告并建议立即就医，必要时触发急诊转介流程。</p>
+
+<h3><span class="h3-tag">6.3</span>其他肌骨评估工具</h3>
+<p><strong>Örebro 肌骨疼痛筛查问卷（ÖMSPQ）</strong>用于预测慢性疼痛风险，总分 <span class="num">0–210</span> 分：<span class="num">&lt; 95</span> 为低风险；中危与高危的具体截断在不同资料中表述略有差异，一般以 <span class="num">95–150</span> 为中风险、<span class="num">&gt; 150</span> 为高风险（此中高危截断值需进一步验证，NICE NG59 Appendix P）。</p>
+
+<div class="alert">
+<p class="alert-title">反直觉警示：STarT MSK 1211 人 RCT 阴性结果</p>
+<p>STarT MSK 是 STarT Back 研究团队将工具扩展到更广泛肌骨疼痛（背痛、颈痛、肩痛、膝痛和多部位疼痛）的版本，采用相同的低/中/高三级风险分层。然而，一项包含 <strong class="num">1211 名患者</strong>的随机对照试验显示：<strong>6 个月随访时，分层护理组与常规护理组的疼痛水平和成本没有显著差异</strong>。分层护理虽增加了 GP 提供书面自我管理建议的比例，且患者与临床医生给出积极反馈，但核心结局指标未达显著改善（NIHR Evidence Collection, 2024）。</p>
+<p><strong>设计启示：</strong>在一个领域验证有效的分层工具，直接泛化到其他领域可能损失效度。腰痛的 STarT Back 效果显著，缘于腰痛有相对明确的预后因素；全身肌骨疼痛的病因与预后因素更加多样化，单一通用评分难以准确分层。三合一身体地图工具应针对不同身体部位/系统保留特异性的评估逻辑，而非简单地以一个总分涵盖所有情况。</p>
+</div>
+</section>
+<!-- ============ CH 7 ============ -->
+<section class="chapter" id="ch7">
+<h2><span class="ch-no">07</span>数字化整合与风险分层方法学</h2>
+<p class="ch-lead">PAM 与 PROMIS 提供自我管理能力的标准化度量，AI 分诊五维加权是自动化分级的技术参考，Livongo 验证「连接设备 + 教练 + 实时预警」的商业可行性。</p>
+
+<h3><span class="h3-tag">7.1</span>风险分层模型谱系</h3>
+<p>健康风险分层领域已发展出多种成熟方法学，大多基于行政数据（诊断编码、费用记录），适合医疗系统的人群管理；面向消费者的自我管理工具则需更多依赖患者报告数据 + 可穿戴设备数据 + 可选实验室数据，构建更轻量但更实时的模型。</p>
+<div class="findings-grid">
+  <div class="finding-card"><h4>ACG（调整临床分组）</h4><p>Johns Hopkins 开发；使用住院和门诊诊断将患者分为 <strong class="num">93 个</strong> ACG 类别，基于实际医疗服务利用数据，预测医院利用率，适合人群水平资源规划。</p></div>
+  <div class="finding-card"><h4>HCC（分层条件类别）</h4><p>Medicare Advantage 计划的一部分；包含 <strong class="num">70 个</strong>从 ICD 编码中选择的条件类别并含预期医疗支出，常用于保险风险调整。</p></div>
+  <div class="finding-card"><h4>Charlson 合并症指数</h4><p>基于 <strong class="num">17 种</strong>合并症的存在/缺失评为 <span class="num">1–20</span> 分，预测 1 年死亡率；简单直观，对非死亡结局预测能力有限。</p></div>
+</div>
+<div class="sec-note"><strong>HRS（Health Risk Score，军方医疗系统）：</strong>基于成本和索赔数据的回归分析，将患者分为 <strong>8 个风险组</strong>（从 <span class="num">0–0.5</span> 分到 <span class="num">&gt; 40</span> 分），并据此计算「生命当量」（LE）调整因子（<span class="num">0.5–4.0 LE</span>），用于调整初级保健医生的面板负载；<strong>HRS 每增加 1 分，每年增加约 0.5 次初级保健就诊</strong>（FPM Journal, 2025）。</div>
+
+<h3><span class="h3-tag">7.2</span>PROMs 与自我效能评估</h3>
+<p>患者报告结局测量（Patient-Reported Outcome Measures, PROMs）是数字化自我管理工具不可或缺的组成部分。PROMIS（患者报告结局测量信息系统）的慢性病自我管理自我效能量表包含<strong>五个维度、每维度 8 个条目</strong>，从 1 分（完全不自信）到 5 分（非常自信），标准化为 T 分数（美国人群均值 <span class="num">50</span>，标准差 <span class="num">10</span>），分数越高自我效能越强（PMC9109504）：</p>
+<ul>
+  <li><strong>管理症状：</strong>管理症状、防止症状干扰日常活动的信心；</li>
+  <li><strong>管理日常活动：</strong>在无人协助下执行特定日常任务或行为的信心；</li>
+  <li><strong>管理药物和治疗：</strong>理解和服用药物、接受治疗的信心；</li>
+  <li><strong>管理情绪：</strong>处理负面情绪、压力和焦虑的信心；</li>
+  <li><strong>管理社会互动：</strong>维持社交活动、获得他人支持的信心。</li>
+</ul>
+<p>PROMIS 基于项目反应理论（IRT）开发，测量精度高、天花板效应低，且可用 <strong>4 项短版</strong>快速评估，适合数字化工具的频繁监测。PAM 与 PROMIS 互补：PAM 偏重「知识 + 信心 + 行为」的综合激活水平，PROMIS 从具体自我效能维度提供细粒度诊断，可精准识别困难发生在「管理情绪」还是「管理药物」环节。</p>
+
+<h3><span class="h3-tag">7.3</span>数字化工具标杆：Livongo 的启示</h3>
+<p>Livongo（现属 Teladoc Health）是数字慢性病管理领域的标杆，服务<strong>超过 70 万人</strong>，其模式经大量真实世界验证。五个核心设计要素：</p>
+<div class="stat-row">
+  <div class="stat"><div class="v">零摩擦采集</div><div class="l">蜂窝连接血糖仪/血压计/体重秤，自动上传读数，无需手动录入，直击依从性痛点</div></div>
+  <div class="stat"><div class="v">实时反馈</div><div class="l">每次测量后立即提供个性化提示与洞察，即时正反馈维持参与</div></div>
+  <div class="stat"><div class="v">5 分钟介入</div><div class="l">读数超阈值（低血糖 <span class="num">60 mg/dL</span>、高血糖 <span class="num">400 mg/dL</span>）时认证健康教练 5 分钟内主动联系</div></div>
+  <div class="stat"><div class="v">10/14/30/90 天</div><div class="l">趋势摘要报告含趋势图表，可轻松与医生分享</div></div>
+</div>
+<p>第五要素为<strong>专属教练模式</strong>：用户与同一位认证教练持续合作建立长期关系，而非随机分配；教练关注饮食、运动、用药、动力、营养、心理健康六个维度（Livongo 官网、Livongo 用户手册）。</p>
+<div class="table-wrap">
+<table>
+<caption>表 7-1　Livongo 公布的真实世界效果数据<span class="cap-note">数字照录源文</span></caption>
+<thead><tr><th scope="col">效果指标</th><th scope="col">数值</th><th scope="col">随访/口径</th></tr></thead>
+<tbody>
+<tr><th scope="row">服务用户规模</th><td class="num">70 万+</td><td>Livongo/Teladoc Health 平台</td></tr>
+<tr><th scope="row">糖尿病发病率降低</th><td class="num">48%</td><td>3 年随访</td></tr>
+<tr><th scope="row">收缩压平均降低</th><td class="num">−15 mmHg</td><td>高血压管理项目</td></tr>
+<tr><th scope="row">体重减轻 ≥ 5% 的患者比例</th><td class="num">46%</td><td>体重管理项目</td></tr>
+<tr><th scope="row">异常值教练介入阈值</th><td class="num">60 / 400 mg/dL</td><td>低血糖 / 高血糖默认阈值</td></tr>
+</tbody>
+</table>
+</div>
+<p>其核心成功因素可概括为「设备消除录入摩擦 + 算法识别异常 + 教练提供人际支持」的三位一体。</p>
+
+<h3><span class="h3-tag">7.4</span>AI 分诊 5 维度加权与可审计架构</h3>
+<p>门诊 AI 分诊工具的核心算法采用 5 维度加权评分：症状敏锐度 30%、诊断关注级别 25%、进展速度 20%、功能损害 15%、红旗征 10%。架构原则为<strong>「AI 出原始 1–5 分 + 应用代码确定性加权分级」</strong>：AI 只输出每个维度的原始评分与临床分析，加权计算和分级映射由应用代码确定性完成，既利用 AI 的临床推理能力，又保证分级逻辑 <strong>100% 可审计、可解释</strong>，非常适合医疗场景（GitHub Product Playbook, 2026）。</p>
+
+<figure>
+<svg viewBox="0 0 960 360" role="img" aria-labelledby="svg6-title svg6-desc">
+<title id="svg6-title">图 6　AI 分诊五维度加权权重（示意图）</title>
+<desc id="svg6-desc">横向条形图展示五个维度权重：症状敏锐度 30%、诊断关注 25%、进展速度 20%、功能损害 15%、红旗征 10%。</desc>
+<rect x="0" y="0" width="960" height="360" fill="#FFFFFF"/>
+<text x="480" y="34" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">AI 分诊 5 维度加权（权重合计 100%）</text>
+<!-- bars: label width 160, bar from 180 to 820 (640px = 100%) -->
+<g class="svg-text">
+<text x="170" y="86" text-anchor="end" font-size="13.5" font-weight="700" fill="#102A43">症状敏锐度</text>
+<rect x="180" y="66" width="192" height="28" fill="#C62828"/>
+<text x="382" y="86" font-size="14" font-weight="700" fill="#C62828" class="svg-mono">30%</text>
+
+<text x="170" y="140" text-anchor="end" font-size="13.5" font-weight="700" fill="#102A43">诊断关注级别</text>
+<rect x="180" y="120" width="160" height="28" fill="#F59E0B"/>
+<text x="350" y="140" font-size="14" font-weight="700" fill="#9A6700" class="svg-mono">25%</text>
+
+<text x="170" y="194" text-anchor="end" font-size="13.5" font-weight="700" fill="#102A43">进展速度</text>
+<rect x="180" y="174" width="128" height="28" fill="#2978B5"/>
+<text x="318" y="194" font-size="14" font-weight="700" fill="#1D5685" class="svg-mono">20%</text>
+
+<text x="170" y="248" text-anchor="end" font-size="13.5" font-weight="700" fill="#102A43">功能损害</text>
+<rect x="180" y="228" width="96" height="28" fill="#2978B5"/>
+<text x="286" y="248" font-size="14" font-weight="700" fill="#1D5685" class="svg-mono">15%</text>
+
+<text x="170" y="302" text-anchor="end" font-size="13.5" font-weight="700" fill="#102A43">红旗征</text>
+<rect x="180" y="282" width="64" height="28" fill="#2E7D32"/>
+<text x="254" y="302" font-size="14" font-weight="700" fill="#2E7D32" class="svg-mono">10%</text>
+</g>
+<!-- baseline -->
+<line x1="180" y1="60" x2="180" y2="320" stroke="#E6E1D8" stroke-width="1.5"/>
+<text x="820" y="330" text-anchor="end" class="svg-text" font-size="11.5" fill="#52606D">AI 输出各维度原始 1–5 分；加权与分级映射由应用代码确定性完成 → 100% 可审计</text>
+</svg>
+<figcaption><b>图 6　AI 分诊五维度加权权重条形图（数据图，权重照录源文）。</b>症状敏锐度 30%、诊断关注级别 25%、进展速度 20%、功能损害 15%、红旗征 10%，合计 100%；条形长度按权重等比绘制。架构上 AI 仅输出各维度原始 1–5 分与临床分析，加权计算与红黄绿分级由应用代码确定性执行（GitHub Product Playbook, 2026）。</figcaption>
+</figure>
+</section>
+<!-- ============ CH 8 ============ -->
+<section class="chapter" id="ch8">
+<h2><span class="ch-no">08</span>三合一身体地图整合框架</h2>
+<p class="ch-lead">报告落点：「3 维度输入 × 3 层级输出 × 闭环追踪」。三条核心设计原则：红灯双轨触发、模块保留特异性、时间线叙事。</p>
+
+<h3><span class="h3-tag">8.1</span>总体架构：输入层 → 引擎层 → 输出层</h3>
+<figure>
+<svg viewBox="0 0 960 560" role="img" aria-labelledby="svg7-title svg7-desc">
+<title id="svg7-title">图 7　三合一身体地图工具三层总体架构（示意图）</title>
+<desc id="svg7-desc">三层架构：输入层含主观症状、生物标志物、功能行为三轨；引擎层含时间线追踪、三维加权评分、红黄绿双轨算法、干预决策树、随访提醒；输出层为红黄绿三级干预路径。</desc>
+<rect x="0" y="0" width="960" height="560" fill="#FFFFFF"/>
+<text x="480" y="32" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">三层架构：三轨输入 → 身体地图引擎 → 三级输出</text>
+
+<!-- Input layer -->
+<rect x="30" y="56" width="900" height="150" rx="10" fill="#F3F7FB" stroke="#2978B5" stroke-width="1.5"/>
+<text x="56" y="82" class="svg-text" font-size="14" font-weight="700" fill="#1D5685">输入层 · 3 大评估维度</text>
+<g class="svg-text">
+<rect x="50" y="96" width="280" height="96" rx="8" fill="#FFFFFF" stroke="#2978B5"/>
+<text x="190" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">主观症状</text>
+<text x="190" y="138" text-anchor="middle" font-size="10.5" fill="#52606D">MSQ 70+ 项 15 类</text>
+<text x="190" y="154" text-anchor="middle" font-size="10.5" fill="#52606D">身体疼痛地图 · PIH 12 题</text>
+<text x="190" y="170" text-anchor="middle" font-size="10.5" fill="#52606D">PROMIS 五维各 4 题 · DII 简版</text>
+
+<rect x="340" y="96" width="280" height="96" rx="8" fill="#FFFFFF" stroke="#2978B5"/>
+<text x="480" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">生物标志物</text>
+<text x="480" y="138" text-anchor="middle" font-size="10.5" fill="#52606D">核心炎症谱（hs-CRP/IL-6/纤维蛋白原）</text>
+<text x="480" y="154" text-anchor="middle" font-size="10.5" fill="#52606D">代谢谱 · A/L 比值</text>
+<text x="480" y="170" text-anchor="middle" font-size="10.5" fill="#52606D">VitD/B12/铁蛋白 · CBC + NLR</text>
+
+<rect x="630" y="96" width="280" height="96" rx="8" fill="#FFFFFF" stroke="#2978B5"/>
+<text x="770" y="118" text-anchor="middle" font-size="12.5" font-weight="700" fill="#102A43">功能 / 行为</text>
+<text x="770" y="138" text-anchor="middle" font-size="10.5" fill="#52606D">STarT Back 9 项 · 红旗征清单</text>
+<text x="770" y="154" text-anchor="middle" font-size="10.5" fill="#52606D">可穿戴活动量 · 睡眠质量</text>
+<text x="770" y="170" text-anchor="middle" font-size="10.5" fill="#52606D">压力/情绪 · 用药依从性</text>
+</g>
+
+<!-- arrows -->
+<g class="svg-text" font-size="20" fill="#F59E0B" text-anchor="middle">
+<text x="480" y="228">↓</text>
+</g>
+
+<!-- Engine layer -->
+<rect x="30" y="240" width="900" height="150" rx="10" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="56" y="266" class="svg-text" font-size="14" font-weight="700" fill="#8A5A00">核心引擎层 · 身体地图平台</text>
+<g class="svg-text" font-size="11.5" fill="#1D2733" text-anchor="middle">
+<rect x="50" y="282" width="166" height="86" rx="8" fill="#FFFFFF" stroke="#F59E0B"/>
+<text x="133" y="312" font-weight="700" fill="#102A43">时间线追踪</text>
+<text x="133" y="334" font-size="10.5" fill="#52606D">前置-触发-介导</text>
+<text x="133" y="350" font-size="10.5" fill="#52606D">（IFM 模型）</text>
+
+<rect x="228" y="282" width="166" height="86" rx="8" fill="#FFFFFF" stroke="#F59E0B"/>
+<text x="311" y="312" font-weight="700" fill="#102A43">三维加权评分</text>
+<text x="311" y="334" font-size="10.5" fill="#52606D">症状 30%</text>
+<text x="311" y="350" font-size="10.5" fill="#52606D">标志物 30% · 行为 25%</text>
+
+<rect x="406" y="282" width="166" height="86" rx="8" fill="#FFFFFF" stroke="#C62828" stroke-width="1.8"/>
+<text x="489" y="310" font-weight="700" fill="#C62828">红黄绿算法</text>
+<text x="489" y="330" font-size="10.5" font-weight="700" fill="#C62828">双轨红灯触发</text>
+<text x="489" y="348" font-size="10.5" fill="#52606D">红旗直转 + 加权 ≥80</text>
+
+<rect x="584" y="282" width="166" height="86" rx="8" fill="#FFFFFF" stroke="#F59E0B"/>
+<text x="667" y="312" font-weight="700" fill="#102A43">干预决策树</text>
+<text x="667" y="334" font-size="10.5" fill="#52606D">模块匹配推荐</text>
+<text x="667" y="350" font-size="10.5" fill="#52606D">转介/教练/自助</text>
+
+<rect x="762" y="282" width="148" height="86" rx="8" fill="#FFFFFF" stroke="#F59E0B"/>
+<text x="836" y="312" font-weight="700" fill="#102A43">随访提醒</text>
+<text x="836" y="334" font-size="10.5" fill="#52606D">依从性追踪</text>
+<text x="836" y="350" font-size="10.5" fill="#52606D">按分级定频</text>
+</g>
+
+<g class="svg-text" font-size="20" fill="#F59E0B" text-anchor="middle">
+<text x="480" y="412">↓</text>
+</g>
+
+<!-- Output layer -->
+<rect x="30" y="424" width="900" height="116" rx="10" fill="#FFFFFF" stroke="#E6E1D8" stroke-width="1.5"/>
+<text x="56" y="450" class="svg-text" font-size="14" font-weight="700" fill="#102A43">输出层 · 3 级风险 + 干预路径</text>
+<g class="svg-text" text-anchor="middle">
+<rect x="50" y="464" width="280" height="62" rx="8" fill="#FAE7E7" stroke="#C62828" stroke-width="1.5"/>
+<text x="190" y="488" font-size="13" font-weight="700" fill="#C62828">红灯（转介级）</text>
+<text x="190" y="508" font-size="10.5" fill="#52606D">专科转诊 / 急诊指导 / 即时干预</text>
+
+<rect x="340" y="464" width="280" height="62" rx="8" fill="#FDF3DC" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="480" y="488" font-size="13" font-weight="700" fill="#9A6700">黄灯（改善级）</text>
+<text x="480" y="508" font-size="10.5" fill="#52606D">健康教练 / 物理治疗 / 营养师 / 心理支持</text>
+
+<rect x="630" y="464" width="280" height="62" rx="8" fill="#E9F3EA" stroke="#2E7D32" stroke-width="1.5"/>
+<text x="770" y="488" font-size="13" font-weight="700" fill="#2E7D32">绿灯（自助级）</text>
+<text x="770" y="508" font-size="10.5" fill="#52606D">健康教育 / 自我监测 / 健康促进</text>
+</g>
+</svg>
+<figcaption><b>图 7　三合一身体地图工具三层总体架构（示意图）。</b>输入层三轨：主观症状（MSQ、疼痛地图、PIH、PROMIS、DII）、生物标志物（炎症谱、代谢谱、A/L 比值、VitD/B12/铁蛋白、CBC+NLR）、功能/行为（STarT Back、红旗征、可穿戴、睡眠、压力、依从）；引擎层五项：时间线追踪、三维加权评分、红黄绿双轨算法、干预决策树、随访提醒；输出层三级：红灯转介、黄灯改善、绿灯自助。模块构成照录源文第 6 章，框面尺寸不代表数据权重。</figcaption>
+</figure>
+
+<h3><span class="h3-tag">8.2</span>表 E：红黄绿分级逻辑总表（红灯双轨触发）</h3>
+<p><strong>红灯双轨机制：</strong>第一轨为绝对红旗征直转，满足任一即触发，<strong>不可被其他维度的低分「中和」</strong>，是保证安全性的底线；第二轨为综合风险加权评分 ≥ <span class="num">80/100</span>。第二轨权重分配：症状负荷 30%、生物标志物 30%、功能/行为 25%、红旗征警示（非绝对项）15%。</p>
+<div class="table-wrap">
+<table>
+<caption>表 E　红黄绿分级逻辑总表<span class="cap-note">触发条件与截断照录源文第 6.2 节</span></caption>
+<thead><tr><th scope="col">等级</th><th scope="col">触发机制 / 评分区间</th><th scope="col">典型触发条件</th><th scope="col">干预去向</th></tr></thead>
+<tbody>
+<tr>
+<td class="cell-r"><span class="chip chip-r"><span class="dot dot-r" aria-hidden="true"></span>红灯</span></td>
+<td class="cell-r"><strong>第一轨：</strong>绝对红旗征直转（任一即触发，不可中和）<br><strong>第二轨：</strong>加权综合评分 ≥ <span class="num">80/100</span></td>
+<td class="cell-r">肌骨红旗征（马尾综合征、进行性神经缺损、疑似癌症/感染、急性危象）；代谢急症（血糖危象、严重高血压危象）；炎症急症（hs-CRP &gt; 10 mg/L 且伴急性症状）；心理危机（严重抑郁伴自杀意念等）</td>
+<td class="cell-r">建议尽快就医/转诊；黄灯偏红提醒</td>
+</tr>
+<tr>
+<td class="cell-y"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>黄灯 · 干预黄</span></td>
+<td class="cell-y">加权评分 <span class="num">60–79</span>（中度异常）</td>
+<td class="cell-y" rowspan="2">MSQ 总分 21–100（轻-中度功能障碍）；hs-CRP 2–10 mg/L（慢性低度炎症）；STarT Back 中风险或高风险但无红旗征；慢性病控制指标偏离目标范围；A/L 比值 &lt; 1.0；自我效能评分低于人群均值 1 个标准差</td>
+<td class="cell-y">健康教练 / 专科咨询 / 针对性干预方案</td>
+</tr>
+<tr>
+<td class="cell-y"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>黄灯 · 预警黄</span></td>
+<td class="cell-y">加权评分 <span class="num">40–59</span>（轻度异常）</td>
+<td class="cell-y">生活方式调整 + 教育干预为主</td>
+</tr>
+<tr>
+<td class="cell-g"><span class="chip chip-g"><span class="dot dot-g" aria-hidden="true"></span>绿灯</span></td>
+<td class="cell-g">加权评分 &lt; <span class="num">40/100</span>，<strong>且无任何红旗征</strong></td>
+<td class="cell-g">各维度指标处于参考范围，无警示信号</td>
+<td class="cell-g">健康教育、自我监测、定期体检、健康促进</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="h3-tag">8.3</span>表 F：评估频率与闭环管理</h3>
+<div class="table-wrap">
+<table>
+<caption>表 F　分级评估频率与闭环管理<span class="cap-note">照录源文第 6.5 节</span></caption>
+<thead><tr><th scope="col">风险等级</th><th scope="col">全面评估频率</th><th scope="col">轻量监测频率</th><th scope="col">干预强度</th><th scope="col">升级/转介触发</th></tr></thead>
+<tbody>
+<tr><th scope="row"><span class="chip chip-g"><span class="dot dot-g" aria-hidden="true"></span>绿灯</span></th><td class="num">6–12 个月/次</td><td>每月 1 次症状/行为自评</td><td>健康教育 + 自我监测</td><td>任何指标恶化为黄灯</td></tr>
+<tr><th scope="row"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>预警黄</span></th><td class="num">3 个月/次</td><td>每 2 周 1 次轻量追踪</td><td>生活方式干预 + 健康教育</td><td>干预 3 个月无改善 → 升级；出现红旗征 → 红灯</td></tr>
+<tr><th scope="row"><span class="chip chip-y"><span class="dot dot-y" aria-hidden="true"></span>干预黄</span></th><td class="num">1 个月/次</td><td>每周 1–2 次追踪</td><td>健康教练 + 针对性干预 + 目标管理</td><td>干预 1–2 个月无改善 → 建议专科转诊；出现红旗征 → 红灯</td></tr>
+<tr><th scope="row"><span class="chip chip-r"><span class="dot dot-r" aria-hidden="true"></span>红灯</span></th><td>即时评估 + 按临床需求</td><td>即时转介 + 周级监测</td><td>专科医疗 + 病例管理</td><td>持续专业医疗管理</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="h3-tag">8.4</span>记录模板四组件（IFM 时间线 + Flinders 护理计划 + Medicare GPMP）</h3>
+<div class="findings-grid">
+  <div class="finding-card"><h4>① 个人健康时间线（纵向叙事）</h4><p>基本信息 + 家族病史（前置因素）；重大健康事件时间轴（触发因素）；当前主要健康问题及持续时间（介导因素）；生活方式全景（饮食、运动、睡眠、压力、社交）。</p></div>
+  <div class="finding-card"><h4>② 身体地图界面（可视化核心）</h4><p>交互式人体图（前/后视图）可点击各部位查看症状、评估结果与历史记录；不同系统以绿/黄/红色块标记风险；症状记录位置、类型、强度（0–10）、频率、持续时间、加重/缓解因素；点击部位展开详细评估（如腰部点开展示 STarT Back 评分与功能状态）。</p></div>
+  <div class="finding-card"><h4>③ 周期性评估表</h4><p>全面评估频率：绿灯 6–12 个月、黄灯 1–3 个月、红灯即时；内容含 MSQ 复评 + 关键生物标志物更新 + 功能状态评估 + 目标进度回顾；每次评估生成「健康快照」，可对比历史趋势。</p></div>
+  <div class="finding-card"><h4>④ 干预追踪日志</h4><p>已设定健康目标（SMART 格式，借鉴 Flinders P&amp;G）；行动计划与任务分解；每日/每周记录（症状、饮食、运动、用药、感受）；教练/医生互动记录；效果追踪与目标达成度。</p></div>
+</div>
+
+<h3><span class="h3-tag">8.5</span>转介路径设计</h3>
+<div class="mini-grid">
+  <div class="mini-card" style="border-left:4px solid #C62828;"><h4><span class="dot dot-r" aria-hidden="true"></span>红灯转介路径</h4><ul>
+    <li>绝对红旗征 → 立即弹出警示，提供附近急诊/专科信息，建议拨打急救电话或立即就医；</li>
+    <li>综合高风险 → 生成结构化「就医建议报告」（风险概要、关键异常值、建议就诊科室、需向医生提供的信息摘要），<strong>可导出 PDF</strong>；</li>
+    <li>可配置人工复核：高风险案例由健康教练或护士在 <strong>24 小时内</strong>跟进确认。</li>
+  </ul></div>
+  <div class="mini-card" style="border-left:4px solid #F59E0B;"><h4><span class="dot dot-y" aria-hidden="true"></span>黄灯干预路径</h4><ul>
+    <li>按主要异常维度匹配干预模块（抗炎饮食、运动康复、压力管理、睡眠改善等）；</li>
+    <li>推荐健康教练/营养师/物理治疗师对接；</li>
+    <li>设定 <strong>4–8 周</strong>干预目标与复评时间；</li>
+    <li>提供结构化自我管理计划与每日追踪任务。</li>
+  </ul></div>
+</div>
+<div class="mini-card" style="border-left:4px solid #2E7D32;"><h4><span class="dot dot-g" aria-hidden="true"></span>绿灯维护路径</h4><p style="margin:4px 0;">健康知识库与生活方式建议；季度健康小贴士和提醒；年度健康检查提醒；社区/同伴支持接入。</p></div>
+
+<h3><span class="h3-tag">8.6</span>交互式身体地图界面示意</h3>
+<figure>
+<svg viewBox="0 0 960 520" role="img" aria-labelledby="svg8-title svg8-desc">
+<title id="svg8-title">图 8　交互式身体地图前/后人体视图与三色风险标注（界面示意图）</title>
+<desc id="svg8-desc">两个简化人体轮廓（前视图与后视图），标注头颈、躯干、肩、肘、腕、髋、膝、踝分区，并以绿黄红三色圆点示意风险标注机制。</desc>
+<rect x="0" y="0" width="960" height="520" fill="#FFFFFF"/>
+<text x="480" y="32" text-anchor="middle" class="svg-text" font-size="16" font-weight="700" fill="#102A43">身体地图界面：前/后人体视图 + 部位三色风险点（界面示意图）</text>
+
+<!-- front figure (center x=290) -->
+<g stroke="#2978B5" stroke-width="2" fill="#F3F7FB">
+<circle cx="290" cy="78" r="26"/>
+<rect x="266" y="110" width="48" height="14" rx="6"/>
+<path d="M240 128 Q290 118 340 128 L352 250 Q352 262 338 262 L330 262 L318 178 L318 330 L330 392 Q332 402 322 404 L300 404 L290 336 L280 404 L258 404 Q248 402 250 392 L262 330 L262 178 L250 262 L242 262 Q228 262 228 250 Z"/>
+<!-- arms -->
+<path d="M240 132 L214 250 L206 300 Q204 310 214 312 L222 312 Q230 310 232 300 L244 232 Z"/>
+<path d="M340 132 L366 250 L374 300 Q376 310 366 312 L358 312 Q350 310 348 300 L336 232 Z"/>
+</g>
+<text x="290" y="436" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#1D5685">前视图</text>
+
+<!-- back figure (center x=670) -->
+<g stroke="#2978B5" stroke-width="2" fill="#F3F7FB">
+<circle cx="670" cy="78" r="26"/>
+<rect x="646" y="110" width="48" height="14" rx="6"/>
+<path d="M620 128 Q670 118 720 128 L732 250 Q732 262 718 262 L710 262 L698 178 L698 330 L710 392 Q712 402 702 404 L680 404 L670 336 L660 404 L638 404 Q628 402 630 392 L642 330 L642 178 L630 262 L622 262 Q608 262 608 250 Z"/>
+<path d="M620 132 L594 250 L586 300 Q584 310 594 312 L602 312 Q610 310 612 300 L624 232 Z"/>
+<path d="M720 132 L746 250 L754 300 Q756 310 746 312 L738 312 Q730 310 728 300 L716 232 Z"/>
+</g>
+<text x="670" y="436" text-anchor="middle" class="svg-text" font-size="13" font-weight="700" fill="#1D5685">后视图</text>
+
+<!-- region labels front -->
+<g class="svg-text" font-size="10.5" fill="#52606D" text-anchor="middle">
+<text x="290" y="82" font-size="9" fill="#1D5685">头颈</text>
+<text x="372" y="150">肩</text><text x="386" y="230">肘</text><text x="392" y="306">腕</text>
+<text x="356" y="340">髋</text><text x="344" y="392">膝</text><text x="318" y="424">踝</text>
+<text x="290" y="200">躯干</text>
+</g>
+<g class="svg-text" font-size="10.5" fill="#52606D" text-anchor="middle">
+<text x="670" y="82" font-size="9" fill="#1D5685">头颈</text>
+<text x="752" y="150">肩</text><text x="766" y="230">肘</text><text x="772" y="306">腕</text>
+<text x="736" y="340">髋</text><text x="724" y="392">膝</text><text x="698" y="424">踝</text>
+<text x="670" y="200">躯干</text>
+</g>
+
+<!-- risk dots front -->
+<circle cx="348" cy="228" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2"/>
+<circle cx="292" cy="190" r="8" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
+<circle cx="292" cy="70" r="7" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
+<!-- risk dots back -->
+<circle cx="672" cy="330" r="9" fill="#C62828" stroke="#fff" stroke-width="2"/>
+<circle cx="750" cy="152" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2"/>
+<circle cx="670" cy="195" r="8" fill="#2E7D32" stroke="#fff" stroke-width="2"/>
+<circle cx="636" cy="390" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2"/>
+
+<!-- legend -->
+<g class="svg-text" font-size="12">
+<circle cx="330" cy="478" r="7" fill="#2E7D32"/><text x="344" y="482" fill="#2E7D32" font-weight="700">绿灯部位：自助维持</text>
+<circle cx="530" cy="478" r="7" fill="#F59E0B"/><text x="544" y="482" fill="#9A6700" font-weight="700">黄灯部位：教练/干预</text>
+<circle cx="730" cy="478" r="7" fill="#C62828"/><text x="744" y="482" fill="#C62828" font-weight="700">红灯部位：立即转介</text>
+</g>
+<text x="480" y="506" text-anchor="middle" class="svg-text" font-size="10.5" fill="#98A2AD">点位为标注机制示意，不代表真实病例；点击部位可展开该部位症状（0–10 分）、评估结果与历史记录</text>
+</svg>
+<figcaption><b>图 8　交互式身体地图前/后人体视图（界面示意图）。</b>人体轮廓为简化示意，标注头颈、躯干、肩、肘、腕、髋、膝、踝分区；三色圆点示意风险标注机制：绿色部位进入自助维持路径、黄色部位匹配教练/干预模块、红色部位触发立即转介。症状标记维度照录源文：位置、类型、强度（0–10）、频率、持续时间、加重/缓解因素。图中人体与点位均为界面机制示意，不代表任何真实病例数据。</figcaption>
+</figure>
+</section>
+<!-- ============ CH 9 ============ -->
+<section class="chapter" id="ch9">
+<h2><span class="ch-no">09</span>信息缺口与研究建议</h2>
+<p class="ch-lead">本报告基于公开可获取的权威资料系统梳理，仍存在六项信息缺口，建议在产品设计与后续研究中补充。</p>
+<h3><span class="h3-tag">9.1</span>六项信息缺口与补充建议</h3>
+<div class="findings-grid">
+  <div class="finding-card"><h4>① Hinge Health 与 Omada Health 内部逻辑</h4><p>作为肌骨数字健康和糖尿病预防的头部平台，其详细评估维度、分层算法和用户界面逻辑<strong>未公开</strong>。建议通过产品体验、用户评测、行业分析报告等渠道补充研究。</p></div>
+  <div class="finding-card"><h4>② WOSAAM 官方评估框架</h4><p>世界抗衰老医学会（WOSAAM）标准化评估体系的详细文档在公开英文资料中缺位。如有需要，可进一步检索其官方期刊和会员资料。</p></div>
+  <div class="finding-card"><h4>③ NLR 标准化截断值</h4><p>中性粒细胞/淋巴细胞比（NLR）的参考范围与临床截断值在不同研究间存在差异，目前尚无统一的「慢性低度炎症」标准值。建议作为<strong>探索性指标</strong>纳入，待积累自有数据后校准。</p></div>
+  <div class="finding-card"><h4>④ Omega-3 指数截断值待验证</h4><p>Omega-3 指数（红细胞膜 EPA+DHA 占总脂肪酸百分比）有「8% 以上为心脏保护、4% 以下为高风险」的常用参考，但其来源和验证需进一步确认。</p></div>
+  <div class="finding-card"><h4>⑤ SFMA / FMS 评估标准</h4><p>功能性动作筛查（FMS）与选择性功能动作评估（SFMA）的具体评分标准和分级逻辑未在公开文献中系统呈现，主要为付费培训课程内容。如需纳入，建议获取官方认证资料。</p></div>
+  <div class="finding-card"><h4>⑥ 本土化校准</h4><p>本报告所依据的参考值（如 hs-CRP 截断值、A/L 比值参考）大多来自欧美人群研究，中国人群的最优截断值可能存在差异。产品落地时需结合中国人群流行病学数据进行校准。</p></div>
+</div>
+</section>
+
+<!-- ============ CH 10 ============ -->
+<section class="chapter" id="ch10">
+<h2><span class="ch-no">10</span>附录：关键数值速查与来源标识</h2>
+<p class="ch-lead">全文截断值、阈值与权重汇总于一表，便于工具设计直接取用；数值均照录源文，未做外推。</p>
+<div class="table-wrap">
+<table>
+<caption>表 G　全文关键截断值 / 阈值 / 权重速查表<span class="cap-note">按工具/指标分组；数字区间以 en dash 表示</span></caption>
+<thead><tr><th scope="col">工具 / 指标</th><th scope="col">关键数值与分级</th><th scope="col">备注</th></tr></thead>
+<tbody>
+<tr><th scope="row">MSQ 医学症状问卷</th><td class="num">&lt; 20 最优（绿）；21–50 轻度（黄）；51–100 中度（黄）；&gt; 100 重度（红）</td><td>70+ 症状、15 类、每项 0–4 分、评估过去两周</td></tr>
+<tr><th scope="row">DII 饮食炎症指数</th><td class="num">范围 −8.87 至 +7.98；&lt; 0 抗炎（绿）；0–3 轻度促炎（黄）；≥ 3 显著促炎（红）</td><td>最高四分位 ≥ 3.12 vs 最低 &lt; 0.46：OR = 1.76（95% CI 1.42–2.18）；每 +1 单位风险 +12%</td></tr>
+<tr><th scope="row">hs-CRP</th><td class="num">双标准：2–10 mg/L（流行病学 LGSI）；3–10 mg/L（临床研究）；&gt; 10 先排除急性感染</td><td>AHA 心血管分层：&lt; 1 低 / 1–3 中 / &gt; 3 mg/L 高风险</td></tr>
+<tr><th scope="row">IL-6</th><td class="num">&lt; 7 pg/mL（绿）；7–15（黄，参考）；&gt; 15（红）</td><td>不同实验室参考值有差异</td></tr>
+<tr><th scope="row">纤维蛋白原</th><td class="num">2–4 g/L 正常（绿）；4–6（黄）；&gt; 6（红）</td><td>&gt; 4 提示血管炎症风险</td></tr>
+<tr><th scope="row">ESR（男/女，&lt; 50 岁）</th><td class="num">&lt; 15 / &lt; 20 mm/h（绿）；15–30 / 20–30（黄）；&gt; 30（红）</td><td>随年龄分层调整（50–85 岁、85 岁以上另设）</td></tr>
+<tr><th scope="row">A/L 比值</th><td class="num">&gt; 1.0 健康（绿）；0.5–1.0（黄）；&lt; 0.5（红）</td><td>对照组约 1.6（中位数 0.8）vs 肥胖组 0.3（中位数 0.2）</td></tr>
+<tr><th scope="row">STarT Back（SBST）</th><td class="num">低危：总分 ≤ 3；中危：总分 ≥ 4 且心理社会子分 ≤ 3；高危：总分 ≥ 4 且子分 ≥ 4</td><td>9 项；总分 0–9、子分 0–5；试验 851 人 / 10 诊所 / 每患者省 £34.39</td></tr>
+<tr><th scope="row">STarT MSK</th><td class="num">1211 人 RCT：6 个月疼痛与成本无显著差异（阴性）</td><td>泛化稀释效度的警示证据</td></tr>
+<tr><th scope="row">ÖMSPQ</th><td class="num">总分 0–210；&lt; 95 低危；95–150 中危；&gt; 150 高危</td><td>中高危截断需进一步验证</td></tr>
+<tr><th scope="row">Q-Risk</th><td class="num">10 年 CVD 风险 ≥ 10% 为高风险，启动他汀</td><td>十余因素；几乎每年更新</td></tr>
+<tr><th scope="row">综合加权评分（三合一框架）</th><td class="num">红灯 ≥ 80/100（双轨）；黄灯 40–79（预警黄 40–59 / 干预黄 60–79）；绿灯 &lt; 40 且无红旗</td><td>权重：症状负荷 30% / 生物标志物 30% / 功能行为 25% / 红旗警示 15%</td></tr>
+<tr><th scope="row">AI 分诊 5 维权重</th><td class="num">症状敏锐度 30% / 诊断关注 25% / 进展速度 20% / 功能损害 15% / 红旗征 10%</td><td>AI 出 1–5 原始分，应用代码确定性加权（100% 可审计）</td></tr>
+<tr><th scope="row">评估频率</th><td class="num">绿灯 6–12 月全面 / 每月轻量；预警黄 3 月 / 每 2 周；干预黄 1 月 / 每周 1–2 次；红灯即时 + 周级监测</td><td>详见表 F</td></tr>
+<tr><th scope="row">Livongo 预警阈值与效果</th><td class="num">低血糖 60 mg/dL、高血糖 400 mg/dL；教练 5 分钟内介入；70 万+ 用户；糖尿病发病率 −48%；收缩压 −15 mmHg；46% 患者体重减轻 ≥ 5%</td><td>10/14/30/90 天趋势摘要</td></tr>
+<tr><th scope="row">ACE 与衰老</th><td class="num">高 ACE 评分 → 慢性病风险增加 20 倍；基因影响衰老约 20–25%，表观遗传与生活方式占 75–80%</td><td>生活方式可干预性依据</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3><span class="h3-tag">10.1</span>报告内来源标识与可核验条目</h3>
+<p>源文引用以机构指南、同行评审论文编号与权威文件形式标注；下列条目中，带链接者为可在线核验的公开来源，其余为源文照录的编号标识（无 URL 者不编造链接）。</p>
+<ul class="src-list">
+  <li><span class="src-id">PMC11376302</span>芬兰 HWC（Healthy Weight Coaching）数字健康教练项目研究：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11376302/" target="_blank" rel="noopener noreferrer">PMC11376302</a></li>
+  <li><span class="src-id">PMC11992876</span>DII 饮食炎症指数与心血管-肾脏-代谢综合征剂量反应（OR=1.76, 95% CI 1.42–2.18）：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11992876/" target="_blank" rel="noopener noreferrer">PMC11992876</a></li>
+  <li><span class="src-id">PMC10216062</span>hs-CRP 2–10 mg/L 低度系统性炎症（LGSI）流行病学标准：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10216062/" target="_blank" rel="noopener noreferrer">PMC10216062</a></li>
+  <li><span class="src-id">PMC11430340</span>hs-CRP 临床研究截断与炎症相关研究：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11430340/" target="_blank" rel="noopener noreferrer">PMC11430340</a></li>
+  <li><span class="src-id">PMC12033637</span>hs-CRP / 低度炎症临床研究：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12033637/" target="_blank" rel="noopener noreferrer">PMC12033637</a></li>
+  <li><span class="src-id">PMC5915018</span>脂联素/瘦素比（A/L ratio）与代谢综合征：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5915018/" target="_blank" rel="noopener noreferrer">PMC5915018</a></li>
+  <li><span class="src-id">PMC10196397</span>A/L 比值对照研究（对照组约 1.6 / 中位数 0.8；肥胖组 0.3 / 中位数 0.2）：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10196397/" target="_blank" rel="noopener noreferrer">PMC10196397</a></li>
+  <li><span class="src-id">PMC8132393</span>STarT Back 筛查工具（SBST）条目与评分：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8132393/" target="_blank" rel="noopener noreferrer">PMC8132393</a></li>
+  <li><span class="src-id">PMC6095099</span>STarT Back 分层护理与心理知情物理治疗路径：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6095099/" target="_blank" rel="noopener noreferrer">PMC6095099</a></li>
+  <li><span class="src-id">PMC9109504</span>PROMIS 慢性病自我管理自我效能五维度量表：<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9109504/" target="_blank" rel="noopener noreferrer">PMC9109504</a></li>
+  <li><span class="src-id">NICE NG59</span>《16 岁以上腰痛和坐骨神经痛：评估与管理》（含 Appendix P 红旗征与 ÖMSPQ）：<a href="https://www.nice.org.uk/guidance/ng59" target="_blank" rel="noopener noreferrer">NICE NG59 官方指南</a></li>
+  <li><span class="src-id">MBS</span>澳洲 Medicare 慢性病管理：MBS Item 92030（2025 年 7 月起 GP chronic condition management plan）、Item 392（制定）/ 393（评审）、MBS AN.0.47 注释（澳洲卫生与老年护理部）。</li>
+  <li><span class="src-id">其他</span>WHO/Stanford CDSMP（Hibbard et al., 2007）；Flinders Program Evidence Summary；SELFMAN-HF（Frontiers in Medicine, 2023）；NHS England PHM（2023）与 NHS England podcast（2025）；NHS Dumfries and Galloway Spinal Pathway；NIHR Evidence Collection（2024，STarT MSK 1211 人 RCT）；FPM Journal（2025，HRS）；Livongo 官网与用户手册；GitHub Product Playbook（2026，AI 分诊）；LWW Supplementary Material（2026，DII 计算）；IFM MSQ Questionnaire；digitaldharma.io（IFM 指南解读）；Clínica Eupnea（2026，抗衰标志物）；沈阳市卫健委（2025，IL-6/纤维蛋白原参考值）。</li>
+</ul>
+<p class="sec-note">说明：通用网络搜索仅用于补充定性背景叙述；关键数字和分级标准均来自上述官方指南、同行评审论文或权威机构发布文件。报告完成日期 2026-08-28。</p>
+</section>
+</main>
+
+<footer>
+  <p>国外大健康体系调研：亚健康·慢性病·关节损伤评估与自我管理工具包框架 · 深度可视化报告 ｜ 完成日期 2026-08-28</p>
+  <p>所有数据均来自公开可获取的官方指南、同行评审论文和权威机构发布文件，具体来源已在文中标注。示意性图表均标注「示意图」，数据图数值严格照录源文。</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  // 页内锚点导航：JS 拦截 + 原生锚点降级
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  function scrollToId(id){
+    var target = document.getElementById(id);
+    if(!target) return false;
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+    return true;
+  }
+  navLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = link.getAttribute('href').slice(1);
+      if(scrollToId(id)){
+        e.preventDefault();
+        history.pushState(null, '', '#' + id);
+      }
+    });
+  });
+  // 滚动时高亮当前章节
+  var sections = navLinks.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function onScroll(){
+    var pos = window.scrollY + 90;
+    var current = null;
+    sections.forEach(function(sec){
+      if(sec.offsetTop <= pos) current = sec.id;
+    });
+    navLinks.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
