@@ -1,0 +1,2264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>身体大健康地图 · 身体扫描旅程 v2</title>
+<style>
+:root{
+  --paper:#F8F6F0;
+  --ink:#102A43;
+  --text:#1D2733;
+  --muted:#52606D;
+  --blue:#2978B5;
+  --blue-deep:#1D5685;
+  --orange:#F59E0B;
+  --card:#FFFFFF;
+  --line:#E6E1D8;
+  --green:#2E7D32;
+  --green-bg:#E9F3EA;
+  --yellow:#F59E0B;
+  --yellow-bg:#FDF3DC;
+  --red:#C62828;
+  --red-bg:#FAE7E7;
+  --gray:#9AA5B1;
+  --gray-bg:#F0EEE8;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","Menlo","Consolas",monospace;
+  --shadow:0 1px 3px rgba(16,42,67,.07),0 6px 18px rgba(16,42,67,.06);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--paper);color:var(--text);
+  font-family:var(--sans);font-size:15.5px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.num,input,select,.kpi-value,.dot-label,td,th,button{font-variant-numeric:tabular-nums;}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);line-height:1.4;}
+h1{font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;font-weight:800;}
+h2{font-size:clamp(19px,2.4vw,23px);margin:0 0 4px;font-weight:800;}
+h2.viewtitle{font-size:clamp(22px,3.4vw,30px);margin:0 0 8px;font-weight:800;}
+h3{font-size:16.5px;margin:22px 0 8px;font-weight:700;}
+h4{font-size:14.5px;margin:14px 0 6px;font-weight:700;}
+p{margin:8px 0;}
+a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;}
+a:hover{color:var(--blue);}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px;}
+button{font-family:var(--sans);cursor:pointer;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* ---------- top nav ---------- */
+.topnav{position:sticky;top:0;z-index:60;background:rgba(248,246,240,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+.nav-inner{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:10px;}
+.nav-brand{font-family:var(--serif);font-weight:800;color:var(--ink);font-size:15px;white-space:nowrap;letter-spacing:.02em;}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;-webkit-overflow-scrolling:touch;}
+.nav-links button{
+  display:block;white-space:nowrap;border:0;background:none;
+  font-size:13px;color:var(--muted);padding:6px 11px;border-radius:7px;
+}
+.nav-links button:hover{background:#EFEBE0;color:var(--ink);}
+.nav-links button.active{background:var(--ink);color:#fff;}
+
+main{max-width:1120px;margin:0 auto;padding:18px 16px 70px;}
+
+/* ---------- cards & layout ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:22px 24px;margin:18px 0;}
+.card.tight{padding:16px 18px;}
+.grid{display:grid;gap:14px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-map{grid-template-columns:minmax(280px,420px) 1fr;align-items:start;}
+.eyebrow{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--blue-deep);border:1px solid var(--blue);border-radius:999px;padding:3px 12px;margin-bottom:10px;background:#fff;}
+.muted{color:var(--muted);}
+.small{font-size:13px;}
+.tiny{font-size:12px;}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding:2px 0 2px 12px;margin:10px 0;}
+.divider{border:0;border-top:1px solid var(--line);margin:18px 0;}
+
+/* ---------- risk dots & badges ---------- */
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);vertical-align:middle;flex:0 0 auto;}
+.dot.g{background:var(--green);} .dot.y{background:var(--yellow);} .dot.r{background:var(--red);} .dot.n{background:var(--gray);}
+.dot.pulse{animation:pulse 1.6s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,.45);}70%{box-shadow:0 0 0 9px rgba(198,40,40,0);}100%{box-shadow:0 0 0 0 rgba(198,40,40,0);}}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border-radius:999px;padding:3px 11px;border:1px solid;white-space:nowrap;}
+.badge.g{color:var(--green);background:var(--green-bg);border-color:#BFD9C1;}
+.badge.y{color:#9A6B00;background:var(--yellow-bg);border-color:#EBD49A;}
+.badge.r{color:var(--red);background:var(--red-bg);border-color:#E3B3B3;}
+.badge.n{color:var(--muted);background:var(--gray-bg);border-color:var(--line);}
+.light{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);vertical-align:middle;}
+.light.g{background:var(--green);} .light.y{background:var(--yellow);} .light.r{background:var(--red);} .light.n{background:var(--gray);}
+.light.pulse{animation:pulse 1.6s infinite;}
+
+/* ---------- disclaimer ---------- */
+.disclaimer{background:#FFF8EC;border:1px solid #EAD9B8;border-radius:10px;padding:12px 16px;font-size:13.5px;color:#5C4A1F;margin:16px 0;}
+.disclaimer b{color:var(--ink);}
+.disclaimer.red{background:var(--red-bg);border-color:#E3B3B3;color:#7A1F1F;}
+
+/* ---------- body map ---------- */
+.map-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px 14px 8px;}
+.map-toggle{display:flex;gap:6px;margin-bottom:6px;}
+.map-toggle button{flex:1;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 0;font-size:13px;color:var(--muted);}
+.map-toggle button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.map-svg{width:100%;height:auto;display:block;}
+.zone{cursor:pointer;}
+.zone .hit{fill:transparent;stroke:none;}
+.zone:hover .hit{fill:rgba(41,120,181,.10);}
+.zone .bodypart{fill:#F2EEE5;stroke:#C9C2B2;stroke-width:1.5;}
+.zone-dot{stroke:#fff;stroke-width:2;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted);padding:8px 4px 4px;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+
+/* ---------- forms ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chips label{position:relative;}
+.chips input{position:absolute;opacity:0;pointer-events:none;}
+.chips .chip{display:inline-block;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 13px;font-size:13px;color:var(--text);cursor:pointer;user-select:none;}
+.chips input:checked + .chip{background:var(--ink);color:#fff;border-color:var(--ink);}
+.chips input:focus-visible + .chip{outline:2px solid var(--blue);outline-offset:2px;}
+.chips.yn .chip{min-width:64px;text-align:center;}
+select,input[type=text],input[type=number],input[type=date],textarea{
+  font-family:var(--sans);font-size:14px;border:1px solid var(--line);border-radius:8px;
+  padding:7px 10px;background:#fff;color:var(--text);width:100%;
+}
+textarea{resize:vertical;min-height:60px;}
+.field-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;}
+.field{flex:1 1 140px;}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:3px;}
+.slider-row{display:flex;align-items:center;gap:12px;}
+.slider-row input[type=range]{flex:1;accent-color:var(--blue);}
+.slider-val{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--blue-deep);min-width:44px;text-align:center;}
+.btn{display:inline-block;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:9px;padding:9px 20px;font-size:14px;font-weight:600;}
+.btn:hover{background:#1D3F63;}
+.btn.ghost{background:#fff;color:var(--ink);}
+.btn.ghost:hover{background:var(--paper);}
+.btn.warn{border-color:var(--orange);background:var(--orange);color:#3D2C00;}
+.btn.small{padding:6px 13px;font-size:13px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;margin:12px 0;}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:#fff;}
+caption{caption-side:top;text-align:left;font-size:13px;color:var(--muted);padding:0 4px 8px;}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+th{background:var(--ink);color:#fff;font-weight:600;font-size:13px;white-space:nowrap;}
+td.c,th.c{text-align:center;}
+tr:hover td{background:#FAF8F2;}
+td .num{font-family:var(--mono);}
+
+/* ---------- modal ---------- */
+.modal-mask{position:fixed;inset:0;background:rgba(16,42,67,.45);z-index:100;display:none;align-items:center;justify-content:center;padding:18px;}
+.modal-mask.show{display:flex;}
+.modal{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:24px 26px;border-top:8px solid var(--red);box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.modal.urgent{border-top-color:var(--red);}
+.modal.info{border-top-color:var(--orange);}
+.modal h3{margin-top:0;font-size:19px;}
+.modal .m-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--red);font-weight:700;}
+.modal .actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ---------- history / timeline ---------- */
+.snap-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;margin:8px 0;background:#fff;flex-wrap:wrap;}
+.snap-item .snap-date{font-family:var(--mono);font-size:13px;color:var(--muted);min-width:132px;}
+.trend-svg{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px;}
+
+/* ---------- flag lists ---------- */
+.flaglist{list-style:none;padding:0;margin:10px 0;}
+.flaglist li{padding:10px 14px;border-radius:8px;margin:8px 0;font-size:14px;display:flex;gap:9px;align-items:flex-start;}
+.flaglist li.r{background:var(--red-bg);color:#7A1F1F;border:1px solid #E3B3B3;}
+.flaglist li.y{background:var(--yellow-bg);color:#6B4E00;border:1px solid #EBD49A;}
+.flaglist li.g{background:var(--green-bg);color:#1E5122;border:1px solid #BFD9C1;}
+
+/* ---------- journey (v2 body scan) ---------- */
+.journey-top{position:sticky;top:52px;z-index:40;background:rgba(248,246,240,.96);backdrop-filter:blur(6px);padding:10px 0 6px;border-bottom:1px solid var(--line);}
+.step-track{display:flex;gap:4px;margin:6px 0 2px;}
+.step-seg{flex:1;height:8px;border-radius:999px;background:var(--gray-bg);border:1px solid var(--line);}
+.step-seg.done{background:var(--blue);border-color:var(--blue);}
+.step-seg.cur{background:var(--orange);border-color:var(--orange);}
+.step-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--mono);}
+.jcard{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:26px 28px;margin:16px auto;max-width:760px;}
+.jcard .station{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--blue-deep);text-transform:uppercase;}
+.jcard .jtitle{font-family:var(--serif);font-size:clamp(19px,2.6vw,23px);font-weight:800;color:var(--ink);margin:6px 0 4px;line-height:1.45;}
+.jcard .jlead{font-size:15px;color:var(--muted);margin:0 0 14px;}
+.jcard .jq{font-size:16px;color:var(--ink);font-weight:600;margin:16px 0 8px;line-height:1.7;}
+.jcard .jsub{font-size:13px;color:var(--muted);margin:-4px 0 8px;}
+.reflect{display:none;border-radius:10px;padding:10px 14px;margin:12px 0 4px;font-size:13.5px;line-height:1.7;border:1px solid;}
+.reflect.show{display:block;}
+.reflect.g{background:var(--green-bg);border-color:#BFD9C1;color:#1E5122;}
+.reflect.y{background:var(--yellow-bg);border-color:#EBD49A;color:#6B4E00;}
+.reflect.r{background:var(--red-bg);border-color:#E3B3B3;color:#7A1F1F;}
+.reflect.b{background:#EEF4FA;border-color:#B9D2E8;color:var(--blue-deep);}
+.jnav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.jnav .left{display:flex;gap:8px;flex-wrap:wrap;}
+.skip-link{background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:6px 4px;}
+.skip-link:hover{color:var(--ink);}
+.journal textarea{margin-top:6px;}
+
+/* ---------- risk matrix ---------- */
+.matrix-wrap{overflow-x:auto;margin:12px 0;}
+.rmatrix{display:grid;grid-template-columns:96px repeat(4,minmax(96px,1fr));gap:5px;min-width:560px;}
+.rmatrix .mh{font-size:12px;font-weight:700;color:var(--ink);text-align:center;padding:6px 4px;font-family:var(--sans);}
+.rmatrix .mr{font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;padding:4px 6px;}
+.mcell{border-radius:8px;min-height:46px;border:1px solid var(--line);background:var(--gray-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11.5px;color:var(--muted);padding:4px;text-align:center;transition:transform .1s ease;}
+.mcell:hover{transform:scale(1.03);}
+.mcell.g{background:var(--green-bg);border-color:#BFD9C1;color:#1E5122;}
+.mcell.y{background:var(--yellow-bg);border-color:#EBD49A;color:#7A5A00;}
+.mcell.r{background:var(--red-bg);border-color:#E3B3B3;color:#7A1F1F;font-weight:700;}
+.mcell.n{background:var(--gray-bg);color:var(--gray);}
+
+/* ---------- report four-part cards ---------- */
+.signal{border:1px solid var(--line);border-left-width:5px;border-radius:10px;padding:14px 18px;margin:12px 0;background:#fff;break-inside:avoid;}
+.signal.r{border-left-color:var(--red);background:#FFF6F6;}
+.signal.y{border-left-color:var(--orange);background:#FFFBF2;}
+.signal.g{border-left-color:var(--green);background:#F6FBF6;}
+.signal h4{margin:0 0 8px;font-size:15.5px;}
+.signal .seg{margin:7px 0;font-size:13.8px;line-height:1.7;}
+.signal .seg b.tag{display:inline-block;min-width:88px;font-family:var(--mono);font-size:11.5px;color:var(--blue-deep);letter-spacing:.05em;}
+details.src{border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:12px 0;background:#fff;}
+details.src summary{cursor:pointer;font-weight:700;font-family:var(--serif);color:var(--ink);font-size:15px;padding:4px 0;}
+.dimbar{margin:10px 0;}
+.dimbar .dim-head{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px;}
+.dimbar .dim-track{height:9px;border-radius:999px;background:var(--gray-bg);overflow:hidden;}
+.dimbar .dim-fill{height:100%;border-radius:999px;background:var(--blue);width:0;transition:width .4s ease;}
+.dimbar.g .dim-fill{background:var(--green);} .dimbar.y .dim-fill{background:var(--yellow);} .dimbar.r .dim-fill{background:var(--red);}
+
+.footer{max-width:1120px;margin:0 auto;padding:10px 16px 40px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);}
+
+@media (max-width:900px){
+  .grid-3{grid-template-columns:1fr;}
+  .grid-map{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  .card{padding:16px 16px;}
+  .jcard{padding:20px 16px;}
+  .chips .chip{padding:4px 10px;font-size:12.5px;}
+  .journey-top{top:48px;}
+}
+@media print{
+  .topnav,.no-print,.map-toggle,.btn,.journey-top,.skip-link{display:none !important;}
+  body{background:#fff;}
+  main{max-width:none;padding:0;}
+  .view{display:none !important;}
+  #view-report{display:block !important;}
+  .card,.jcard,.signal{box-shadow:none;border-color:#999;break-inside:avoid;}
+  a{text-decoration:none;color:#000;}
+  a[href^="http"]::after{content:"（" attr(href) "）";font-size:11px;color:#333;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <span class="nav-brand">身体大健康地图 · 扫描旅程</span>
+    <div class="nav-links" id="navLinks">
+      <button data-view="home" class="active">首页地图</button>
+      <button data-view="journey">身体扫描</button>
+      <button data-view="history">历史趋势</button>
+      <button data-view="report">我的报告</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="view active" id="view-home">
+  <span class="eyebrow">HEALTH MAP · BODY SCAN JOURNEY V2</span>
+  <h1>身体大健康地图：一趟向内观察的身体扫描</h1>
+  <p class="muted">在人体地图上点出你想关注的部位，然后跟着引导从头到脚走一遍——像一次安静的自我观察。你看到的是身体的信号与故事；科学的测量与分层在后台安静运行，阈值可审计，数据只保存在这台设备的浏览器里。</p>
+
+  <div class="disclaimer">
+    <b>重要声明：</b>本工具用于健康自我观察与就医分诊参考，<b>不做诊断</b>，不替代医生面诊与专业医疗。出现需要立即处理的身体信号时，请马上就医或拨打急救电话。所有记录保存在本地浏览器（localStorage），不上传任何服务器。
+  </div>
+
+  <div class="grid grid-map">
+    <div class="map-wrap">
+      <div class="map-toggle">
+        <button id="btnFront" class="active">前视图</button>
+        <button id="btnBack">后视图</button>
+      </div>
+      <div id="mapContainer"></div>
+      <div class="legend">
+        <span><i class="dot g"></i>信号稀疏 / 状态稳固</span>
+        <span><i class="dot y"></i>有信号聚集 · 值得关注</span>
+        <span><i class="dot r pulse"></i>需要尽快处理的信号</span>
+        <span><i class="dot n"></i>尚未扫描</span>
+      </div>
+      <p class="tiny muted" style="padding:0 4px 6px;">点击人体任一部位，即可从那里开始你的身体扫描旅程。</p>
+    </div>
+
+    <div>
+      <div class="card tight">
+        <h2 style="font-size:18px;">此刻的身体全景</h2>
+        <div id="overallSummary"></div>
+      </div>
+      <div class="card tight">
+        <h3 style="margin-top:4px;">建议的回来节奏</h3>
+        <div id="freqBox" class="small"></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+        <button class="btn" id="btnStartJourney">开始身体扫描</button>
+        <button class="btn ghost" id="btnGoReport">查看我的报告</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:18px;">身体信号全景矩阵</h2>
+    <p class="small muted">十个身体区域 × 四个观察维度。绿色代表这一站信号稀疏，黄色代表有信号聚集，红色代表需要尽快处理；灰色是还没走到的地方。点击任一格子，可直接回到旅程中对应的那一站。</p>
+    <div class="matrix-wrap" id="matrixHome"></div>
+    <p class="tiny muted">维度说明：症状负荷＝你自己观察到的身体信号；客观指标＝化验单等测量；功能与生活＝日常活动、自我照护信心与生活方式；安全信号＝需要医学紧急评估的特殊情况。</p>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:18px;">这趟旅程怎么走</h2>
+    <ol class="small" style="margin:6px 0;padding-left:22px;">
+      <li><b>点地图：</b>点出不舒服的部位，也可以直接开始扫描。</li>
+      <li><b>讲症状的故事：</b>什么时候开始、什么样的不舒服、什么让它加重或缓解。</li>
+      <li><b>看日常功能：</b>走路、穿衣、工作、睡眠被影响了多少。</li>
+      <li><b>安顿情绪：</b>害怕、担心、对恢复的预期——没有对错，只是看看心里的声音。</li>
+      <li><b>扫遍全身与生活：</b>从头到脚六个站点，再回想餐桌、睡眠、活动、压力与人的联系。</li>
+      <li><b>化验单（可跳过）：</b>有体检单就填几个数字，没有也完全没关系。</li>
+      <li><b>生成报告：</b>红黄灯、信号全景、下一步与复查节奏，可打印带给医生。</li>
+    </ol>
+    <p class="tiny muted">每一题都可以「跳过」或选「不确定」；中途离开会自动保存，随时回来继续。</p>
+  </div>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<section class="view" id="view-journey">
+  <div class="journey-top no-print">
+    <div class="step-track" id="stepTrack"></div>
+    <div class="step-labels">
+      <span>① 症状故事</span><span>② 功能影响</span><span>③ 心理社会</span><span>④ 全身扫描</span><span>⑤ 生活情境</span><span>⑥ 化验单</span>
+    </div>
+  </div>
+  <div id="journeyCard"></div>
+  <div style="max-width:760px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;" class="no-print">
+    <button class="btn ghost small" data-goto="home">返回地图</button>
+    <button class="btn small" id="btnFinishEarly">跳过剩余，直接看报告</button>
+  </div>
+</section>
+
+<!-- ================= HISTORY ================= -->
+<section class="view" id="view-history">
+  <span class="eyebrow">HISTORY &amp; TRENDS</span>
+  <h2 class="viewtitle">历史快照与趋势</h2>
+  <p class="muted">每次扫描结束后可保存一张快照，存在这台设备上。复评时曲线会告诉你信号的走向——讲变化，不审判分数。</p>
+  <div class="card">
+    <h2 style="font-size:18px;">综合信号趋势</h2>
+    <div id="trendChart"></div>
+    <h3>快照列表</h3>
+    <div id="snapList"><p class="small muted">尚无快照。完成一趟身体扫描后，在报告页点击「保存本次快照」。</p></div>
+    <div style="margin-top:10px;">
+      <button class="btn small" id="btnSnapHere">保存本次快照</button>
+      <button class="btn small ghost" id="btnClearData">清空全部本地数据</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REPORT ================= -->
+<section class="view" id="view-report">
+  <span class="eyebrow">MY BODY SIGNAL REPORT</span>
+  <h2 class="viewtitle">我的身体信号报告</h2>
+  <p class="muted">这份报告汇总你在旅程中记录的信号，用于自我观察与医患沟通。它描述<b>信号与模式</b>，不做诊断；就诊时可打印出示，由医生结合查体与检查判断。</p>
+  <div class="card" id="reportBody"></div>
+  <div class="matrix-wrap card" id="matrixReportCard">
+    <h2 style="font-size:18px;margin-top:0;">身体信号全景矩阵</h2>
+    <div id="matrixReport"></div>
+    <p class="tiny muted">点击格子可回到对应旅程站点补充或修改记录。</p>
+  </div>
+  <div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="btn" onclick="window.print()">打印 / 导出 PDF</button>
+    <button class="btn ghost" id="btnSnapReport">保存本次快照</button>
+    <button class="btn ghost" data-goto="journey">回到扫描旅程</button>
+    <button class="btn ghost" data-goto="home">返回首页</button>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>身体大健康地图 · 身体扫描旅程 v2 ｜ 本工具仅用于健康自我观察与就医分诊参考，不做诊断、不替代专业医疗；出现紧急身体信号请立即就医或拨打当地急救电话（120；心理援助热线 12356）。</p>
+  <p>数据存储于本设备浏览器 localStorage（键：healthmap_v2_state），不上传服务器。STarT Back © Keele University（非商业使用无需授权）；PROMIS 为 NIH 公开措施；PAM、IFM MSQ、官方 DII 算法均为各自版权方所有，本工具仅使用教学性改编/近似版本并已显著标注。</p>
+</footer>
+
+<!-- modal -->
+<div class="modal-mask" id="modalMask" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="modalBox">
+    <div class="m-tag" id="modalTag"></div>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody" class="small"></div>
+    <div class="actions">
+      <button class="btn" id="modalOk">我知道了</button>
+      <button class="btn ghost" id="modalReport" style="display:none;">查看我的报告</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+ * 身体大健康地图 v2 — 身体扫描旅程
+ * 前台：叙事化身体扫描（用户看不到问卷名称与 Likert 表格）
+ * 后台：确定性规则引擎，计分逻辑与 v1 逐项一致
+ *   STarT 3/4 截断与子分 3/4、MSQ 20/50/100、DII 0/3、
+ *   PROMIS T<40、权重 30/30/25/15、加权 40/80、双轨红灯
+ * ============================================================ */
+
+/* ---------- 人体地图分区（10 分区，与 v1 一致） ---------- */
+var REGIONS = [
+  {id:'headneck', name:'头颈'},
+  {id:'shoulder', name:'肩'},
+  {id:'chest',    name:'胸'},
+  {id:'elbow',    name:'肘'},
+  {id:'wrist',     name:'腕/手'},
+  {id:'abdomen',  name:'腹'},
+  {id:'lowback',  name:'腰背'},
+  {id:'hip',      name:'髋/臀'},
+  {id:'knee',     name:'膝'},
+  {id:'ankle',    name:'踝/足'}
+];
+var REGION_NAME = {};
+REGIONS.forEach(function(r){ REGION_NAME[r.id]=r.name; });
+
+/* ---------- STarT Back 9 题（© Keele University，题干保留中文标准版原文，不改一字） ---------- */
+var START_ITEMS = [
+  {id:'s1', psycho:false, text:'过去两周，我的背痛曾经扩散（放射）到腿部'},
+  {id:'s2', psycho:false, text:'过去两周，我有时会出现肩或颈部疼痛'},
+  {id:'s3', psycho:false, text:'我曾因为背痛而只能短距离行走'},
+  {id:'s4', psycho:false, text:'过去两周，我曾因为背痛导致穿衣服的速度比平常缓慢'},
+  {id:'s5', psycho:true,  text:'我认为对于一个和我有相同状况的人来说，进行体力活动是不安全的'},
+  {id:'s6', psycho:true,  text:'担忧的念头经常在我脑海中盘旋（我经常担心我的背痛）'},
+  {id:'s7', psycho:true,  text:'我觉得我的背痛很严重，而且永远不会得到任何改善'},
+  {id:'s8', psycho:true,  text:'总体而言，我不再享受过去喜欢做的事情'},
+  {id:'s9', psycho:true,  text:'总体而言，过去两周背痛对我的影响（困扰）程度如何？', likert:true,
+   opts:['完全没影响','轻微影响','中度影响','非常影响','极度影响'], likertScore:[0,0,0,1,1]}
+];
+
+/* ---------- 安全排查 12 项（v1 红旗征；前台包装为「为了安全确认几个特殊情况」，工具名不出现） ---------- */
+var REDFLAG_ITEMS = [
+  {id:'rf1', level:'info', abs:'CES', text:'臀部之间、会阴或肛门周围，最近两周有没有新出现发麻、发木的感觉？',
+   ryes:'这个信号需要尽快让医生当面评估。建议<b>今天或 24 小时内到急诊</b>（骨科/脊柱外科），不要等待观察，也不要先做按摩正骨。请把这份记录带上。'},
+  {id:'rf2', level:'info', abs:'CES', text:'排尿方面有没有新变化？比如憋不住尿、排不出来、或排尿使不上劲？',
+   ryes:'排尿功能的新发变化需要紧急评估，建议<b>今天 24 小时内到急诊</b>，带上这份记录。'},
+  {id:'rf3', level:'info', abs:'CES', text:'大便控制有没有新出现问题，比如失禁？',
+   ryes:'这个信号需要尽快医学评估，建议<b>今天 24 小时内到急诊</b>。'},
+  {id:'rf4', level:'info', abs:'CES', text:'性功能或会阴部感觉有没有新出现异常？',
+   ryes:'这个信号需要尽快让医生当面评估，建议<b>24 小时内就医</b>。'},
+  {id:'rf5', level:'abs', abs:'FOOTDROP', text:'有没有觉得一只脚抬不起来、走路绊脚？或者腿上的无力、麻木在一点点加重？',
+   ryes:'抬脚无力或症状进行性加重属于需要尽快评估的信号，建议<b>今天就医（急诊）</b>。'},
+  {id:'rf6', level:'abs', abs:'MSCC', text:'如果以前有过癌症病史：最近是否新出现背痛，同时伴有腿麻或腿无力？',
+   ryes:'有癌症病史又新发背痛伴神经症状，需要尽快排查，建议<b>今天联系医生或到急诊</b>。'},
+  {id:'rf7', level:'abs', abs:'INFECT', text:'有没有在没有受过外伤的情况下出现剧烈背痛，同时发烧、浑身不适，或夜里痛得厉害？',
+   ryes:'无外伤剧痛伴发热或夜间痛需要尽快评估，建议<b>24 小时内就医</b>。'},
+  {id:'rf8', level:'warn', abs:null, text:'背痛第一次发作时，年龄是否小于 20 岁或大于 55 岁，而且休息也不缓解、夜里持续痛？',
+   ryes:'这个起病年龄和疼痛特点建议尽早到骨科或风湿免疫科评估，不建议长期自行观察。'},
+  {id:'rf9', level:'warn', abs:null, text:'最近有没有不明原因的体重下降、明显浑身不舒服，同时新出现背痛？',
+   ryes:'不明原因体重下降伴新发背痛，建议尽快就医做系统评估。'},
+  {id:'rf10',level:'warn', abs:null, text:'两条腿有没有同时出现麻木或无力？',
+   ryes:'双侧腿部症状建议尽快医学评估，请在 24–48 小时内就诊。'},
+  {id:'rf11',level:'warn', abs:null, text:'这次背痛到现在，是否已经超过 3 个月，还没能恢复正常活动？',
+   ryes:'疼痛超过 3 个月仍影响活动，已进入需要系统管理的区间。建议到康复科、疼痛科或物理治疗机构处理，而不是继续独自硬扛。'},
+  {id:'rf12',level:'abs', abs:'CRISIS', text:'最后一个问题，只用于安全：最近两周，有没有闪过伤害自己、或不想活下去的念头？',
+   ryes:'谢谢你如实回答。这个念头值得认真对待：请立刻联系一位身边可信任的人，并拨打心理援助热线 <b>12356</b>；若感到此刻难以自控，请拨打 <b>120</b> 或前往最近急诊。你不是一个人在面对。'}
+];
+
+/* ---------- 炎性背痛七线索（化入症状故事，计数口径与 v1 一致） ---------- */
+var SPA_ITEMS = [
+  {id:'p1', text:'慢性腰背不舒服，是不是在 45 岁以前就开始、而且已经持续超过 3 个月？'},
+  {id:'p2', text:'夜里会不会因为背痛痛醒？'},
+  {id:'p3', text:'臀部深处有没有疼痛感，有时左边、有时右边、两侧交替？'},
+  {id:'p4', text:'疼痛是不是活动活动反而减轻、躺着休息不缓解？'},
+  {id:'p5', text:'吃布洛芬等抗炎止痛药后，48 小时内疼痛有没有明显缓解？'},
+  {id:'p6', text:'父母或兄弟姐妹中，有没有人被诊断过脊柱关节炎或强直性脊柱炎？'},
+  {id:'p7', text:'有没有足跟肌腱处肿痛，或银屑病（牛皮癣）？'}
+];
+
+/* ---------- 激活水平自评 8 题（参考 PAM 理念的教学性版本，非 PAM 原题；4 档计分与 v1 一致） ---------- */
+var PAM_ITEMS = [
+  {id:'a1', text:'我清楚自己在健康管理中应该承担的角色', rev:false},
+  {id:'a2', text:'我了解自己所患健康问题的基本知识', rev:false},
+  {id:'a3', text:'我有信心执行医生给出的治疗或生活方式建议', rev:false},
+  {id:'a4', text:'面对症状波动，我知道如何判断何时自我处理、何时就医', rev:false},
+  {id:'a5', text:'即使忙碌或压力大，我也能坚持健康行为（规律运动、按时用药等）', rev:false},
+  {id:'a6', text:'我能够主动向医生提出问题并表达自己的担忧', rev:false},
+  {id:'a7', text:'我会定期记录或回顾自己的健康指标', rev:false},
+  {id:'a8', text:'我觉得健康主要靠医生和药物，自己能做的不多', rev:true}
+];
+var PAM_OPTS = ['非常不同意','不同意','同意','非常同意'];
+
+/* ---------- PROMIS 五维自我效能（NIH 公开措施；教学性近似 T 分；每维 4 题、1–5 信心档） ---------- */
+var PROMIS_DOMAINS = [
+  {id:'sym',   name:'管理症状', items:[
+    '症状突然加重的那一天，你有多大信心里出一套办法，让自己慢慢缓下来？',
+    '你有多大信心采取措施，预防症状进一步恶化？',
+    '你有多大信心控制住症状、不让它干扰日常活动？',
+    '晚上身体不舒服的时候，你有多大信心不让它把睡眠搅掉？']},
+  {id:'daily', name:'日常活动', items:[
+    '一周里买菜、做饭、打理家务这些事，你有多大信心独立扛下来？',
+    '工作或学习的任务压过来时，你有多大信心照常完成？',
+    '你有多大信心维持规律的体力活动或锻炼？',
+    '外出购物、办事这类户外活动，你有多大信心独立完成？']},
+  {id:'med',   name:'药物治疗', items:[
+    '你有多大信心按医嘱按时按量用药？',
+    '出门旅行、作息被打乱时，你有多大信心还能按点用药？',
+    '出现药物副作用时，你有多大信心应对并及时咨询医生？',
+    '药快吃完的那几天，你有多大信心记得及时配药、不让它断档？']},
+  {id:'emo',   name:'情绪管理', items:[
+    '担心和焦虑涌上来的时候，你有多大信心把它安顿好、不被它牵着走？',
+    '情绪低落的那几天，你有多大信心找到让自己缓一口气的办法？',
+    '压力大的时候，你有多大信心找到适合自己的缓解方法？',
+    '情绪起伏时，你有多大信心不让它影响该做的事？']},
+  {id:'soc',   name:'社会互动', items:[
+    '身体需要照顾的时候，你有多大信心开口跟家人朋友说出你的需要？',
+    '看医生时，你有多大信心把困扰和疑问讲清楚、问到明白？',
+    '你有多大信心参加家庭或社交活动、不因为身体原因退出？',
+    '需要帮助的时候，你有多大信心主动向人求助？']}
+];
+var CONF_OPTS = ['完全没信心','不太有信心','有点信心','比较有信心','非常有信心'];
+
+/* ---------- MSQ 简化版 15 类 × 3 题（基于 IFM MSQ 框架的教学性简化版；0–4 计分口径与 v1 一致） ---------- */
+var MSQ_CATS = [
+  {id:'head', name:'头部', zone:'headneck', station:'① 头面与感官', arrive:'把注意力带到头部。', items:['头痛，或头部压迫感','头晕、昏昏沉沉','像戴了紧箍咒一样的箍紧感']},
+  {id:'eye',  name:'眼',   zone:'headneck', station:'① 头面与感官', arrive:'来到眼睛。', items:['眼睛发干、发痒，或不自觉流泪','看东西发花，或用眼后特别累','眼皮肿胀、眼睛发红']},
+  {id:'ear',  name:'耳',   zone:'headneck', station:'① 头面与感官', arrive:'再到耳朵。', items:['耳鸣（蝉鸣、嗡嗡声）','耳朵发闷像堵了一层，或听力不如从前','耳痛，或耳道有分泌物']},
+  {id:'nose', name:'鼻',   zone:'headneck', station:'① 头面与感官', arrive:'鼻子。', items:['鼻塞','一阵阵地打喷嚏、流清鼻涕','流鼻血，或鼻子发干']},
+  {id:'sinus',name:'鼻窦', zone:'headneck', station:'① 头面与感官', arrive:'鼻子两侧、面颧的深处。', items:['鼻窦或面颧部胀痛','鼻涕往喉咙后面流的感觉','这个区域反复不舒服']},
+  {id:'mouth',name:'口/喉',zone:'headneck', station:'① 头面与感官', arrive:'口腔和喉咙。', items:['口腔溃疡、舌头不舒服','喉咙有异物感，或咽痛','口干，或尝味道不对']},
+  {id:'skin', name:'皮肤', zone:null,       station:'② 呼吸与皮肤', arrive:'最后扫一遍全身的皮肤。', items:['皮疹、瘙痒','皮肤干燥、掉皮屑','容易长痘，或皮肤容易破损']},
+  {id:'cardio',name:'心/肺',zone:'chest',   station:'② 呼吸与皮肤', arrive:'把呼吸放慢一点，感受胸口和心跳。', items:['心跳发慌、心跳感明显','胸闷、气不够用','稍微活动就喘']},
+  {id:'gi',   name:'消化', zone:'abdomen',  station:'③ 消化与代谢', arrive:'来到腹部，特别是饭后的感觉。', items:['胀气、嗳气','便秘或腹泻','腹痛，或吃完东西后不舒服（某些食物好像不耐受）']},
+  {id:'wt',   name:'体重/代谢', zone:'abdomen', station:'③ 消化与代谢', arrive:'再体会一下体重和代谢的感觉。', items:['短期内体重明显变化','吃完很快又饿，或特别馋甜','容易水肿，或腰围、腹型发胖加重']},
+  {id:'msk',  name:'关节/肌肉', zone:null,  station:'④ 运动与能量', arrive:'全身的关节和肌肉。', items:['关节疼痛','肌肉酸痛、发僵','身体活动幅度受限']},
+  {id:'energy',name:'能量/活动', zone:null, station:'④ 运动与能量', arrive:'整体的能量水位。', items:['持续疲惫、精力不够','（睡眠相关信号在下一站记录）','日常活动量明显下降'], skipIdx:[1]},
+  {id:'energysleep', name:'睡眠信号', zone:null, station:'⑤ 睡眠、情绪与心智', arrive:'先看看睡眠。', items:['入睡困难，或睡了一觉仍不解乏'], msqCat:'energy', msqIdx:1},
+  {id:'mind', name:'心智/情绪', zone:'headneck', station:'⑤ 睡眠、情绪与心智', arrive:'再看看注意力和情绪。', items:['注意力难集中、健忘','情绪低落、焦虑，或容易烦躁','以前感兴趣的事，现在不想碰']},
+  {id:'urine',name:'泌尿', zone:'abdomen',  station:'⑥ 泌尿与生殖', arrive:'排尿相关的信号。', items:['尿频、尿急，或夜尿变多','排尿疼痛、尿色异常','咳嗽或用力时漏尿']},
+  {id:'repr', name:'生殖/性欲', zone:'hip',  station:'⑥ 泌尿与生殖', arrive:'生殖与性欲相关，如有不适可记录，也可整组跳过。', items:['性欲下降','月经异常，或经前不适加重','生殖区域不适、分泌物异常'], skippableGroup:true}
+];
+var MSQ_OPTS = ['没有','偶尔有，很轻','时有，中等','经常，明显','几乎天天，严重'];
+
+/* ---------- DII 简版 12 项（非官方 DII 计算，教育性近似；餐盘叙事，频率五档与 v1 一致） ---------- */
+var DII_ITEMS = [
+  {id:'d1', text:'猪牛羊肉等红肉——红烧肉、牛排、涮羊肉这一类', dir:1},
+  {id:'d2', text:'加工肉制品——香肠、培根、火腿、腌肉、熏肉', dir:1},
+  {id:'d3', text:'甜食与精制碳水——甜点、白面包白米饭为主的主食、含糖饮料（奶茶、可乐、甜咖啡）', dir:1},
+  {id:'d4', text:'油炸食品——炸鸡、薯条、油条、炸串', dir:1},
+  {id:'d5', text:'高盐零食与快餐——薯片、方便面、重口味外卖', dir:1},
+  {id:'d6', text:'人造奶油、起酥油做的点心——酥皮面包、奶油蛋糕、植脂末饮品', dir:1},
+  {id:'d7', text:'深色绿叶菜——菠菜、西兰花、芥蓝、羽衣甘蓝', dir:-1},
+  {id:'d8', text:'其他彩色蔬菜水果——番茄、胡萝卜、浆果、柑橘', dir:-1},
+  {id:'d9', text:'全谷物——燕麦、糙米、杂粮饭、全麦面包', dir:-1},
+  {id:'d10',text:'鱼，尤其是深海鱼——三文鱼、鲭鱼、沙丁鱼', dir:-1},
+  {id:'d11',text:'坚果、橄榄油、菜籽油这类优质脂肪', dir:-1},
+  {id:'d12',text:'茶（绿茶、红茶），或姜黄、姜、大蒜这类香辛料', dir:-1}
+];
+var DII_FREQ_OPTS = ['几乎不（每月<1次）','每月数次','每周1–2次','每周3–5次','几乎每天'];
+
+/* ---------- 生活方式 4 项（框架性采集，非标准化量表；五档与 v1 一致） ---------- */
+var LIFE_ITEMS = [
+  {id:'l1', name:'睡眠', text:'最近两周，你的睡眠大概是什么状态？', opts:['很差：<5小时或频繁夜醒','较差：5–6小时且不解乏','一般：6–7小时','较好：7小时左右、恢复尚可','很好：7–9小时、精力充沛']},
+  {id:'l2', name:'体力活动', text:'一周里，快走、骑车、游泳这类让你微微出汗的活动，累计大概多少？', opts:['几乎不','偶尔，<30分钟','约30–60分钟','约60–150分钟','≥150分钟']},
+  {id:'l3', name:'压力', text:'如果把最近的压力打个比方——它更像一座山，还是一阵风？你应对得如何？', opts:['长期无法承受、无应对','压力很大、难以缓解','压力中等、勉强应对','压力可控、有缓解方法','应对良好、张弛有度']},
+  {id:'l4', name:'社交', text:'身边有没有可以说真心话的人？联系的频率和被支持的感觉如何？', opts:['基本孤立、无人可倾诉','联系很少','有少量联系','定期联系、有支持','联系紧密、支持充足']}
+];
+
+/* ---------- 持久化（v2 独立存储键，与 v1 互不干扰） ---------- */
+var STORE_KEY = 'healthmap_v2_state';
+function defaultState(){
+  return {
+    pain:{regions:[], nature:[], nrs:0, freq:'', dur:'', agg:[], rel:[], rad:'', neck:'', saved:false},
+    start:{answers:{}, done:false, total:null, sub:null, band:null},
+    redflags:{answers:{}, done:false},
+    spa:{answers:{}, done:false, count:null},
+    pam:{answers:{}, done:false, score:null, level:null},
+    promis:{answers:{}, done:false, domains:{}},
+    qrisk:{fields:{}, done:false, bmi:null, lipidComplete:false},
+    vitals:{latest:null, history:[]},
+    msq:{answers:{}, done:false, total:null, cats:{}, band:null, partial:false},
+    dii:{answers:{}, done:false, score:null, band:null},
+    labs:{fields:{}, done:false, items:{}, abnormalCount:0},
+    life:{answers:{}, done:false, score:null},
+    timeline:{ant:'', trg:'', med:'', ace:''},
+    snapshots:[],
+    absFlags:[]
+  };
+}
+var state;
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw){ state = Object.assign(defaultState(), JSON.parse(raw)); }
+    else { state = defaultState(); }
+  }catch(e){ state = defaultState(); }
+}
+function saveState(){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+/* ---------- 通用辅助 ---------- */
+function $(id){ return document.getElementById(id); }
+function el(tag, cls, html){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(html!==undefined) e.innerHTML = html;
+  return e;
+}
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function bandDot(b){
+  return b==='r' ? '<span class="badge r"><i class="dot r"></i>红</span>'
+       : b==='y' ? '<span class="badge y"><i class="dot y"></i>黄</span>'
+       : b==='g' ? '<span class="badge g"><i class="dot g"></i>绿</span>'
+       : '<span class="badge n"><i class="dot n"></i>未评估</span>';
+}
+function modal(tag, title, bodyHtml, showReport){
+  $('modalTag').textContent = tag;
+  $('modalTitle').textContent = title;
+  $('modalBody').innerHTML = bodyHtml;
+  $('modalReport').style.display = showReport ? '' : 'none';
+  $('modalMask').classList.add('show');
+}
+
+/* ---------- 视图导航 ---------- */
+var jumpStep = null;
+function gotoView(name){
+  var views = document.querySelectorAll('.view');
+  for(var i=0;i<views.length;i++) views[i].classList.remove('active');
+  var t = $('view-' + name);
+  if(t) t.classList.add('active');
+  var btns = document.querySelectorAll('#navLinks button');
+  for(var j=0;j<btns.length;j++) btns[j].classList.toggle('active', btns[j].getAttribute('data-view')===name);
+  window.scrollTo(0,0);
+  if(name==='history') renderHistory();
+  if(name==='report') { scoreAll(true); renderReport(); }
+  if(name==='home') { scoreAll(true); renderHome(); renderMatrix('matrixHome'); }
+  if(name==='journey'){ if(jumpStep!==null){ journeyIdx = firstCardOfStep(jumpStep); jumpStep=null; } renderJourney(); }
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-view],[data-goto]');
+  if(!t) return;
+  var v = t.getAttribute('data-view') || t.getAttribute('data-goto');
+  gotoView(v);
+});
+
+/* ============================================================
+ * 身体扫描旅程卡片定义（七步：地图→症状故事→功能→心理社会→全身扫描→生活情境→化验单→报告）
+ * 每题到后台量表条目的映射写死在 bind 字段，可逐条审计
+ * ============================================================ */
+function C(id, step, station, title, lead, questions, opts){
+  return {id:id, step:step, station:station, title:title, lead:lead||'', questions:questions||[], opts:opts||{}};
+}
+/* question: {bind:'s1'|'rf1'|'p1'|'a1'|'pr:sym:0'|'msq:head:0'|'d1'|'l1'|..., type:'yn'|'likert'|'conf'|'pam'|'freq'|'msq'|'life', text, sub, key} */
+var CARDS = [];
+
+/* —— 步骤 1：症状故事 —— */
+CARDS.push(C('story-intro',1,'','先从你的身体讲起',
+  '找个舒服的姿势，做几次慢呼吸。接下来的几分钟，我们只做一件事：把最近身体的故事，如实讲出来。没有对错，不需要医学词汇，按你真实的感受选就好。每一题都可以跳过。',
+  [], {kind:'note'}));
+
+CARDS.push(C('pain-where',1,'症状故事 · 定位','不舒服，主要在哪些部位？',
+  '在下面点出所有最近两周有不舒服的部位（可多选）。这一步和首页的人体地图是连通的。',
+  [{type:'regions'}], {}));
+
+CARDS.push(C('pain-onset',1,'症状故事 · 起病','这个不舒服，是怎么开始的？',
+  '回想它第一次出现的时候。',
+  [
+    {type:'select', bind:'pain.dur', label:'到现在持续多久了？', opts:['','< 2 周','2 周 – 6 周','6 周 – 3 个月','> 3 个月']},
+    {type:'select', bind:'pain.freq', label:'出现的频率是？', opts:['','偶发（每月数次或更少）','间断（每周数次）','频繁（几乎每日）','持续']}
+  ], {}));
+
+CARDS.push(C('pain-level',1,'症状故事 · 感受','它是什么样的感觉？有多重？',
+  '先给不舒服的程度打个感觉分：0 是完全没有，10 是你能想象的最剧烈。',
+  [
+    {type:'slider', bind:'pain.nrs', label:'不舒服 / 疼痛强度（0–10）', min:0, max:10},
+    {type:'chips', bind:'pain.nature', label:'是什么样的感觉？（可多选）', multi:true, opts:['钝痛/酸痛','刺痛','烧灼痛','放射痛/麻木','僵硬','胀痛']}
+  ], {reflect:'记录身体信号的第一步是准确描述它——你刚才的描述，比一个笼统的「难受」有用得多。'}));
+
+CARDS.push(C('pain-flow',1,'症状故事 · 起伏','什么会让它加重？什么会让它缓解？',
+  '观察它在一天里、在不同动作中的变化。',
+  [
+    {type:'chips', bind:'pain.agg', label:'哪些情况下会加重？（可多选）', multi:true, opts:['久坐久站','弯腰/提物','夜间/休息时','活动/运动','无明显规律']},
+    {type:'chips', bind:'pain.rel', label:'哪些情况下会缓解？（可多选）', multi:true, opts:['休息','活动/走动','热敷/洗澡','改变姿势','无明显缓解']}
+  ], {reflect:'加重与缓解的规律，是医生判断疼痛来源时最看重的信息之一，也是自我管理的入手点。'}));
+
+CARDS.push(C('s1',1,'症状故事 · 走向','先顺着疼痛的走向看一下。',
+  '',
+  [{type:'likert', bind:'s1', text:START_ITEMS[0].text, yn:true,
+    ryes:'疼痛顺着腿往下走，提示神经可能受到刺激或牵涉。这一题本身不判定严重程度，会和功能、情绪题一起看。如果同时有腿麻或抬脚无力，后面的安全确认会专门问到。',
+    rno:'疼痛目前集中在背部，没有向腿部扩散的记录。'}], {}));
+
+CARDS.push(C('safe-a',1,'症状故事 · 安全确认','为了安全，有几个特殊情况需要确认一下（1/4）',
+  '这些问题听起来具体，但只需要如实回答「有」或「没有」。它们是为了确保不遗漏需要尽快处理的情况。',
+  [
+    {type:'yn', bind:'rf1', text:REDFLAG_ITEMS[0].text, ryes:REDFLAG_ITEMS[0].ryes, rno:'这个部位没有记录到新发麻木。'},
+    {type:'yn', bind:'rf2', text:REDFLAG_ITEMS[1].text, ryes:REDFLAG_ITEMS[1].ryes, rno:'排尿方面没有记录到新发变化。'}
+  ], {}));
+CARDS.push(C('safe-b',1,'症状故事 · 安全确认','为了安全，有几个特殊情况需要确认一下（2/4）','',
+  [
+    {type:'yn', bind:'rf3', text:REDFLAG_ITEMS[2].text, ryes:REDFLAG_ITEMS[2].ryes, rno:'大便控制没有记录到新发问题。'},
+    {type:'yn', bind:'rf4', text:REDFLAG_ITEMS[3].text, ryes:REDFLAG_ITEMS[3].ryes, rno:'性功能与会阴感觉没有记录到新发异常。'}
+  ], {}));
+CARDS.push(C('safe-c',1,'症状故事 · 安全确认','为了安全，有几个特殊情况需要确认一下（3/4）','',
+  [
+    {type:'yn', bind:'rf5', text:REDFLAG_ITEMS[4].text, ryes:REDFLAG_ITEMS[4].ryes, rno:'没有记录到抬脚无力或进行性加重的腿麻。'},
+    {type:'yn', bind:'rf6', text:REDFLAG_ITEMS[5].text, ryes:REDFLAG_ITEMS[5].ryes, rno:'没有相关病史组合，这一项未触发。'}
+  ], {}));
+CARDS.push(C('safe-d',1,'症状故事 · 安全确认','为了安全，有几个特殊情况需要确认一下（4/4）','',
+  [
+    {type:'yn', bind:'rf7', text:REDFLAG_ITEMS[6].text, ryes:REDFLAG_ITEMS[6].ryes, rno:'没有记录到无外伤剧痛伴发热或夜间剧痛。'},
+    {type:'yn', bind:'rf8', text:REDFLAG_ITEMS[7].text, ryes:REDFLAG_ITEMS[7].ryes, rno:'起病年龄与疼痛特点没有落在这个区间。'},
+    {type:'yn', bind:'rf9', text:REDFLAG_ITEMS[8].text, ryes:REDFLAG_ITEMS[8].ryes, rno:'没有记录到不明原因体重下降伴新发背痛。'},
+    {type:'yn', bind:'rf10', text:REDFLAG_ITEMS[9].text, ryes:REDFLAG_ITEMS[9].ryes, rno:'没有记录到双侧腿部症状。'}
+  ], {}));
+
+CARDS.push(C('spa-a',1,'症状故事 · 什么情况下缓解','再看看疼痛的「脾气」（1/2）',
+  '有几种特征组合，对判断背痛的类型很有帮助。回想最近的情况：',
+  [
+    {type:'yn', bind:'p2', text:SPA_ITEMS[1].text, ryes:'夜间痛醒被记录下来了——这是医生会关注的特征之一，会和其他几条一起看。', rno:'没有夜间痛醒的记录。'},
+    {type:'yn', bind:'p3', text:SPA_ITEMS[2].text, ryes:'臀部深部、交替出现的疼痛被记录下来了。', rno:'没有臀部深部交替痛的记录。'},
+    {type:'yn', bind:'p4', text:SPA_ITEMS[3].text, ryes:'「活动后反而减轻」是一个有方向意义的特征，已记录。', rno:'休息后缓解、活动后加重，是更常见的机械性模式。'}
+  ], {}));
+CARDS.push(C('spa-b',1,'症状故事 · 什么情况下缓解','再看看疼痛的「脾气」（2/2）','',
+  [
+    {type:'yn', bind:'p5', text:SPA_ITEMS[4].text, ryes:'抗炎药 48 小时内明显缓解，这一特征已记录。', rno:'没有这种用药反应，或没有服用过。'},
+    {type:'yn', bind:'p6', text:SPA_ITEMS[5].text, ryes:'一级亲属的相关病史已记录，就诊时请主动告诉医生。', rno:'没有相关家族史记录。'},
+    {type:'yn', bind:'p7', text:SPA_ITEMS[6].text, ryes:'足跟肿痛或银屑病史已记录，就诊时请告诉医生。', rno:'没有相关记录。'},
+    {type:'yn', bind:'p1', text:SPA_ITEMS[0].text, ryes:'慢性、45 岁前起病的特征已记录。', rno:'起病时间不符合这一特征。'},
+    {type:'yn', bind:'rf11', text:REDFLAG_ITEMS[10].text, ryes:REDFLAG_ITEMS[10].ryes, rno:'疼痛尚未持续到 3 个月以上，或已恢复正常活动。'}
+  ], {}));
+
+CARDS.push(C('story-text',1,'症状故事 · 你的叙述','如果愿意，可以用自己的话写几句',
+  '最近身体有没有什么转折点？比如一次感染、外伤、手术，或一段压力很大的日子。这些叙述<b>不计入任何评分</b>，只会出现在你的时间线和就医报告里，帮医生更快理解你的故事。不愿写可以整步跳过。',
+  [
+    {type:'textarea', bind:'timeline.trg', label:'触发因素：最近身体的转折点（感染 / 外伤 / 手术 / 重大压力 / 生活变化）', rows:3},
+    {type:'textarea', bind:'timeline.med', label:'一直持续的因素：长期久坐、睡眠不足、慢性压力等', rows:3},
+    {type:'textarea', bind:'timeline.ant', label:'更早的背景：家族史、早年健康相关经历（可选）', rows:2}
+  ], {kind:'journal'}));
+
+/* —— 步骤 2：功能影响 —— */
+CARDS.push(C('s3',2,'功能影响 · 行走','回想一下走路这件事。','',
+  [{type:'likert', bind:'s3', text:START_ITEMS[2].text, yn:true,
+    ryes:'走不远就得停下，是功能受限的直接信号。在背痛恢复轨迹的研究里，功能类题目的分量很重，比单纯的疼痛分数更值得重视。',
+    rno:'行走能力目前保持完好，这是重要的功能储备。'}], {}));
+CARDS.push(C('s4',2,'功能影响 · 日常自理','那些每天都要做的小动作呢？','',
+  [{type:'likert', bind:'s4', text:START_ITEMS[3].text, yn:true,
+    ryes:'穿衣、套袜这类自理动作变慢，说明疼痛已经开始影响日常独立性。这种细微变化正是分层关心的信号。',
+    rno:'日常自理动作没有受到明显影响。'}], {}));
+CARDS.push(C('s2',2,'功能影响 · 牵连','再看看身体其他地方有没有被牵连。','',
+  [{type:'likert', bind:'s2', text:START_ITEMS[1].text, yn:true,
+    ryes:'肩颈同时有症状，在慢性背痛人群中很常见，可能提示影响范围较广，或姿势与紧张的负荷是全身性的。',
+    rno:'肩颈没有记录到连带症状。'}], {}));
+CARDS.push(C('daily-a',2,'功能影响 · 日常信心','日常生活里，你的把握有多大？（1/2）',
+  '下面几题没有「正确答案」，按你此刻真实的信心程度选。',
+  [
+    {type:'conf', bind:'pr:daily:0', text:PROMIS_DOMAINS[1].items[0]},
+    {type:'conf', bind:'pr:daily:1', text:PROMIS_DOMAINS[1].items[1]}
+  ], {}));
+CARDS.push(C('daily-b',2,'功能影响 · 日常信心','日常生活里，你的把握有多大？（2/2）','',
+  [
+    {type:'conf', bind:'pr:daily:2', text:PROMIS_DOMAINS[1].items[2]},
+    {type:'conf', bind:'pr:daily:3', text:PROMIS_DOMAINS[1].items[3]}
+  ], {}));
+CARDS.push(C('sym-a',2,'功能影响 · 应对症状','当症状来敲门，你有多少办法？（1/2）','',
+  [
+    {type:'conf', bind:'pr:sym:0', text:PROMIS_DOMAINS[0].items[0]},
+    {type:'conf', bind:'pr:sym:1', text:PROMIS_DOMAINS[0].items[1]}
+  ], {}));
+CARDS.push(C('sym-b',2,'功能影响 · 应对症状','当症状来敲门，你有多少办法？（2/2）','',
+  [
+    {type:'conf', bind:'pr:sym:2', text:PROMIS_DOMAINS[0].items[2]},
+    {type:'conf', bind:'pr:sym:3', text:PROMIS_DOMAINS[0].items[3]}
+  ], {}));
+CARDS.push(C('s9',2,'功能影响 · 整体回望','最后，整体回望一下这两周。','',
+  [{type:'likert5', bind:'s9', text:START_ITEMS[8].text, opts:START_ITEMS[8].opts,
+    rhi:'困扰程度高，意味着疼痛对生活的侵入感很强。这一题会计入心理社会层面，和功能、情绪题一起看。',
+    rlo:'困扰程度在可承受范围内，会和其他题目一起综合判断。'}], {}));
+
+/* —— 步骤 3：心理社会 —— */
+CARDS.push(C('s5',3,'心理社会 · 心里的声音','接下来几个问题没有对错，只是看看心里的声音。（1/4）','',
+  [{type:'likert', bind:'s5', text:START_ITEMS[4].text, yn:true, agree:'是，符合这个想法', disagree:'不，不符合',
+    ryes:'因为怕受伤而回避活动，是疼痛慢性化中分量最重的心理因素之一。需要知道的是：对多数非特异性背痛，保持活动通常比卧床休息更有利于恢复。',
+    rno:'对活动保留着基本的安全感，这是恢复的有利条件。'}], {}));
+CARDS.push(C('s6',3,'心理社会 · 心里的声音','留意一下关于背的念头。（2/4）','',
+  [{type:'likert', bind:'s6', text:START_ITEMS[5].text, yn:true, agree:'是，符合', disagree:'不，不符合',
+    ryes:'担心自己冒出来、反复打转，是疼痛长期占据注意力的表现。持续的警觉会放大疼痛的感受——这是可以通过具体方法慢慢松动的部分。',
+    rno:'关于疼痛的担心没有反复盘旋。'}], {}));
+CARDS.push(C('s7',3,'心理社会 · 心里的声音','再往深处看一点。（3/4）','',
+  [{type:'likert', bind:'s7', text:START_ITEMS[6].text, yn:true, agree:'是，符合', disagree:'不，不符合',
+    ryes:'心里有个声音说「好不了了」，这种对恢复的悲观预期本身就会影响恢复轨迹，这在疼痛研究中被反复验证。它反映的是此刻的心理负荷，不是对未来的判决。',
+    rno:'对恢复仍保留着基本的预期，这是重要的心理资源。'}], {}));
+CARDS.push(C('s8',3,'心理社会 · 心里的声音','看看疼痛之外的生活。（4/4）','',
+  [{type:'likert', bind:'s8', text:START_ITEMS[7].text, yn:true, agree:'是，符合', disagree:'不，不符合',
+    ryes:'以前喜欢的事提不起劲，是情绪负荷加重的信号。慢性疼痛与情绪低落常常互相强化，把这一点说出来本身就是打断循环的开始。',
+    rno:'对喜欢的事仍保持着兴致，这是情绪弹性还在的表现。'}], {}));
+CARDS.push(C('emo-a',3,'心理社会 · 情绪安顿','情绪涌上来的时候，你有多少把握？（1/2）','',
+  [
+    {type:'conf', bind:'pr:emo:0', text:PROMIS_DOMAINS[3].items[0]},
+    {type:'conf', bind:'pr:emo:1', text:PROMIS_DOMAINS[3].items[1]}
+  ], {}));
+CARDS.push(C('emo-b',3,'心理社会 · 情绪安顿','情绪涌上来的时候，你有多少把握？（2/2）','',
+  [
+    {type:'conf', bind:'pr:emo:2', text:PROMIS_DOMAINS[3].items[2]},
+    {type:'conf', bind:'pr:emo:3', text:PROMIS_DOMAINS[3].items[3]}
+  ], {}));
+CARDS.push(C('pam-a',3,'心理社会 · 你在健康里的位置','接下来看看你在自己健康管理里的位置（1/2）',
+  '没有标准答案，按真实情况选就好。',
+  [
+    {type:'pam', bind:'a1', text:PAM_ITEMS[0].text},
+    {type:'pam', bind:'a2', text:PAM_ITEMS[1].text},
+    {type:'pam', bind:'a3', text:PAM_ITEMS[2].text},
+    {type:'pam', bind:'a4', text:PAM_ITEMS[3].text}
+  ], {}));
+CARDS.push(C('pam-b',3,'心理社会 · 你在健康里的位置','接下来看看你在自己健康管理里的位置（2/2）','',
+  [
+    {type:'pam', bind:'a5', text:PAM_ITEMS[4].text},
+    {type:'pam', bind:'a6', text:PAM_ITEMS[5].text},
+    {type:'pam', bind:'a7', text:PAM_ITEMS[6].text},
+    {type:'pam', bind:'a8', text:PAM_ITEMS[7].text}
+  ], {reflect:'健康管理是一种可以成长的能力：从记录一个指标、问医生一个问题开始，主动权会慢慢回到自己手里。'}));
+CARDS.push(C('rf12',3,'心理社会 · 一个安全问题','最后一个问题，只用于安全。','',
+  [{type:'yn', bind:'rf12', text:REDFLAG_ITEMS[11].text, ryes:REDFLAG_ITEMS[11].ryes,
+    rno:'谢谢你的回答。没有记录到这样的念头。如果以后任何时候出现，请立刻联系信任的人或拨打心理援助热线 12356。'}], {kind:'crisis'}));
+
+/* —— 步骤 4：全身扫描（MSQ 15 类，六站） —— */
+CARDS.push(C('scan-intro',4,'全身扫描','现在，做一趟从头到脚的身体扫描。',
+  '找个舒服的姿势，跟着提示把注意力带到每个部位。回想<b>最近两周</b>，每个信号出现的频率按五档选。没有就是没有，不用勉强；每一站都可以跳过。这不是考试，是一次有结构的自我观察。',
+  [], {kind:'note'}));
+MSQ_CATS.forEach(function(cat){
+  var qs = [];
+  cat.items.forEach(function(t, i){
+    if(cat.skipIdx && cat.skipIdx.indexOf(i)>=0) return;
+    qs.push({type:'msq', bind: cat.msqCat ? ('msq:'+cat.msqCat+':'+cat.msqIdx) : ('msq:'+cat.id+':'+i), text:t});
+  });
+  CARDS.push(C('msq-'+cat.id, 4, '全身扫描 · '+cat.station, cat.arrive,
+    cat.skippableGroup ? '这一站涉及私密部位，整组都可以跳过。' : '',
+    qs, {kind: cat.skippableGroup ? 'skippableGroup' : 'msqgroup', stationMirror:true}));
+});
+CARDS.push(C('scan-mirror',4,'全身扫描 · 收束','15 个系统都走过了。',
+  '你刚才做的不是考试，是一次有结构的自我观察。所有信号会汇成一张身体信号全景矩阵——地图上哪些区域亮起来，到报告页就能看到。单个信号意义有限，15 个系统放在一起看，模式才会浮现。',
+  [{type:'textarea', bind:'timeline.ace2', label:'（可选，不计分）这一站，如果情绪或睡眠想对你说一句话，它会说什么？', rows:2}],
+  {kind:'note'}));
+
+/* —— 步骤 5：生活情境（餐盘 + 睡眠/活动/压力/社交 + 用药/社交信心） —— */
+CARDS.push(C('life-a',5,'生活情境 · 睡眠与活动','最近两周，生活的节奏怎么样？（1/2）','',
+  [
+    {type:'life', bind:'l1', text:LIFE_ITEMS[0].text, opts:LIFE_ITEMS[0].opts},
+    {type:'life', bind:'l2', text:LIFE_ITEMS[1].text, opts:LIFE_ITEMS[1].opts}
+  ], {}));
+CARDS.push(C('life-b',5,'生活情境 · 压力与人','最近两周，生活的节奏怎么样？（2/2）','',
+  [
+    {type:'life', bind:'l3', text:LIFE_ITEMS[2].text, opts:LIFE_ITEMS[2].opts},
+    {type:'life', bind:'l4', text:LIFE_ITEMS[3].text, opts:LIFE_ITEMS[3].opts}
+  ], {reflect:'睡眠、活动、压力与人的联系，是身体恢复的底色——它们不在药片里，却占了恢复的一大半。'}));
+CARDS.push(C('dii-intro',5,'生活情境 · 你的餐盘','现在回想最近两周你真实的餐桌',
+  '不是理想的餐桌，是实际吃下去的。下面这些食物，多久出现在你的盘子里一次？',
+  [], {kind:'note'}));
+CARDS.push(C('dii-a',5,'生活情境 · 你的餐盘','盘子里的红肉与加工食品（1/4）','',
+  [
+    {type:'freq', bind:'d1', text:DII_ITEMS[0].text, dir:1},
+    {type:'freq', bind:'d2', text:DII_ITEMS[1].text, dir:1},
+    {type:'freq', bind:'d3', text:DII_ITEMS[2].text, dir:1}
+  ], {kind:'diigroup'}));
+CARDS.push(C('dii-b',5,'生活情境 · 你的餐盘','盘子里的油炸与高脂点心（2/4）','',
+  [
+    {type:'freq', bind:'d4', text:DII_ITEMS[3].text, dir:1},
+    {type:'freq', bind:'d5', text:DII_ITEMS[4].text, dir:1},
+    {type:'freq', bind:'d6', text:DII_ITEMS[5].text, dir:1}
+  ], {kind:'diigroup'}));
+CARDS.push(C('dii-c',5,'生活情境 · 你的餐盘','盘子里的蔬菜与全谷（3/4）','',
+  [
+    {type:'freq', bind:'d7', text:DII_ITEMS[6].text, dir:-1},
+    {type:'freq', bind:'d8', text:DII_ITEMS[7].text, dir:-1},
+    {type:'freq', bind:'d9', text:DII_ITEMS[8].text, dir:-1}
+  ], {kind:'diigroup'}));
+CARDS.push(C('dii-d',5,'生活情境 · 你的餐盘','盘子里的鱼、坚果与香辛料（4/4）','',
+  [
+    {type:'freq', bind:'d10', text:DII_ITEMS[9].text, dir:-1},
+    {type:'freq', bind:'d11', text:DII_ITEMS[10].text, dir:-1},
+    {type:'freq', bind:'d12', text:DII_ITEMS[11].text, dir:-1}
+  ], {kind:'diigroup', stationMirror:true}));
+CARDS.push(C('med-a',5,'生活情境 · 用药信心','如果有长期用药，你的把握有多大？（1/2）',
+  '没有长期用药的话，按你的一般情况选即可，也可以跳过。',
+  [
+    {type:'conf', bind:'pr:med:0', text:PROMIS_DOMAINS[2].items[0]},
+    {type:'conf', bind:'pr:med:1', text:PROMIS_DOMAINS[2].items[1]}
+  ], {}));
+CARDS.push(C('med-b',5,'生活情境 · 用药信心','如果有长期用药，你的把握有多大？（2/2）','',
+  [
+    {type:'conf', bind:'pr:med:2', text:PROMIS_DOMAINS[2].items[2]},
+    {type:'conf', bind:'pr:med:3', text:PROMIS_DOMAINS[2].items[3]}
+  ], {}));
+CARDS.push(C('soc-a',5,'生活情境 · 与人连接','需要帮助的时候，你开口的把握有多大？（1/2）','',
+  [
+    {type:'conf', bind:'pr:soc:0', text:PROMIS_DOMAINS[4].items[0]},
+    {type:'conf', bind:'pr:soc:1', text:PROMIS_DOMAINS[4].items[1]}
+  ], {}));
+CARDS.push(C('soc-b',5,'生活情境 · 与人连接','需要帮助的时候，你开口的把握有多大？（2/2）','',
+  [
+    {type:'conf', bind:'pr:soc:2', text:PROMIS_DOMAINS[4].items[2]},
+    {type:'conf', bind:'pr:soc:3', text:PROMIS_DOMAINS[4].items[3]}
+  ], {reflect:'能开口求助、能把疑问讲清楚，是自我管理里被低估的能力——你已经在练习它。'}));
+
+/* —— 步骤 6：化验单与自测指标（可跳过） —— */
+CARDS.push(C('lab-intro',6,'化验单 · 可选','有体检单就翻出来，没有也完全没关系',
+  '如果手边有最近的体检或化验单，可以把几个数字填进来，工具会按研究截断值做解读。<b>没有也完全没关系</b>：缺的项会自动降低这部分权重，其他评估不受影响。提醒三点：炎症指标 &gt;10 mg/L 时先排除急性感染；一切以化验单自带参考范围为准；这些截断值多来自欧美人群，需要本土化校准。',
+  [], {kind:'note'}));
+CARDS.push(C('lab-basic',6,'化验单 · 自测指标','先填几个自己知道的数字',
+  '血压、身高体重家用可测；年龄性别等信息用于风险核对。都可以留空。',
+  [
+    {type:'num', bind:'qrisk.fields.age', label:'年龄（岁）'},
+    {type:'sel', bind:'qrisk.fields.sex', label:'性别', opts:['','男','女']},
+    {type:'sel', bind:'qrisk.fields.smoke', label:'吸烟状况', opts:['','不吸烟','曾吸烟已戒','目前吸烟']},
+    {type:'sel', bind:'qrisk.fields.dm', label:'糖尿病史', opts:['','无','1型糖尿病','2型糖尿病']},
+    {type:'num', bind:'qrisk.fields.sbp', label:'收缩压（mmHg，家用测量可填）'},
+    {type:'num', bind:'vitals.dbp', label:'舒张压（mmHg，选填）'},
+    {type:'num', bind:'qrisk.fields.h', label:'身高（cm）'},
+    {type:'num', bind:'qrisk.fields.w', label:'体重（kg）'},
+    {type:'num', bind:'vitals.glu', label:'空腹血糖（mg/dL；mmol/L 请 ×18；选填）'}
+  ], {kind:'lab'}));
+CARDS.push(C('lab-inflam',6,'化验单 · 炎症指标','化验单上的炎症相关数字',
+  'hs-CRP、血沉在年度体检里常见；IL-6、纤维蛋白原、A/L 是非常规项目，没有就留空。',
+  [
+    {type:'num', bind:'labs.fields.crp', label:'hs-CRP（mg/L）'},
+    {type:'num', bind:'labs.fields.il6', label:'IL-6（pg/mL，非常规项）'},
+    {type:'num', bind:'labs.fields.fib', label:'纤维蛋白原（g/L）'},
+    {type:'num', bind:'labs.fields.esr', label:'ESR 血沉（mm/h）'},
+    {type:'num', bind:'labs.fields.al', label:'A/L 脂联素/瘦素比（非常规项）'},
+    {type:'sel', bind:'labs.fields.sex', label:'性别（血沉判读用）', opts:['','男','女']},
+    {type:'sel', bind:'labs.fields.age50', label:'年龄是否 ≥ 50 岁（血沉判读用）', opts:['','否','是']},
+    {type:'sel', bind:'labs.fields.acute', label:'近两周有无急性感染/外伤/手术', opts:['','无','有']}
+  ], {kind:'lab', saveLab:true}));
+CARDS.push(C('lab-lipid',6,'化验单 · 血脂','血脂（选填）',
+  '总胆固醇 / HDL 比值必须来自血脂化验单。有就填，没有就留空——缺少它不会影响其他部分，只是无法做心血管风险的完整估算。',
+  [
+    {type:'num', bind:'qrisk.fields.lipid', label:'总胆固醇 / HDL 比值（必须来自血脂化验单）'}
+  ], {kind:'lab', saveQrisk:true}));
+CARDS.push(C('lab-done',6,'化验单 · 完成','数字都填好了吗？',
+  '填好的数字会在报告里按研究截断值解读；没填的部分自动跳过、降低权重。接下来就是你的身体信号全景报告。',
+  [], {kind:'final'}));
+
+var STEP_NAMES = {1:'症状故事',2:'功能影响',3:'心理社会',4:'全身扫描',5:'生活情境',6:'化验单'};
+function firstCardOfStep(step){
+  for(var i=0;i<CARDS.length;i++){ if(CARDS[i].step===step) return i; }
+  return 0;
+}
+
+/* ============================================================
+ * 后台计分引擎（逻辑与 v1 逐项一致；输入直接读 state，无 DOM 依赖）
+ * ============================================================ */
+function linMap(x, x0, x1, y0, y1){ return y0 + (x-x0)*(y1-y0)/(x1-x0); }
+function clamp(x,a,b){ return Math.max(a,Math.min(b,x)); }
+
+/* ---- 疼痛记录保存标记（v1 state.pain.saved 等价物） ---- */
+function markPain(){
+  state.pain.saved = state.pain.regions.length>0 || state.pain.nrs>0 || !!state.pain.freq || !!state.pain.dur || state.pain.nature.length>0 || state.pain.agg.length>0 || state.pain.rel.length>0;
+}
+
+/* ---- STarT Back（阈值：总分 ≤3 绿；≥4 且子分 ≤3 黄；≥4 且子分 ≥4 红） ---- */
+function scoreStart(){
+  var total=0, sub=0, answered=0;
+  var answers={};
+  START_ITEMS.forEach(function(it){
+    var v = state.start.answers[it.id];
+    if(v!==undefined && v!==null && v!==''){ answered++; answers[it.id]=v; }
+  });
+  if(answered<9){ state.start.done=false; return; }
+  START_ITEMS.forEach(function(it){
+    var v = parseInt(answers[it.id],10);
+    var pts;
+    if(it.likert){ pts = it.likertScore[v]; } else { pts = v; }
+    total += pts;
+    if(it.psycho) sub += pts;
+  });
+  var band;
+  if(total<=3) band='g';
+  else if(sub<=3) band='y';
+  else band='r';
+  state.start = {answers:answers, done:true, total:total, sub:sub, band:band};
+}
+
+/* ---- 安全排查（红旗）：绝对红旗直转、不可中和 ---- */
+var ABS_TEXTS = {
+  CES:{title:'立即急诊：疑似马尾综合征信号',
+    text:'出现鞍区/会阴麻木或新发膀胱、肠、性功能障碍，属于需要立即处理的脊柱急症信号。请<b>当天立即前往急诊</b>（拨打当地急救电话），不要等待门诊预约。本提示不构成诊断，仅引导紧急就医。'},
+  FOOTDROP:{title:'紧急就医：新发足下垂 / 进行性下肢无力',
+    text:'新发足下垂或下肢无力、麻木进行性加重提示神经损害进展，建议<b>1 周内紧急就医</b>（脊柱/神经外科或骨科急诊评估）。'},
+  MSCC:{title:'紧急就医：癌症史 + 新发背痛伴神经症状',
+    text:'已知癌症病史合并新发背痛及腿麻/无力，需紧急排除恶性脊髓压迫。请<b>尽快联系肿瘤科或急诊</b>。'},
+  INFECT:{title:'紧急就医：无外伤剧痛伴发热',
+    text:'无外伤情况下的剧烈背痛伴发热、全身症状或夜间痛，需紧急排除椎间盘炎/脊柱感染。请<b>尽快急诊评估</b>。'},
+  CRISIS:{title:'立即求助：心理危机信号',
+    text:'出现伤害自己或结束生命的念头属于紧急心理危机。请<b>立即联系身边可信任的人并前往急诊</b>，或拨打心理援助热线（全国心理援助热线 12356，急救电话 120）。'},
+  GLU_LO:{title:'血糖危象预警：低血糖（< 60 mg/dL）',
+    text:'血糖低于 60 mg/dL 属于危象预警阈值。如出现心慌、出汗、手抖、意识模糊等低血糖症状，请<b>立即补充速效碳水并尽快就医/急诊</b>；意识不清时立即拨打急救电话。该阈值为危象预警值，不是日常控制目标。'},
+  GLU_HI:{title:'血糖危象预警：严重高血糖（> 400 mg/dL）',
+    text:'血糖高于 400 mg/dL 属于危象预警阈值，存在酮症酸中毒等急性并发症风险。请<b>立即联系医生或急诊评估</b>，尤其伴口干、多尿、呕吐、呼吸深快时立即急救。该阈值为危象预警值，不是日常控制目标。'},
+  CRP_ACUTE:{title:'尽快就医：hs-CRP > 10 mg/L 且无急性感染症状',
+    text:'hs-CRP 显著升高且无急性感染/外伤可解释时，需要尽快就医排查急性炎症、感染或其他原因。本提示不构成诊断。'}
+};
+function scoreRedFlags(){
+  var answers = state.redflags.answers||{};
+  var complete = REDFLAG_ITEMS.filter(function(it){ return answers[it.id]==='0' || answers[it.id]==='1'; }).length;
+  state.redflags.done = complete>=12;
+  var abs=[];
+  if(answers.rf1==='1' || answers.rf2==='1' || answers.rf3==='1' || answers.rf4==='1') abs.push('CES');
+  if(answers.rf5==='1') abs.push('FOOTDROP');
+  if(answers.rf6==='1') abs.push('MSCC');
+  if(answers.rf7==='1') abs.push('INFECT');
+  if(answers.rf12==='1') abs.push('CRISIS');
+  /* 血糖危象 */
+  if(state.vitals.latest && state.vitals.latest.glu!=='' && state.vitals.latest.glu!=null){
+    var g=parseFloat(state.vitals.latest.glu);
+    if(!isNaN(g)){ if(g<60) abs.push('GLU_LO'); else if(g>400) abs.push('GLU_HI'); }
+  }
+  /* hs-CRP 急症 */
+  if(state.labs.items && state.labs.items.crp && state.labs.items.crp.level==='r' && state.labs.fields.acute==='无') abs.push('CRP_ACUTE');
+  var keep = state.absFlags.filter(function(f){ return ['CES','FOOTDROP','MSCC','INFECT','CRISIS','GLU_LO','GLU_HI','CRP_ACUTE'].indexOf(f.id)<0; });
+  abs.forEach(function(id){
+    if(!keep.some(function(f){return f.id===id;})) keep.push({id:id, title:ABS_TEXTS[id].title, text:ABS_TEXTS[id].text});
+  });
+  state.absFlags = keep;
+}
+
+/* ---- SpA 七线索（≥4 红转风湿科引导；3 黄提示 HLA-B27 讨论） ---- */
+function scoreSpa(){
+  var answers = state.spa.answers||{}, count=0, n=0;
+  SPA_ITEMS.forEach(function(it){ if(answers[it.id]==='1'||answers[it.id]==='0'){ n++; if(answers[it.id]==='1') count++; }});
+  if(n<7){ state.spa.done=false; state.spa.count=null; return; }
+  state.spa={answers:answers, done:true, count:count};
+}
+
+/* ---- 激活自评（教学性 8 题，4 档；阈值 47 / 55.1 / 72.4 与 v1 一致） ---- */
+function scorePam(){
+  var answers={}, sum=0, n=0;
+  PAM_ITEMS.forEach(function(it){
+    var v = state.pam.answers ? state.pam.answers[it.id] : undefined;
+    if(v!==undefined && v!=='' && v!=null){ answers[it.id]=parseInt(v,10); sum+=parseInt(v,10); n++; }
+  });
+  if(n<8){ state.pam.done=false; return; }
+  var mean = sum/8;
+  var score = Math.round((mean-1)/3*100);
+  var level;
+  if(score<=47){ level='水平一：被动接受——尚未意识到自身角色的重要性'; }
+  else if(score<=55.1){ level='水平二：缺乏信心与知识——开始关注但尚未行动'; }
+  else if(score<=72.4){ level='水平三：开始行动——已采取部分推荐健康行为'; }
+  else { level='水平四：主动自我管理——即使压力下也能维持健康行为'; }
+  state.pam={answers:answers, done:true, score:score, level:level};
+}
+
+/* ---- PROMIS 五维（T = mean*10+15 教学近似；任一维 T<40 黄灯） ---- */
+function scorePromis(){
+  var answers={}, domains={}, allAnswered=true;
+  PROMIS_DOMAINS.forEach(function(dm){
+    var sum=0;
+    for(var i=0;i<4;i++){
+      var v = state.promis.answers ? state.promis.answers['pr_'+dm.id+'_'+i] : undefined;
+      if(v===undefined || v==='' || v==null){ allAnswered=false; return; }
+      answers['pr_'+dm.id+'_'+i]=parseInt(v,10);
+      sum+=parseInt(v,10);
+    }
+    var mean=sum/4;
+    var T=Math.round(mean*10+15);
+    domains[dm.id]={mean:mean, T:T};
+  });
+  if(!allAnswered){ state.promis.done=false; return; }
+  state.promis={answers:answers, done:true, domains:domains};
+}
+
+/* ---- Q-Risk 输入项 + BMI（BMI ≥30 或 ≥27 合并共病为体重管理准入） ---- */
+function scoreQrisk(){
+  var f = state.qrisk.fields||{};
+  if(!f.age || !f.sex){ state.qrisk.done=false; state.qrisk.bmi=null; state.qrisk.lipidComplete=false; return; }
+  var bmi=null;
+  if(f.h && f.w){ bmi = Math.round(f.w/Math.pow(f.h/100,2)*10)/10; }
+  var lipidComplete = f.lipid!=='' && f.lipid!=null;
+  state.qrisk={fields:f, done:true, bmi:bmi, lipidComplete:lipidComplete};
+}
+
+/* ---- 自测指标：血糖危象阈值 <60 / >400 mg/dL（危象阈值，非管理目标） ---- */
+function scoreVitals(){
+  if(!state.vitals.latest) return;
+  var v=state.vitals.latest;
+  if(v.glu!=='' && v.glu!=null){
+    var g=parseFloat(v.glu);
+    if(!isNaN(g)){
+      state.absFlags = state.absFlags.filter(function(f){return f.id!=='GLU_LO' && f.id!=='GLU_HI';});
+      if(g<60) state.absFlags.push({id:'GLU_LO', title:ABS_TEXTS.GLU_LO.title, text:ABS_TEXTS.GLU_LO.text});
+      else if(g>400) state.absFlags.push({id:'GLU_HI', title:ABS_TEXTS.GLU_HI.title, text:ABS_TEXTS.GLU_HI.text});
+    }
+  }
+}
+
+/* ---- MSQ 简化版（<20 绿 / 21–50 / 51–100 黄 / >100 红；未触达题按 0） ---- */
+function scoreMsq(){
+  var answers={}, cats={}, total=0, answered=0;
+  MSQ_CATS.forEach(function(c){
+    var catId = c.msqCat || c.id;
+    if(!cats[catId]) cats[catId]=0;
+    c.items.forEach(function(t,i){
+      if(c.skipIdx && c.skipIdx.indexOf(i)>=0) return;
+      var idx = c.msqIdx!=null ? c.msqIdx : i;
+      var v = state.msq.answers ? state.msq.answers['msq_'+catId+'_'+idx] : undefined;
+      if(v!==undefined && v!=='' && v!=null){ answers['msq_'+catId+'_'+idx]=parseInt(v,10); cats[catId]+=parseInt(v,10); total+=parseInt(v,10); answered++; }
+    });
+  });
+  if(answered===0){ state.msq.done=false; return; }
+  var band;
+  if(total<=20) band='g';
+  else if(total<=50) band='y';
+  else if(total<=100) band='y';
+  else band='r';
+  state.msq={answers:answers, done:true, total:total, cats:cats, band:band, partial: answered<45};
+}
+
+/* ---- DII 简版（近似分 pro−anti；<0 绿 / 0–2 黄 / ≥3 红） ---- */
+function scoreDii(){
+  var answers={}, pro=0, anti=0, answered=0;
+  DII_ITEMS.forEach(function(it){
+    var v = state.dii.answers ? state.dii.answers[it.id] : undefined;
+    if(v!==undefined && v!=='' && v!=null){ answers[it.id]=parseInt(v,10); answered++; if(it.dir>0) pro+=parseInt(v,10); else anti+=parseInt(v,10); }
+  });
+  if(answered<12){ state.dii.done=false; return; }
+  var score = pro - anti;
+  var band = score<0 ? 'g' : score<3 ? 'y' : 'r';
+  state.dii={answers:answers, done:true, score:score, band:band};
+}
+
+/* ---- 化验单解读（截断值与 v1 逐项一致；缺项归一化） ---- */
+function scoreLabs(){
+  var f = state.labs.fields||{};
+  var items={}, abnormal=0;
+  function addItem(key,level,score){
+    items[key]={level:level, score:score};
+    if(level!=='g') abnormal++;
+  }
+  if(f.crp!=='' && f.crp!=null){
+    var c=parseFloat(f.crp);
+    if(!isNaN(c)){
+      if(c>10){
+        addItem('crp','r',95);
+      } else if(c>=3){ addItem('crp','y',55); }
+      else if(c>=2){ addItem('crp','y',35); }
+      else { addItem('crp','g',15); }
+    }
+  }
+  if(f.il6!=='' && f.il6!=null){
+    var i6=parseFloat(f.il6);
+    if(!isNaN(i6)){
+      if(i6>15) addItem('il6','r',90);
+      else if(i6>=7) addItem('il6','y',55);
+      else addItem('il6','g',15);
+    }
+  }
+  if(f.fib!=='' && f.fib!=null){
+    var fb=parseFloat(f.fib);
+    if(!isNaN(fb)){
+      if(fb>6) addItem('fib','r',90);
+      else if(fb>4) addItem('fib','y',55);
+      else addItem('fib','g',15);
+    }
+  }
+  if(f.esr!=='' && f.esr!=null && f.age50!=='是'){
+    var esr=parseInt(f.esr,10);
+    if(!isNaN(esr) && f.sex){
+      var male=f.sex==='男';
+      var gCut=male?15:20;
+      if(esr>30) addItem('esr','r',90);
+      else if(esr>=gCut) addItem('esr','y',55);
+      else addItem('esr','g',15);
+    }
+  }
+  if(f.al!=='' && f.al!=null){
+    var al=parseFloat(f.al);
+    if(!isNaN(al)){
+      if(al<0.5) addItem('al','r',90);
+      else if(al<=1.0) addItem('al','y',55);
+      else addItem('al','g',15);
+    }
+  }
+  var nItems = Object.keys(items).length;
+  state.labs={fields:f, done:nItems>0, items:items, abnormalCount:abnormal};
+}
+
+/* ---- 生活方式 4 项（框架采集；分越高越健康） ---- */
+function scoreLife(){
+  var answers={}, sum=0, n=0;
+  LIFE_ITEMS.forEach(function(it){
+    var v = state.life.answers ? state.life.answers[it.id] : undefined;
+    if(v!==undefined && v!=='' && v!=null){ answers[it.id]=parseInt(v,10); sum+=parseInt(v,10); n++; }
+  });
+  if(n<4){ state.life.done=false; return; }
+  var score=Math.round((sum/4-1)/4*100);
+  state.life={answers:answers, done:true, score:score};
+}
+
+/* ---- 汇总计分（静默；弹窗由作答时实时处理） ---- */
+function scoreAll(silent){
+  markPain();
+  scoreStart();
+  scoreSpa();
+  scorePam();
+  scorePromis();
+  scoreQrisk();
+  scoreVitals();
+  scoreMsq();
+  scoreDii();
+  scoreLabs();
+  scoreLife();
+  scoreRedFlags();
+  if(!silent) saveState();
+}
+
+/* ---- 综合加权引擎（权重 30/30/25/15，缺失归一化；与 v1 一致） ---- */
+function computeEngine(){
+  var dims={sym:null, bio:null, beh:null, flag:null};
+  var notes=[];
+
+  if(state.msq.done){
+    var t=state.msq.total, s;
+    if(t<=20) s=linMap(t,0,20,0,20);
+    else if(t<=50) s=linMap(t,20,50,20,45);
+    else if(t<=100) s=linMap(t,50,100,45,80);
+    else s=clamp(linMap(t,100,180,80,100),80,100);
+    dims.sym=Math.round(s*10)/10;
+  } else if(state.pain.saved){
+    dims.sym=Math.round(state.pain.nrs/10*70*10)/10;
+    notes.push('症状负荷维度以疼痛强度（NRS）代理，置信度降低；建议完成全身扫描。');
+  }
+
+  if(state.labs.done){
+    var sc=[];
+    Object.keys(state.labs.items).forEach(function(k){
+      var it=state.labs.items[k];
+      if(it && typeof it.score==='number') sc.push(it.score);
+    });
+    if(sc.length) dims.bio=Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length*10)/10;
+  }
+
+  var beh=[];
+  if(state.start.done) beh.push(state.start.band==='g'?20:state.start.band==='y'?55:85);
+  if(state.promis.done){
+    var tLow=100;
+    PROMIS_DOMAINS.forEach(function(dm){ tLow=Math.min(tLow, state.promis.domains[dm.id].T); });
+    beh.push(clamp((50-tLow)*2.5,0,100));
+  }
+  if(state.pam.done) beh.push(100-state.pam.score);
+  if(state.dii.done) beh.push(state.dii.band==='g'?15:state.dii.band==='y'?50:80);
+  if(state.life.done) beh.push(100-state.life.score);
+  if(beh.length) dims.beh=Math.round(beh.reduce(function(a,b){return a+b;},0)/beh.length*10)/10;
+
+  var flagSources = state.redflags.done || state.spa.done || state.qrisk.done || state.promis.done || state.msq.done || state.dii.done;
+  if(flagSources){
+    var pts=[];
+    if(state.spa.done){
+      if(state.spa.count>=4) pts.push(60);
+      else if(state.spa.count===3) pts.push(35);
+    }
+    if(state.redflags.done){
+      if(state.redflags.answers.rf11==='1') pts.push(40);
+      ['rf8','rf9','rf10'].forEach(function(id){ if(state.redflags.answers[id]==='1') pts.push(45); });
+    }
+    if(state.qrisk.done && state.qrisk.bmi!==null){
+      var bmi=state.qrisk.bmi, dm=state.qrisk.fields.dm;
+      if(bmi>=30 || (bmi>=27 && dm && dm!=='无')) pts.push(25);
+    }
+    if(state.promis.done){
+      var low=false;
+      PROMIS_DOMAINS.forEach(function(dm){ if(state.promis.domains[dm.id].T<40) low=true; });
+      if(low) pts.push(30);
+    }
+    if(state.msq.done && state.msq.total>100) pts.push(55);
+    if(state.dii.done && state.dii.band==='r') pts.push(25);
+    dims.flag = pts.length ? Math.min(100, pts.reduce(function(a,b){return a+b;},0)) : 0;
+  }
+
+  var W={sym:30,bio:30,beh:25,flag:15};
+  var num=0, wsum=0, missing=[];
+  ['sym','bio','beh','flag'].forEach(function(k){
+    if(dims[k]===null) missing.push(k);
+    else { num+=dims[k]*W[k]; wsum+=W[k]; }
+  });
+  var total = wsum? Math.round(num/wsum*10)/10 : null;
+
+  var band=null, bandLabel='';
+  var hasAbs = state.absFlags.length>0;
+  if(hasAbs){ band='r'; bandLabel='红灯 · 需要立即处理的安全信号'; }
+  else if(total===null){ band=null; bandLabel='尚未扫描'; }
+  else if(total>=80){ band='r'; bandLabel='红灯 · 信号密集（加权 ≥ 80）'; }
+  else if(total>=60){ band='y'; bandLabel='干预黄（60–79）'; }
+  else if(total>=40){ band='y'; bandLabel='预警黄（40–59）'; }
+  else { band='g'; bandLabel='绿灯（< 40 且无安全信号）'; }
+
+  var dimNames={sym:'症状负荷',bio:'生物标志物',beh:'功能/行为',flag:'红旗警示'};
+  return {dims:dims, total:total, band:band, bandLabel:bandLabel,
+    confidence:wsum, missing:missing.map(function(k){return dimNames[k];}), notes:notes,
+    weightsUsed:W};
+}
+
+function freqText(band){
+  switch(band){
+    case 'g': return '绿灯：每 6–12 个月回来做一次全面扫描，外加每月 1 次 3 题轻量签到，当作对身体的例行问候。';
+    case 'y': return '黄灯：预警黄（40–59）每 3 个月全面扫描 + 每 2 周聚焦亮黄站点；干预黄（60–79）每 1 个月全面 + 每周 1–2 次轻量签到。';
+    case 'r': return '红灯：请按报告中的就医指引即时处理，之后以周为单位回来记录；安全信号请立即就医。';
+    default: return '完成扫描后，这里会给出建议的回来节奏。';
+  }
+}
+
+/* ============================================================
+ * 旅程作答：写入 state + 即时反射 + 安全弹窗
+ * ============================================================ */
+function setPath(obj, path, val){
+  var parts=path.split('.');
+  var o=obj;
+  for(var i=0;i<parts.length-1;i++){
+    if(o[parts[i]]==null || typeof o[parts[i]]!=='object') o[parts[i]]={};
+    o=o[parts[i]];
+  }
+  o[parts[parts.length-1]]=val;
+}
+function getPath(obj, path){
+  var parts=path.split('.');
+  var o=obj;
+  for(var i=0;i<parts.length;i++){ if(o==null) return undefined; o=o[parts[i]]; }
+  return o;
+}
+function setAnswer(bind, val){
+  if(bind.indexOf('pr:')===0){
+    var pp=bind.split(':');
+    state.promis.answers['pr_'+pp[1]+'_'+pp[2]]=val;
+  } else if(bind.indexOf('msq:')===0){
+    var mp=bind.split(':');
+    state.msq.answers['msq_'+mp[1]+'_'+mp[2]]=val;
+  } else if(/^s\d/.test(bind) && START_ITEMS.some(function(it){return it.id===bind;})){
+    state.start.answers[bind]=val;
+  } else if(/^rf\d/.test(bind)){
+    state.redflags.answers[bind]=val;
+  } else if(/^p\d/.test(bind)){
+    state.spa.answers[bind]=val;
+  } else if(/^a\d/.test(bind)){
+    state.pam.answers[bind]=val;
+  } else if(/^d\d/.test(bind)){
+    state.dii.answers[bind]=val;
+  } else if(/^l\d/.test(bind)){
+    state.life.answers[bind]=val;
+  } else {
+    setPath(state, bind, val);
+    if(bind.indexOf('vitals.')===0 || bind.indexOf('qrisk.')===0 || bind.indexOf('labs.fields')===0) syncVitalsLatest();
+  }
+}
+function syncVitalsLatest(){
+  var f=state.qrisk.fields||{};
+  var glu = state.vitals.glu!=null ? state.vitals.glu : (state.vitals.latest && state.vitals.latest.glu);
+  var dbp = state.vitals.dbp!=null ? state.vitals.dbp : (state.vitals.latest && state.vitals.latest.dbp);
+  state.vitals.latest = {date:'', sbp:f.sbp||'', dbp:dbp||'', w:f.w||'', glu:glu||''};
+}
+function getAnswer(bind){
+  if(bind.indexOf('pr:')===0){ var pp=bind.split(':'); return state.promis.answers['pr_'+pp[1]+'_'+pp[2]]; }
+  if(bind.indexOf('msq:')===0){ var mp=bind.split(':'); return state.msq.answers['msq_'+mp[1]+'_'+mp[2]]; }
+  if(/^[srapld]\d/.test(bind)){
+    var bucket = bind[0]==='s'?'start':bind[0]==='r'?'redflags':bind[0]==='p'?'spa':bind[0]==='a'?'pam':bind[0]==='l'?'life':'dii';
+    var key = bucket==='dii'? bind : bind;
+    return state[bucket].answers[key];
+  }
+  return getPath(state, bind);
+}
+
+/* 作答后的即时处理：反射 + 安全弹窗 + 后台静默计分 */
+function afterAnswer(q, val){
+  setAnswer(q.bind, val);
+  markPain();
+  /* 安全排查题答「是」：即时就医引导 + 弹窗（绝对红旗不可中和） */
+  if(/^rf\d/.test(q.bind) && val==='1'){
+    var it = REDFLAG_ITEMS.filter(function(x){return x.id===q.bind;})[0];
+    if(it){
+      showReflect(q.bind, 'r', it.ryes);
+      scoreAll(true);
+      if(it.abs){
+        var abs = ABS_TEXTS[it.abs];
+        modal('安全信号 · 不可被其他结果中和', abs.title, '<p>'+abs.text+'</p><p class="tiny muted">这是需要立即处理的安全信号（双轨第一轨），任何其他记录都不能改变它。本提示不构成诊断，仅引导就医。</p>', true);
+      } else {
+        modal('尽快评估提示', '有一个值得尽快让医生看看的信号', '<p>'+it.ryes+'</p><p class="tiny muted">该信号已记入报告的安全排查部分。</p>', true);
+      }
+      saveState();
+      return;
+    }
+  }
+  if(/^rf\d/.test(q.bind) && val==='0'){
+    showReflect(q.bind, 'g', '谢谢你的确认——这一项没有记录到需要紧急处理的信号。继续下一题。');
+    scoreAll(true); saveState(); return;
+  }
+  /* STarT 题反射 */
+  if(/^s\d/.test(q.bind)){
+    var sit = START_ITEMS.filter(function(x){return x.id===q.bind;})[0];
+    if(q.bind==='s9'){
+      showReflect(q.bind, parseInt(val,10)>=3 ? 'y':'g', parseInt(val,10)>=3 ? q.rhi : q.rlo);
+    } else {
+      var yes = sit && (sit.psycho ? val==='1' : val==='1');
+      showReflect(q.bind, val==='1' ? 'b':'g', val==='1' ? q.ryes : q.rno);
+    }
+    scoreAll(true); saveState(); return;
+  }
+  /* SpA 线索反射 + 计数提示 */
+  if(/^p\d/.test(q.bind)){
+    showReflect(q.bind, val==='1'?'b':'g', val==='1'?q.ryes:q.rno);
+    scoreAll(true);
+    if(state.spa.done){
+      if(state.spa.count>=4) showReflect('__spa_group','y','这些特征组合在一起，指向一类需要风湿免疫科评估的慢性背痛。建议预约风湿免疫科，医生可能会安排 HLA-B27 等检查。');
+      else if(state.spa.count===3) showReflect('__spa_group','y','有几项特征与炎性背痛相符，建议在体检或就诊时与医生讨论，可考虑 HLA-B27 筛查。');
+    }
+    saveState(); return;
+  }
+  /* PROMIS 信心题反射（低档黄 / 中档蓝 / 高档绿） */
+  if(q.type==='conf'){
+    var v=parseInt(val,10);
+    var msg = v<=2 ? '这一方面的信心目前偏低，说明它是自我管理里可以补上的环节——不是能力问题，结果页会匹配对应的支持方向。'
+             : v===3 ? '处在中间地带，结果页会把它列为可提升项。'
+             : '这一方面你已经有比较稳的掌控感，保持住。';
+    showReflect(q.bind, v<=2?'y':v===3?'b':'g', msg);
+    scoreAll(true); saveState(); return;
+  }
+  if(q.type==='pam'){
+    scoreAll(true);
+    if(state.pam.done && state.pam.score<=55.1){
+      showReflect('__pam_group','y','目前在健康管理上比较依赖医生和外部安排，这很常见。激活水平是可以成长的：从记录一个指标、问医生一个问题开始。');
+    } else if(state.pam.done){
+      showReflect('__pam_group','g','你在自己的健康管理里已经相当主动，这是重要的个人资源。');
+    }
+    saveState(); return;
+  }
+  if(q.type==='msq'){
+    scoreAll(true);
+    msqGroupMirror(q);
+    saveState(); return;
+  }
+  if(q.type==='freq'){
+    scoreAll(true);
+    diiGroupMirror();
+    saveState(); return;
+  }
+  if(q.type==='life'){
+    scoreAll(true);
+    var lv=parseInt(val,10);
+    showReflect(q.bind, lv<=2?'y':lv===3?'b':'g', lv<=2?'这一项最近偏向耗竭一侧，值得在报告里重点看。':lv===3?'这一项处在中间，还有调整空间。':'这一项目前是你的支撑项，继续保持。');
+    saveState(); return;
+  }
+  if(q.type==='num' && q.bind==='vitals.glu' && val!==''){
+    scoreAll(true);
+    var g=parseFloat(val);
+    if(!isNaN(g) && (g<60 || g>400)){
+      var cid = g<60?'GLU_LO':'GLU_HI';
+      showReflect(q.bind,'r','这个数值超出了安全范围，请立即按急症处理：意识清醒时尽快补充糖分（低血糖）或联系医生/急诊（高血糖）；60/400 mg/dL 是危象阈值，不是日常管理目标。');
+      modal('代谢急症 · 不可被其他分数中和', ABS_TEXTS[cid].title, '<p>'+ABS_TEXTS[cid].text+'</p>', true);
+    } else {
+      showReflect(q.bind,'b','数值已记录，报告会结合研究截断值解读。');
+    }
+    saveState(); return;
+  }
+  /* 化验单离开炎症卡片时解读 + hs-CRP 急症弹窗 */
+  scoreAll(true);
+  if(state.labs.fields && state.labs.fields.crp!=='' && state.labs.fields.crp!=null){
+    var cc=parseFloat(state.labs.fields.crp);
+    if(!isNaN(cc) && cc>10 && state.labs.fields.acute==='无'){
+      if(!state.absFlags.some(function(f){return f.id==='CRP_ACUTE';})){
+        state.absFlags.push({id:'CRP_ACUTE', title:ABS_TEXTS.CRP_ACUTE.title, text:ABS_TEXTS.CRP_ACUTE.text});
+      }
+      modal('炎症警示 · 不可被其他分数中和', ABS_TEXTS.CRP_ACUTE.title, '<p>'+ABS_TEXTS.CRP_ACUTE.text+'</p><p class="tiny muted">若近两周存在急性感染/外伤/手术，请在对应选项中选择「有」——此时应先排除急性时相反应，复查后再评估。</p>', true);
+    }
+  }
+  saveState();
+}
+
+function showReflect(key, level, html){
+  var node = document.querySelector('[data-reflect="'+key+'"]');
+  if(!node) return;
+  node.className = 'reflect show ' + level;
+  node.innerHTML = html;
+}
+function msqGroupMirror(q){
+  var mp=q.bind.split(':');
+  var catId=mp[1];
+  var cat = MSQ_CATS.filter(function(c){return (c.msqCat||c.id)===catId;})[0];
+  if(!cat) return;
+  var signals=0, dense=0;
+  cat.items.forEach(function(t,i){
+    var idx = cat.msqIdx!=null?cat.msqIdx:i;
+    if(cat.skipIdx && cat.skipIdx.indexOf(i)>=0) return;
+    var v = state.msq.answers['msq_'+catId+'_'+idx];
+    if(v!==undefined && v!=='' && v!=null){ if(parseInt(v,10)>=1) signals++; if(parseInt(v,10)>=3) dense++; }
+  });
+  var key='__msq_'+catId;
+  if(dense>=2) showReflect(key,'y','这一区域信号比较密集，地图上会标记为重点关注，复评时可以专门回到这里。');
+  else if(signals>0) showReflect(key,'b','这一站记录到 '+signals+' 个信号。单个信号意义有限，15 个系统放在一起看，模式才会浮现。');
+  else showReflect(key,'g','这一站很安静，继续。');
+}
+function diiGroupMirror(){
+  var answered=0, pro=0, anti=0;
+  DII_ITEMS.forEach(function(it){
+    var v=state.dii.answers[it.id];
+    if(v!==undefined && v!=='' && v!=null){ answered++; if(it.dir>0) pro+=parseInt(v,10); else anti+=parseInt(v,10); }
+  });
+  if(answered<12) return;
+  var score=pro-anti;
+  if(score>=3) showReflect('__dii_group','y','你的盘子里，促炎食物出现的频率明显高于抗炎食物。给一个研究里的锚点：饮食炎症评分最高的四分之一人群，心血管-肾脏-代谢综合征的风险约为最低四分之一的 1.76 倍（OR=1.76，95% CI 1.42–2.18），评分每升高 1 个单位、风险约升高 12%。这不是说某一顿饭有害，而是长期盘子的整体方向值得慢慢调整。');
+  else if(score>=0) showReflect('__dii_group','b','盘子处在中性到轻度促炎的区间，蔬菜、全谷、鱼类的频率还有提升空间。');
+  else showReflect('__dii_group','g','盘子整体偏向抗炎方向，蔬菜、全谷、鱼类的出现频率不错，继续保持这种结构。');
+}
+
+/* ============================================================
+ * 旅程渲染
+ * ============================================================ */
+var journeyIdx = 0;
+function renderQuestion(q){
+  var h='';
+  var bind=q.bind;
+  if(q.type==='regions'){
+    var sel = state.pain.regions||[];
+    h+='<div class="chips">'+REGIONS.map(function(r){
+      return '<label><input type="checkbox" data-bind="pain.regions" value="'+r.id+'" '+(sel.indexOf(r.id)>=0?'checked':'')+'><span class="chip">'+r.name+'</span></label>';
+    }).join('')+'</div>';
+    return h;
+  }
+  if(q.text) h+='<div class="jq">'+q.text+'</div>';
+  if(q.label) h+='<div class="jq" style="font-size:14.5px;">'+q.label+'</div>';
+  if(q.sub) h+='<div class="jsub">'+q.sub+'</div>';
+  if(q.type==='yn' || q.type==='likert'){
+    var yesLabel = q.agree || '是 / 有';
+    var noLabel = q.disagree || '否 / 没有';
+    var cur = getAnswer(bind);
+    h+='<div class="chips yn">'
+      +'<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="0" '+(String(cur)==='0'?'checked':'')+'><span class="chip">'+esc(noLabel)+'</span></label>'
+      +'<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="1" '+(String(cur)==='1'?'checked':'')+'><span class="chip">'+esc(yesLabel)+'</span></label></div>';
+  } else if(q.type==='likert5'){
+    var cur5 = getAnswer(bind);
+    h+='<div class="chips">'+q.opts.map(function(o,i){
+      return '<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="'+i+'" '+(String(cur5)===String(i)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='conf'){
+    var cv = getAnswer(bind);
+    h+='<div class="chips">'+CONF_OPTS.map(function(o,i){
+      return '<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="'+(i+1)+'" '+(String(cv)===String(i+1)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='pam'){
+    var pv = getAnswer(bind);
+    h+='<div class="chips">'+PAM_OPTS.map(function(o,i){
+      var it = PAM_ITEMS.filter(function(x){return x.id===bind;})[0];
+      var val = it && it.rev ? (1-i) : i;
+      return '<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="'+(val+1)+'" '+(String(pv)===String(val+1)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='freq'){
+    var fv = getAnswer(bind);
+    h+='<div class="chips">'+DII_FREQ_OPTS.map(function(o,i){
+      return '<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="'+i+'" '+(String(fv)===String(i)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='msq'){
+    var mv = getAnswer(bind);
+    h+='<div class="chips">'+MSQ_OPTS.map(function(o,i){
+      return '<label><input type="radio" name="q_'+bind.replace(/:/g,'_')+'" data-bind="'+bind+'" value="'+i+'" '+(String(mv)===String(i)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='life'){
+    var lv = getAnswer(bind);
+    h+='<div class="chips">'+q.opts.map(function(o,i){
+      return '<label><input type="radio" name="q_'+bind+'" data-bind="'+bind+'" value="'+(i+1)+'" '+(String(lv)===String(i+1)?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='chips'){
+    var arr = getPath(state, bind)||[];
+    h+='<div class="chips">'+q.opts.map(function(o){
+      return '<label><input type="checkbox" data-bind="'+bind+'" value="'+esc(o)+'" '+(arr.indexOf(o)>=0?'checked':'')+'><span class="chip">'+esc(o)+'</span></label>';
+    }).join('')+'</div>';
+  } else if(q.type==='select' || q.type==='sel'){
+    var sv = getPath(state, bind);
+    h+='<div class="field"><select data-bind="'+bind+'">'+q.opts.map(function(o){
+      return '<option value="'+esc(o)+'" '+(String(sv||'')===String(o)?'selected':'')+'>'+(o===''?'请选择':esc(o))+'</option>';
+    }).join('')+'</select></div>';
+  } else if(q.type==='slider'){
+    var slv = getPath(state, bind)||0;
+    h+='<div class="slider-row"><input type="range" min="'+(q.min||0)+'" max="'+(q.max||10)+'" step="1" value="'+slv+'" data-bind="'+bind+'"><span class="slider-val" id="sliderVal_'+bind.replace(/\./g,'_')+'">'+slv+'</span></div>';
+  } else if(q.type==='num'){
+    var nv = getPath(state, bind);
+    h+='<div class="field"><label>'+esc(q.label)+'</label><input type="number" data-bind="'+bind+'" value="'+(nv==null?'':esc(nv))+'"></div>';
+  } else if(q.type==='textarea'){
+    var tv = getPath(state, bind)||'';
+    h+='<div class="journal"><label class="small muted">'+esc(q.label||'')+'</label><textarea rows="'+(q.rows||3)+'" data-bind="'+bind+'">'+esc(tv)+'</textarea></div>';
+  }
+  /* 反射位 */
+  h+='<div class="reflect" data-reflect="'+bind+'"></div>';
+  return h;
+}
+function renderJourney(){
+  var card = CARDS[journeyIdx];
+  var box=$('journeyCard');
+  /* 进度条 */
+  var track=$('stepTrack');
+  track.innerHTML='';
+  for(var s=1;s<=6;s++){
+    var seg=el('div','step-seg');
+    if(card.step>s) seg.className='step-seg done';
+    else if(card.step===s) seg.className='step-seg cur';
+    track.appendChild(seg);
+  }
+  var h='<div class="jcard">';
+  h+='<div class="station">第 '+card.step+' / 6 站 · '+esc(card.station||STEP_NAMES[card.step]||'')+'　<small>（卡片 '+(journeyIdx+1)+' / '+CARDS.length+'）</small></div>';
+  h+='<div class="jtitle">'+card.title+'</div>';
+  if(card.lead) h+='<p class="jlead">'+card.lead+'</p>';
+  card.questions.forEach(function(q){
+    h+='<div style="margin:14px 0;">'+renderQuestion(q)+'</div>';
+  });
+  /* 卡片级反射/镜像 */
+  if(card.opts.reflect) h+='<div class="reflect b" data-reflect="__card_'+card.id+'">'+card.opts.reflect+'</div>';
+  if(card.opts.stationMirror){
+    if(card.id.indexOf('msq-')===0){
+      var catId=card.id.slice(4);
+      h+='<div class="reflect" data-reflect="__msq_'+catId+'"></div>';
+    }
+    if(card.id==='dii-d') h+='<div class="reflect" data-reflect="__dii_group"></div>';
+  }
+  if(card.id==='spa-b') h+='<div class="reflect" data-reflect="__spa_group"></div>';
+  if(card.id==='pam-b') h+='<div class="reflect" data-reflect="__pam_group"></div>';
+  if(card.opts.kind==='final'){
+    scoreAll(true);
+    var eng0=computeEngine();
+    h+='<div class="reflect show '+(eng0.band||'b')+'">扫描完成。你的整体信号灯：<b>'+({g:'绿灯',y:'黄灯',r:'红灯'}[eng0.band]||'待更多记录')+'</b>。'+(eng0.total!==null?'综合信号指数 '+eng0.total.toFixed(1)+' / 100（分数仅在方法说明中展示）。':'')+' 点击下方「生成我的报告」查看完整解读。</div>';
+  }
+  h+='<div class="jnav">';
+  h+='<div class="left">';
+  if(journeyIdx>0) h+='<button class="btn ghost small" id="jPrev">上一步</button>';
+  h+='<button class="skip-link" id="jSkip">跳过这一步</button>';
+  h+='</div>';
+  if(card.opts.kind==='final'){
+    h+='<button class="btn" id="jReport">生成我的报告</button>';
+  } else {
+    h+='<button class="btn" id="jNext">继续 →</button>';
+  }
+  h+='</div></div>';
+  box.innerHTML=h;
+  bindJourneyEvents(card);
+  window.scrollTo(0,0);
+}
+function bindJourneyEvents(card){
+  var box=$('journeyCard');
+  box.querySelectorAll('input,select,textarea').forEach(function(node){
+    var ev = (node.type==='text' || node.tagName==='TEXTAREA' || node.tagName==='SELECT' || node.type==='number') ? 'change' : 'change';
+    node.addEventListener(ev, function(){
+      var bind=node.getAttribute('data-bind');
+      var q = card.questions.filter(function(x){return x.bind===bind || (x.type==='regions' && bind==='pain.regions');})[0];
+      if(node.type==='checkbox'){
+        if(node.getAttribute('data-bind')==='pain.regions'){
+          var arr=state.pain.regions||[];
+          if(node.checked && arr.indexOf(node.value)<0) arr.push(node.value);
+          if(!node.checked) arr=arr.filter(function(v){return v!==node.value;});
+          state.pain.regions=arr; markPain(); saveState();
+        } else if(q && q.type==='chips'){
+          var cur=getPath(state,bind)||[];
+          if(node.checked && cur.indexOf(node.value)<0) cur.push(node.value);
+          if(!node.checked) cur=cur.filter(function(v){return v!==node.value;});
+          setAnswer(bind, cur); saveState();
+        }
+      } else if(node.type==='range'){
+        setAnswer(bind, parseInt(node.value,10));
+        var sv=$('sliderVal_'+bind.replace(/\./g,'_')); if(sv) sv.textContent=node.value;
+        saveState();
+      } else {
+        var val = node.value;
+        if(node.type==='radio'){
+          if(q) afterAnswer(q, val); else { setAnswer(bind, val); scoreAll(true); saveState(); }
+        } else {
+          setAnswer(bind, val);
+          if(q && (q.type==='num' && q.bind==='vitals.glu')) afterAnswer(q, val);
+          else { scoreAll(true); saveState(); }
+        }
+      }
+    });
+  });
+  var prev=$('jPrev'); if(prev) prev.addEventListener('click', function(){ if(journeyIdx>0){ journeyIdx--; renderJourney(); } });
+  var next=$('jNext'); if(next) next.addEventListener('click', function(){
+    /* 离开炎症化验单卡片时执行解读弹窗检查 */
+    if(card.opts.saveLab){ afterAnswer({bind:'__lableave',type:'lab'},''); }
+    if(journeyIdx<CARDS.length-1){ journeyIdx++; renderJourney(); }
+  });
+  var skip=$('jSkip'); if(skip) skip.addEventListener('click', function(){
+    if(card.opts.kind==='skippableGroup'){ /* 整组跳过：不答即计 0，继续 */ }
+    if(journeyIdx<CARDS.length-1){ journeyIdx++; renderJourney(); }
+  });
+  var rep=$('jReport'); if(rep) rep.addEventListener('click', function(){ scoreAll(true); saveState(); gotoView('report'); });
+}
+
+/* ============================================================
+ * 人体地图 SVG（前/后视图，与 v1 同源）
+ * ============================================================ */
+var mapView='front';
+function bodyPart(d){ return '<path class="bodypart" d="'+d+'"/>'; }
+function zoneGroup2(id, label, shapes, hitD, dots){
+  var dotsHtml=(dots||[]).map(function(dd){
+    return '<circle class="zone-dot" data-dotzone="'+id+'" cx="'+dd[0]+'" cy="'+dd[1]+'" r="7" fill="#9AA5B1"/>';
+  }).join('');
+  return '<g class="zone" data-zone="'+id+'" role="button" tabindex="0" aria-label="'+label+'分区，点击从该部位开始身体扫描">'
+    +shapes+'<path class="hit" d="'+hitD+'" fill="transparent" stroke="none"/>'+dotsHtml+'</g>';
+}
+function frontSvg(){
+  var s='<svg class="map-svg" viewBox="0 0 300 640" xmlns="http://www.w3.org/2000/svg" aria-labelledby="mf-t mf-d">'
+    +'<title id="mf-t">人体前视图，十个可点击分区</title>'
+    +'<desc id="mf-d">前视图显示头颈、胸、腹、肩、肘、腕手、髋、膝、踝足分区，每个分区上有信号色圆点。</desc>';
+  s+=zoneGroup2('headneck','头颈',
+    bodyPart('M130,22 a26,28 0 1 0 40,0 a26,28 0 1 0 -40,0 Z')+bodyPart('M138,52 h24 v26 h-24 Z'),
+    'M112,10 a44,46 0 1 0 76,0 a44,46 0 1 0 -76,0 Z M128,52 h44 v34 h-44 Z',[[150,40]]);
+  s+=zoneGroup2('chest','胸',
+    bodyPart('M112,96 q38,-12 76,0 l-6,74 q-32,10 -64,0 Z'),
+    'M100,88 q50,-18 100,0 l-10,86 q-40,12 -80,0 Z',[[150,132]]);
+  s+=zoneGroup2('abdomen','腹',
+    bodyPart('M118,176 q32,8 64,0 l-4,70 q-28,9 -56,0 Z'),
+    'M108,170 q42,12 84,0 l-8,82 q-34,12 -68,0 Z',[[150,208]]);
+  s+=zoneGroup2('shoulder','肩',
+    bodyPart('M112,92 q-18,2 -24,20 q16,6 30,2 Z')+bodyPart('M188,92 q18,2 24,20 q-16,6 -30,2 Z'),
+    'M108,84 q-26,4 -34,26 q24,10 42,4 Z M192,84 q26,4 34,26 q-24,10 -42,4 Z',[[88,106],[212,106]]);
+  s+=zoneGroup2('elbow','肘',
+    bodyPart('M82,196 l14,10 l-6,16 l-16,-8 Z')+bodyPart('M218,196 l-14,10 l6,16 l16,-8 Z'),
+    'M74,190 l22,14 l-10,22 l-24,-12 Z M226,190 l-22,14 l10,22 l24,-12 Z',[[82,212],[218,212]]);
+  s+=zoneGroup2('wrist','腕/手',
+    bodyPart('M72,262 l18,6 l-4,34 l-16,-2 Z')+bodyPart('M228,262 l-18,6 l4,34 l16,-2 Z'),
+    'M64,256 l28,8 l-6,44 l-24,-4 Z M236,256 l-28,8 l6,44 l24,-4 Z',[[76,286],[224,286]]);
+  s+=zoneGroup2('hip','髋/臀',
+    bodyPart('M120,250 q30,10 60,0 l2,28 q-32,12 -64,0 Z'),
+    'M112,244 q38,14 76,0 l6,38 q-44,16 -88,0 Z',[[150,272]]);
+  s+=zoneGroup2('knee','膝',
+    bodyPart('M124,392 q12,-6 24,0 l-2,26 q-10,6 -20,0 Z')+bodyPart('M152,392 q12,-6 24,0 l-2,26 q-10,6 -20,0 Z'),
+    'M116,384 q16,-10 32,0 l-4,34 q-12,8 -26,0 Z M152,384 q16,-10 32,0 l-4,34 q-12,8 -26,0 Z',[[132,406],[168,406]]);
+  s+=zoneGroup2('ankle','踝/足',
+    bodyPart('M122,520 l22,2 l0,20 l-16,10 l-12,-14 Z')+bodyPart('M156,520 l22,-2 l6,18 l-12,14 l-16,-10 Z'),
+    'M114,512 l30,2 l2,28 l-22,14 l-18,-20 Z M156,512 l30,-2 l10,24 l-18,20 l-22,-14 Z',[[130,540],[172,540]]);
+  return s+'</svg>';
+}
+function backSvg(){
+  var s='<svg class="map-svg" viewBox="0 0 300 640" xmlns="http://www.w3.org/2000/svg" aria-labelledby="mb-t mb-d">'
+    +'<title id="mb-t">人体后视图，腰背分区</title>'
+    +'<desc id="mb-d">后视图显示头颈、腰背（含上背）、肩、肘、腕手、髋臀、膝、踝足分区，每个分区上有信号色圆点。</desc>';
+  s+=zoneGroup2('headneck','头颈',
+    bodyPart('M130,22 a26,28 0 1 0 40,0 a26,28 0 1 0 -40,0 Z')+bodyPart('M138,52 h24 v26 h-24 Z'),
+    'M112,10 a44,46 0 1 0 76,0 a44,46 0 1 0 -76,0 Z M128,52 h44 v34 h-44 Z',[[150,40]]);
+  s+=zoneGroup2('lowback','腰背',
+    bodyPart('M112,92 q38,-10 76,0 l-8,150 q-30,12 -60,0 Z'),
+    'M100,84 q50,-16 100,0 l-12,166 q-38,16 -76,0 Z',[[150,128],[150,196]]);
+  s+=zoneGroup2('shoulder','肩',
+    bodyPart('M112,92 q-18,2 -24,20 q16,6 30,2 Z')+bodyPart('M188,92 q18,2 24,20 q-16,6 -30,2 Z'),
+    'M108,84 q-26,4 -34,26 q24,10 42,4 Z M192,84 q26,4 34,26 q-24,10 -42,4 Z',[[88,106],[212,106]]);
+  s+=zoneGroup2('elbow','肘',
+    bodyPart('M82,196 l14,10 l-6,16 l-16,-8 Z')+bodyPart('M218,196 l-14,10 l6,16 l16,-8 Z'),
+    'M74,190 l22,14 l-10,22 l-24,-12 Z M226,190 l-22,14 l10,22 l24,-12 Z',[[82,212],[218,212]]);
+  s+=zoneGroup2('wrist','腕/手',
+    bodyPart('M72,262 l18,6 l-4,34 l-16,-2 Z')+bodyPart('M228,262 l-18,6 l4,34 l16,-2 Z'),
+    'M64,256 l28,8 l-6,44 l-24,-4 Z M236,256 l-28,8 l6,44 l24,-4 Z',[[76,286],[224,286]]);
+  s+=zoneGroup2('hip','髋/臀',
+    bodyPart('M118,246 q32,12 64,0 l0,44 q-32,14 -64,0 Z'),
+    'M108,240 q42,16 84,0 l2,56 q-44,18 -88,0 Z',[[150,280]]);
+  s+=zoneGroup2('knee','膝',
+    bodyPart('M124,392 q12,-6 24,0 l-2,26 q-10,6 -20,0 Z')+bodyPart('M152,392 q12,-6 24,0 l-2,26 q-10,6 -20,0 Z'),
+    'M116,384 q16,-10 32,0 l-4,34 q-12,8 -26,0 Z M152,384 q16,-10 32,0 l-4,34 q-12,8 -26,0 Z',[[132,406],[168,406]]);
+  s+=zoneGroup2('ankle','踝/足',
+    bodyPart('M122,520 l22,2 l0,20 l-16,10 l-12,-14 Z')+bodyPart('M156,520 l22,-2 l6,18 l-12,14 l-16,-10 Z'),
+    'M114,512 l30,2 l2,28 l-22,14 l-18,-20 Z M156,512 l30,-2 l10,24 l-18,20 l-22,-14 Z',[[130,540],[172,540]]);
+  return s+'</svg>';
+}
+function renderMap(){
+  $('mapContainer').innerHTML = mapView==='front'?frontSvg():backSvg();
+  $('btnFront').classList.toggle('active', mapView==='front');
+  $('btnBack').classList.toggle('active', mapView==='back');
+  var zones=document.querySelectorAll('#mapContainer .zone');
+  zones.forEach(function(z){
+    z.addEventListener('click', function(){ openRegion(z.getAttribute('data-zone')); });
+    z.addEventListener('keydown', function(e){
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openRegion(z.getAttribute('data-zone')); }
+    });
+  });
+  paintMapDots();
+}
+function openRegion(zoneId){
+  mapView = (zoneId==='lowback')?'back':'front';
+  renderMap();
+  jumpStep=1;
+  gotoView('journey');
+}
+function zoneStatus(zoneId){
+  var score=0, hasData=false;
+  if(state.pain.saved && (state.pain.regions||[]).indexOf(zoneId)>=0){
+    hasData=true;
+    var nrs=state.pain.nrs||0;
+    if(nrs>=7) score=Math.max(score,3);
+    else if(nrs>=4) score=Math.max(score,2);
+    else if(nrs>=1) score=Math.max(score,1);
+  }
+  MSQ_CATS.forEach(function(c){
+    if(c.zone===zoneId && state.msq.done){
+      var cid=c.msqCat||c.id;
+      var v=state.msq.cats[cid]||0;
+      hasData=true;
+      if(v>=8) score=Math.max(score,3);
+      else if(v>=4) score=Math.max(score,2);
+      else if(v>=1) score=Math.max(score,1);
+    }
+  });
+  if(zoneId==='lowback' && state.absFlags.some(function(f){return ['CES','FOOTDROP','MSCC','INFECT'].indexOf(f.id)>=0;})) score=3;
+  if(zoneId==='lowback' && state.spa.done && state.spa.count>=4) score=Math.max(score,3);
+  return {level: hasData?score:-1};
+}
+function paintMapDots(){
+  var dots=document.querySelectorAll('#mapContainer .zone-dot');
+  var colorMap={'-1':'#9AA5B1',0:'#2E7D32',1:'#2E7D32',2:'#F59E0B',3:'#C62828'};
+  dots.forEach(function(d){
+    var z=d.getAttribute('data-dotzone');
+    var st=zoneStatus(z);
+    d.setAttribute('fill', colorMap[String(st.level)]);
+    if(st.level===3) d.classList.add('pulse'); else d.classList.remove('pulse');
+  });
+}
+
+/* ============================================================
+ * 风险矩阵图（10 区域 × 4 维度；CSS grid + 数据联动 + 点击跳转）
+ * ============================================================ */
+function matrixCell(regionId, dim){
+  /* 返回 {level:'g'|'y'|'r'|'n', step:跳转步骤, label} */
+  var eng=computeEngine();
+  if(dim==='sym'){
+    var st=zoneStatus(regionId);
+    if(st.level===-1) return {level:'n', step:4, label:'未扫描'};
+    if(st.level===3) return {level:'r', step:4, label:'信号密集'};
+    if(st.level===2) return {level:'y', step:4, label:'有信号'};
+    return {level:'g', step:4, label:'信号稀疏'};
+  }
+  if(dim==='bio'){
+    if(!state.labs.done) return {level:'n', step:6, label:'未录入'};
+    var worst='g';
+    Object.keys(state.labs.items).forEach(function(k){
+      var lv=state.labs.items[k].level;
+      if(lv==='r') worst='r'; else if(lv==='y' && worst!=='r') worst='y';
+    });
+    return {level:worst, step:6, label:worst==='r'?'指标异常':worst==='y'?'轻度偏离':'指标平稳'};
+  }
+  if(dim==='beh'){
+    var has = state.start.done || state.promis.done || state.pam.done || state.dii.done || state.life.done;
+    if(!has) return {level:'n', step: regionId==='lowback'?2:5, label:'未评估'};
+    var lv = eng.dims.beh;
+    if(lv===null) return {level:'n', step:5, label:'未评估'};
+    if(lv>=60) return {level:'r', step: regionId==='lowback'?2:5, label:'影响明显'};
+    if(lv>=30) return {level:'y', step: regionId==='lowback'?2:5, label:'部分受限'};
+    return {level:'g', step: regionId==='lowback'?2:5, label:'功能保持'};
+  }
+  /* flag */
+  var absHere = state.absFlags.some(function(f){
+    if(regionId==='lowback') return ['CES','FOOTDROP','MSCC','INFECT'].indexOf(f.id)>=0;
+    if(regionId==='headneck') return f.id==='CRISIS';
+    return false;
+  });
+  if(absHere) return {level:'r', step: regionId==='headneck'?3:1, label:'立即就医'};
+  var rfDone = state.redflags.done;
+  var warn = state.redflags.done && ['rf8','rf9','rf10','rf11'].some(function(id){return state.redflags.answers[id]==='1';});
+  var spaHi = state.spa.done && state.spa.count>=3;
+  if(regionId==='lowback' && (warn || spaHi)) return {level:'y', step:1, label: spaHi?'炎性线索':'尽快评估'};
+  if(regionId==='headneck' && state.promis.done){
+    var emoLow = state.promis.domains.emo && state.promis.domains.emo.T<40;
+    if(emoLow) return {level:'y', step:3, label:'情绪短板'};
+  }
+  if(state.absFlags.some(function(f){return f.id==='CRP_ACUTE';})) return {level:'r', step:6, label:'炎症急症'};
+  if(state.absFlags.some(function(f){return f.id==='GLU_LO'||f.id==='GLU_HI';})) return {level:'r', step:6, label:'代谢急症'};
+  if(rfDone) return {level:'g', step:1, label:'排查通过'};
+  return {level:'n', step:1, label:'未排查'};
+}
+function renderMatrix(containerId){
+  var box=$(containerId);
+  if(!box) return;
+  var dims=[['sym','症状负荷'],['bio','客观指标'],['beh','功能与生活'],['flag','安全信号']];
+  var h='<div class="rmatrix" role="grid" aria-label="身体信号全景矩阵：十个身体区域乘以四个观察维度">';
+  h+='<div class="mh" role="columnheader"></div>';
+  dims.forEach(function(d){ h+='<div class="mh" role="columnheader">'+d[1]+'</div>'; });
+  REGIONS.forEach(function(r){
+    h+='<div class="mr" role="rowheader">'+r.name+'</div>';
+    dims.forEach(function(d){
+      var cell=matrixCell(r.id, d[0]);
+      h+='<button class="mcell '+cell.level+'" role="gridcell" data-jumpstep="'+cell.step+'" title="'+r.name+' · '+d[1]+'：'+cell.label+'，点击回到旅程第 '+cell.step+' 站">'+cell.label+'</button>';
+    });
+  });
+  h+='</div>';
+  box.innerHTML=h;
+  box.querySelectorAll('.mcell').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      jumpStep=parseInt(btn.getAttribute('data-jumpstep'),10);
+      gotoView('journey');
+    });
+  });
+}
+
+/* ============================================================
+ * 首页摘要
+ * ============================================================ */
+function dimBarHtml(label, val, weight){
+  if(val===null) return '<div class="dimbar"><div class="dim-head"><span>'+label+'（权重 '+weight+'%）</span><span class="small muted">未扫描</span></div><div class="dim-track" style="opacity:.4;"></div></div>';
+  var cls=val<40?'g':val<60?'y':'r';
+  return '<div class="dimbar '+cls+'"><div class="dim-head"><span>'+label+'（权重 '+weight+'%）</span><span class="num"><b>'+val.toFixed(1)+'</b> / 100</span></div>'
+    +'<div class="dim-track"><div class="dim-fill" style="width:'+val+'%;"></div></div></div>';
+}
+function oneLineSummary(eng){
+  if(eng.band===null) return '还没有开始扫描。点一下地图上你在意的部位，或从「开始身体扫描」启程。';
+  if(eng.band==='r' && state.absFlags.length) return '记录到需要<b>立即处理</b>的安全信号——请先按红灯指引行动，其他信号都可以之后再看。';
+  if(eng.band==='r') return '身体多个区域的信号聚在一起，密度较高。这不是诊断，而是提醒：值得尽快带着这份记录去见医生。';
+  if(eng.band==='y' && eng.total>=60) return '有几簇信号在相互呼应（功能、情绪或生活方式），处在「需要一些专业支持」的区间——不是情况严重，而是别独自硬扛。';
+  if(eng.band==='y') return '身体发出了一些值得关注的早期信号，大多落在生活方式可以调整的范围。';
+  return '各站信号稀疏，生活结构也比较稳固。绿灯的意思是「没有需要干预的信号聚集」，不是零风险的承诺。';
+}
+function renderHome(){
+  var eng=computeEngine();
+  var box=$('overallSummary');
+  var html='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px;">'
+    +'<span class="light '+(eng.band||'n')+(eng.band==='r'?' pulse':'')+'"></span>'
+    +'<span style="font-family:var(--serif);font-size:17px;font-weight:800;">'+oneLineSummary(eng)+'</span></div>';
+  if(eng.total!==null){
+    html+=dimBarHtml('症状负荷',eng.dims.sym,30);
+    html+=dimBarHtml('客观指标',eng.dims.bio,30);
+    html+=dimBarHtml('功能与生活',eng.dims.beh,25);
+    html+=dimBarHtml('安全信号（非绝对项）',eng.dims.flag,15);
+    if(eng.missing.length) html+='<p class="tiny muted">还没有走到的维度：'+eng.missing.join('、')+'——综合判断已按已获部分归一化（当前覆盖权重 '+eng.confidence+'/100），置信度相应降低。</p>';
+  }
+  if(state.msq.done && state.msq.partial) html+='<p class="tiny" style="color:var(--orange);">全身扫描未走完每一站，未触达的信号按「没有」计，症状总分可能低估；走完六站可获得更完整的图景。</p>';
+  eng.notes.forEach(function(n){ html+='<p class="tiny" style="color:var(--orange);">'+n+'</p>'; });
+  if(state.absFlags.length){
+    html+='<ul class="flaglist">';
+    state.absFlags.forEach(function(f){ html+='<li class="r"><i class="dot r pulse"></i><span><b>'+f.title+'</b></span></li>'; });
+    html+='</ul>';
+  }
+  box.innerHTML=html;
+  $('freqBox').innerHTML='<p>'+freqText(eng.band)+'</p>';
+  paintMapDots();
+}
+
+/* ============================================================
+ * 综合报告页（叙事语言 · 红/黄/绿三区 · 四段式）
+ * ============================================================ */
+function signalCard(level, title, observed, meaning, next, freq){
+  return '<div class="signal '+level+'"><h4>'+title+'</h4>'
+    +'<div class="seg"><b class="tag">观察到的信号</b>'+observed+'</div>'
+    +'<div class="seg"><b class="tag">这意味着什么</b>'+meaning+'</div>'
+    +'<div class="seg"><b class="tag">下一步</b>'+next+'</div>'
+    +(freq?'<div class="seg"><b class="tag">复查频率</b>'+freq+'</div>':'')+'</div>';
+}
+function buildSignals(){
+  var reds=[], yellows=[], greens=[];
+  /* —— 红灯区：绝对红旗 —— */
+  state.absFlags.forEach(function(f){
+    reds.push(signalCard('r','<i class="dot r pulse"></i> '+f.title,
+      '安全排查中记录到需要立即处理的信号组合。',
+      '这组信号在临床指南中被列为需要紧急评估的情况，具体原因必须由医生当面检查才能判断，本工具不做诊断。',
+      f.text+' 已生成结构化记录，就诊时可出示；在此之前不要按摩正骨、不要卧床等待。',
+      '工具分层暂时挂起，复查节奏以接诊医生的安排为准。'));
+  });
+  /* 加权 ≥80 红灯 */
+  var eng=computeEngine();
+  if(!state.absFlags.length && eng.band==='r'){
+    reds.push(signalCard('r','<i class="dot r"></i> 信号密集：多个维度同时偏高',
+      '症状、功能/生活方式等多个维度的信号聚在一起（综合信号指数 '+eng.total.toFixed(1)+' / 100，≥ 80）。',
+      '信号在多个系统同时聚集，提示身体的整体负荷较高。这不是某一种疾病的诊断，而是「值得尽快做一次系统医学评估」的模式。',
+      '建议<b>尽快（24–48 小时内）</b>携带本报告就医做系统评估；本报告可作为医患沟通的结构化提纲。',
+      '即时处理/转介 + 周级监测记录。'));
+  }
+  /* —— 黄灯区：逐条四段式 —— */
+  if(state.start.done && state.start.band==='r'){
+    yellows.push(signalCard('y','腰背功能与心理社会信号同时聚集',
+      '关于腰背的记录里：行走/穿衣等功能题与担心、活动害怕等心理题同时有信号（分层为高风险组，非急症）。',
+      '慢性疼痛与情绪负荷常常互相强化：担忧会放大疼痛感受，疼痛又消耗情绪资源。研究中这一模式匹配心理知情的物理治疗效果最好——属于「需要支持」而非「情况严重」。',
+      '① 预约循证物理治疗（保持活动、不卧床）；② 未来 4–8 周设一个小目标，例如「每天散步 15 分钟、每周 5 天」；③ 情绪部分配合压力管理与睡眠规律化。',
+      '干预黄：每 1 个月全面复评，每周 1–2 次轻量签到；4–8 周后看趋势决定是否升级转介。'));
+  } else if(state.start.done && state.start.band==='y'){
+    yellows.push(signalCard('y','腰背功能信号较多、心理负荷不重',
+      '腰背记录中功能类题目有信号，但担心与情绪类题目信号不多。',
+      '研究中这一组以自我管理配合循证物理治疗即可获得良好恢复轨迹。',
+      '保持日常活动、避免卧床休息；可参加循证物理治疗课程；无需常规影像检查。',
+      '预警黄：每 2 周聚焦扫描，3 个月全面复评。'));
+  }
+  if(state.spa.done && state.spa.count>=4){
+    yellows.push(signalCard('y','炎性背痛线索聚集（'+state.spa.count+' / 7 项）',
+      '夜间痛醒、活动后减轻、臀部交替痛等特征有 '+state.spa.count+' 项符合。',
+      '这些特征组合在一起，指向一类需要风湿免疫科评估的慢性背痛模式；本工具不下诊断结论。',
+      '建议预约<b>风湿免疫科</b>，医生可能安排 HLA-B27 等检查（开单为临床执行项目）。',
+      '按风湿科医嘱复查；本工具可每月记录症状变化。'));
+  } else if(state.spa.done && state.spa.count===3){
+    yellows.push(signalCard('y','炎性背痛线索部分符合（3 / 7 项）',
+      '有 3 项特征与炎性背痛相符。',
+      '单看不足以判断，但值得在就诊时提出来讨论。',
+      '体检或就诊时与医生讨论，可考虑 <b>HLA-B27</b> 筛查。',
+      '3 个月后复评这一组线索。'));
+  }
+  if(state.promis.done){
+    var dirMap={sym:'症状管理方法',daily:'功能活动与康复',med:'用药提醒/药师咨询',emo:'压力管理与情绪调节',soc:'社交支持资源'};
+    PROMIS_DOMAINS.forEach(function(dm){
+      var T=state.promis.domains[dm.id].T;
+      if(T<40){
+        yellows.push(signalCard('y','自我照护信心短板：'+dm.name,
+          '在「'+dm.name+'」方面，你的信心评分低于人群平均水平约 1 个标准差（近似 T 分 '+T+'，阈值 T&lt;40）。',
+          '信心短板不是性格问题，而是自我管理链条上具体可补的一环；它会影响日常执行，也能通过具体方法提升。',
+          '匹配支持方向：<b>'+dirMap[dm.id]+'</b>；从一个最小行动开始（如设一个用药提醒、一次求助对话）。',
+          '4–8 周后复评该维度，观察 T 分变化。'));
+      }
+    });
+  }
+  if(state.pam.done && state.pam.score<=55.1){
+    yellows.push(signalCard('y','健康管理的主动权还在建立中',
+      '激活水平自评处于「被动接受 / 缺乏信心与知识」区间（教学性近似分 '+state.pam.score+' / 100）。',
+      '这描述的是你此刻在健康管理中的位置，不是固定特质；激活水平是可以成长的。',
+      '从两个最小行动开始：① 记录一个身体指标；② 下次就诊准备一个问题主动问医生。',
+      '每月复评一次，观察激活水平变化。'));
+  }
+  if(state.msq.done && state.msq.band==='r'){
+    yellows.push(signalCard('y','全身症状信号负荷较重',
+      '全身扫描 15 个系统的信号总分落在重度区间（'+state.msq.total+' 分，阈值 &gt;100）。',
+      '信号跨系统密集聚集时，单靠自我观察难以定位模式，需要医学评估来排除可干预的原因。',
+      '建议尽快就医做系统评估；就诊时可出示报告中信号最密集的系统清单。',
+      '干预黄：全面评估后按医嘱；本工具每周记录。'));
+  } else if(state.msq.done && state.msq.band==='y'){
+    var top=MSQ_CATS.map(function(c){var cid=c.msqCat||c.id; return {n:c.name,v:state.msq.cats[cid]||0};}).filter(function(x){return x.v>0;}).sort(function(a,b){return b.v-a.v;}).slice(0,3);
+    yellows.push(signalCard('y','全身有一簇轻度到中度的症状信号',
+      '全身扫描信号总分 '+state.msq.total+'（21–100 为轻/中度区间）；信号较集中的系统：'+top.map(function(x){return x.n;}).join('、')+'。',
+      '单个信号意义有限，成簇出现时往往与生活方式（睡眠、饮食、压力、活动）相互关联。',
+      '从最密集的 1–2 个系统入手调整生活方式；2 周后回到对应站点复评。',
+      '预警黄：每 2 周聚焦扫描亮黄站点，3 个月全面扫描。'));
+  }
+  if(state.dii.done && state.dii.band==='r'){
+    yellows.push(signalCard('y','餐盘整体偏向促炎方向',
+      '促炎食物（红肉/加工肉/精制糖/油炸/反式脂肪）的出现频率明显高于抗炎食物（蔬菜/全谷/鱼/坚果）。',
+      '研究锚点：饮食炎症评分最高四分之一人群的心血管-肾脏-代谢综合征风险约为最低四分之一的 1.76 倍（OR=1.76，95% CI 1.42–2.18），评分每升高 1 个单位风险约升高 12%。这指向长期餐盘结构，不是某一顿饭的问题。',
+      '未来 4 周：每餐半盘蔬菜、每周 2 次鱼、红肉减至每周 1–2 次、含糖饮料改为茶或水。',
+      '4–8 周后复评餐盘一站。'));
+  } else if(state.dii.done && state.dii.band==='y'){
+    yellows.push(signalCard('y','餐盘处在中性到轻度促炎区间',
+      '促炎与抗炎食物频率接近，抗炎方向还有提升空间。',
+      '小幅度的餐盘结构调整即可把整体方向推向抗炎一侧。',
+      '每天增加一份深色蔬菜或一份全谷，作为起步。',
+      '1–2 个月后复评。'));
+  }
+  if(state.labs.done){
+    if(state.labs.abnormalCount>=2){
+      yellows.push(signalCard('y','化验单有 '+state.labs.abnormalCount+' 项指标偏离参考范围',
+      '多项炎症相关指标同时异常（'+Object.keys(state.labs.items).filter(function(k){return state.labs.items[k].level!=='g';}).map(function(k){return {crp:'hs-CRP',il6:'IL-6',fib:'纤维蛋白原',esr:'血沉',al:'A/L 比'}[k];}).join('、')+'）。',
+      '多指标联合异常时，慢性炎症模式的可信度显著提高；单项轻度升高则需先排除干扰因素。',
+      '携带化验单就医进一步评估；复查前注意排除急性感染/外伤的影响。',
+      '按医生建议复查；本工具可记录每次数值趋势。'));
+    } else if(state.labs.abnormalCount===1){
+      yellows.push(signalCard('y','化验单有 1 项指标轻度偏离',
+      '有 1 项指标落在黄区。',
+      '单项轻度升高可能受近期感染、作息等干扰，需结合复查趋势判断。',
+      '2–4 周后复查同一指标；复查前避开急性感染期。',
+      '1–3 个月复查。'));
+    }
+  }
+  if(state.qrisk.done && state.qrisk.bmi!==null && state.qrisk.bmi>=30){
+    yellows.push(signalCard('y','BMI 达到体重管理路径准入',
+      'BMI = '+state.qrisk.bmi.toFixed(1)+'（≥30）。',
+      '体重管理在研究中对代谢与关节负荷有广泛的正向影响；这是路径准入参考，不是评判。',
+      '可与医生讨论强化体重管理方案（芬兰 HWC 模式：基线评估 + 每 4 周称重 + 3/6/9/12 月复评）。',
+      '每 4 周记录一次体重。'));
+  }
+  if(state.redflags.done && ['rf8','rf9','rf10','rf11'].some(function(id){return state.redflags.answers[id]==='1';}) && !state.absFlags.length){
+    var wl=[];
+    if(state.redflags.answers.rf8==='1') wl.push('起病年龄与非机械性疼痛特点');
+    if(state.redflags.answers.rf9==='1') wl.push('不明原因体重下降/全身不适伴新发背痛');
+    if(state.redflags.answers.rf10==='1') wl.push('双侧腿部症状');
+    if(state.redflags.answers.rf11==='1') wl.push('背痛超过 3 个月未恢复活动');
+    yellows.push(signalCard('y','安全排查中有需要尽快评估的条目',
+      wl.join('；')+'。',
+      '这些不是需要急诊的信号，但属于「不宜长期自行观察」的提示。',
+      '建议在 24–48 小时至 2 周内就诊评估（持续超过 3 个月者建议康复科/疼痛科系统管理）。',
+      '就诊后按医嘱；本工具继续周级记录。'));
+  }
+  /* —— 绿灯区：个人资源 —— */
+  if(state.start.done && state.start.band==='g') greens.push('腰背记录中功能与心理社会信号都很少——研究中这是恢复前景最好的一组：保持日常活动、不卧床、无需常规影像。');
+  if(state.promis.done){
+    var allG=PROMIS_DOMAINS.filter(function(dm){return state.promis.domains[dm.id].T>=40;});
+    if(allG.length===5) greens.push('五个维度的自我照护信心都在人群均值附近或以上——这是你管理健康的核心资源。');
+  }
+  if(state.pam.done && state.pam.score>72.4) greens.push('健康激活水平处于「主动自我管理」区间：即使在压力下也能维持健康行为。');
+  if(state.dii.done && state.dii.band==='g') greens.push('餐盘整体偏向抗炎方向，蔬菜、全谷、鱼类频率不错。');
+  if(state.life.done && state.life.score>=75) greens.push('睡眠、活动、压力应对与社交联系都比较稳固——它们是身体恢复的底色。');
+  if(state.labs.done && state.labs.abnormalCount===0) greens.push('已录入的化验指标均在参考范围内，可作为个人基线保存。');
+  if(state.redflags.done && !state.absFlags.length && !['rf8','rf9','rf10','rf11'].some(function(id){return state.redflags.answers[id]==='1';})) greens.push('安全排查 12 项全部通过（神经学查体与影像决策仍需由医生完成）。');
+  if(state.msq.done && state.msq.band==='g') greens.push('全身扫描各系统信号稀疏（总分 &lt;20）。');
+  return {reds:reds, yellows:yellows, greens:greens, eng:eng};
+}
+function renderReport(){
+  scoreAll(true);
+  var S=buildSignals();
+  var eng=S.eng;
+  var h='';
+  /* 顶部状态灯 + 一句话 */
+  h+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;">'
+    +'<span class="light '+(eng.band||'n')+(eng.band==='r'?' pulse':'')+'" style="width:26px;height:26px;"></span>'
+    +'<span style="font-family:var(--serif);font-size:clamp(18px,2.4vw,23px);font-weight:800;color:var(--ink);">'+oneLineSummary(eng)+'</span></div>';
+  h+='<p class="small muted">报告生成时间：'+new Date().toLocaleString()+'　|　语言说明：本报告描述「信号与模式」，不做诊断；综合信号指数等数字仅在下方「方法与来源」中列出。</p>';
+
+  /* 红灯区 */
+  if(S.reds.length){
+    h+='<h3 style="color:var(--red);">需要立即处理的信号</h3>';
+    S.reds.forEach(function(c){ h+=c; });
+  }
+  /* 黄灯区 */
+  if(S.yellows.length){
+    h+='<h3 style="color:#9A6B00;">值得关注的信号（'+S.yellows.length+' 条）</h3>';
+    S.yellows.forEach(function(c){ h+=c; });
+  }
+  /* 绿灯区 */
+  if(S.greens.length){
+    h+='<h3 style="color:var(--green);">你的资源与优势</h3><ul class="flaglist">';
+    S.greens.forEach(function(g){ h+='<li class="g"><i class="dot g"></i><span>'+g+'</span></li>'; });
+    h+='</ul>';
+  }
+  if(!S.reds.length && !S.yellows.length && !S.greens.length){
+    h+='<p class="muted">还没有足够的记录。完成身体扫描旅程后，这里会出现按红/黄/绿整理的信号解读。</p>';
+  }
+  /* 回来节奏 */
+  h+='<div class="card tight" style="margin:14px 0;"><b>建议的回来节奏：</b>'+freqText(eng.band)+'</div>';
+
+  /* 数据缺口与置信度 */
+  h+='<details class="src" open><summary>数据缺口与置信度</summary>';
+  if(eng.missing.length){
+    h+='<p class="small">本次综合判断<b>未覆盖</b>的维度：'+eng.missing.join('、')+'。缺失维度的权重已按比例分配给已获维度（归一化），当前权重覆盖 '+eng.confidence+' / 100，结论置信度相应降低。</p>';
+  } else {
+    h+='<p class="small">四个维度均已有记录，权重覆盖 100 / 100。</p>';
+  }
+  if(state.msq.done && state.msq.partial) h+='<p class="small">全身扫描未走完每一站，未触达的信号按「没有」计，症状总分<b>可能低估</b>；走完六站可获得更完整的图景。</p>';
+  if(!state.qrisk.lipidComplete && state.qrisk.done) h+='<p class="small">血脂（总胆固醇/HDL 比值）未录入：心血管 10 年风险无法完整估算，该部分不出结论；可在化验单站补录。</p>';
+  if(!state.redflags.done) h+='<p class="small">安全排查 12 项未全部完成，报告中的「排查通过」结论暂不成立——建议回到症状故事站补全。</p>';
+  h+='</details>';
+
+  /* 个人时间线（叙事，不计分） */
+  if(state.timeline.trg || state.timeline.med || state.timeline.ant || state.timeline.ace2){
+    h+='<details class="src"><summary>我的身体故事（本人叙述，不计分）</summary>';
+    if(state.timeline.ant) h+='<p class="small"><b>更早的背景：</b>'+esc(state.timeline.ant)+'</p>';
+    if(state.timeline.trg) h+='<p class="small"><b>转折点：</b>'+esc(state.timeline.trg)+'</p>';
+    if(state.timeline.med) h+='<p class="small"><b>持续的因素：</b>'+esc(state.timeline.med)+'</p>';
+    if(state.timeline.ace2) h+='<p class="small"><b>扫描中浮现的一句话：</b>'+esc(state.timeline.ace2)+'</p>';
+    h+='</details>';
+  }
+
+  /* 方法与来源折叠区（版权/教学性标注/阈值） */
+  h+='<details class="src"><summary>方法与来源（量表、阈值与版权声明）</summary>';
+  h+='<p class="small">本工具的分层由确定性规则在本地计算，无黑箱模型。综合信号指数为四维加权：症状负荷 30%、客观（生物标志物）30%、功能/行为 25%、安全信号（非绝对项）15%；缺失维度按已获权重归一化。分层截断：&lt;40 绿、40–59 预警黄、60–79 干预黄、≥80 红；绝对安全信号（红旗）直转红色、不可被任何其他结果中和。</p>';
+  h+='<div class="tbl-wrap"><table><caption>后台测量工具与阈值（用户旅程中不出现量表名称）</caption>'
+    +'<thead><tr><th scope="col">测量</th><th scope="col">阈值/口径</th></tr></thead><tbody>'
+    +'<tr><td>STarT Back 腰痛分层</td><td class="small">总分 ≤3 绿；≥4 且心理社会子分（Q5–Q9）≤3 黄；≥4 且子分 ≥4 红</td></tr>'
+    +'<tr><td>症状负荷（MSQ 框架简化版）</td><td class="small">&lt;20 绿 / 21–50 轻度 / 51–100 中度 / &gt;100 红</td></tr>'
+    +'<tr><td>饮食炎症（DII 教育性简版）</td><td class="small">近似分 &lt;0 抗炎（绿）/ 0–2 黄 / ≥3 红；OR=1.76（95% CI 1.42–2.18），每单位 +12%</td></tr>'
+    +'<tr><td>自我效能（PROMIS 教学近似 T 分）</td><td class="small">任一维 T&lt;40（低于人群均值 1 SD）黄灯</td></tr>'
+    +'<tr><td>激活水平（教学性自评）</td><td class="small">≤47 水平一 / ≤55.1 水平二 / ≤72.4 水平三 / &gt;72.4 水平四</td></tr>'
+    +'<tr><td>hs-CRP（mg/L）</td><td class="small">&lt;2 绿 / 2–10 黄（双口径）/ &gt;10 红且须先排除急性感染</td></tr>'
+    +'<tr><td>IL-6（pg/mL）</td><td class="small">&lt;7 / 7–15 / &gt;15；以化验单参考范围为准</td></tr>'
+    +'<tr><td>纤维蛋白原（g/L）</td><td class="small">2–4 绿 / 4–6 黄 / &gt;6 红</td></tr>'
+    +'<tr><td>ESR 血沉（mm/h，&lt;50 岁）</td><td class="small">男 &lt;15 / 女 &lt;20 绿；男 15–30 / 女 20–30 黄；&gt;30 红</td></tr>'
+    +'<tr><td>A/L 脂联素/瘦素比</td><td class="small">&gt;1.0 绿 / 0.5–1.0 黄 / &lt;0.5 红（非常规项）</td></tr>'
+    +'<tr><td>血糖危象阈值</td><td class="small">&lt;60 或 &gt;400 mg/dL（危象预警值，非日常管理目标）</td></tr>'
+    +'<tr><td>BMI 体重管理准入</td><td class="small">≥30；或 ≥27 合并共病</td></tr>'
+    +'<tr><td>Q-Risk 10 年风险</td><td class="small">≥10% 为高风险（需血脂化验单，由医生/官方计算器计算）</td></tr>'
+    +'<tr><td>炎性背痛七线索</td><td class="small">≥4 项 → 转风湿免疫科评估引导；3 项 → 与医生讨论 HLA-B27 检测（开单为临床项目）</td></tr>'
+    +'</tbody></table></div>';
+  h+='<p class="tiny muted"><b>证据缺口留白：</b>颈/肩/肘/腕/髋/膝/踝等非腰痛部位暂无经验证的预后分层工具——STarT Back 泛化至全身肌骨疼痛的 STarT MSK 在 1211 人随机对照试验中 6 个月疼痛与成本与常规护理无显著差异，故本工具不对其他部位套用腰痛截断值，仅做症状采集与安全排查；ÖMSPQ 截断表述不一、NLR 无统一截断、Omega-3 指数待验证，均不纳入分层；血压/LDL-C/HbA1c 日常控制目标不在依据报告内，待权威临床指南补齐并本土化校准。</p>';
+  h+='<p class="tiny muted"><b>版权与来源：</b>STarT Back Screening Tool © Keele University 01/08/07，由 Arthritis Research UK（现 Versus Arthritis）资助开发；Keele 大学声明非商业使用无需授权许可，本工具为教学性自评应用、非商业用途；原始工具为医疗卫生从业者在问诊场景中辅助临床决策而设计，并非独立诊断工具。来源：<a href="https://startback.hfac.keele.ac.uk/" target="_blank" rel="noopener noreferrer">Keele STarT Back 官方网站</a>；原始研究 Hill JC, Dunn KM, Lewis M, et al. (2008), <i>Arthritis &amp; Rheumatism</i>（851 人、10 家全科诊所 RCT，分层护理每患者节省 £34.39，为 NICE NG59 纳入依据）。</p>';
+  h+='<p class="tiny muted">PROMIS（Patient-Reported Outcomes Measurement Information System）为美国国立卫生研究院（NIH）资助开发的公开措施；本工具使用每维 4 题短版的教学性近似 T 分（线性映射，非官方 IRT 计分），精确 T 分以官方计分服务为准。来源：<a href="https://www.healthmeasures.net/explore-measurement-systems/promis" target="_blank" rel="noopener noreferrer">HealthMeasures / PROMIS 官网</a>。</p>';
+  h+='<p class="tiny muted">Q-Risk 完整算法不在本工具内复刻（基于英国人群、需医生评估），10 年风险请由医生或 <a href="https://qrisk.org/2017/" target="_blank" rel="noopener noreferrer">Q-Risk 官方计算器（qrisk.org）</a>计算。</p>';
+  h+='<p class="tiny muted">患者激活测量（PAM）原题受 Insignia Health 版权保护，本工具仅使用参考其四水平理念的教学性自评，非 PAM 官方分数；症状负荷为基于 IFM MSQ 框架的教学性简化版（15 类×3 题，非 IFM 原版 70+ 题问卷）；饮食炎症为非官方 DII 计算（官方算法基于 1943 篇论文、45 种食物参数，范围 −8.87 至 +7.98）；生活方式四项为框架性采集、非标准化量表。hs-CRP、A/L、DII 四分位、Q-Risk 等截断多基于欧美人群，需中国人群流行病学校准；血压/LDL-C/HbA1c 日常控制目标不在依据报告内，本工具不做判定。</p>';
+  h+='<p class="tiny muted">免责声明：本工具进行健康自我观察与就医分诊参考，<b>不做诊断</b>，不替代专业医疗；出现紧急身体信号请立即就医或拨打急救电话（120；心理援助热线 12356）。数据仅存于本设备浏览器（localStorage 键 healthmap_v2_state），不上传服务器。</p>';
+  h+='</details>';
+
+  $('reportBody').innerHTML=h;
+  renderMatrix('matrixReport');
+}
+
+/* ============================================================
+ * 快照与历史趋势
+ * ============================================================ */
+function takeSnapshot(){
+  scoreAll(true);
+  var eng=computeEngine();
+  if(eng.band===null){ modal('暂无记录','还没有完成扫描','请先走一趟身体扫描后再保存快照。', false); return; }
+  var snap={ts:new Date().toISOString(), total:eng.total, band:eng.band, dims:eng.dims,
+    msq:state.msq.done?state.msq.total:null, start:state.start.done?state.start.total:null, absCount:state.absFlags.length};
+  state.snapshots.push(snap);
+  saveState();
+  modal('快照已保存','这张身体全景已存入本设备','时间：'+new Date().toLocaleString()+'<br>综合信号指数：'+(eng.total!==null?eng.total.toFixed(1):'—')+' / 100。可在「历史趋势」页查看曲线。', false);
+}
+function fmtDate(iso){
+  var d=new Date(iso);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function renderHistory(){
+  var box=$('snapList'), chart=$('trendChart');
+  if(!state.snapshots.length){
+    box.innerHTML='<p class="small muted">尚无快照。完成一趟扫描后，在报告页点击「保存本次快照」。</p>';
+    chart.innerHTML='<p class="small muted">保存两次以上快照后，此处显示综合信号指数的趋势曲线。</p>';
+    return;
+  }
+  box.innerHTML=state.snapshots.slice().reverse().map(function(s,i){
+    var idx=state.snapshots.length-i;
+    return '<div class="snap-item"><span class="snap-date">'+fmtDate(s.ts)+'</span>'+bandDot(s.band)
+      +'<span class="small">综合信号指数 <b class="num">'+(s.total!==null?s.total.toFixed(1):'—')+'</b></span>'
+      +'<span class="small muted">症状负荷 '+(s.msq!==null?s.msq:'—')+' · 腰背分层 '+(s.start!==null?s.start:'—')+' · 安全信号 '+s.absCount+'</span>'
+      +'<span class="tiny muted">#'+idx+'</span></div>';
+  }).join('');
+  var W=680,H=240,padL=44,padR=16,padT=18,padB=30;
+  var n=state.snapshots.length;
+  var pts=state.snapshots.map(function(s,i){
+    var x=n===1?(W-padL-padR)/2+padL:padL+i*(W-padL-padR)/(n-1);
+    var y=padT+(100-(s.total||0))/100*(H-padT-padB);
+    return {x:x,y:y,s:s};
+  });
+  var path=pts.map(function(p,i){return (i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1);}).join(' ');
+  var colors={r:'#C62828',y:'#F59E0B',g:'#2E7D32'};
+  var svg='<svg class="trend-svg" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tr-t tr-d">'
+    +'<title id="tr-t">综合信号指数历史趋势</title>'
+    +'<desc id="tr-d">折线图显示历次快照的综合 0–100 信号指数，含 40 与 80 分参考线。</desc>';
+  [0,20,40,60,80,100].forEach(function(v){
+    var y=padT+(100-v)/100*(H-padT-padB);
+    svg+='<line x1="'+padL+'" y1="'+y+'" x2="'+(W-padR)+'" y2="'+y+'" stroke="#E6E1D8" stroke-width="1"/>';
+    svg+='<text x="'+(padL-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="#52606D" font-family="monospace">'+v+'</text>';
+  });
+  svg+='<line x1="'+padL+'" y1="'+(padT+60/100*(H-padT-padB))+'" x2="'+(W-padR)+'" y2="'+(padT+60/100*(H-padT-padB))+'" stroke="#2E7D32" stroke-width="1" stroke-dasharray="5,4" opacity=".7"/>';
+  svg+='<line x1="'+padL+'" y1="'+(padT+20/100*(H-padT-padB))+'" x2="'+(W-padR)+'" y2="'+(padT+20/100*(H-padT-padB))+'" stroke="#C62828" stroke-width="1" stroke-dasharray="5,4" opacity=".7"/>';
+  if(pts.length>1) svg+='<path d="'+path+'" fill="none" stroke="#2978B5" stroke-width="2.5"/>';
+  pts.forEach(function(p){
+    svg+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="5" fill="'+(colors[p.s.band]||'#9AA5B1')+'" stroke="#fff" stroke-width="2"/>';
+    if(p.s.total!==null) svg+='<text x="'+p.x.toFixed(1)+'" y="'+(p.y-9).toFixed(1)+'" text-anchor="middle" font-size="11" fill="#102A43" font-family="monospace">'+p.s.total.toFixed(0)+'</text>';
+  });
+  svg+='<text x="'+(W/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#52606D">扫描次序（旧 → 新，共 '+n+' 次）</text>';
+  svg+='</svg>';
+  chart.innerHTML=svg;
+}
+
+/* ============================================================
+ * 初始化
+ * ============================================================ */
+function init(){
+  loadState();
+  syncVitalsLatest();
+  scoreAll(true);
+  renderMap();
+  renderHome();
+  renderMatrix('matrixHome');
+  $('btnFront').addEventListener('click', function(){ mapView='front'; renderMap(); });
+  $('btnBack').addEventListener('click', function(){ mapView='back'; renderMap(); });
+  $('btnStartJourney').addEventListener('click', function(){ journeyIdx=0; gotoView('journey'); });
+  $('btnGoReport').addEventListener('click', function(){ gotoView('report'); });
+  $('btnSnapHere').addEventListener('click', takeSnapshot);
+  $('btnSnapReport').addEventListener('click', takeSnapshot);
+  $('btnFinishEarly').addEventListener('click', function(){ gotoView('report'); });
+  $('btnClearData').addEventListener('click', function(){
+    if(confirm('确定清空本设备上的全部扫描记录与历史快照？此操作不可撤销。')){
+      try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+      location.reload();
+    }
+  });
+  $('modalOk').addEventListener('click', function(){ $('modalMask').classList.remove('show'); });
+  $('modalReport').addEventListener('click', function(){ $('modalMask').classList.remove('show'); gotoView('report'); });
+}
+init();
+</script>
+</body>
+</html>
