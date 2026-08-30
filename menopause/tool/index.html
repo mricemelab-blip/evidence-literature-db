@@ -1,0 +1,2643 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>更年期女性健康地图 · 自评自管工具 v1</title>
+<style>
+:root{
+  --bg:#F8F6F0;
+  --ink:#102A43;
+  --deep-blue:#102A43;
+  --data-blue:#2978B5;
+  --blue-deep:#1D5685;
+  --orange:#F59E0B;
+  --text:#1D2733;
+  --muted:#52606D;
+  --card:#FFFFFF;
+  --line:#E6E1D8;
+  --green:#2E7D32;
+  --green-bg:#E9F3EA;
+  --yellow:#F59E0B;
+  --yellow-bg:#FDF3DC;
+  --red:#C62828;
+  --red-bg:#FAE7E7;
+  --gray:#9AA5B1;
+  --gray-bg:#F0EEE8;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono","Menlo","Consolas",monospace;
+  --shadow:0 1px 3px rgba(16,42,67,.07),0 6px 18px rgba(16,42,67,.06);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15.5px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+.num,input,select,td,th,button{font-variant-numeric:tabular-nums;}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--ink);line-height:1.4;}
+h1{font-size:clamp(22px,3.4vw,29px);margin:0 0 8px;font-weight:800;}
+h2{font-size:clamp(19px,2.4vw,23px);margin:0 0 4px;font-weight:800;}
+h3{font-size:16.5px;margin:22px 0 8px;font-weight:700;}
+h4{font-size:14.5px;margin:14px 0 6px;font-weight:700;}
+p{margin:8px 0;}
+:focus-visible{outline:2px solid var(--data-blue);outline-offset:2px;border-radius:3px;}
+button{font-family:var(--sans);cursor:pointer;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* ---------- top nav ---------- */
+.topnav{position:sticky;top:0;z-index:60;background:rgba(248,246,240,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+.nav-inner{max-width:1080px;margin:0 auto;padding:8px 14px;display:flex;align-items:center;gap:10px;}
+.nav-brand{font-family:var(--serif);font-weight:800;color:var(--ink);font-size:15px;white-space:nowrap;letter-spacing:.02em;}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;}
+.nav-links button{display:block;white-space:nowrap;border:0;background:none;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:7px;}
+.nav-links button:hover{background:#EFEBE0;color:var(--ink);}
+.nav-links button.active{background:var(--ink);color:#fff;}
+.nav-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle;}
+
+main{max-width:1080px;margin:0 auto;padding:18px 16px 80px;}
+
+/* ---------- cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:22px 24px;margin:16px 0;}
+.card.tight{padding:15px 18px;}
+.grid{display:grid;gap:14px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.eyebrow{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--blue-deep);border:1px solid var(--data-blue);border-radius:999px;padding:3px 12px;margin-bottom:10px;background:#fff;}
+.muted{color:var(--muted);}
+.small{font-size:13px;}
+.tiny{font-size:12px;}
+.note{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding:2px 0 2px 12px;margin:10px 0;}
+.divider{border:0;border-top:1px solid var(--line);margin:18px 0;}
+.lead{font-size:16px;color:var(--text);}
+
+/* ---------- risk dots & badges ---------- */
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);vertical-align:middle;flex:0 0 auto;}
+.dot.g{background:var(--green);} .dot.y{background:var(--yellow);} .dot.r{background:var(--red);} .dot.n{background:var(--gray);}
+.dot.pulse{animation:pulse 1.6s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,.45);}70%{box-shadow:0 0 0 9px rgba(198,40,40,0);}100%{box-shadow:0 0 0 0 rgba(198,40,40,0);}}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border-radius:999px;padding:3px 11px;border:1px solid;white-space:nowrap;}
+.badge.g{color:var(--green);background:var(--green-bg);border-color:#BFD9C1;}
+.badge.y{color:#9A6B00;background:var(--yellow-bg);border-color:#EBD49A;}
+.badge.r{color:var(--red);background:var(--red-bg);border-color:#E3B3B3;}
+.badge.n{color:var(--muted);background:var(--gray-bg);border-color:var(--line);}
+.light{display:inline-block;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);vertical-align:middle;}
+.light.g{background:var(--green);} .light.y{background:var(--yellow);} .light.r{background:var(--red);} .light.n{background:var(--gray);}
+.light.pulse{animation:pulse 1.6s infinite;}
+
+/* ---------- disclaimer / flags ---------- */
+.disclaimer{background:#FFF8EC;border:1px solid #EAD9B8;border-radius:10px;padding:12px 16px;font-size:13.5px;color:#5C4A1F;margin:16px 0;}
+.disclaimer b{color:var(--ink);}
+.flagbox{background:var(--red-bg);border:1px solid #E3B3B3;border-radius:10px;padding:14px 18px;margin:14px 0;color:#7A1F1F;}
+.flagbox h3{color:var(--red);margin-top:0;}
+.flagbox ul{margin:8px 0;padding-left:20px;}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-block;border:1px solid var(--ink);background:var(--ink);color:#fff;border-radius:9px;padding:9px 20px;font-size:14.5px;font-weight:600;}
+.btn:hover{background:#24395a;}
+.btn.sec{background:#fff;color:var(--ink);border-color:var(--line);}
+.btn.sec:hover{background:var(--gray-bg);}
+.btn.warn{background:var(--red);border-color:var(--red);}
+.btn.sm{padding:6px 13px;font-size:13px;border-radius:7px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+
+/* ---------- forms ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.chips label{position:relative;}
+.chips input{position:absolute;opacity:0;pointer-events:none;}
+.chips .chip{display:inline-block;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 16px;font-size:14px;color:var(--text);cursor:pointer;user-select:none;}
+.chips input:checked + .chip{background:var(--ink);color:#fff;border-color:var(--ink);}
+.chips input:focus-visible + .chip{outline:2px solid var(--data-blue);outline-offset:2px;}
+.field{margin:12px 0;}
+.field label.fb{display:block;font-weight:600;font-size:14px;margin-bottom:6px;color:var(--ink);}
+.field input[type=text],.field input[type=number],.field input[type=date],.field select{
+  width:100%;max-width:340px;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:15px;background:#fff;font-family:var(--sans);color:var(--text);}
+.field input:focus,.field select:focus{border-color:var(--data-blue);outline:2px solid rgba(41,120,181,.25);}
+.field .hint{font-size:12.5px;color:var(--muted);margin-top:4px;}
+.checkline{display:flex;gap:9px;align-items:flex-start;margin:9px 0;font-size:14.5px;}
+.checkline input{margin-top:5px;width:16px;height:16px;flex:0 0 auto;}
+
+/* ---------- journey cards (stepper) ---------- */
+.journey{max-width:720px;margin:0 auto;}
+.jprogress{height:6px;background:var(--gray-bg);border-radius:99px;overflow:hidden;margin:10px 0 18px;}
+.jprogress i{display:block;height:100%;background:var(--data-blue);border-radius:99px;transition:width .25s;}
+.jcard{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:26px 26px 20px;}
+.jcard .jkicker{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--blue-deep);margin-bottom:8px;}
+.jcard h3{margin:0 0 6px;font-size:19px;}
+.jreflect{border-left:3px solid var(--orange);background:var(--yellow-bg);border-radius:0 8px 8px 0;padding:9px 14px;font-size:13.5px;color:#5C4A1F;margin:14px 0 0;min-height:20px;}
+.jreflect.g{border-color:var(--green);background:var(--green-bg);color:#1f5224;}
+.jnav{display:flex;justify-content:space-between;margin-top:16px;gap:10px;}
+.scale-opts{display:grid;gap:8px;margin-top:12px;}
+.scale-opts label{position:relative;}
+.scale-opts input{position:absolute;opacity:0;pointer-events:none;}
+.scale-opts .opt{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:10px 14px;font-size:14.5px;background:var(--bg);cursor:pointer;}
+.scale-opts .opt b{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--gray);font-size:12px;color:var(--muted);flex:0 0 auto;font-family:var(--mono);}
+.scale-opts input:checked + .opt{background:var(--ink);color:#fff;border-color:var(--ink);}
+.scale-opts input:checked + .opt b{background:var(--orange);border-color:var(--orange);color:#fff;}
+
+/* ---------- home ---------- */
+.hero{background:linear-gradient(135deg,#102A43 0%,#1D5685 100%);color:#fff;border-radius:14px;padding:26px 28px;margin:14px 0;}
+.hero h1{color:#fff;}
+.hero p{color:#D8E2EE;}
+.hero .hero-badge{background:rgba(245,158,11,.18);border:1px solid var(--orange);color:#FBD38D;border-radius:999px;padding:4px 13px;font-size:12.5px;display:inline-block;margin-bottom:10px;}
+.tile{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:16px 18px;cursor:pointer;}
+.tile:hover{border-color:var(--data-blue);}
+.tile h4{margin:0 0 4px;font-size:15.5px;display:flex;align-items:center;gap:8px;}
+.tile p{margin:0;font-size:13px;color:var(--muted);}
+.tile .tile-status{float:right;}
+.stage-clock{display:flex;gap:0;margin:18px 0;flex-wrap:wrap;}
+.stage-step{flex:1;min-width:130px;border:1px solid var(--line);background:#fff;padding:12px 14px;position:relative;}
+.stage-step:first-child{border-radius:10px 0 0 10px;}
+.stage-step:last-child{border-radius:0 10px 10px 0;}
+.stage-step.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.stage-step .ss-num{font-family:var(--mono);font-size:11.5px;opacity:.7;}
+.stage-step .ss-name{font-weight:700;font-size:14.5px;margin:3px 0;}
+.stage-step .ss-desc{font-size:12px;color:var(--muted);line-height:1.55;}
+.stage-step.on .ss-desc{color:#C7D3E2;}
+
+/* ---------- matrix ---------- */
+table.mx{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+table.mx th,table.mx td{border-bottom:1px solid var(--line);padding:10px 12px;font-size:13.5px;text-align:left;vertical-align:middle;}
+table.mx th{background:var(--gray-bg);font-family:var(--serif);color:var(--ink);font-size:13px;}
+table.mx tr:last-child td{border-bottom:0;}
+table.mx td.clickable{cursor:pointer;}
+table.mx td.clickable:hover{background:#F4F1E8;}
+.arr{font-family:var(--mono);font-weight:700;font-size:14px;}
+.arr.up{color:var(--green);} .arr.down{color:var(--red);} .arr.flat{color:var(--muted);} .arr.na{color:var(--gray);}
+.src-tag{display:inline-block;font-size:11px;color:var(--muted);background:var(--gray-bg);border-radius:4px;padding:1px 7px;margin:1px 3px 1px 0;white-space:nowrap;}
+
+/* ---------- report ---------- */
+.signal{border:1px solid var(--line);border-left:4px solid var(--yellow);border-radius:0 10px 10px 0;background:#fff;padding:14px 18px;margin:12px 0;box-shadow:var(--shadow);}
+.signal.red{border-left-color:var(--red);}
+.signal.green{border-left-color:var(--green);}
+.signal h4{margin:0 0 6px;display:flex;align-items:center;gap:8px;}
+.signal .seg{margin:6px 0;font-size:14px;}
+.signal .seg b{color:var(--ink);}
+details.methods{margin:14px 0;background:var(--gray-bg);border-radius:10px;padding:10px 16px;font-size:13px;}
+details.methods summary{cursor:pointer;font-weight:700;color:var(--ink);font-family:var(--serif);}
+details.methods ul{padding-left:20px;margin:8px 0;}
+
+/* ---------- charts ---------- */
+.chart-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px;margin:14px 0;}
+.chart-wrap h4{margin:0 0 6px;}
+.chart-svg{width:100%;height:auto;display:block;}
+.chart-tabs{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;}
+.chart-tabs button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 13px;font-size:13px;color:var(--muted);}
+.chart-tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* ---------- modal ---------- */
+.modal-mask{position:fixed;inset:0;background:rgba(16,42,67,.55);z-index:100;display:none;align-items:center;justify-content:center;padding:18px;}
+.modal-mask.show{display:flex;}
+.modal{background:#fff;border-radius:14px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:26px 28px;border-top:6px solid var(--red);}
+.modal h3{color:var(--red);margin-top:0;}
+
+/* ---------- diary ---------- */
+.diary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.diary-item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--bg);}
+.diary-item .di-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.diary-item .di-val{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--data-blue);}
+input[type=range]{width:100%;accent-color:var(--data-blue);}
+.mirror-box{border:1px dashed var(--data-blue);background:#F0F6FB;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px;}
+.mirror-box h4{margin:0 0 8px;color:var(--blue-deep);}
+
+/* ---------- summary print ---------- */
+.print-head{display:none;}
+@media print{
+  .topnav,.no-print,.btn,.chart-tabs,.jnav,.modal-mask{display:none !important;}
+  body{background:#fff;font-size:12.5px;}
+  main{max-width:none;padding:0;}
+  .view{display:none !important;}
+  #view-summary{display:block !important;}
+  .card,.signal,.chart-wrap,table.mx{box-shadow:none;border-color:#999;break-inside:avoid;}
+  .print-head{display:block;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+}
+@media (max-width:760px){
+  .grid-2,.grid-3,.diary-grid{grid-template-columns:1fr;}
+  .card{padding:18px 16px;}
+  .stage-step{min-width:46%;}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <span class="nav-brand">更年期健康地图</span>
+    <div class="nav-links" id="navLinks">
+      <button data-view="home" class="active">首页</button>
+      <button data-view="stage">分期</button>
+      <button data-view="scan">首诊扫描</button>
+      <button data-view="diary">每日日记</button>
+      <button data-view="trends">趋势</button>
+      <button data-view="deep">深挖量表</button>
+      <button data-view="labs">化验单</button>
+      <button data-view="matrix">系统矩阵</button>
+      <button data-view="report">综合报告</button>
+      <button data-view="manage">自管方案</button>
+      <button data-view="review">复评</button>
+      <button data-view="data">数据</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ================= HOME ================= -->
+<section class="view active" id="view-home">
+  <div class="hero">
+    <span class="hero-badge">EMAS「健康绝经」框架 · 第1层数字接入</span>
+    <h1>更年期女性健康地图</h1>
+    <p>用5分钟首诊扫描了解身体信号，用60秒日记观察自己的模式。本工具帮助你整理症状、记录数据、准备就医：评估分诊，不做诊断；红旗信号，引导就医。</p>
+  </div>
+  <div class="disclaimer">
+    <b>使用前请了解：</b>本工具用于健康自我观察与就医分诊参考，<b>不做医学诊断、不推荐药物与剂量</b>，不替代医生面诊。所有数据仅保存在本设备浏览器（localStorage），不上传任何服务器。出现需要立即处理的身体或心理信号时，请尽快就医或拨打急救电话。
+  </div>
+  <div class="grid grid-3">
+    <button class="tile" data-go="stage"><h4><span class="dot n" id="homeDotStage"></span>1 · 分期时钟</h4><p id="homeTxtStage">年龄加月经史，判断你处在生殖衰老的哪个阶段</p></button>
+    <button class="tile" data-go="scan"><h4><span class="dot n" id="homeDotScan"></span>2 · 首诊扫描</h4><p>约5分钟：改良Kupperman 13项加情绪初筛</p></button>
+    <button class="tile" data-go="diary"><h4><span class="dot n" id="homeDotDiary"></span>3 · 每日60秒日记</h4><p>潮热、睡眠、情绪、精力，连续7天出现模式反馈</p></button>
+    <button class="tile" data-go="trends"><h4>趋势图</h4><p>周与月的折线，叠加月经标记</p></button>
+    <button class="tile" data-go="deep"><h4><span class="dot n" id="homeDotDeep"></span>按需深挖</h4><p>情绪、睡眠、性健康专项量表，按扫描结果激活</p></button>
+    <button class="tile" data-go="labs"><h4><span class="dot n" id="homeDotLabs"></span>化验单录入</h4><p>骨密度、腰围、握力、血压血糖，缺项不阻塞</p></button>
+    <button class="tile" data-go="matrix"><h4>10系统矩阵</h4><p>十个身体系统的当前灯色与90天趋势</p></button>
+    <button class="tile" data-go="report"><h4>综合报告</h4><p>信号、模式、下一步、复查频率</p></button>
+    <button class="tile" data-go="manage"><h4>自管方案</h4><p>训练、营养、盆底、骨骼的循证模块匹配</p></button>
+  </div>
+  <div class="card tight">
+    <h3>建议的使用顺序</h3>
+    <p class="small muted">先完成「分期」与「首诊扫描」，随后每天花60秒写「日记」。累计7天日记后趋势页出现第一份模式反馈；扫描提示需要时，再到「深挖量表」做专项评估。任何时候都可以打开「综合报告」与可打印的「就医摘要」。</p>
+  </div>
+</section>
+
+<!-- ================= STAGE ================= -->
+<section class="view" id="view-stage">
+  <div class="card">
+    <span class="eyebrow">STEP 1 · 分期时钟</span>
+    <h2>你现在处在哪个阶段</h2>
+    <p class="muted">依据 STRAW+10 生殖衰老分期，以年龄加月经史判定，不依赖激素抽血。围绝经期激素波动大，单次 FSH 检测没有诊断价值；NICE NG23 指出45岁以上有典型症状者无需检测 FSH。</p>
+    <div class="stage-clock" id="stageClock"></div>
+    <div class="field">
+      <label class="fb" for="stAge">年龄（岁）</label>
+      <input type="number" id="stAge" min="18" max="90" placeholder="例如 48">
+    </div>
+    <div class="field">
+      <label class="fb">目前月经情况</label>
+      <div class="chips" id="stMensesChips">
+        <label><input type="radio" name="stMenses" value="regular"><span class="chip">月经规律，周期无明显变化</span></label>
+        <label><input type="radio" name="stMenses" value="early"><span class="chip">周期开始乱：近10个周期中，有2次以上与相邻周期相差7天或更多</span></label>
+        <label><input type="radio" name="stMenses" value="late"><span class="chip">已经有一次停经达到或超过60天</span></label>
+        <label><input type="radio" name="stMenses" value="post"><span class="chip">末次月经距今已满12个月</span></label>
+        <label><input type="radio" name="stMenses" value="none"><span class="chip">子宫和/或卵巢已手术切除</span></label>
+      </div>
+    </div>
+    <div class="field" id="stFmpWrap" style="display:none">
+      <label class="fb" for="stFmp">末次月经日期（选填，用于精确计算）</label>
+      <input type="date" id="stFmp">
+      <div class="hint">不知道具体日期可以留空，按上方选择判定。</div>
+    </div>
+    <div class="field">
+      <label class="fb">特殊情况（可多选）</label>
+      <div class="checkline"><input type="checkbox" id="stPOI"><label for="stPOI">不满40岁已出现卵巢功能衰退、月经紊乱4个月以上（提示早发性卵巢功能不全 POI，需要妇科内分泌评估）</label></div>
+      <div class="checkline"><input type="checkbox" id="stEarly"><label for="stEarly">在40至45岁之间绝经（早绝经）</label></div>
+      <div class="checkline"><input type="checkbox" id="stBSO"><label for="stBSO">做过双侧卵巢切除手术（手术绝经）</label></div>
+      <div class="checkline"><input type="checkbox" id="stHyst"><label for="stHyst">仅切除子宫、卵巢保留（这种情况不属于绝经，需结合症状与年龄判断）</label></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="stSave">保存并查看分期结果</button>
+    </div>
+    <div id="stageResult"></div>
+  </div>
+</section>
+
+<!-- ================= SCAN ================= -->
+<section class="view" id="view-scan">
+  <div class="journey">
+    <div class="card tight" id="scanIntro">
+      <span class="eyebrow">STEP 2 · 首诊扫描（约5分钟）</span>
+      <h2>13个症状加2组情绪小问题</h2>
+      <p class="muted">采用中国临床最常用的改良 Kupperman 指数（13项，程度乘权重），末尾加 PHQ-2、GAD-2 各2题情绪初筛，并询问月经史、手术史与既往情绪史。每题选择后会有一句即时反馈，不评价好坏。</p>
+      <p class="small muted">改良 Kupperman 总分0至63分：7至15分为轻度、16至30分为中度、超过30分为重度。你的原始分数不会出现在报告正文里，只用于灯色判定。</p>
+      <div class="btn-row"><button class="btn" id="scanStart">开始扫描</button>
+      <button class="btn sec" id="scanResume" style="display:none">继续上次未完成的扫描</button></div>
+    </div>
+    <div id="scanStepper" style="display:none">
+      <div class="jprogress"><i id="scanProg" style="width:0"></i></div>
+      <div class="jcard" id="scanCard"></div>
+    </div>
+    <div id="scanDone" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ================= DIARY ================= -->
+<section class="view" id="view-diary">
+  <div class="card">
+    <span class="eyebrow">STEP 3 · 每日60秒</span>
+    <h2>今天的身体记录</h2>
+    <p class="muted">每天一次，约60秒。数据只存在本机。每题选择后有一句即时反馈；累计满7天后，趋势页会出现第一份模式镜像。</p>
+    <div class="diary-grid" style="margin-top:14px">
+      <div class="diary-item">
+        <div class="di-label">今天白天潮热次数</div>
+        <div class="chips" id="dHot">
+          <label><input type="radio" name="dHot" value="0"><span class="chip">0次</span></label>
+          <label><input type="radio" name="dHot" value="2"><span class="chip">1至3次</span></label>
+          <label><input type="radio" name="dHot" value="5"><span class="chip">4次及以上</span></label>
+        </div>
+      </div>
+      <div class="diary-item">
+        <div class="di-label">夜间盗汗</div>
+        <div class="chips" id="dNight">
+          <label><input type="radio" name="dNight" value="0"><span class="chip">无</span></label>
+          <label><input type="radio" name="dNight" value="1"><span class="chip">有，轻微</span></label>
+          <label><input type="radio" name="dNight" value="2"><span class="chip">有，汗湿衣物或床单</span></label>
+        </div>
+      </div>
+      <div class="diary-item">
+        <div class="di-label">月经记录（围绝经早期）</div>
+        <div class="chips" id="dPeriodChips">
+          <label><input type="radio" name="dPeriod" value="0"><span class="chip">今天不在经期</span></label>
+          <label><input type="radio" name="dPeriod" value="1"><span class="chip">今天在经期</span></label>
+        </div>
+        <div class="chips" id="dFlowChips" style="margin-top:6px">
+          <label><input type="radio" name="dFlow" value="spot"><span class="chip">点滴量</span></label>
+          <label><input type="radio" name="dFlow" value="normal"><span class="chip">正常量</span></label>
+          <label><input type="radio" name="dFlow" value="heavy"><span class="chip">多于平时</span></label>
+        </div>
+        <div class="checkline" style="margin-top:6px"><input type="checkbox" id="dSpot"><label for="dSpot" class="small">非经期出血（不在经期却有出血）</label></div>
+      </div>
+    </div>
+    <div class="grid grid-3" style="margin-top:12px">
+      <div class="diary-item"><div class="di-label">睡眠 <span class="muted small">0很差至10很好</span></div><input type="range" min="0" max="10" value="5" id="dSleep"><div class="di-val"><span id="dSleepV">5</span></div></div>
+      <div class="diary-item"><div class="di-label">情绪 <span class="muted small">0很低落至10很平稳</span></div><input type="range" min="0" max="10" value="5" id="dMood"><div class="di-val"><span id="dMoodV">5</span></div></div>
+      <div class="diary-item"><div class="di-label">精力 <span class="muted small">0疲惫至10充沛</span></div><input type="range" min="0" max="10" value="5" id="dEnergy"><div class="di-val"><span id="dEnergyV">5</span></div></div>
+    </div>
+    <div class="field">
+      <label class="fb">今天的身体感觉（选填，可多选）</label>
+      <div class="chips" id="dFeel">
+        <label><input type="checkbox" value="headache"><span class="chip">头痛</span></label>
+        <label><input type="checkbox" value="joint"><span class="chip">关节肌肉酸痛</span></label>
+        <label><input type="checkbox" value="palp"><span class="chip">心慌心悸</span></label>
+        <label><input type="checkbox" value="dry"><span class="chip">眼干口干皮肤干</span></label>
+        <label><input type="checkbox" value="bloating"><span class="chip">腹胀</span></label>
+        <label><input type="checkbox" value="brainfog"><span class="chip">注意力差、脑雾</span></label>
+        <label><input type="checkbox" value="urinary"><span class="chip">尿频尿急漏尿</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label class="fb">今天可能相关的诱因标记（选填，用于满7天后的同现镜像；相关不等于因果）</label>
+      <div class="chips" id="dTrig">
+        <label><input type="checkbox" value="caffeine"><span class="chip">含咖啡因饮品</span></label>
+        <label><input type="checkbox" value="alcohol"><span class="chip">酒精</span></label>
+        <label><input type="checkbox" value="spicy"><span class="chip">辛辣食物</span></label>
+        <label><input type="checkbox" value="hotenv"><span class="chip">炎热环境</span></label>
+        <label><input type="checkbox" value="poorsleep"><span class="chip">昨晚睡眠少于等于5小时</span></label>
+        <label><input type="checkbox" value="stress"><span class="chip">压力事件</span></label>
+      </div>
+    </div>
+    <div id="diaryReflect" class="jreflect" style="display:none"></div>
+    <div class="btn-row">
+      <button class="btn" id="diarySave">保存今天的记录</button>
+      <span class="small muted" id="diaryCount"></span>
+    </div>
+  </div>
+  <div class="card tight" id="diaryRecent"></div>
+</section>
+
+<!-- ================= TRENDS ================= -->
+<section class="view" id="view-trends">
+  <div class="card">
+    <span class="eyebrow">趋势可视化</span>
+    <h2>你的模式图</h2>
+    <p class="muted">内联 SVG 折线，按周或按月查看。红点为月经出血日；虚线为各维度参考线。累计满7天日记后，下方出现同现镜像。</p>
+    <div class="chart-tabs" id="trendTabs">
+      <button data-range="7" class="active">近7天</button>
+      <button data-range="30">近30天</button>
+      <button data-range="90">近90天</button>
+    </div>
+    <div id="trendCharts"></div>
+    <div id="mirrorBox"></div>
+  </div>
+</section>
+
+<!-- ================= DEEP ================= -->
+<section class="view" id="view-deep">
+  <div class="card">
+    <span class="eyebrow">按需深挖</span>
+    <h2>专项量表</h2>
+    <p class="muted">首诊扫描提示某一领域需要细看时，对应入口会开放。你也可以主动开始。量表题目为原版中文表述，不作改动；结果用灯色和建议呈现，报告正文不展示原始分数。</p>
+    <div id="deepTiles" class="grid grid-2"></div>
+  </div>
+  <div id="deepRunner" style="display:none">
+    <div class="journey">
+      <div class="jprogress"><i id="deepProg" style="width:0"></i></div>
+      <div class="jcard" id="deepCard"></div>
+    </div>
+  </div>
+  <div class="card tight" id="fsfiEntry">
+    <h3>性功能快速初筛（FSFI-6，独立匿名入口）</h3>
+    <p class="small muted">6题、约2分钟。性功能困扰在更年期常见但就医率低，此入口与其他记录分开保存，可随时单独删除。FSFI-6 中文版验证证据有限，结果仅作自我参考与就医话题准备。FSFI 完整19题不在本工具内自评。</p>
+    <div class="btn-row">
+      <button class="btn sec" id="fsfiStart">匿名开始 FSFI-6</button>
+      <button class="btn sec" id="fsfiClear">单独删除 FSFI-6 记录</button>
+      <span id="fsfiStatus" class="small muted"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LABS ================= -->
+<section class="view" id="view-labs">
+  <div class="card">
+    <span class="eyebrow">化验单与体测录入</span>
+    <h2>把检查结果填进来</h2>
+    <p class="muted">有多少填多少，缺项不阻塞评估，报告里会标注置信度。切点采用中国标准。FSH、E2、AMH 不在此录入判读：围绝经期单次 FSH 几乎没有诊断价值，相关说明见教育区。</p>
+    <div class="grid grid-2">
+      <div class="field">
+        <label class="fb" for="lbDexa">骨密度 DEXA T值（腰椎或髋部，取较低值）</label>
+        <input type="number" step="0.1" id="lbDexa" placeholder="例如 -1.8">
+        <div class="hint">T值大于等于负1.0为正常；负2.5至负1.0之间为低骨量；小于等于负2.5为骨质疏松。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbWaist">腰围（厘米，女性）</label>
+        <input type="number" step="0.5" id="lbWaist" placeholder="例如 82">
+        <div class="hint">女性腰围大于等于85厘米提示中心性肥胖。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbGrip">握力（千克，优势手）</label>
+        <input type="number" step="0.5" id="lbGrip" placeholder="例如 24">
+        <div class="hint">女性握力低于20千克提示需要进一步评估肌少症（亚洲标准）。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbHeight">身高（厘米）</label>
+        <input type="number" step="0.5" id="lbHeight" placeholder="例如 160">
+      </div>
+      <div class="field">
+        <label class="fb" for="lbWeight">体重（千克）</label>
+        <input type="number" step="0.5" id="lbWeight" placeholder="例如 60">
+        <div class="hint">中国切点：BMI 18.5至23.9正常，24至27.9超重，大于等于28肥胖。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbBp">血压（收缩压/舒张压，mmHg）</label>
+        <input type="text" id="lbBp" placeholder="例如 128/82">
+        <div class="hint">日常控制目标需由医生按你的风险分层制定，本工具不填目标值。读数持续偏高请尽快就医评估。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbFbg">空腹血糖（mmol/L，选填）</label>
+        <input type="number" step="0.1" id="lbFbg" placeholder="例如 5.4">
+        <div class="hint">空腹血糖大于等于7.0 mmol/L 达到糖尿病诊断阈值，需要尽快到医院复查确认。</div>
+      </div>
+      <div class="field">
+        <label class="fb" for="lbLdl">LDL-C 低密度脂蛋白（mmol/L，选填）</label>
+        <input type="number" step="0.1" id="lbLdl" placeholder="例如 2.6">
+        <div class="hint">控制目标依心血管风险分层由医生制定，本工具不填目标值。</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="fb">病史红旗（勾选后将进入红灯区，任何分数不可中和）</label>
+      <div class="checkline"><input type="checkbox" id="rfCancer"><label for="rfCancer">本人有乳腺癌或其他激素相关肿瘤病史（或正在评估中）</label></div>
+      <div class="checkline"><input type="checkbox" id="rfCvd"><label for="rfCvd">未控制的高血压，或已确诊心血管疾病（心梗、卒中、心绞痛等）</label></div>
+      <div class="checkline"><input type="checkbox" id="rfBleed"><label for="rfBleed">绝经后又出现阴道出血（末次月经满12个月后任何出血）</label></div>
+      <div class="checkline"><input type="checkbox" id="rfVms"><label for="rfVms">潮热盗汗严重到影响日常生活、工作或睡眠功能</label></div>
+    </div>
+    <div class="btn-row"><button class="btn" id="lbSave">保存化验单与体测</button></div>
+    <div id="labsResult"></div>
+  </div>
+  <div class="card tight">
+    <h3>关于 FSH、E2、AMH（教育说明）</h3>
+    <p class="small">绝经后 FSH 持续高于40 IU/L、E2 持续低于20 pg/mL 可辅助确认绝经状态；但围绝经期单次 FSH 几乎无诊断价值，E2 甚至可能反常升高，AMH 在过渡晚期即测不出。NICE NG23 建议45岁以上有典型症状者无需检测 FSH。40岁以下月经紊乱4个月以上，应到妇科内分泌就诊评估 POI。</p>
+  </div>
+</section>
+
+<!-- ================= MATRIX ================= -->
+<section class="view" id="view-matrix">
+  <div class="card">
+    <span class="eyebrow">10系统矩阵</span>
+    <h2>十个身体系统一览</h2>
+    <p class="muted">每格显示当前灯色与90天趋势箭头，并标注数据来源（日记、量表、体测）。点击格子可直达对应模块。灰色表示该域暂无数据。</p>
+    <div style="overflow-x:auto">
+      <table class="mx" id="matrixTable">
+        <thead><tr><th>系统</th><th>当前灯色</th><th>90天趋势</th><th>数据来源</th><th></th></tr></thead>
+        <tbody id="matrixBody"></tbody>
+      </table>
+    </div>
+    <p class="tiny muted">趋势方向按日记数据计算：对睡眠、情绪、精力，上升代表好转；对体温皮肤（潮热负荷），下降代表好转。样本不足时不显示箭头。</p>
+  </div>
+</section>
+
+<!-- ================= REPORT ================= -->
+<section class="view" id="view-report">
+  <div class="card">
+    <span class="eyebrow">综合报告</span>
+    <h2>你的健康信号报告</h2>
+    <p class="muted">用「信号」和「模式」的语言描述，不作诊断。红灯置顶，黄灯按四段式呈现（观察到的信号、这意味着什么、下一步、复查频率），绿灯区列出你已有的资源。</p>
+    <div id="reportBody"><p class="muted">完成分期与首诊扫描后，这里会生成报告。</p></div>
+    <div class="btn-row no-print">
+      <button class="btn" id="goSummary">查看可打印就医摘要</button>
+      <button class="btn sec" id="reportRefresh">刷新报告</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUMMARY (print) ================= -->
+<section class="view" id="view-summary">
+  <div class="print-head">
+    <h1>就医摘要 · 更年期健康地图</h1>
+    <p class="small">生成日期：<span id="sumDate"></span>。本摘要由本人使用自评自管工具整理，供就诊时沟通参考，不构成诊断。</p>
+  </div>
+  <div id="summaryBody" class="no-print-view"></div>
+  <div class="btn-row no-print">
+    <button class="btn" onclick="window.print()">打印或保存为PDF</button>
+    <button class="btn sec" data-go="report">返回报告</button>
+  </div>
+</section>
+
+<!-- ================= MANAGE ================= -->
+<section class="view" id="view-manage">
+  <div class="card">
+    <span class="eyebrow">自管方案匹配</span>
+    <h2>为你匹配的循证模块</h2>
+    <p class="muted">核心模块面向所有人：训练处方、营养、阶段教育。按需模块按你的扫描与体测结果激活。运动是整体健康的基础干预，本工具不承诺运动减少潮热频率。</p>
+    <div id="manageBody"></div>
+  </div>
+</section>
+
+<!-- ================= REVIEW ================= -->
+<section class="view" id="view-review">
+  <div class="card">
+    <span class="eyebrow">复评提醒</span>
+    <h2>复查节奏</h2>
+    <p class="muted">日期提示保存在本机，不做推送。以首诊扫描日期为起点。</p>
+    <div id="reviewBody"></div>
+  </div>
+</section>
+
+<!-- ================= DATA ================= -->
+<section class="view" id="view-data">
+  <div class="card">
+    <span class="eyebrow">数据与隐私</span>
+    <h2>你的数据</h2>
+    <p class="muted">全部数据只保存在本设备浏览器 localStorage（键：menopause_map_v1_state），零网络请求、零第三方统计。你可以随时导出 JSON 备份，或一键删除全部数据。</p>
+    <div class="btn-row">
+      <button class="btn sec" id="dataExport">导出数据（JSON）</button>
+      <button class="btn warn" id="dataDelete">一键删除全部数据</button>
+    </div>
+    <div id="dataInfo" class="small muted" style="margin-top:12px"></div>
+    <div class="note">危机支持信息：如果你有伤害自己的念头，请立即联系身边可信任的人、前往最近医院急诊；全国心理援助热线 <b>12356</b>（24小时），急救电话 <b>120</b>。当地心理援助热线占位：<b>【请在部署时替换为当地官方心理援助热线号码】</b>。</div>
+    <div class="card tight" style="margin-top:14px">
+      <h3>FSFI-6 性健康数据（独立存储）</h3>
+      <p class="small muted">性健康模块的数据保存在独立存储键（menopause_map_v1_fsfi6_private），不包含在下方主导出包内，可单独删除。</p>
+      <div class="btn-row"><button class="btn sec" id="fsfiDelete">单独删除 FSFI-6 数据</button><span class="small muted" id="fsfiDataInfo"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CRISIS MODAL ================= -->
+<div class="modal-mask" id="crisisModal">
+  <div class="modal">
+    <h3>请立刻寻求帮助</h3>
+    <p>你刚才的回答很重要，我们很在意你的安全。伤害自己的念头需要立刻被认真对待：请现在就联系一位身边可信任的人，不要独处。</p>
+    <ul>
+      <li>请拨打全国心理援助热线 <b>12356</b>（24小时）；</li>
+      <li>紧急情况请拨打急救电话 <b>120</b>，或前往最近医院急诊；</li>
+      <li>如果在境外，请拨打当地紧急求助电话；</li>
+      <li>当地心理援助热线（占位配置）：<b>【请在部署时替换为当地官方心理援助热线号码】</b>。</li>
+    </ul>
+    <p>你此刻的感受与围绝经期的生理变化有关，也可以获得有效帮助，你不是一个人面对。已为你准备好一份可以直接给医生看的状态摘要（「就医摘要」页可打印）。</p>
+    <p class="small muted">本工具是自我观察工具，不能替代专业心理危机干预。任何其他量表分数都不会改变这条提示，红旗不可被任何低分中和。</p>
+    <div class="btn-row"><button class="btn warn" id="crisisAck">我知道了，我会寻求帮助</button></div>
+  </div>
+</div>
+
+</main>
+<script>
+/* =====================================================================
+ * 更年期女性健康地图 v1 · 确定性引擎 + 交互层
+ * 规则写死、可审计：各量表用原生已验证切点；全局灯色=最高风险域定档；
+ * 红旗优先级最高，任何分数不可中和；缺项按已获域归一化并标注置信度。
+ * 纯函数以 ENG. 为前缀，Node 无头桩可直接抽取调用。
+ * ===================================================================== */
+
+var STORE_KEY = 'menopause_map_v1_state';
+var HOTLINE_PLACEHOLDER = '【请在部署时替换为当地官方心理援助热线号码】';
+
+/* ---------- 默认状态 ---------- */
+function defaultState(){
+  return {
+    version: 1,
+    stage: null,           // {age, menses, fmp, poi, early, bso, hyst, result:{code,label}, savedAt}
+    scan: null,            // {answers:{...}, doneAt}
+    phq9: null, gad7: null, isi: null, fsfi6: null,
+    labs: null,            // {dexa,waist,grip,height,weight,bmi,bpSys,bpDia,fbg,ldl,rfCancer,rfCvd,rfBleed,rfVms,savedAt}
+    diary: [],             // [{date, hot(0|2|5), night(0|1|2), period(0|1), sleep, mood, energy, feel:[], trig:[]}]
+    cog: null,             // {freq 0-3} 认知症状自评
+    pelv: null,            // {leak:bool, prolapse:bool}
+    scanDraft: null,       // 未完成扫描草稿
+    reviewStart: null      // 首诊完成日期
+  };
+}
+var state = defaultState();
+
+/* ---------- 改良 Kupperman 13项（key: [题干, 权重]，程度0-3） ---------- */
+var MKI_ITEMS = [
+  ['mki1','潮热、出汗（阵发性潮热）',4],
+  ['mki2','感觉异常（手脚发麻、刺痛、蚁走感）',2],
+  ['mki3','失眠',2],
+  ['mki4','神经紧张、易激动（情绪烦躁）',2],
+  ['mki5','忧郁、疑心（情绪低落）',1],
+  ['mki6','眩晕',1],
+  ['mki7','乏力、疲倦',1],
+  ['mki8','肌肉痛、关节痛、腰背痛',1],
+  ['mki9','头痛',1],
+  ['mki10','心悸（心慌、心跳加快）',1],
+  ['mki11','皮肤蚁走感（皮肤瘙痒、虫爬感）',1],
+  ['mki12','性生活状况（性欲下降、性交不适）',2],
+  ['mki13','泌尿系症状（尿频、尿急、漏尿）',2]
+];
+var MKI_SEVERITY_OPTS = ['无','偶有，轻','经常，中','程度重，影响生活'];
+
+/* PHQ-9 原题（中文标准版，照文案库落位；0完全不会 1有几天 2一半以上时间 3几乎每天） */
+var PHQ9_ITEMS = [
+  '做事时提不起劲或没有兴趣。',
+  '感到心情低落、沮丧或绝望。',
+  '入睡困难、睡不安稳或睡眠过多。',
+  '感觉疲倦或没有活力。',
+  '食欲不振或吃太多。',
+  '觉得自己很糟，或觉得自己很失败，或让自己或家人失望。',
+  '对事物专注有困难，例如阅读报纸或看电视时。',
+  '动作或说话速度缓慢到别人可以察觉，或正好相反，烦躁或坐立不安、动来动去。',
+  '有不如死掉或用某种方式伤害自己的念头。'
+];
+var FREQ4_OPTS = ['完全不会','有几天','一半以上时间','几乎每天'];
+
+/* GAD-7 原题（一字不改） */
+var GAD7_ITEMS = [
+  '感觉紧张、焦虑或急切',
+  '不能够停止或控制担忧',
+  '对各种各样的事情担忧过多',
+  '很难放松下来',
+  '由于不安而无法静坐',
+  '变得容易烦恼或急躁',
+  '感到似乎将有可怕的事情发生而害怕'
+];
+
+/* ISI 失眠严重程度指数 7题（近2周），各题选项如下 */
+var ISI_ITEMS = [
+  {q:'入睡困难', o:['无','轻度','中度','重度','极重度']},
+  {q:'夜间易醒或早醒后难以再入睡', o:['无','轻度','中度','重度','极重度']},
+  {q:'早醒（比期望时间早醒）', o:['无','轻度','中度','重度','极重度']},
+  {q:'您对当前睡眠模式的满意程度', o:['非常满意','满意','中等','不满意','非常不满意']},
+  {q:'睡眠问题对您白天功能的干扰（如白天疲倦、工作、家务、注意力、记忆、情绪等）', o:['无干扰','轻微','有些','较多','非常多']},
+  {q:'别人认为您的睡眠问题对您生活质量的影响', o:['无','轻微','有些','较多','非常多']},
+  {q:'您对自己当前睡眠问题的担忧/痛苦程度', o:['无','轻微','有些','较多','非常多']}
+];
+
+/* FSFI-6 简版（文案库 5.4 温和情境化题干；选项统一由好到差排列，计分 5-i；末项「近4周无性生活」计0；切点19，越低越差；全程标注简化教学版） */
+var FSFI6_ITEMS = [
+  {q:'近四周，你有性欲望或性兴趣的频率如何？', o:['几乎总是有欲望','多数时候有','有时有','很少有','几乎完全没有']},
+  {q:'在性刺激或性生活中，感到性唤起（兴奋）的频率如何？', o:['几乎总能充分唤起','多数时候能','有时能','很少能','几乎不能']},
+  {q:'性生活时阴道湿润（润滑）的情况如何？', o:['完全不干燥，一直湿润','大部分时候湿润','有时干燥','经常干燥、需要额外润滑','非常干燥或疼痛，难以进行']},
+  {q:'达到性高潮的能力如何？', o:['几乎总能达到','多数时候能','有时能','很少能','几乎不能']},
+  {q:'你对自己的性生活满意度如何？', o:['非常满意','比较满意','一半满意一半不满意','不太满意','非常不满意']},
+  {q:'性生活时的不适或疼痛程度如何？', o:['完全没有疼痛','偶尔轻微不适','有时疼痛','经常明显疼痛','几乎总是疼痛，难以进行']}
+];
+var FSFI6_NOSEX = '近四周没有性生活或性活动';
+
+/* 10系统矩阵定义 */
+var DOMAINS = [
+  {key:'vms',      name:'体温皮肤（血管舒缩）', go:'diary'},
+  {key:'sleep',    name:'睡眠',                 go:'deep'},
+  {key:'mood',     name:'情绪',                 go:'deep'},
+  {key:'cog',      name:'认知（脑雾）',         go:'deep'},
+  {key:'cvmet',    name:'心血管代谢',           go:'labs'},
+  {key:'bone',     name:'骨骼',                 go:'labs'},
+  {key:'muscle',   name:'肌肉关节',             go:'labs'},
+  {key:'pelvic',   name:'盆底泌尿',             go:'labs'},
+  {key:'gsm',      name:'生殖泌尿与性（GSM）',  go:'deep'},
+  {key:'bodycomp', name:'体成分',               go:'labs'}
+];
+
+/* =====================================================================
+ * 纯函数引擎
+ * ===================================================================== */
+var ENG = {};
+
+/* 分期判定：输入 {age, menses, fmp(YYYY-MM-DD可选), poi, early, bso, hyst, today(可选)}
+ * 输出 {code, label, note}；code: poi|surgical|early|reproductive|peri_early|peri_late|post|unknown */
+ENG.stage = function(inp){
+  inp = inp || {};
+  var age = Number(inp.age);
+  if(inp.bso){
+    return {code:'surgical', label:'手术绝经（双侧卵巢切除）',
+      note:'双侧卵巢切除后激素突然、彻底下降，症状往往更重更急。请尽快到妇科/更年期门诊建立随访，心血管与骨骼风险需提前管理。'};
+  }
+  if(inp.poi && age && age < 40){
+    return {code:'poi', label:'早发性卵巢功能不全（POI，40岁前）',
+      note:'40岁前卵巢功能衰退需要妇科内分泌专科评估；该人群冠心病风险约为正常绝经女性的3倍，骨健康也需要更早关注。'};
+  }
+  var fmpMonths = null;
+  if(inp.fmp){
+    var t = inp.today ? new Date(inp.today+'T00:00:00') : new Date();
+    var f = new Date(inp.fmp+'T00:00:00');
+    if(!isNaN(f.getTime())){
+      /* 按日历月计算：完整月数 + 当月日比例，保证「同月同日满12月」精确落在边界上 */
+      var months = (t.getFullYear()-f.getFullYear())*12 + (t.getMonth()-f.getMonth());
+      var dayFrac = (t.getDate()-f.getDate())/30.44;
+      fmpMonths = months + dayFrac;
+    }
+  }
+  if(inp.menses === 'post' || (fmpMonths !== null && fmpMonths >= 12)){
+    if(age && age >= 40 && age <= 45 && inp.early){
+      return {code:'early', label:'早绝经（40至45岁绝经）',
+        note:'40至45岁之间绝经属于早绝经，心血管、骨质疏松与认知风险升高，建议尽早到妇科/更年期门诊讨论系统管理。'};
+    }
+    if(age && age < 40 && inp.early){
+      return {code:'poi', label:'早发性卵巢功能不全（POI，40岁前）',
+        note:'40岁前绝经属于POI范畴，需要妇科内分泌专科评估与长期管理。'};
+    }
+    return {code:'post', label:'绝经后（末次月经满12个月）',
+      note:'已进入绝经后期。绝经后最初3至10年骨量丢失最快，泌尿生殖系统的干涩、刺激症状可能随时间加重，这些都值得在体检中主动关注。'};
+  }
+  if(inp.menses === 'late' || (fmpMonths !== null && fmpMonths >= 2)){
+    return {code:'peri_late', label:'围绝经晚期（闭经达60天）',
+      note:'月经停过60天以上，处于绝经过渡晚期。此阶段激素波动剧烈，潮热、盗汗、睡眠与情绪症状常最明显。'};
+  }
+  if(inp.menses === 'early'){
+    return {code:'peri_early', label:'围绝经早期（10个周期中2次以上周期差≥7天）',
+      note:'相邻周期长度相差7天及以上、10个周期中出现2次以上，是绝经过渡早期的标志。月经记录会帮助你和医生判断走向。'};
+  }
+  if(inp.menses === 'regular'){
+    return {code:'reproductive', label:'生育期（月经规律）',
+      note:'目前月经规律。40岁前后仍可能开始出现周期细微变化与偶发症状，保持观察记录即可。'};
+  }
+  if(inp.hyst){
+    return {code:'unknown', label:'子宫切除、卵巢保留（绝经状态需结合年龄与症状判断）',
+      note:'仅切除子宫而卵巢保留不属于绝经，无法再以月经判断。若有潮热盗汗等症状或年龄在45岁以上，可到妇科/更年期门诊评估。'};
+  }
+  return {code:'unknown', label:'信息不足', note:'请填写年龄并选择目前月经情况，以获得分期判断。'};
+};
+
+/* 改良 Kupperman 计分：answers 为 mki1..mki13 的程度0-3（可缺）。
+ * 返回 {score, level:'none'|'mild'|'moderate'|'severe', completed}
+ * 切点（底稿表3，写死）：0正常；7-15轻；16-30中；>30重 */
+ENG.mkiScore = function(answers){
+  answers = answers || {};
+  var score = 0, completed = 0;
+  for(var i=0;i<MKI_ITEMS.length;i++){
+    var k = MKI_ITEMS[i][0], w = MKI_ITEMS[i][2];
+    var v = answers[k];
+    if(v === undefined || v === null || v === '') continue;
+    v = Number(v);
+    score += v * w;
+    completed++;
+  }
+  var level = 'none';
+  if(score > 30) level = 'severe';
+  else if(score >= 16) level = 'moderate';
+  else if(score >= 7) level = 'mild';
+  return {score:score, level:level, completed:completed, total:MKI_ITEMS.length};
+};
+
+/* PHQ-9：answers 0-3 九题；返回 {score, level, q9}。切点 5/10/15/20；中文最佳界值11 */
+ENG.phq9 = function(answers){
+  answers = answers || {};
+  var sum = 0, n = 0;
+  for(var i=1;i<=9;i++){
+    var v = answers['phq'+i];
+    if(v === undefined || v === null || v === '') continue;
+    sum += Number(v); n++;
+  }
+  if(n < 9) return {score:sum, completed:n, level:null, q9:answers['phq9']!==undefined?Number(answers['phq9']):null};
+  var level = sum >= 20 ? 'severe' : sum >= 15 ? 'mods' : sum >= 10 ? 'moderate' : sum >= 5 ? 'mild' : 'none';
+  return {score:sum, completed:n, level:level, cnCut:sum >= 11, q9:Number(answers['phq9']||0)};
+};
+/* PHQ-2 = PHQ-9 前2题和，≥3 提示需要做 PHQ-9 */
+ENG.phq2 = function(answers){
+  var a = Number(answers && answers.phq1 || 0) + Number(answers && answers.phq2 || 0);
+  return {score:a, positive:a >= 3};
+};
+
+/* GAD-7：切点 5/10/15 */
+ENG.gad7 = function(answers){
+  answers = answers || {};
+  var sum = 0, n = 0;
+  for(var i=1;i<=7;i++){
+    var v = answers['gad'+i];
+    if(v === undefined || v === null || v === '') continue;
+    sum += Number(v); n++;
+  }
+  if(n < 7) return {score:sum, completed:n, level:null};
+  var level = sum >= 15 ? 'severe' : sum >= 10 ? 'moderate' : sum >= 5 ? 'mild' : 'none';
+  return {score:sum, completed:n, level:level};
+};
+/* GAD-2 = GAD-7 前2题和，≥3 提示需要做 GAD-7 */
+ENG.gad2 = function(answers){
+  var a = Number(answers && answers.gad1 || 0) + Number(answers && answers.gad2 || 0);
+  return {score:a, positive:a >= 3};
+};
+
+/* ISI：0-4 七题，总分0-28；切点 8/15/22；中文版切点9 */
+ENG.isi = function(answers){
+  answers = answers || {};
+  var sum = 0, n = 0;
+  for(var i=1;i<=7;i++){
+    var v = answers['isi'+i];
+    if(v === undefined || v === null || v === '') continue;
+    sum += Number(v); n++;
+  }
+  if(n < 7) return {score:sum, completed:n, level:null};
+  var level = sum >= 22 ? 'severe' : sum >= 15 ? 'moderate' : sum >= 8 ? 'subthreshold' : 'none';
+  return {score:sum, completed:n, level:level, cnCut:sum >= 9};
+};
+
+/* FSFI-6：0-5 六题，总分2-30；<19 提示性功能障碍可能。跳过=该域不参与定档 */
+ENG.fsfi6 = function(answers){
+  answers = answers || {};
+  var sum = 0, n = 0;
+  for(var i=1;i<=6;i++){
+    var v = answers['fsfi'+i];
+    if(v === undefined || v === null || v === '') continue;
+    sum += Number(v); n++;
+  }
+  if(n === 0) return {skipped:true, score:null, positive:null, completed:0};
+  if(n < 6) return {skipped:false, partial:true, score:sum, completed:n, positive:null};
+  return {skipped:false, partial:false, score:sum, completed:6, positive:sum < 19};
+};
+
+/* DEXA T值 */
+ENG.dexa = function(t){
+  if(t === null || t === undefined || t === '') return null;
+  t = Number(t);
+  if(isNaN(t)) return null;
+  if(t <= -2.5) return {level:'osteoporosis', light:'r', text:'T值 ≤ -2.5：提示骨质疏松可能'};
+  if(t < -1.0)  return {level:'lowbone', light:'y', text:'T值在 -2.5 至 -1.0 之间：低骨量'};
+  return {level:'normal', light:'g', text:'T值 ≥ -1.0：骨密度在正常范围'};
+};
+ENG.waist = function(w){
+  if(w === null || w === undefined || w === '') return null;
+  w = Number(w); if(isNaN(w)) return null;
+  return w >= 85 ? {light:'y', text:'腰围 ≥ 85 cm：中心性肥胖'} : {light:'g', text:'腰围 < 85 cm'};
+};
+ENG.grip = function(g){
+  if(g === null || g === undefined || g === '') return null;
+  g = Number(g); if(isNaN(g)) return null;
+  return g < 20 ? {light:'y', text:'握力 < 20 kg：建议进一步评估肌少症'} : {light:'g', text:'握力 ≥ 20 kg'};
+};
+ENG.bmi = function(h, w){
+  h = Number(h); w = Number(w);
+  if(!h || !w || isNaN(h) || isNaN(w)) return null;
+  var b = w / Math.pow(h/100, 2);
+  b = Math.round(b*10)/10;
+  var light = 'g', text = 'BMI '+b+'（18.5至23.9为正常范围）';
+  if(b >= 28){ light='r'; text='BMI '+b+'：达到中国肥胖切点（≥28）'; }
+  else if(b >= 24){ light='y'; text='BMI '+b+'：超重（24至27.9）'; }
+  else if(b < 18.5){ light='y'; text='BMI '+b+'：低于18.5，偏瘦'; }
+  return {bmi:b, light:light, text:text};
+};
+
+/* 第一轨：绝对红旗。输入 state，返回 [{id,title,detail,action}] */
+ENG.absoluteFlags = function(s){
+  var flags = [];
+  var labs = s.labs || {};
+  if(s.phq9 && Number(s.phq9.answers && s.phq9.answers.phq9) > 0){
+    flags.push({id:'crisis', title:'心理危机信号：PHQ-9 第9题为阳性',
+      detail:'你在「有不如死掉或伤害自己的念头」一题上选择了非「完全不会」。',
+      action:'请立即联系可信任的家人朋友、前往最近医院急诊或心理科，并拨打当地心理援助热线（'+HOTLINE_PLACEHOLDER+'）。'});
+  }
+  if(labs.rfBleed && (s.stage && (s.stage.result && s.stage.result.code === 'post'))){
+    flags.push({id:'bleed', title:'绝经后异常出血',
+      detail:'末次月经满12个月后再次出现任何阴道出血，都需要尽快检查。',
+      action:'请尽快挂妇科号就诊评估，绝经后出血不能归因于「月经回来了」。'});
+  }
+  if(labs.rfCancer){
+    flags.push({id:'cancer', title:'乳腺癌等激素相关肿瘤史',
+      detail:'有乳腺癌或其他激素相关肿瘤病史时，含激素的治疗选择有严格禁忌。',
+      action:'任何症状管理用药（含激素类）必须由肿瘤科与妇科医生共同评估。' });
+  }
+  if(labs.rfCvd){
+    flags.push({id:'cvd', title:'未控制的高血压或心血管疾病',
+      detail:'血压未控制或已确诊心血管疾病时，运动强度与症状管理用药都需要医生指导。',
+      action:'请先到心内科/全科就诊管理血压与心血管风险；运动从低强度起步并充分热身。'});
+  }
+  if(labs.rfVms){
+    flags.push({id:'vms', title:'重度血管舒缩症状影响功能',
+      detail:'潮热盗汗已严重影响日常生活、工作或睡眠。',
+      action:'这属于值得就医处理的症状。可带症状日记到妇科/更年期门诊，与医生讨论包括规范治疗在内的选项。'});
+  }
+  return flags;
+};
+
+/* 域灯色计算：输入 state，返回 {domains:{key:{light, sources:[], detail}}, trend:{...}} */
+ENG.domainLights = function(s){
+  var d = {};
+  DOMAINS.forEach(function(dm){ d[dm.key] = {light:null, sources:[], detail:''}; });
+  function set(k, light, src, detail){
+    if(!d[k]) return;
+    var rank = {r:3, y:2, g:1, n:0};
+    if(rank[light] > (rank[d[k].light] || 0)) d[k].light = light;
+    if(src && d[k].sources.indexOf(src) < 0) d[k].sources.push(src);
+    if(detail && d[k].detail.indexOf(detail) < 0) d[k].detail += (d[k].detail?'；':'') + detail;
+  }
+  var scan = s.scan;
+  var mki = scan ? ENG.mkiScore(scan.answers) : null;
+  // mKI 条目映射
+  if(scan && mki && mki.completed > 0){
+    var a = scan.answers;
+    function lvl(v){ v=Number(v||0); return v>=3?'r': v>=2?'y': v>=1?'g':null; }
+    var map = {
+      mki1:'vms', mki11:'vms',
+      mki3:'sleep',
+      mki4:'mood', mki5:'mood',
+      mki6:'cog', /* 眩晕归神经/认知躯体，脑雾另用cog自评 */
+      mki7:'muscle', mki8:'muscle', mki9:'muscle', mki10:'cvmet',
+      mki2:'cog',
+      mki12:'gsm',
+      mki13:'pelvic'
+    };
+    for(var k in map){
+      var L = lvl(a[k]);
+      if(L) set(map[k], L, '量表', null);
+    }
+  }
+  // PHQ-2/PHQ-9 → 情绪
+  if(scan && scan.answers){
+    var p2 = ENG.phq2(scan.answers);
+    if(p2.positive) set('mood','y','量表','情绪初筛提示值得进一步评估');
+    var g2 = ENG.gad2(scan.answers);
+    if(g2.positive) set('mood','y','量表','焦虑初筛提示值得进一步评估');
+  }
+  if(s.phq9){
+    var p9 = ENG.phq9(s.phq9.answers);
+    if(p9.level === 'severe' || p9.level === 'mods') set('mood','r','量表','抑郁专项提示重度区间信号');
+    else if(p9.level === 'moderate') set('mood','r','量表','抑郁专项提示中度区间信号');
+    else if(p9.level === 'mild' || p9.cnCut) set('mood','y','量表','抑郁专项提示轻度信号');
+    else if(p9.completed === 9) set('mood','g','量表');
+  }
+  if(s.gad7){
+    var g7 = ENG.gad7(s.gad7.answers);
+    if(g7.level === 'severe' || g7.level === 'moderate') set('mood','r','量表','焦虑专项提示中重度区间信号');
+    else if(g7.level === 'mild') set('mood','y','量表','焦虑专项提示轻度信号');
+    else if(g7.completed === 7) set('mood','g','量表');
+  }
+  // ISI → 睡眠
+  if(s.isi){
+    var is = ENG.isi(s.isi.answers);
+    if(is.level === 'severe' || is.level === 'moderate') set('sleep','r','量表','失眠专项提示中重度区间信号');
+    else if(is.level === 'subthreshold' || is.cnCut) set('sleep','y','量表','失眠专项提示需要关注');
+    else if(is.completed === 7) set('sleep','g','量表');
+  }
+  // 认知自评（MoCA不做自评，仅症状自评）
+  if(s.cog && Number(s.cog.freq) >= 3) set('cog','y','量表','脑雾频繁出现，建议线下认知筛查');
+  else if(s.cog && Number(s.cog.freq) >= 1) set('cog','g','量表');
+  // FSFI-6 → GSM/性
+  if(s.fsfi6 && s.fsfi6.done){
+    var f6 = ENG.fsfi6(s.fsfi6.answers);
+    if(!f6.skipped && f6.positive === true) set('gsm','y','量表','性功能初筛低于切点，建议就医沟通');
+    else if(!f6.skipped && f6.positive === false) set('gsm','g','量表');
+  }
+  // 盆底
+  if(s.pelv && (s.pelv.leak || s.pelv.prolapse)){
+    set('pelvic','y','量表','漏尿或脱垂症状：盆底肌训练是一线建议');
+  }
+  // 化验体测
+  var labs = s.labs || {};
+  if(labs.dexa !== undefined && labs.dexa !== null && labs.dexa !== ''){
+    var dx = ENG.dexa(labs.dexa);
+    if(dx){ set('bone', dx.light, '体测', dx.text); }
+  }
+  if(labs.waist !== undefined && labs.waist !== null && labs.waist !== ''){
+    var wa = ENG.waist(labs.waist);
+    if(wa){ set('bodycomp', wa.light, '体测', wa.text); set('cvmet', wa.light==='y'?'y':wa.light, '体测', wa.text); }
+  }
+  if(labs.grip !== undefined && labs.grip !== null && labs.grip !== ''){
+    var gr = ENG.grip(labs.grip);
+    if(gr){ set('muscle', gr.light, '体测', gr.text); }
+  }
+  var bm = ENG.bmi(labs.height, labs.weight);
+  if(bm){ set('bodycomp', bm.light, '体测', bm.text); if(bm.light!=='g') set('cvmet', bm.light==='r'?'y':bm.light, '体测', '体重指数偏离正常范围'); }
+  if(labs.fbg !== undefined && labs.fbg !== null && labs.fbg !== ''){
+    var fbg = Number(labs.fbg);
+    if(!isNaN(fbg)){
+      if(fbg >= 7.0) set('cvmet','r','体测','空腹血糖 ≥ 7.0 mmol/L：需要尽快就医复查确认');
+      else if(fbg >= 6.1) set('cvmet','y','体测','空腹血糖偏高，建议复查');
+      else set('cvmet','g','体测');
+    }
+  }
+  if(labs.bpSys){
+    var sys = Number(labs.bpSys), dia = Number(labs.bpDia);
+    if(sys >= 160 || dia >= 100) set('cvmet','r','体测','血压读数明显升高，请尽快就医（未控制高血压红旗请在化验单页勾选）');
+    else if(sys >= 140 || dia >= 90) set('cvmet','y','体测','血压读数达高血压范围，建议安静复测并就医评估');
+    else if(sys > 0) set('cvmet','g','体测');
+  }
+  // 日记 → vms/sleep/mood/energy相关域
+  var diary = s.diary || [];
+  if(diary.length > 0){
+    var recent = diary.slice(-7);
+    var hotDays = recent.filter(function(x){return Number(x.hot)>0;}).length;
+    var nightHeavy = recent.filter(function(x){return Number(x.night)>=2;}).length;
+    var avgSleep = avg(recent.map(function(x){return Number(x.sleep);}));
+    var avgMood = avg(recent.map(function(x){return Number(x.mood);}));
+    var avgEnergy = avg(recent.map(function(x){return Number(x.energy);}));
+    if(hotDays >= 4 || nightHeavy >= 3) set('vms','r','日记','近7天多数日子有潮热或重度盗汗');
+    else if(hotDays >= 1 || nightHeavy >= 1) set('vms','y','日记','近7天记录到潮热/盗汗');
+    else set('vms','g','日记');
+    if(avgSleep !== null){
+      if(avgSleep <= 4) set('sleep','r','日记','近7天睡眠评分均值很低');
+      else if(avgSleep <= 6) set('sleep','y','日记','近7天睡眠评分偏低');
+      else set('sleep','g','日记');
+    }
+    if(avgMood !== null){
+      if(avgMood <= 4) set('mood','r','日记','近7天情绪评分均值很低');
+      else if(avgMood <= 6) set('mood','y','日记','近7天情绪评分偏低');
+      else set('mood','g','日记');
+    }
+    if(avgEnergy !== null){
+      if(avgEnergy <= 4) set('muscle','y','日记','近7天精力评分偏低，疲劳感明显');
+      else set('muscle','g','日记');
+    }
+    // 日记感觉标签
+    recent.forEach(function(x){
+      (x.feel||[]).forEach(function(f){
+        if(f==='urinary') set('pelvic','y','日记','日记记录尿频/尿急/漏尿');
+        if(f==='dry') set('gsm','y','日记','日记记录干燥感（皮肤/眼/口）');
+        if(f==='joint') set('muscle','y','日记','日记记录关节肌肉酸痛');
+        if(f==='palp') set('cvmet','y','日记','日记记录心慌心悸，建议就医排查');
+        if(f==='brainfog') set('cog','y','日记','日记记录注意力差/脑雾');
+      });
+    });
+  }
+  return d;
+};
+function avg(arr){ var a = arr.filter(function(x){return x!==undefined && x!==null && !isNaN(Number(x));}).map(Number); if(!a.length) return null; return a.reduce(function(s,v){return s+v;},0)/a.length; }
+
+/* 趋势箭头：对 diary 最近90天，前半段均值 vs 后半段均值。
+ * metric: 'hot'（越高越差）| 'sleep'|'mood'|'energy'（越高越好）。
+ * 返回 'up'|'down'|'flat'|null（null=样本不足） */
+ENG.trendArrow = function(diary, metric){
+  var d = (diary||[]).slice(-90);
+  if(d.length < 4) return null;
+  var half = Math.floor(d.length/2);
+  var a = avg(d.slice(0,half).map(function(x){return Number(x[metric]);}));
+  var b = avg(d.slice(half).map(function(x){return Number(x[metric]);}));
+  if(a === null || b === null) return null;
+  var delta = b - a;
+  if(Math.abs(delta) < 0.3) return 'flat';
+  var improved = metric === 'hot' ? delta < 0 : delta > 0;
+  return improved ? 'up' : 'down';
+};
+
+/* 每周镜像：潮热日 vs 诱因同现率。样本≥7天才输出。
+ * 返回 {eligible, n, rows:[{trig,label,rate,onHot,offHot}]} 相关不等于因果 */
+ENG.weeklyMirror = function(diary){
+  var labels = {caffeine:'含咖啡因饮品', alcohol:'酒精', spicy:'辛辣食物', hotenv:'炎热环境', poorsleep:'睡眠≤5小时', stress:'压力事件'};
+  var d = (diary||[]).slice(-14);
+  if(d.length < 7) return {eligible:false, n:d.length, rows:[]};
+  var hotDays = d.filter(function(x){return Number(x.hot) > 0;});
+  var coolDays = d.filter(function(x){return Number(x.hot) === 0;});
+  var rows = [];
+  Object.keys(labels).forEach(function(t){
+    var on = hotDays.filter(function(x){return (x.trig||[]).indexOf(t) >= 0;}).length;
+    var off = coolDays.filter(function(x){return (x.trig||[]).indexOf(t) >= 0;}).length;
+    var rOn = hotDays.length ? on/ hotDays.length : null;
+    var rOff = coolDays.length ? off/ coolDays.length : null;
+    if(rOn === null) return;
+    rows.push({trig:t, label:labels[t], onHot:rOn, offHot:rOff,
+      rate: (rOff === null) ? rOn : (rOn - rOff)});
+  });
+  rows.sort(function(a,b){return b.rate - a.rate;});
+  return {eligible:true, n:d.length, hotN:hotDays.length, rows:rows};
+};
+
+/* 综合评估：输出全局灯色、红旗、置信度、数据来源数 */
+ENG.assess = function(s){
+  var flags = ENG.absoluteFlags(s);
+  var domains = ENG.domainLights(s);
+  var overall = 'g';
+  var rank = {r:3,y:2,g:1};
+  var assessed = 0, sources = {};
+  DOMAINS.forEach(function(dm){
+    var info = domains[dm.key];
+    if(info.light){ assessed++; if(rank[info.light] > (rank[overall]||0)) overall = info.light; }
+    info.sources.forEach(function(src){ sources[src] = (sources[src]||0)+1; });
+  });
+  if(flags.length) overall = 'r';
+  // 第二轨：任一域达重度切点
+  var track2 = [];
+  DOMAINS.forEach(function(dm){
+    if(domains[dm.key].light === 'r') track2.push(dm.name);
+  });
+  // 置信度
+  var fsfiSkipped = !(s.fsfi6 && s.fsfi6.done);
+  var confidence, confText;
+  if(assessed >= 8 && s.scan) { confidence = 'high'; confText = '数据覆盖较全（'+assessed+'/10个系统有数据）'; }
+  else if(assessed >= 4) { confidence = 'medium'; confText = '部分系统已有数据（'+assessed+'/10），未评估域不参与定档'; }
+  else { confidence = 'low'; confText = '数据较少（'+assessed+'/10个系统有数据），灯色仅基于已获信息，置信度低'; }
+  if(fsfiSkipped) confText += '；性功能域（FSFI-6）跳过，未计入定档，置信度相应下调';
+  return {flags:flags, domains:domains, overall:overall, track2:track2,
+    assessed:assessed, confidence:confidence, confText:confText,
+    sourceCount:Object.keys(sources).length};
+};
+
+/* =====================================================================
+ * UI 层
+ * ===================================================================== */
+
+/* ---------- 存储：主状态 + FSFI-6 独立隔离键 ---------- */
+var FSFI_KEY = 'menopause_map_v1_fsfi6_private';
+function saveState(){
+  try{
+    var pack = JSON.parse(JSON.stringify(state));
+    delete pack.fsfi6;  /* FSFI-6 仅存于独立键 menopause_map_v1_fsfi6_private */
+    localStorage.setItem(STORE_KEY, JSON.stringify(pack));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw){ var s = JSON.parse(raw); state = Object.assign(defaultState(), s); }
+  }catch(e){ state = defaultState(); }
+  loadFsfi();
+}
+function loadFsfi(){
+  try{
+    var raw = localStorage.getItem(FSFI_KEY);
+    if(raw){ var f = JSON.parse(raw); state.fsfi6 = f; }
+  }catch(e){}
+}
+function saveFsfi(data){
+  state.fsfi6 = data;
+  try{ localStorage.setItem(FSFI_KEY, JSON.stringify(data)); }catch(e){}
+}
+function clearFsfi(){
+  state.fsfi6 = null;
+  try{ localStorage.removeItem(FSFI_KEY); }catch(e){}
+}
+
+/* ---------- 导航 ---------- */
+function go(view){
+  var views = document.querySelectorAll('.view');
+  for(var i=0;i<views.length;i++) views[i].classList.remove('active');
+  var el = document.getElementById('view-'+view);
+  if(el) el.classList.add('active');
+  var btns = document.querySelectorAll('#navLinks button');
+  for(var j=0;j<btns.length;j++){
+    btns[j].classList.toggle('active', btns[j].getAttribute('data-view')===view);
+  }
+  window.scrollTo(0,0);
+  if(view==='stage') renderStage();
+  if(view==='diary') renderDiary();
+  if(view==='trends') renderTrends();
+  if(view==='deep') renderDeepTiles();
+  if(view==='labs') renderLabsForm();
+  if(view==='matrix') renderMatrix();
+  if(view==='report') renderReport();
+  if(view==='manage') renderManage();
+  if(view==='review') renderReview();
+  if(view==='data') renderData();
+  if(view==='home') renderHome();
+  if(view==='summary') renderSummary();
+  renderHomeDots();
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest ? (e.target.closest('[data-go]') || e.target.closest('[data-view]')) : null;
+  if(t){ go(t.getAttribute('data-go') || t.getAttribute('data-view')); }
+});
+
+/* ---------- 小工具 ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function lightDot(l){ return '<span class="dot '+(l||'n')+'"></span>'; }
+function lightWord(l){ return l==='r'?'红灯':l==='y'?'黄灯':l==='g'?'绿灯':'暂无数据'; }
+function todayStr(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function radioVal(name){ var els=document.getElementsByName(name); for(var i=0;i<els.length;i++) if(els[i].checked) return els[i].value; return null; }
+function checkVals(containerId){
+  var box=$(containerId), out=[];
+  if(!box) return out;
+  var els=box.querySelectorAll('input[type=checkbox]:checked');
+  for(var i=0;i<els.length;i++) out.push(els[i].value);
+  return out;
+}
+
+/* ---------- 分期时钟 ---------- */
+var STAGE_STEPS = [
+  {code:'reproductive', name:'生育期', desc:'月经规律、激素水平平稳'},
+  {code:'peri_early',  name:'围绝经早期', desc:'10个周期中≥2次周期差≥7天'},
+  {code:'peri_late',   name:'围绝经晚期', desc:'闭经≥60天'},
+  {code:'post',        name:'绝经后', desc:'末次月经满12个月'}
+];
+function renderStageClock(activeCode){
+  var h='';
+  STAGE_STEPS.forEach(function(s){
+    h+='<div class="stage-step'+(s.code===activeCode?' on':'')+'"><div class="ss-num">'+({reproductive:'−3',peri_early:'−2',peri_late:'−1',post:'+1'}[s.code])+'</div><div class="ss-name">'+s.name+'</div><div class="ss-desc">'+s.desc+'</div></div>';
+  });
+  $('stageClock').innerHTML = h;
+}
+function renderStage(){
+  renderStageClock(state.stage ? state.stage.result.code : null);
+  if(state.stage){
+    $('stAge').value = state.stage.age||'';
+    var m = state.stage.menses;
+    if(m){ var els=document.getElementsByName('stMenses'); for(var i=0;i<els.length;i++) els[i].checked = (els[i].value===m); }
+    $('stFmp').value = state.stage.fmp||'';
+    $('stPOI').checked = !!state.stage.poi;
+    $('stEarly').checked = !!state.stage.early;
+    $('stBSO').checked = !!state.stage.bso;
+    $('stHyst').checked = !!state.stage.hyst;
+  }
+  showStageResult();
+}
+function showStageResult(){
+  var box=$('stageResult');
+  if(!state.stage){ box.innerHTML=''; return; }
+  var r = state.stage.result;
+  var special = (r.code==='poi'||r.code==='surgical'||r.code==='early');
+  box.innerHTML = '<div class="flagbox'+(special?'':' disclaimer')+'" style="'+(special?'':'background:#F0F6FB;border-color:#BCD6EC;color:#1D5685;')+'"><h3 style="'+(special?'':'color:#1D5685;')+'">分期结果：'+esc(r.label)+'</h3><p>'+esc(r.note)+'</p>'
+    + (special ? '<p><b>就医引导：</b>建议预约妇科内分泌/更年期门诊，本工具可生成一页就医摘要供就诊使用。</p>' : '')
+    + '</div>';
+}
+$('stSave').addEventListener('click', function(){
+  var age = $('stAge').value;
+  var menses = radioVal('stMenses');
+  var inp = {
+    age: age,
+    menses: menses,
+    fmp: $('stFmp').value || null,
+    poi: $('stPOI').checked,
+    early: $('stEarly').checked,
+    bso: $('stBSO').checked,
+    hyst: $('stHyst').checked
+  };
+  var result = ENG.stage(inp);
+  state.stage = {
+    age: age, menses: menses, fmp: inp.fmp,
+    poi: inp.poi, early: inp.early, bso: inp.bso, hyst: inp.hyst,
+    result: result, savedAt: new Date().toISOString()
+  };
+  // 手术绝经同步病史
+  if(inp.bso){ if(!state.labs) state.labs={}; }
+  saveState();
+  renderStageClock(result.code);
+  showStageResult();
+  if(result.code==='poi'||result.code==='early'){
+    showFlagModal('poi', '需要妇科内分泌评估',
+      '40岁前的月经紊乱或40至45岁绝经，需要妇科内分泌科系统评估，涉及骨密度、心血管与长期治疗的决策，不宜仅凭自我判断。就医摘要已为你生成。',
+      '请预约妇科内分泌/更年期门诊；本工具的就医摘要可直接出示。');
+  }
+  if(result.code==='surgical'){
+    showFlagModal('surgical','手术绝经已记录',
+      '双侧卵巢切除后激素水平突然下降，症状往往比自然绝经更急更重，性欲下降也更常见。这些都在预期范围内，值得专门和医生讨论应对方案。',
+      '建议尽快到妇科/更年期门诊建立随访；心血管与骨骼风险需提前管理。');
+  }
+});
+
+/* ---------- 首诊扫描：三站旅程 ---------- */
+/* 程度选项（文案库 2.1 统一）：没有/偶尔有/经常有/几乎一直有 → 0-3 */
+var SCAN_SEVERITY = ['没有','偶尔有','经常有','几乎一直有'];
+var SCAN_ITEMS = [
+  {station:'第一站 · 热与心跳', key:'mki1', w:4,
+    q:'有没有突然一阵潮热、轰热，从胸口涌向脸和头，伴出汗？一天里大约几次？',
+    o:['没有','偶尔有，每天约1至3次','经常有，每天约4次及以上','几乎一直有，频繁发作影响生活'],
+    r:{1:'潮热已经出现但频率不高，日记会帮你看清它和饮食、环境、睡眠的关系。',
+       2:'潮热一天达到四次或以上，属于负荷较重的信号。它源于体温调节区间变窄，是这个阶段最常见的症状，全球约四分之三的女性会经历。记录次数和诱因，能帮你和医生判断干预的必要性。',
+       3:'潮热频繁到影响生活，属于负荷较重的信号。请开始每日日记记录次数与诱因；若持续两周以上，值得带日记到妇科/更年期门诊讨论处理方案。'}},
+  {station:'第一站 · 热与心跳', key:'mki10', w:1,
+    q:'有没有心跳发慌、突然怦怦跳，尤其在潮热发作时或夜里？',
+    r:{1:'心悸与这个阶段的激素波动有关，但也可能是其他原因。如果伴胸痛、气短，或发作越来越频繁，请尽快就医排查；本工具只做记录。',
+       2:'心悸发作较频繁。它可能与激素波动有关，但也可能提示其他问题，建议安排一次心电图检查并告知医生。',
+       3:'心悸几乎一直存在或明显不适，请尽快就医排查心血管问题，不要只归因于更年期。'}},
+  {station:'第一站 · 热与心跳', key:'mki6', w:1,
+    q:'有没有头晕、眩晕，或眼前发黑的感觉？',
+    r:{1:'偶尔头晕常见于睡眠不足或起身过快；如果频繁发作或伴视物旋转、说话不清，需要就医排查。',
+       2:'头晕经常出现，建议留意是否与体位、睡眠或潮热相关；若伴视物旋转或肢体无力，请尽快就医。',
+       3:'眩晕几乎持续或伴神经症状，请尽快就医。'}},
+  {station:'第一站 · 热与心跳', key:'mki9', w:1,
+    q:'有没有头痛比以前更频繁，或偏头痛加重？',
+    r:{1:'雌激素波动会影响偏头痛，围绝经期加重并不少见。若头痛性质突然改变、剧烈异常，或伴神经症状，需要就医。',
+       2:'头痛经常发作，建议记录诱因（睡眠、压力、潮热）；若出现与以往不同的剧烈头痛，请尽快就医。',
+       3:'头痛几乎持续或异常剧烈，请尽快就医评估。'}},
+  {station:'第二站 · 睡眠与情绪', key:'mki3', w:2,
+    q:'入睡困难、夜里易醒，或醒得比预想早？这种情况有多频繁？',
+    r:{1:'偶尔睡不好在这个阶段常见。',
+       2:'睡眠被反复打断，是这个阶段影响面最大的信号之一：它会同时放大潮热的不适感、情绪波动和疲劳感。后续如果持续，工具会提供一份专门的睡眠评估。',
+       3:'睡眠问题几乎持续，影响面很大。工具会激活专门的睡眠评估（ISI）与认知行为自助模块；若两周无改善建议就诊。'}},
+  {station:'第二站 · 睡眠与情绪', key:'mki4', w:2,
+    q:'有没有觉得心里烦躁、容易发火，一点小事就按捺不住？',
+    r:{1:'偶尔烦躁常见。',
+       2:'易激惹是激素波动期的典型情绪信号，与性格无关。它和睡眠、潮热常常连在一起出现，模式在周报告里会看得更清楚。',
+       3:'烦躁几乎持续，情绪负荷较重。后面有关于情绪的进一步评估与自助资源。'}},
+  {station:'第二站 · 睡眠与情绪', key:'mki5', w:1,
+    q:'有没有情绪低落、对事情提不起劲，或者变得容易疑心、担心自己得了重病？',
+    r:{1:'情绪低落和对健康的过度担心，在这个阶段都很常见。稍后有两个关于情绪的简短问题，帮助判断是否需要进一步支持。',
+       2:'情绪信号较明显。围绝经期是情绪问题风险相对升高的窗口，这一点已被大样本研究确认；稍后的情绪两问会帮助判断下一步。',
+       3:'情绪低落几乎持续，需要认真对待。请完成后面的情绪两问，若提示进一步评估，请尽快寻求专业支持。'}},
+  {station:'第三站 · 身体各处', key:'mki2', w:2,
+    q:'有没有手脚发麻、刺痛，或像有小虫子在皮肤上爬的感觉？',
+    r:{1:'偶尔的发麻刺痛常见于姿势或疲劳；持续或单侧出现时需要就医排查。',
+       2:'感觉异常经常出现，建议记录部位与诱因；若伴无力或言语不清请立即就医。',
+       3:'感觉异常几乎持续，请就医评估。'}},
+  {station:'第三站 · 身体各处', key:'mki11', w:1,
+    q:'皮肤有没有不明原因的瘙痒、蚁走感？',
+    r:{1:'皮肤干燥瘙痒在这个阶段常见，保湿与避免过热洗澡有帮助。',
+       2:'皮肤瘙痒经常出现，除激素相关皮肤变薄外，也建议排查其他皮肤或全身原因。',
+       3:'瘙痒几乎持续影响生活，建议皮肤科就诊。'}},
+  {station:'第三站 · 身体各处', key:'mki7', w:1,
+    q:'有没有持续的疲乏，睡了也不解乏？',
+    r:{1:'偶尔疲乏常见。',
+       2:'持续疲乏常与睡眠被打断、情绪负荷有关；它也是贫血、甲状腺问题等的信号，若持续建议体检时一并排查。',
+       3:'疲乏几乎持续，建议在体检中排查贫血、甲状腺等原因，同时规律活动与抗阻训练对精力有帮助。'}},
+  {station:'第三站 · 身体各处', key:'mki8', w:1,
+    q:'颈肩腰背、关节或肌肉有没有酸痛僵硬？',
+    r:{1:'肌肉关节痛在围绝经期和绝经后都很常见，57至59%的女性报告过。抗阻训练对维持肌肉骨骼健康证据充分，后面的运动方案会按你的情况分层。',
+       2:'肌肉关节痛经常出现（该症状57至59%的女性报告过）。抗阻训练证据充分，运动方案会为你分层；若某一关节持续肿痛，请就医。',
+       3:'酸痛几乎持续，建议在运动方案之外就医评估关节情况。'}},
+  {station:'第三站 · 身体各处', key:'mki12', w:2,
+    q:'性欲有没有比以前明显下降？',
+    r:{1:'性欲下降在这个阶段普遍存在，背后既有激素原因，也有睡眠、情绪、关系因素。这方面有独立的匿名评估入口（FSFI-6），随时可以进入，内容只有你自己能看到。',
+       2:'性欲下降明显。这在更年期普遍，背后有激素、睡眠、情绪与关系多重因素。深挖页有独立匿名入口，评估结果仅供你与医生沟通。',
+       3:'性欲下降几乎持续并困扰你，建议在妇科门诊主动提起；匿名评估入口随时可用。'}},
+  {station:'第三站 · 身体各处', key:'mki13', w:2,
+    q:'有没有尿频、尿急，咳嗽或用力时漏尿，或反复尿路感染？',
+    r:{1:'下尿路和阴道组织都富含雌激素受体，这个阶段的变化不会自行缓解，但盆底训练对漏尿证据很强（治愈机会约为不训练者的7倍）。后面有专门的盆底模块。',
+       2:'泌尿症状经常出现。盆底肌训练是一线建议（每天3组），工具会激活盆底模块；高强度抗阻前请先看盆底闸门提示。',
+       3:'泌尿症状几乎持续，请在妇科/盆底门诊评估；盆底训练可立即开始。'}}
+];
+/* 扫描流程：13 症状题 + PHQ-2 两题 + GAD-2 两题 + 病史卡 */
+var scanFlow = { idx:0, answers:{}, hx:{} };
+function scanSteps(){
+  var steps = [];
+  SCAN_ITEMS.forEach(function(it){ steps.push({type:'mki', item:it}); });
+  steps.push({type:'phqIntro'});
+  steps.push({type:'phq', key:'phq1', q:PHQ9_ITEMS[0]});
+  steps.push({type:'phq', key:'phq2', q:PHQ9_ITEMS[1], reflect:true});
+  steps.push({type:'gadIntro'});
+  steps.push({type:'gad', key:'gad1', q:GAD7_ITEMS[0]});
+  steps.push({type:'gad', key:'gad2', q:GAD7_ITEMS[1], reflect:true});
+  steps.push({type:'hx'});
+  return steps;
+}
+var SCAN_STEPS = scanSteps();
+
+function startScan(draft){
+  $('scanIntro').style.display='none';
+  $('scanDone').style.display='none';
+  $('scanStepper').style.display='block';
+  scanFlow = { idx:0, answers:(draft&&draft.answers)?draft.answers:{}, hx:(draft&&draft.hx)?draft.hx:{} };
+  renderScanCard();
+}
+function renderScanCard(){
+  var total = SCAN_STEPS.length;
+  var i = scanFlow.idx;
+  $('scanProg').style.width = Math.round(i/total*100)+'%';
+  var st = SCAN_STEPS[i];
+  var card = $('scanCard');
+  if(!st){ finishScan(); return; }
+  var html = '';
+  if(st.type==='mki'){
+    var it = st.item;
+    var cur = scanFlow.answers[it.key];
+    html = '<div class="jkicker">'+esc(it.station)+' · 第'+(SCAN_ITEMS.indexOf(it)+1)+'题/共13题 · 时间范围：最近一两个月</div>'
+      + '<h3>'+esc(it.q)+'</h3>'
+      + '<div class="scale-opts">';
+    (it.o||SCAN_SEVERITY).forEach(function(opt,vi){
+      html += '<label><input type="radio" name="scanopt" value="'+vi+'"'+(String(cur)===String(vi)?' checked':'')+'><span class="opt"><b>'+vi+'</b>'+esc(opt)+'</span></label>';
+    });
+    html += '</div><div class="jreflect" id="scanReflect">'+(cur!==undefined?mkiReflect(it,Number(cur)):'选择后这里会出现一句反馈')+'</div>'
+      + '<div class="jnav"><button class="btn sec" id="scanSkip">跳过</button><button class="btn" id="scanNext"'+(cur===undefined?' disabled':'')+'>下一题</button></div>';
+  } else if(st.type==='phqIntro'){
+    html = '<div class="jkicker">情绪两问 · PHQ-2（临床常用情绪筛查）</div>'
+      + '<h3>接下来两个问题，按过去两周的实际情况选就好</h3>'
+      + '<p class="muted">这是临床上常用的情绪筛查。任何答案都只存在本机，没有对错。</p>'
+      + '<div class="jnav"><button class="btn sec" id="scanBack">上一题</button><button class="btn" id="scanNext">开始两问</button></div>';
+  } else if(st.type==='gadIntro'){
+    html = '<div class="jkicker">焦虑两问 · GAD-2</div>'
+      + '<h3>再看两个关于紧张和担心的问题，同样是过去两周</h3>'
+      + '<div class="jnav"><button class="btn sec" id="scanBack">上一题</button><button class="btn" id="scanNext">开始两问</button></div>';
+  } else if(st.type==='phq'||st.type==='gad'){
+    var cur2 = scanFlow.answers[st.key];
+    html = '<div class="jkicker">'+(st.type==='phq'?'情绪两问':'焦虑两问')+' · 原题</div>'
+      + '<h3>'+esc(st.q)+'</h3>'
+      + '<div class="scale-opts">';
+    FREQ4_OPTS.forEach(function(opt,vi){
+      html += '<label><input type="radio" name="scanopt" value="'+vi+'"'+(String(cur2)===String(vi)?' checked':'')+'><span class="opt"><b>'+vi+'</b>'+esc(opt)+'</span></label>';
+    });
+    html += '</div><div class="jreflect" id="scanReflect">'+(cur2!==undefined?(st.reflect?phqGadReflect(st.key):'已记录'):'选择后这里会出现一句反馈')+'</div>'
+      + '<div class="jnav"><button class="btn sec" id="scanBack">上一题</button><button class="btn" id="scanNext"'+(cur2===undefined?' disabled':'')+'>下一题</button></div>';
+  } else if(st.type==='hx'){
+    var h = scanFlow.hx;
+    html = '<div class="jkicker">病史采集 · 只用于匹配内容，不做诊断</div>'
+      + '<h3>几个关于你的背景问题（可跳过）</h3>'
+      + '<div class="field"><label class="fb">末次月经日期（知道就填）</label><input type="date" id="hxFmp" value="'+esc(h.fmp||(state.stage&&state.stage.fmp)||'')+'"></div>'
+      + '<div class="field"><label class="fb">有没有做过妇科相关手术？</label><div class="chips">'
+      +   '<label><input type="radio" name="hxSurg" value="none"'+(h.surg==='none'?' checked':'')+'><span class="chip">没有</span></label>'
+      +   '<label><input type="radio" name="hxSurg" value="hyst"'+(h.surg==='hyst'?' checked':'')+'><span class="chip">子宫切除（卵巢保留）</span></label>'
+      +   '<label><input type="radio" name="hxSurg" value="bso"'+(h.surg==='bso'?' checked':'')+'><span class="chip">双侧卵巢切除</span></label>'
+      +   '<label><input type="radio" name="hxSurg" value="other"'+(h.surg==='other'?' checked':'')+'><span class="chip">其他盆腔手术</span></label>'
+      + '</div></div>'
+      + '<div class="field"><label class="fb">在以前的人生阶段里，有没有过以下情况？（可多选）</label>'
+      +   '<div class="checkline"><input type="checkbox" id="hxPms"'+(h.pms?' checked':'')+'><label for="hxPms">明显的经前情绪问题（PMS）或经前烦躁（PMDD）</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxPpd"'+(h.ppd?' checked':'')+'><label for="hxPpd">产后情绪低落或产后抑郁</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxMoodDx"'+(h.moodDx?' checked':'')+'><label for="hxMoodDx">既往确诊过焦虑或抑郁</label></div>'
+      + '</div>'
+      + '<div class="field"><label class="fb">以下疾病史有没有？（可多选，用于安全分层）</label>'
+      +   '<div class="checkline"><input type="checkbox" id="hxCancerSelf"'+(h.cancerSelf?' checked':'')+'><label for="hxCancerSelf">本人有乳腺癌等激素相关肿瘤病史</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxCancerFam"'+(h.cancerFam?' checked':'')+'><label for="hxCancerFam">乳腺癌家族史</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxHeart"'+(h.heart?' checked':'')+'><label for="hxHeart">已确诊心脏病/心血管疾病</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxHtn"'+(h.htn?' checked':'')+'><label for="hxHtn">高血压</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxThromb"'+(h.thromb?' checked':'')+'><label for="hxThromb">血栓病史</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxLiver"'+(h.liver?' checked':'')+'><label for="hxLiver">肝胆疾病</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxMigraine"'+(h.migraine?' checked':'')+'><label for="hxMigraine">偏头痛（尤其是有先兆的）</label></div>'
+      +   '<div class="checkline"><input type="checkbox" id="hxThyroid"'+(h.thyroid?' checked':'')+'><label for="hxThyroid">甲状腺问题</label></div>'
+      + '</div>'
+      + '<div class="jreflect" id="scanReflect">这些信息只用于为你匹配安全的内容与就医提示，不影响任何自我管理功能的使用。</div>'
+      + '<div class="jnav"><button class="btn sec" id="scanBack">上一题</button><button class="btn" id="scanFinish">完成扫描</button></div>';
+  }
+  card.innerHTML = html;
+  bindScanCard(st);
+}
+function mkiReflect(it, v){
+  if(v===0) return '这一项最近没有困扰你，已记录。';
+  return it.r && it.r[v] ? it.r[v] : '已记录。';
+}
+function phqGadReflect(key){
+  if(key==='phq2'){
+    var p = ENG.phq2(scanFlow.answers);
+    return p.positive
+      ? '这两题的回答达到了需要进一步了解的区间。这算不上结论性判定，只是一个提示：值得花几分钟做一份完整的情绪评估，工具会据此判断是自我调节资源能覆盖，还是需要专业支持。围绝经期出现情绪问题的比例本就升高，认真对待它是对自己的保护。'
+      : '这两周情绪的基调还算平稳。日记会持续留意，状态变化时会再问起。';
+  }
+  var g = ENG.gad2(scanFlow.answers);
+  return g.positive
+    ? '担心和紧张停不下来的体验，达到了进一步评估的区间。焦虑在围绝经期常与潮热、睡眠问题相互放大，后面有一份七题的完整评估和相应的自助资源。'
+    : '焦虑信号不明显，继续保持日常的节奏即可。';
+}
+function bindScanCard(st){
+  var opts = document.getElementsByName('scanopt');
+  for(var i=0;i<opts.length;i++){
+    opts[i].addEventListener('change', function(e){
+      var v = Number(e.target.value);
+      if(st.type==='mki'){ scanFlow.answers[st.item.key]=v; $('scanReflect').innerHTML = esc(mkiReflect(st.item,v)); $('scanReflect').className = v>=2?'jreflect':'jreflect g'; }
+      if(st.type==='phq'||st.type==='gad'){ scanFlow.answers[st.key]=v; $('scanReflect').innerHTML = esc(st.reflect?phqGadReflect(st.key):'已记录'); $('scanReflect').className = 'jreflect g'; }
+      var nb=$('scanNext'); if(nb) nb.disabled=false;
+    });
+  }
+  var skip=$('scanSkip'); if(skip) skip.addEventListener('click', function(){ scanFlow.idx++; saveScanDraft(); renderScanCard(); });
+  var back=$('scanBack'); if(back) back.addEventListener('click', function(){ scanFlow.idx=Math.max(0,scanFlow.idx-1); renderScanCard(); });
+  var next=$('scanNext'); if(next) next.addEventListener('click', function(){ scanFlow.idx++; saveScanDraft(); renderScanCard(); });
+  var fin=$('scanFinish'); if(fin) fin.addEventListener('click', collectHxAndFinish);
+}
+function collectHxAndFinish(){
+  scanFlow.hx = {
+    fmp: $('hxFmp') ? $('hxFmp').value : (scanFlow.hx.fmp||''),
+    surg: radioVal('hxSurg') || 'none',
+    pms: $('hxPms')? $('hxPms').checked:false,
+    ppd: $('hxPpd')? $('hxPpd').checked:false,
+    moodDx: $('hxMoodDx')? $('hxMoodDx').checked:false,
+    cancerSelf: $('hxCancerSelf')? $('hxCancerSelf').checked:false,
+    cancerFam: $('hxCancerFam')? $('hxCancerFam').checked:false,
+    heart: $('hxHeart')? $('hxHeart').checked:false,
+    htn: $('hxHtn')? $('hxHtn').checked:false,
+    thromb: $('hxThromb')? $('hxThromb').checked:false,
+    liver: $('hxLiver')? $('hxLiver').checked:false,
+    migraine: $('hxMigraine')? $('hxMigraine').checked:false,
+    thyroid: $('hxThyroid')? $('hxThyroid').checked:false
+  };
+  finishScan();
+}
+function saveScanDraft(){
+  state.scanDraft = {answers:scanFlow.answers, hx:scanFlow.hx, at:new Date().toISOString()};
+  saveState();
+}
+function finishScan(){
+  var answers = scanFlow.answers;
+  var hx = scanFlow.hx;
+  state.scan = {answers:answers, hx:hx, doneAt:new Date().toISOString()};
+  state.scanDraft = null;
+  if(!state.reviewStart) state.reviewStart = new Date().toISOString();
+  // 病史同步红旗/分层
+  if(!state.labs) state.labs = {};
+  if(hx.cancerSelf) state.labs.rfCancer = true;
+  if(hx.heart) state.labs.rfCvd = true;
+  if(hx.surg==='bso') state.stage = state.stage || null;
+  saveState();
+  $('scanStepper').style.display='none';
+  var mki = ENG.mkiScore(answers);
+  var p2 = ENG.phq2(answers), g2 = ENG.gad2(answers);
+  var activ = [];
+  if(p2.positive) activ.push('情绪九题评估（PHQ-9）');
+  if(g2.positive) activ.push('焦虑七题评估（GAD-7）');
+  if(Number(answers.mki3)>=2) activ.push('睡眠七题评估（ISI）');
+  $('scanDone').style.display='block';
+  $('scanDone').innerHTML =
+    '<div class="card"><span class="eyebrow">身体扫描完成</span>'
+    + '<h2>你记录的是信号，不是诊断</h2>'
+    + '<p>所有信号会汇总成一张身体信号全景图，哪些系统聚集了较多信号，在「系统矩阵」和「综合报告」里可以看到。原始量表分数不会出现在报告正文，只用于灯色判定；需要就医时，一页摘要会把区间结果整理给医生。</p>'
+    + '<div class="grid grid-3 tight">'
+    + '<div class="card tight"><h4>症状负荷</h4><p>'+({none:'信号很少',mild:'轻度负荷区间',moderate:'中度负荷区间',severe:'重度负荷区间'}[mki.level])+'</p></div>'
+    + '<div class="card tight"><h4>情绪初筛</h4><p>'+(p2.positive?'达到进一步评估区间':'暂平稳')+'</p></div>'
+    + '<div class="card tight"><h4>焦虑初筛</h4><p>'+(g2.positive?'达到进一步评估区间':'暂平稳')+'</p></div>'
+    + '</div>'
+    + (activ.length?'<div class="disclaimer"><b>为你开放的深挖入口：</b>'+esc(activ.join('、'))+'。可在「深挖量表」页进入，也可以先开始每日日记。</div>':'')
+    + (hx.pms||hx.ppd||hx.moodDx?'<div class="note">你记录了既往情绪波动的时期。围绝经期再次出现情绪信号的可能性会升高，这与脆弱无关，背后是生理规律。心理支持内容已为你提前排布，日记也会更早留意情绪信号。</div>':'')
+    + (hx.cancerSelf?'<div class="flagbox"><h3>激素相关肿瘤个人史已记录</h3><p>激素治疗对此类情况有严格的适用限制，是否可以使用、使用何种方案，必须由肿瘤科与妇科医生共同判断。本工具的激素科普内容仅供了解背景，不会针对你的情况给出用药建议。</p></div>':'')
+    + '<div class="btn-row"><button class="btn" data-go="diary">开始每日60秒日记</button><button class="btn sec" data-go="report">查看综合报告</button><button class="btn sec" data-go="matrix">查看系统矩阵</button></div>'
+    + '</div>';
+  renderHomeDots();
+}
+$('scanStart').addEventListener('click', function(){ startScan(null); });
+$('scanResume') && $('scanResume').addEventListener('click', function(){ startScan(state.scanDraft); });
+
+/* ---------- 每日日记 ---------- */
+['dSleep','dMood','dEnergy'].forEach(function(id){
+  $(id).addEventListener('input', function(){ $(id+'V').textContent = $(id).value; });
+});
+function diaryToday(){
+  var t = todayStr();
+  for(var i=state.diary.length-1;i>=0;i--){ if(state.diary[i].date===t) return state.diary[i]; }
+  return null;
+}
+function renderDiary(){
+  var ex = diaryToday();
+  if(ex){
+    var h = radioVal; // no-op
+    document.getElementsByName('dHot').forEach(function(el){ el.checked = String(el.value)===String(ex.hot); });
+    document.getElementsByName('dNight').forEach(function(el){ el.checked = String(el.value)===String(ex.night); });
+    document.getElementsByName('dPeriod').forEach(function(el){ el.checked = String(el.value)===String(ex.period||0); });
+    document.getElementsByName('dFlow').forEach(function(el){ el.checked = String(el.value)===String(ex.flow||''); });
+    $('dSleep').value = ex.sleep; $('dSleepV').textContent = ex.sleep;
+    $('dMood').value = ex.mood; $('dMoodV').textContent = ex.mood;
+    $('dEnergy').value = ex.energy; $('dEnergyV').textContent = ex.energy;
+    $('dSpot').checked = !!ex.spotting;
+    setChecks('dFeel', ex.feel||[]); setChecks('dTrig', ex.trig||[]);
+  }
+  $('diaryCount').textContent = '已累计 '+state.diary.length+' 天记录（满7天开启模式镜像）';
+  var recent = state.diary.slice(-5).reverse();
+  $('diaryRecent').innerHTML = recent.length ? '<h4>最近记录</h4>'+recent.map(function(x){
+    return '<p class="small">'+esc(x.date)+'：潮热'+({0:'0次',2:'1至3次',5:'4次以上'}[x.hot]||'未记录')+'、盗汗'+({0:'无',1:'轻微',2:'汗湿衣物'}[x.night]||'未记录')+'、睡眠'+x.sleep+'、情绪'+x.mood+'、精力'+x.energy+(x.period?'、经期':'')+(x.spotting?'、<b style="color:var(--red)">非经期出血</b>':'')+'</p>';
+  }).join('') : '<p class="small muted">还没有记录，今天开始第一条。</p>';
+}
+function setChecks(containerId, vals){
+  var box=$(containerId); if(!box) return;
+  box.querySelectorAll('input[type=checkbox]').forEach(function(el){ el.checked = vals.indexOf(el.value)>=0; });
+}
+$('diarySave').addEventListener('click', function(){
+  var hot = radioVal('dHot');
+  var night = radioVal('dNight');
+  var period = radioVal('dPeriod') || '0';
+  var flow = radioVal('dFlow') || '';
+  if(hot===null || night===null){
+    $('diaryReflect').style.display='block';
+    $('diaryReflect').className='jreflect';
+    $('diaryReflect').textContent='请先选择今天的潮热次数和夜间盗汗情况。';
+    return;
+  }
+  var entry = {
+    date: todayStr(),
+    hot: Number(hot), night: Number(night),
+    period: Number(period), flow: flow,
+    sleep: Number($('dSleep').value),
+    mood: Number($('dMood').value),
+    energy: Number($('dEnergy').value),
+    feel: checkVals('dFeel'), trig: checkVals('dTrig'),
+    spotting: $('dSpot').checked
+  };
+  var replaced = false;
+  for(var i=0;i<state.diary.length;i++){ if(state.diary[i].date===entry.date){ state.diary[i]=entry; replaced=true; break; } }
+  if(!replaced) state.diary.push(entry);
+  saveState();
+  // 即时反射（文案库三）
+  var msgs = [];
+  if(entry.hot>=5 && entry.night>=2) msgs.push('今天身体的负荷不轻。睡前可以把环境温度调低、备一套干爽衣物放在床头；这种程度的盗汗如果反复出现，值得带着日记记录去和医生谈谈。');
+  if(entry.sleep<=4) msgs.push('昨晚睡眠不足。今天不安排高强度训练，散步和拉伸比硬撑更合适；睡眠差的日子降低强度、不完全停练。');
+  var moodLowStreak = 0;
+  for(var j=state.diary.length-1;j>=0;j--){ if(Number(state.diary[j].mood)<=4) moodLowStreak++; else break; }
+  if(entry.mood<=4 && moodLowStreak>=3) msgs.push('情绪已经连续几天走低了。这不是你需要独自扛过去的信号，工具里的认知行为自助模块可以现在开始，必要时寻求专业支持。');
+  if(entry.sleep>=8 && entry.mood>=8 && entry.energy>=8) msgs.push('今天睡眠、情绪、精力都在高位。留意一下昨天做了什么、吃了什么，把有效的做法记下来，好日子是可以复制的。');
+  if(!msgs.length) msgs.push('已记录。连续记录七天，模式会自己浮现。');
+  $('diaryReflect').style.display='block';
+  $('diaryReflect').className='jreflect g';
+  $('diaryReflect').innerHTML = msgs.map(esc).join('<br>');
+  // 非经期出血 → 红旗
+  if(entry.spotting){
+    var post = state.stage && state.stage.result && state.stage.result.code==='post';
+    if(post){
+      if(!state.labs) state.labs={};
+      state.labs.rfBleed = true; saveState();
+      showFlagModal('bleed','绝经后出血需要尽快就诊',
+        '绝经后任何一次阴道出血都需要尽快就诊妇科，包括少量点滴出血或仅一次。请在一周内预约门诊，不要自行观察或用药。工具已为你生成出血时间线记录。',
+        '请在一周内预约妇科门诊；可打印就医摘要携带出血记录。');
+    } else {
+      showFlagModal('spotting','非经期出血需要重视',
+        '非经期出血需要重视，请尽快预约妇科检查；如果你已绝经，任何出血都应当尽快就诊，不要观察等待。',
+        '请尽快预约妇科门诊明确出血原因。');
+    }
+  }
+  renderDiary();
+  renderHomeDots();
+});
+
+/* ---------- 趋势 SVG ---------- */
+var trendRange = 7;
+document.querySelectorAll('#trendTabs button').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('#trendTabs button').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    trendRange = Number(b.getAttribute('data-range'));
+    renderTrends();
+  });
+});
+function lineChart(opts){
+  // opts: {title, data:[{date,v}], min,max, ref:参考值, refLabel, periods:[dates], color, unit}
+  var W=640, H=180, padL=34, padR=12, padT=26, padB=30;
+  var d = opts.data;
+  if(!d.length) return '<div class="chart-wrap"><h4>'+esc(opts.title)+'</h4><p class="small muted">暂无数据，开始写日记后这里会出现折线。</p></div>';
+  var n = d.length;
+  function x(i){ return padL + (n===1? (W-padL-padR)/2 : i*(W-padL-padR)/(n-1)); }
+  function y(v){ return padT + (1-(v-opts.min)/(opts.max-opts.min))*(H-padT-padB); }
+  var pts = d.map(function(p,i){ return x(i).toFixed(1)+','+y(p.v).toFixed(1); }).join(' ');
+  var svg = '<svg class="chart-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(opts.title)+'折线图">';
+  // 网格
+  [0,0.25,0.5,0.75,1].forEach(function(f){
+    var yy = padT + f*(H-padT-padB);
+    svg += '<line x1="'+padL+'" y1="'+yy+'" x2="'+(W-padR)+'" y2="'+yy+'" stroke="#E6E1D8" stroke-width="1"/>';
+    var val = opts.max - f*(opts.max-opts.min);
+    svg += '<text x="'+(padL-6)+'" y="'+(yy+4)+'" text-anchor="end" font-size="10" fill="#9AA5B1">'+(Math.round(val*10)/10)+'</text>';
+  });
+  // 参考线
+  if(opts.ref!==undefined && opts.ref!==null){
+    svg += '<line x1="'+padL+'" y1="'+y(opts.ref)+'" x2="'+(W-padR)+'" y2="'+y(opts.ref)+'" stroke="'+(opts.refColor||'#C62828')+'" stroke-width="1.2" stroke-dasharray="5,4"/>';
+    if(opts.refLabel) svg += '<text x="'+(W-padR)+'" y="'+(y(opts.ref)-5)+'" text-anchor="end" font-size="10" fill="'+(opts.refColor||'#C62828')+'">'+esc(opts.refLabel)+'</text>';
+  }
+  // 月经日标记（底部红点）
+  d.forEach(function(p,i){
+    if(p.period) svg += '<circle cx="'+x(i)+'" cy="'+(H-padB+14)+'" r="3.5" fill="#C62828"/>';
+  });
+  // 线
+  svg += '<polyline points="'+pts+'" fill="none" stroke="'+opts.color+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+  d.forEach(function(p,i){
+    svg += '<circle cx="'+x(i)+'" cy="'+y(p.v)+'" r="3" fill="#fff" stroke="'+opts.color+'" stroke-width="2"/>';
+  });
+  // x 轴日期（首/中/尾）
+  [0, Math.floor((n-1)/2), n-1].forEach(function(i){
+    if(i<0||i>=n) return;
+    svg += '<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-size="10" fill="#9AA5B1">'+esc(String(d[i].date).slice(5))+'</text>';
+  });
+  svg += '<text x="'+padL+'" y="16" font-size="12" font-weight="700" fill="#102A43">'+esc(opts.title)+(opts.unit?' <tspan font-size="10" fill="#9AA5B1" font-weight="400">'+esc(opts.unit)+'</tspan>':'')+'</text>';
+  svg += '</svg>';
+  return '<div class="chart-wrap">'+svg+'</div>';
+}
+function renderTrends(){
+  var d = state.diary.slice(-trendRange);
+  var mk = function(key, min, max, ref, refLabel, color){
+    return d.map(function(x){ return {date:x.date, v:Number(x[key]), period:Number(x.period)===1}; });
+  };
+  var html = '';
+  html += lineChart({title:'潮热负荷', data:d.map(function(x){return {date:x.date,v:Number(x.hot),period:Number(x.period)===1};}), min:0,max:5,ref:2,refLabel:'1至3次档',color:'#C62828',unit:'（0=0次，2=1至3次，5=4次以上）'});
+  html += lineChart({title:'睡眠评分', data:d.map(function(x){return {date:x.date,v:Number(x.sleep),period:Number(x.period)===1};}), min:0,max:10,ref:5,refLabel:'5分参考线',color:'#2978B5',unit:'0至10'});
+  html += lineChart({title:'情绪评分', data:d.map(function(x){return {date:x.date,v:Number(x.mood),period:Number(x.period)===1};}), min:0,max:10,ref:5,refLabel:'5分参考线',color:'#2E7D32',unit:'0至10'});
+  html += lineChart({title:'精力评分', data:d.map(function(x){return {date:x.date,v:Number(x.energy),period:Number(x.period)===1};}), min:0,max:10,ref:5,refLabel:'5分参考线',color:'#F59E0B',unit:'0至10'});
+  html += '<p class="tiny muted">图底红点为经期标记。参考线为各维度中间档，仅供观察个人波动，不是诊断切点。</p>';
+  $('trendCharts').innerHTML = html;
+  // 镜像
+  var m = ENG.weeklyMirror(state.diary);
+  if(!m.eligible){
+    $('mirrorBox').innerHTML = '<div class="mirror-box"><h4>你身体的模式（每周镜像）</h4><p class="small">已记录 '+m.n+' 天。满7天后，这里会出现潮热与咖啡因、酒精、辛辣、热环境、睡眠不足、压力的同现分析。</p></div>';
+  } else {
+    var top = m.rows.filter(function(r){ return r.rate>=0.4 && r.onHot>=0.5; }).slice(0,3);
+    var body;
+    if(top.length){
+      body = top.map(function(r){
+        return '你的潮热与「'+r.label+'」同现的比例较高（潮热日中约'+Math.round(r.onHot*100)+'%记录了该项）。先说明边界：这些触发物目前没有适用于所有人的证据，指南不把它们列为通用禁忌；但在你个人的记录里关联明确，值得用一周时间逐一回避对照。';
+      }).join('<br><br>');
+    } else {
+      // 规则2/3简化：睡眠≤5与睡眠债无数据；压力与情绪
+      var stressMood = moodStressCooccur(state.diary);
+      if(stressMood) body = '情绪低谷与压力事件在你的记录里高度同现。压力管理（呼吸练习、放松训练）建议放在压力事件当天使用，而不是等情绪已经走低。';
+      else body = '这一周的症状没有呈现与饮食、环境或作息的稳定关联，这本身也是信息：你的潮热更可能由内部激素波动驱动。继续记录，样本越多模式越可靠。';
+    }
+    $('mirrorBox').innerHTML = '<div class="mirror-box"><h4>你身体的模式（每周镜像，基于'+m.n+'天记录）</h4><p class="small">'+body+'</p><p class="tiny muted">模式只反映相关性，不代表因果，更不构成诊断。它的用途是让你看到哪些因素在自己身上可调整。</p></div>';
+  }
+}
+function moodStressCooccur(diary){
+  var d = diary.slice(-14);
+  if(d.length<7) return false;
+  var low = d.filter(function(x){return Number(x.mood)<=4;});
+  if(low.length<3) return false;
+  var withStress = low.filter(function(x){return (x.trig||[]).indexOf('stress')>=0;}).length;
+  return withStress/low.length >= 0.6;
+}
+
+/* ---------- 红旗弹窗 ---------- */
+function showCrisisModal(){
+  $('crisisModal').classList.add('show');
+}
+$('crisisAck').addEventListener('click', function(){ $('crisisModal').classList.remove('show'); });
+function showFlagModal(id, title, body, action){
+  var mask = document.createElement('div');
+  mask.className = 'modal-mask show';
+  mask.innerHTML = '<div class="modal"><h3>'+esc(title)+'</h3><p>'+esc(body)+'</p>'
+    + (action?'<div class="flagbox" style="margin:10px 0"><b>建议行动：</b>'+esc(action)+'</div>':'')
+    + '<div class="btn-row"><button class="btn sec" data-go="summary">查看就医摘要</button><button class="btn" id="flagOk">我知道了</button></div></div>';
+  document.body.appendChild(mask);
+  mask.querySelector('#flagOk').addEventListener('click', function(){ mask.remove(); });
+  mask.querySelectorAll('[data-go]').forEach(function(b){
+    b.addEventListener('click', function(){ mask.remove(); go(b.getAttribute('data-go')); });
+  });
+}
+
+/* ---------- 深挖量表 ---------- */
+var DEEP_DEFS = [
+  {key:'phq9', name:'情绪九题评估（PHQ-9）', desc:'过去两周，9个问题。情绪两问达进一步区间时建议完成。',
+   activate:function(){ var p2=state.scan?ENG.phq2(state.scan.answers):{positive:false}; var low7=(state.diary||[]).slice(-7).filter(function(x){return Number(x.mood)<=4;}).length>=7; return p2.positive||low7; },
+   intro:'接下来9个问题是临床上最常用的抑郁筛查，按过去两周回答。它只用于了解你现在的状态，任何答案都不会让你失去什么，请如实选择。'},
+  {key:'gad7', name:'焦虑七题评估（GAD-7）', desc:'过去两周，7个问题。焦虑两问达进一步区间时建议完成。',
+   activate:function(){ var g2=state.scan?ENG.gad2(state.scan.answers):{positive:false}; return g2.positive; },
+   intro:'7个问题，过去两周，按真实情况选择。'},
+  {key:'isi', name:'睡眠七题评估（ISI）', desc:'最近两周睡眠情况。扫描中失眠项明显或日记睡眠低分累计时建议完成。',
+   activate:function(){ var m3=state.scan?Number(state.scan.answers.mki3||0)>=2:false; var lowSleep=(state.diary||[]).filter(function(x){return Number(x.sleep)<=5;}).length>=10; return m3||lowSleep; },
+   intro:'7个问题，关于最近两周的睡眠。'},
+  {key:'cog', name:'认知症状自评（脑雾）', desc:'3个问题，了解注意力与记忆的主观变化。MoCA等正式认知测验需专业人员施测，不在本工具内自评。',
+   activate:function(){ return true; },
+   intro:'下面几个问题关于你最近感觉到的注意力、记忆变化。这只是症状自评，正式认知评估需要线下由专业人员进行。'},
+  {key:'pelv', name:'盆底症状简表', desc:'2个问题：漏尿与下坠感。阳性将激活盆底训练模块与训练闸门提示。',
+   activate:function(){ var m13=state.scan?Number(state.scan.answers.mki13||0)>=2:false; var u=(state.diary||[]).some(function(x){return (x.feel||[]).indexOf('urinary')>=0;}); return m13||u; },
+   intro:'两个关于盆底的问题，用于匹配盆底训练内容。'}
+];
+function deepStatus(key){
+  if(key==='phq9') return state.phq9 ? (state.phq9.crisis?'crisis':(state.phq9.done?'done':'partial')) : null;
+  if(key==='gad7') return state.gad7 ? 'done' : null;
+  if(key==='isi') return state.isi ? 'done' : null;
+  if(key==='cog') return state.cog ? 'done' : null;
+  if(key==='pelv') return state.pelv ? 'done' : null;
+  return null;
+}
+function renderDeepTiles(){
+  var h='';
+  DEEP_DEFS.forEach(function(def){
+    var act = def.activate();
+    var st = deepStatus(def.key);
+    h += '<div class="card tight"><h4>'+esc(def.name)+(st==='done'?' <span class="badge g">已完成</span>':st==='crisis'?' <span class="badge r">已触发安全提示</span>':act?' <span class="badge y">建议完成</span>':' <span class="badge n">可主动开始</span>')+'</h4>'
+      + '<p class="small muted">'+esc(def.desc)+'</p>'
+      + '<div class="btn-row"><button class="btn sm '+(st==='done'?'sec':'')+'" data-deep="'+def.key+'">'+(st==='done'?'重新评估':'开始评估')+'</button></div></div>';
+  });
+  $('deepTiles').innerHTML = h;
+  $('deepTiles').querySelectorAll('[data-deep]').forEach(function(b){
+    b.addEventListener('click', function(){ startDeep(b.getAttribute('data-deep')); });
+  });
+  // FSFI 状态
+  var f = state.fsfi6;
+  $('fsfiStatus').textContent = f && f.done ? '已完成匿名评估（结果仅存于独立私密存储）' : '尚未评估';
+}
+
+var deepFlow = null;
+function startDeep(key){
+  var def = null;
+  for(var i=0;i<DEEP_DEFS.length;i++) if(DEEP_DEFS[i].key===key) def=DEEP_DEFS[i];
+  if(!def) return;
+  var steps = [];
+  if(key==='phq9'){
+    steps.push({type:'intro', text:def.intro});
+    for(var i=0;i<9;i++) steps.push({type:'freq', q:PHQ9_ITEMS[i], ansKey:'phq'+(i+1), crisis:(i===8)});
+  } else if(key==='gad7'){
+    steps.push({type:'intro', text:def.intro});
+    for(var j=0;j<7;j++) steps.push({type:'freq', q:GAD7_ITEMS[j], ansKey:'gad'+(j+1)});
+  } else if(key==='isi'){
+    steps.push({type:'intro', text:def.intro});
+    for(var k=0;k<7;k++) steps.push({type:'opts', q:ISI_ITEMS[k].q, o:ISI_ITEMS[k].o, ansKey:'isi'+(k+1)});
+  } else if(key==='cog'){
+    steps.push({type:'intro', text:def.intro});
+    steps.push({type:'opts', q:'最近一个月，你感到注意力不集中、记性变差或「脑子像蒙了一层雾」的频率？', o:['几乎没有','偶尔（每月几次）','经常（每周几次）','几乎每天'], ansKey:'cogFreq'});
+    steps.push({type:'opts', q:'这些变化是否影响到工作、购物、服药等日常事务的独立完成？', o:['完全不影响','轻微影响','明显影响但能独立完成','已影响独立生活，需要他人帮助'], ansKey:'cogImpact'});
+  } else if(key==='pelv'){
+    steps.push({type:'intro', text:def.intro});
+    steps.push({type:'opts', q:'咳嗽、打喷嚏、大笑或用力时，是否有漏尿？', o:['从来没有','偶尔','经常（每周都有）','几乎每天'], ansKey:'pelvLeak'});
+    steps.push({type:'opts', q:'是否感到阴道或下腹有下坠、膨出感（像有东西掉出来）？', o:['从来没有','偶尔','经常','持续存在'], ansKey:'pelvProlapse'});
+  }
+  deepFlow = {key:key, steps:steps, idx:0, answers:{}};
+  $('deepRunner').style.display='block';
+  $('deepRunner').scrollIntoView({behavior:'smooth'});
+  renderDeepCard();
+}
+function renderDeepCard(){
+  var f = deepFlow;
+  $('deepProg').style.width = Math.round(f.idx/f.steps.length*100)+'%';
+  var st = f.steps[f.idx];
+  var card = $('deepCard');
+  if(!st){ finishDeep(); return; }
+  var html='';
+  if(st.type==='intro'){
+    html = '<div class="jkicker">专项评估 · 过渡说明</div><h3>'+esc(st.text)+'</h3><p class="small muted">题目为临床验证量表的中文标准版原文，选项档位语义不作改动。结果以灯色呈现，报告正文不显示原始分数。</p>'
+      + '<div class="jnav"><button class="btn sec" id="deepExit">退出</button><button class="btn" id="deepNext">开始</button></div>';
+  } else {
+    var opts = st.o || FREQ4_OPTS;
+    html = '<div class="jkicker">第'+f.idx+'题/共'+(f.steps.length-1)+'题 · 原题</div><h3>'+esc(st.q)+'</h3><div class="scale-opts">';
+    opts.forEach(function(o,vi){
+      html += '<label><input type="radio" name="deepopt" value="'+vi+'"><span class="opt"><b>'+vi+'</b>'+esc(o)+'</span></label>';
+    });
+    html += '</div><div class="jreflect" id="deepReflect">选择后继续</div>'
+      + '<div class="jnav"><button class="btn sec" id="deepExit">退出评估</button><button class="btn" id="deepNext" disabled>下一题</button></div>';
+  }
+  card.innerHTML = html;
+  var next=$('deepNext'), exit=$('deepExit');
+  if(next) next.addEventListener('click', function(){
+    if(st.type==='intro'){ f.idx++; renderDeepCard(); return; }
+    var v = radioVal('deepopt');
+    if(v===null) return;
+    f.answers[st.ansKey] = Number(v);
+    // PHQ-9 第9题危机中断：不显示总分，直接弹窗
+    if(st.crisis && Number(v)>0){
+      state.phq9 = {answers:f.answers, done:false, crisis:true, at:new Date().toISOString()};
+      saveState();
+      deepFlow = null;
+      $('deepRunner').style.display='none';
+      showCrisisModal();
+      renderDeepTiles(); renderHomeDots();
+      return;
+    }
+    $('deepReflect').textContent = st.crisis ? '感谢你认真完成。' : '已记录。';
+    $('deepReflect').className = 'jreflect g';
+    f.idx++;
+    if(f.idx>=f.steps.length){ finishDeep(); } else renderDeepCard();
+  });
+  if(exit) exit.addEventListener('click', function(){ deepFlow=null; $('deepRunner').style.display='none'; });
+}
+function finishDeep(){
+  var f = deepFlow;
+  var key = f.key, a = f.answers;
+  var reflect='';
+  if(key==='phq9'){
+    var p = ENG.phq9(a);
+    state.phq9 = {answers:a, done:true, crisis:false, at:new Date().toISOString()};
+    if(p.level==='mild') reflect='近两周情绪负荷确实存在，属于轻度区间。围绝经期的情绪波动有明确的生理基础，睡眠和潮热改善后常随之缓解；工具会为你激活认知行为自助模块，两周后复测。';
+    else if(p.level==='moderate'||p.level==='mods') reflect='情绪负荷已到中度区间，自助资源值得用，同时建议预约一次妇科内分泌或心理科门诊，把这份记录给医生看。药物与心理治疗在这个区间都有充分证据。';
+    else if(p.level==='severe') reflect='当前的情绪状态需要专业支持，请尽快就诊（心理科/精神科或妇科内分泌）。这不是软弱，围绝经期首发情绪问题的风险本就升高约52%，规范治疗的效果明确。就医摘要已为你生成。';
+    else reflect='这两周情绪状态在平稳区间。日记会持续留意。';
+  } else if(key==='gad7'){
+    var g = ENG.gad7(a);
+    state.gad7 = {answers:a, done:true, at:new Date().toISOString()};
+    if(g.level==='mild') reflect='焦虑信号存在但尚轻，呼吸训练与规律有氧运动对这个区间证据充分。';
+    else if(g.level==='moderate') reflect='建议自助模块加门诊咨询，焦虑与潮热常互相放大，处理一侧另一侧也会松动。';
+    else if(g.level==='severe') reflect='焦虑负荷较重，请尽快就诊；把七题结果带给医生。';
+    else reflect='焦虑信号不明显，继续保持日常节奏。';
+  } else if(key==='isi'){
+    var isv = ENG.isi(a);
+    state.isi = {answers:a, done:true, at:new Date().toISOString()};
+    reflect = (isv.level==='none') ? '睡眠在平稳区间，继续保持规律作息。'
+      : '睡眠问题已达到临床关注区间。认知行为疗法治疗失眠（CBT-I）在更年期女性中效应量很大，是一线方案，工具内有配套的自助模块；不建议自行长期使用安眠药，可在门诊讨论。';
+  } else if(key==='cog'){
+    state.cog = {freq:a.cogFreq, impact:a.cogImpact, at:new Date().toISOString()};
+    reflect = (a.cogImpact>=3)
+      ? '你报告认知变化已影响独立生活，这不属于典型的更年期脑雾表现，请尽快到神经内科或记忆门诊进行正式认知评估。'
+      : (a.cogFreq>=2 ? '脑雾在这个阶段常见，多与睡眠、情绪和激素波动交互有关，且日常生活能力通常保留。若你担心，可在门诊安排一次正式认知筛查；65岁后新发、进行性加重的记忆问题需要特别重视。'
+        : '认知症状不明显。保持睡眠、运动与社交动脑活动即可。');
+  } else if(key==='pelv'){
+    state.pelv = {leak:a.pelvLeak>=2, prolapse:a.pelvProlapse>=2, rawLeak:a.pelvLeak, rawProlapse:a.pelvProlapse, at:new Date().toISOString()};
+    reflect = (a.pelvLeak>=2||a.pelvProlapse>=2)
+      ? '漏尿或下坠感已记录。盆底肌训练是一线建议：每天3组、每组至少8次最大收缩，4至6周开始改善。在开始大重量抗阻或跳跃前，建议先咨询盆底物理治疗师，相关闸门提示已在运动模块中显示。'
+      : '盆底症状不明显。日常可把盆底收缩并入生活习惯维持。';
+  }
+  saveState();
+  $('deepCard').innerHTML = '<div class="jkicker">评估完成</div><h3>结果反馈</h3><div class="jreflect g" style="display:block">'+esc(reflect)+'</div>'
+    + '<div class="btn-row"><button class="btn" data-go="report">查看综合报告</button><button class="btn sec" id="deepDoneClose">返回量表列表</button></div>';
+  deepFlow = null;
+  $('deepDoneClose').addEventListener('click', function(){ $('deepRunner').style.display='none'; renderDeepTiles(); });
+  renderDeepTiles(); renderHomeDots();
+}
+
+/* ---------- FSFI-6（独立匿名入口，独立 localStorage 键） ---------- */
+$('fsfiStart').addEventListener('click', function(){
+  var intro = '这是一个关于性健康的私密评估，共6题，约2分钟。这个模块与其他内容物理隔离：不与你的身份信息关联，可以随时单独删除这部分数据，不影响其他功能。性困扰在更年期女性中非常普遍（中国围绝经期女性约58%存在性功能相关问题，性欲下降约占一半），它和阴道干涩、激素、睡眠、情绪都有关联，评估结果只会用于生成属于你的信息。也可以直接跳过。';
+  var steps=[{type:'intro', text:intro}];
+  FSFI6_ITEMS.forEach(function(it,i){
+    steps.push({type:'fsfi', q:it.q, o:it.o.concat([FSFI6_NOSEX]), ansKey:'fsfi'+(i+1)});
+  });
+  deepFlow = {key:'fsfi6', steps:steps, idx:0, answers:{}};
+  $('deepRunner').style.display='block';
+  $('deepRunner').scrollIntoView({behavior:'smooth'});
+  renderFsfiCard();
+});
+function renderFsfiCard(){
+  var f = deepFlow;
+  $('deepProg').style.width = Math.round(f.idx/f.steps.length*100)+'%';
+  var st = f.steps[f.idx];
+  var card=$('deepCard');
+  if(!st){ finishFsfi(); return; }
+  var html='';
+  if(st.type==='intro'){
+    html='<div class="jkicker">FSFI-6 简化教学版（非完整19题FSFI，结果仅供与医生沟通参考）</div><h3>性健康私密评估</h3><p class="small">'+esc(st.text)+'</p>'
+      +'<div class="jnav"><button class="btn sec" id="fsfiExitIntro">退出，不保存任何内容</button><button class="btn" id="fsfiGo">匿名开始</button></div>';
+    card.innerHTML=html;
+    $('fsfiGo').addEventListener('click', function(){ f.idx++; renderFsfiCard(); });
+    $('fsfiExitIntro').addEventListener('click', function(){ clearFsfi(); deepFlow=null; $('deepRunner').style.display='none'; renderDeepTiles(); });
+    return;
+  }
+  html='<div class="jkicker">第'+f.idx+'题/共6题 · 近四周 · FSFI-6简化教学版</div><h3>'+esc(st.q)+'</h3><div class="scale-opts">';
+  st.o.forEach(function(o,vi){
+    html+='<label><input type="radio" name="deepopt" value="'+vi+'"><span class="opt"><b>'+vi+'</b>'+esc(o)+'</span></label>';
+  });
+  html+='</div><div class="jreflect" id="deepReflect">选择后继续</div>'
+    +'<div class="jnav"><button class="btn sec" id="fsfiSkip">跳过本题 / 退出评估，已答内容立即删除</button><button class="btn" id="deepNext" disabled>下一题</button></div>';
+  card.innerHTML=html;
+  $('deepNext').addEventListener('click', function(){
+    var v=radioVal('deepopt'); if(v===null) return;
+    f.answers[st.ansKey]=Number(v);
+    f.idx++;
+    if(f.idx>=f.steps.length) finishFsfi(); else renderFsfiCard();
+  });
+  $('fsfiSkip').addEventListener('click', function(){ clearFsfi(); deepFlow=null; $('deepRunner').style.display='none'; renderDeepTiles(); });
+}
+function finishFsfi(){
+  var a = deepFlow.answers;
+  // 计分：选项0-4=5-0分；选项5（近四周无性生活）=0分
+  var score=0, n=0;
+  for(var i=1;i<=6;i++){ var v=a['fsfi'+i]; if(v===undefined) continue; n++; score += (v>=5?0:5-v); }
+  var data = {answers:a, done:true, score:score, n:n, positive:(n===6?score<19:null), at:new Date().toISOString(), ns:'menopause_map_v1_fsfi6_private'};
+  saveFsfi(data);
+  var reflect = (n<6)
+    ? '评估未完成，已答内容仅保存在独立私密存储中，可随时删除。'
+    : (score<19
+      ? '结果提示性健康值得关注。最常见的原因是绝经相关的阴道组织变化（干涩影响约九成女性，且不会自行缓解），局部治疗证据充分且安全。这部分内容通常难以启齿，但它是绝经管理的标准组成，建议在妇科门诊主动提起，就医摘要里已准备好措辞。'
+      : '结果在参考范围之上。性健康会随激素、睡眠与关系状态变化，匿名入口随时可再次自评。');
+  $('deepCard').innerHTML='<div class="jkicker">评估完成 · 内容仅存于独立私密存储</div><h3>结果反馈</h3><div class="jreflect g" style="display:block">'+esc(reflect)+'</div>'
+    +'<p class="tiny muted">FSFI-6为简化教学版，非完整19题FSFI；切点19分，越低越需关注。这部分数据不混入综合报告数据包，可在本页单独删除。</p>'
+    +'<div class="btn-row"><button class="btn sec" id="fsfiDoneClose">关闭</button><button class="btn warn sm" id="fsfiDelNow">立即删除这部分记录</button></div>';
+  deepFlow=null;
+  $('fsfiDoneClose').addEventListener('click', function(){ $('deepRunner').style.display='none'; renderDeepTiles(); });
+  $('fsfiDelNow').addEventListener('click', function(){ clearFsfi(); $('deepRunner').style.display='none'; renderDeepTiles(); });
+  renderDeepTiles();
+}
+$('fsfiClear').addEventListener('click', function(){
+  clearFsfi();
+  $('fsfiStatus').textContent='性健康记录已单独删除（不影响其他数据）';
+  renderDeepTiles();
+});
+
+/* ---------- 化验单录入 ---------- */
+function renderLabsForm(){
+  var l = state.labs||{};
+  if(l.savedAt){
+    $('lbDexa').value = l.dexa!=null?l.dexa:'';
+    $('lbWaist').value = l.waist!=null?l.waist:'';
+    $('lbGrip').value = l.grip!=null?l.grip:'';
+    $('lbHeight').value = l.height!=null?l.height:'';
+    $('lbWeight').value = l.weight!=null?l.weight:'';
+    $('lbBp').value = l.bpText||'';
+    $('lbFbg').value = l.fbg!=null?l.fbg:'';
+    $('lbLdl').value = l.ldl!=null?l.ldl:'';
+    $('rfCancer').checked = !!l.rfCancer;
+    $('rfCvd').checked = !!l.rfCvd;
+    $('rfBleed').checked = !!l.rfBleed;
+    $('rfVms').checked = !!l.rfVms;
+  }
+  $('labsResult').innerHTML = l.savedAt ? labsSummary(l) : '';
+}
+function labsSummary(l){
+  var parts=[];
+  var dx=ENG.dexa(l.dexa); if(dx) parts.push(dx.text);
+  var wa=ENG.waist(l.waist); if(wa) parts.push(wa.text);
+  var gr=ENG.grip(l.grip); if(gr) parts.push(gr.text);
+  var bm=ENG.bmi(l.height,l.weight); if(bm) parts.push(bm.text);
+  if(l.bpSys) parts.push('血压 '+l.bpSys+'/'+l.bpDia+' mmHg');
+  if(l.fbg!=null&&l.fbg!=='') parts.push('空腹血糖 '+l.fbg+' mmol/L');
+  return '<div class="note">已保存：'+esc(parts.join('；')||'暂无已录项目')+'。缺项不阻塞评估，报告中标注置信度。</div>';
+}
+$('lbSave').addEventListener('click', function(){
+  var bpText = $('lbBp').value.trim();
+  var sys=null, dia=null, m=bpText.match(/(\d{2,3})\s*[\/／]\s*(\d{2,3})/);
+  if(m){ sys=Number(m[1]); dia=Number(m[2]); }
+  var l = state.labs||{};
+  l.dexa = $('lbDexa').value===''?null:Number($('lbDexa').value);
+  l.waist = $('lbWaist').value===''?null:Number($('lbWaist').value);
+  l.grip = $('lbGrip').value===''?null:Number($('lbGrip').value);
+  l.height = $('lbHeight').value===''?null:Number($('lbHeight').value);
+  l.weight = $('lbWeight').value===''?null:Number($('lbWeight').value);
+  l.bpText = bpText; l.bpSys=sys; l.bpDia=dia;
+  l.fbg = $('lbFbg').value===''?null:Number($('lbFbg').value);
+  l.ldl = $('lbLdl').value===''?null:Number($('lbLdl').value);
+  l.rfCancer = $('rfCancer').checked;
+  l.rfCvd = $('rfCvd').checked;
+  l.rfBleed = $('rfBleed').checked;
+  l.rfVms = $('rfVms').checked;
+  l.savedAt = new Date().toISOString();
+  state.labs = l;
+  saveState();
+  $('labsResult').innerHTML = labsSummary(l);
+  // 红旗弹窗
+  if(l.rfVms) showFlagModal('vms','重度潮热盗汗影响功能',
+    '潮热盗汗已经明显影响你的睡眠、工作或日常生活。这种程度的症状有明确有效的处理方案（包括激素与非激素药物），是否适合你需要医生结合病史评估。建议预约妇科内分泌门诊，本工具已生成四周症状日记摘要供就诊使用。',
+    '预约妇科内分泌/更年期门诊；打印就医摘要携带日记。');
+  if(l.rfCancer) showFlagModal('cancer','激素相关肿瘤个人史',
+    '你记录了乳腺癌等激素相关肿瘤的个人史。激素治疗对此类情况有严格的适用限制，是否可以使用、使用何种方案，必须由肿瘤科与妇科医生共同判断。本工具的激素科普内容仅供了解背景，不会针对你的情况给出用药建议。',
+    '任何症状用药请先与肿瘤科、妇科医生共同决策。');
+  if(l.rfBleed) showFlagModal('bleed','绝经后出血需要尽快就诊',
+    '绝经后任何一次阴道出血都需要尽快就诊妇科，包括少量点滴出血或仅一次。请在一周内预约门诊，不要自行观察或用药。工具已为你生成出血时间线记录。',
+    '请在一周内预约妇科门诊。');
+  if(l.rfCvd) showFlagModal('cvd','未控制高血压 / 心血管疾病',
+    '运动对心血管恢复证据充分，但方案需要按心血管风险分层：从低强度、充分热身开始，避免突然爆发和憋气用力。开始训练计划前建议先完成一次医生评估。运动模块已为你切换到心血管风险分层方案。',
+    '先到心内科/全科就诊管理血压；运动从低强度起步。');
+  if(sys && (sys>=160 || (dia&&dia>=100)) && !l.rfCvd) showFlagModal('bp','当前血压数值偏高',
+    '当前血压数值偏高（'+sys+'/'+dia+' mmHg），请尽快就医评估；在医生确认前，避免高强度运动与屏气用力动作，运动模块已为你切换到心血管风险分层方案。',
+    '安静休息后复测；持续偏高请尽快就医。');
+  if(l.fbg!=null && Number(l.fbg)>=7.0) showFlagModal('fbg','空腹血糖达到诊断阈值',
+    '空腹血糖 ≥ 7.0 mmol/L 达到糖尿病诊断阈值，需要尽快到医院复查确认（单次结果需复查）。',
+    '请尽快到内分泌科/全科复查空腹血糖与糖化血红蛋白。');
+  renderHomeDots();
+});
+
+/* =====================================================================
+ * UI 层（续）：矩阵 / 报告 / 就医摘要 / 自管方案 / 复评 / 数据 / 首页
+ * ===================================================================== */
+
+/* 域 → 日记趋势指标映射 */
+var DOMAIN_TREND = { vms:'hot', sleep:'sleep', mood:'mood', muscle:'energy' };
+function arrowTxt(a){
+  if(a==='up') return '↑ 好转中';
+  if(a==='down') return '↓ 信号加重';
+  if(a==='flat') return '→ 基本平稳';
+  return '暂无（样本不足）';
+}
+
+/* ---------- 10系统矩阵 ---------- */
+function renderMatrix(){
+  var body = $('matrixBody');
+  var a = ENG.assess(state);
+  var h = '';
+  DOMAINS.forEach(function(dm){
+    var info = a.domains[dm.key];
+    var L = info.light || 'n';
+    var ar = DOMAIN_TREND[dm.key] ? ENG.trendArrow(state.diary, DOMAIN_TREND[dm.key]) : null;
+    var src = info.sources.length ? info.sources.join(' / ') : '暂无数据';
+    var detail = info.detail ? '<div class="tiny muted" style="margin-top:4px">'+esc(info.detail)+'</div>' : '';
+    h += '<tr>'
+      + '<td class="clickable" data-go="'+dm.go+'"><b>'+esc(dm.name)+'</b>'+detail+'</td>'
+      + '<td>'+lightDot(L)+' '+lightWord(L)+'</td>'
+      + '<td class="small">'+arrowTxt(ar)+'</td>'
+      + '<td class="small muted">'+esc(src)+'</td>'
+      + '<td class="clickable" data-go="'+dm.go+'"><span class="small" style="color:var(--data-blue)">前往 →</span></td>'
+      + '</tr>';
+  });
+  body.innerHTML = h;
+}
+
+/* ---------- 四段式综合报告 ---------- */
+function stageLabel(){
+  return state.stage && state.stage.result ? state.stage.result.label : '分期尚未完成';
+}
+function diaryAvg(metric, n){
+  var d = (state.diary||[]).slice(-(n||7));
+  var v = avg(d.map(function(x){return Number(x[metric]);}));
+  return v===null ? null : Math.round(v*10)/10;
+}
+function diaryHotDays(n){
+  var d = (state.diary||[]).slice(-(n||7));
+  return d.filter(function(x){return Number(x.hot)>0;}).length;
+}
+function diaryNightHeavy(n){
+  var d = (state.diary||[]).slice(-(n||7));
+  return d.filter(function(x){return Number(x.night)>=2;}).length;
+}
+
+/* 黄灯四段：按域生成「观察到的信号 / 这意味着什么 / 下一步 / 复查频率」 */
+var DOMAIN_REPORT = {
+  vms:{
+    meaning:'血管舒缩症状（潮热、盗汗）源于体温调节区间变窄，全球约四分之三的女性会经历；它也会同时影响睡眠与情绪。',
+    next:'坚持每日日记满两周查看个人触发模式；症状频繁影响生活时，带日记到妇科/更年期门诊讨论处理选项（本工具不做用药建议）。',
+    review:'2周看日记趋势；4周复测症状负荷。'
+  },
+  sleep:{
+    meaning:'睡眠在这个阶段最容易被激素波动打断，睡眠不足又会放大潮热不适、情绪波动与疲劳，三者相互放大。',
+    next:'完成睡眠专项评估（ISI）；认知行为自助（睡眠）可本周开始，每天约10分钟；若两周后睡眠评分仍低，建议就诊。',
+    review:'2周看日记趋势；4周复测；失眠专项按医生建议复查。'
+  },
+  mood:{
+    meaning:'围绝经期是情绪问题风险相对升高的窗口，大样本数据显示该阶段首发情绪问题风险升高约52%；认真处理睡眠和情绪有充分证据支持。',
+    next:'完成情绪专项评估（PHQ-9/GAD-7）；认知行为自助对情绪与失眠是指南一线推荐；若评估提示中重度区间，请尽快寻求专业支持。',
+    review:'2周看日记趋势；4周复测症状负荷；专项评估按医生建议复查。'
+  },
+  cog:{
+    meaning:'注意力与记忆的主观变化（脑雾）在这个阶段常见，与睡眠、激素波动有关；正式认知评估需要线下由专业人员进行（MoCA等不自评）。',
+    next:'保证睡眠与规律活动；若变化明显或影响工作，建议线下就诊做正式认知筛查。',
+    review:'8周症状小结时回顾；持续加重及时就诊。'
+  },
+  cvmet:{
+    meaning:'绝经后心血管风险上升，腰围、血压、血糖是最容易自己掌握的三个指标；POI/早绝经人群冠心病风险更高。',
+    next:'补齐血压、血糖、血脂、腰围数据；血压或血糖达红旗数值请尽快就医；运动方案已按心血管风险分层。血压、血脂、血糖的具体控制目标请由医生个体化确定。',
+    review:'3至6个月复查血压血糖；12个月年度评估。'
+  },
+  bone:{
+    meaning:'绝经后最初3至10年骨量丢失最快，腰椎骨密度每年可丢失2至3%；POI/早绝经者骨健康需要更早关注。',
+    next:'绝经后或POI/早绝经女性请安排首次DEXA骨密度检测；营养上保证钙每日1200毫克、维生素D每日600至800 IU；抗阻与冲击训练对骨密度证据充分。',
+    review:'DEXA结果出来后更新骨骼方案；之后按医生建议间隔复查（通常1至2年）。'
+  },
+  muscle:{
+    meaning:'肌肉量与力量在绝经后加速流失，57至59%的女性报告过肌肉关节痛；抗阻训练对维持肌肉骨骼健康证据充分。',
+    next:'每周2次抗阻训练起步（坐-站、墙推、弹力带），留有余力、不练到力竭；蛋白按每公斤体重1.0至1.2克均匀分配三餐；某一关节持续肿痛请就医。',
+    review:'4周复测体能；8周症状加体能小结；12周全面评估。'
+  },
+  pelvic:{
+    meaning:'盆底组织的变化不会自行缓解，但盆底肌训练对漏尿的证据很强（治愈机会约为不训练者的7倍）。',
+    next:'盆底肌训练每天3组启动（工具内有引导）；开始大重量抗阻或跳跃前先看盆底闸门提示；症状明显建议妇科/盆底门诊。',
+    review:'4至6周看改善；12周做第一次充分评估。'
+  },
+  gsm:{
+    meaning:'泌尿生殖系统症状（干涩、性交不适、尿频）随绝经年限进展，绝经6年时约84%女性受影响，不会自行缓解；局部治疗证据充分。',
+    next:'在妇科门诊主动提起干涩与性生活不适；阴道保湿润滑剂可作为基础护理；性困扰可使用独立匿名的FSFI-6入口自评后与医生沟通。',
+    review:'随年度妇科评估复查；干预后按医生建议。'
+  },
+  bodycomp:{
+    meaning:'绝经后体脂分布趋向中心性，腰围与体重指数是心血管代谢风险的直观信号。',
+    next:'以地中海饮食为基础模式，规律抗阻加有氧；没有证实某种饮食能直接消除潮热，用饮食日记找个人触发物更可靠。',
+    review:'8周小结体重腰围；12个月年度评估。'
+  }
+};
+
+function renderReport(){
+  var box = $('reportBody');
+  if(!state.stage && !state.scan && !(state.diary||[]).length){
+    box.innerHTML = '<p class="muted">完成分期与首诊扫描后，这里会生成报告。你也可以先写几天日记。</p>';
+    return;
+  }
+  var a = ENG.assess(state);
+  var h = '';
+
+  /* 全局灯色条 */
+  h += '<div class="card tight" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
+    + '<div style="font-size:15px"><b>当前总体信号：</b>'+lightDot(a.overall)+' <b>'+(a.overall==='r'?'存在需要优先处理的红灯信号':a.overall==='y'?'存在需要关注的黄灯信号':'各系统信号总体平稳')+'</b></div>'
+    + '<div class="small muted">分期：'+esc(stageLabel())+'</div></div>';
+
+  /* 红灯区（红旗置顶，不可中和） */
+  if(a.flags.length){
+    h += '<h3 style="color:var(--red);margin-top:18px">需要立即处理的安全信号</h3>';
+    a.flags.forEach(function(f){
+      h += '<div class="signal red"><h4>'+lightDot('r')+' '+esc(f.title)+'</h4>'
+        + '<div class="seg">'+esc(f.detail)+'</div>'
+        + '<div class="seg"><b>请这样做：</b>'+esc(f.action)+'</div>'
+        + '<div class="seg small muted">复查节奏：以接诊医生安排为准。此信号优先于其他所有结果，不会被任何低分中和。</div></div>';
+    });
+    h += '<div class="note">其余评估结果在你处理好安全信号之后仍然保留，可随时回到本页查看；就医摘要可随时导出给医生。</div>';
+  }
+
+  /* 第二轨：域级红灯 */
+  var redDomains = DOMAINS.filter(function(dm){ return a.domains[dm.key].light==='r' && !a.flags.some(function(f){
+      return (f.id==='crisis' && dm.key==='mood');
+    }); });
+  if(redDomains.length){
+    h += '<h3 style="color:var(--red);margin-top:18px">需要优先关注的系统</h3>';
+    redDomains.forEach(function(dm){
+      var info = a.domains[dm.key];
+      h += '<div class="signal red"><h4>'+lightDot('r')+' '+esc(dm.name)+'</h4>'
+        + '<div class="seg"><b>观察到的信号：</b>'+esc(info.detail||'该系统的近期数据落在需要重视的区间。')+'</div>'
+        + '<div class="seg"><b>这意味着什么：</b>'+esc((DOMAIN_REPORT[dm.key]||{}).meaning||'')+'</div>'
+        + '<div class="seg"><b>下一步：</b>'+esc((DOMAIN_REPORT[dm.key]||{}).next||'请携带记录到相应门诊评估。')+'</div>'
+        + '<div class="seg small muted"><b>复查频率：</b>'+esc((DOMAIN_REPORT[dm.key]||{}).review||'按医生建议。')+'</div></div>';
+    });
+  }
+
+  /* 黄灯区（四段式） */
+  var yDomains = DOMAINS.filter(function(dm){ return a.domains[dm.key].light==='y'; });
+  if(yDomains.length){
+    h += '<h3 style="margin-top:18px">值得关注的信号（四段式）</h3>';
+    yDomains.forEach(function(dm){
+      var info = a.domains[dm.key];
+      var r = DOMAIN_REPORT[dm.key]||{};
+      h += '<div class="signal"><h4>'+lightDot('y')+' '+esc(dm.name)+'</h4>'
+        + '<div class="seg"><b>观察到的信号：</b>'+esc(info.detail||'该系统出现轻度或间断的信号。')+'</div>'
+        + '<div class="seg"><b>这意味着什么：</b>'+esc(r.meaning||'')+'</div>'
+        + '<div class="seg"><b>下一步：</b>'+esc(r.next||'继续观察记录，必要时就诊。')+'</div>'
+        + '<div class="seg small muted"><b>复查频率：</b>'+esc(r.review||'2周看日记趋势。')+'</div></div>';
+    });
+  }
+
+  /* 绿灯区：个人资源 */
+  var gDomains = DOMAINS.filter(function(dm){ return a.domains[dm.key].light==='g'; });
+  if(gDomains.length){
+    h += '<h3 style="margin-top:18px">你已有的资源与平稳区</h3><div class="signal green"><h4>'+lightDot('g')+' 信号平稳的系统</h4>';
+    h += '<div class="seg"><b>观察到的信号：</b>'+gDomains.map(function(dm){return esc(dm.name);}).join('、')+' 的近期数据落在平稳区间。</div>';
+    h += '<div class="seg"><b>这意味着什么：</b>当前这些系统处在适应良好的区间。同时这正是建立长期储备的窗口：骨量和肌肉在绝经后加速流失，提前布局抗阻与冲击训练，收益最大。</div>';
+    h += '<div class="seg"><b>下一步：</b>保持现有作息与运动结构，逐步加入每周2次抗阻加骨强化内容；蛋白与钙、维生素D按推荐量安排；继续轻量记录作为个人基线。</div>';
+    h += '<div class="seg small muted"><b>复查频率：</b>日记可降为每周2至3次；全面评估6至12个月一次；绝经后请安排首次DEXA。</div></div>';
+  }
+
+  /* 数据缺口与置信度 */
+  h += '<h3 style="margin-top:18px">数据缺口与置信度</h3><div class="note"><b>'+esc(a.confText)+'。</b><ul style="margin:6px 0;padding-left:20px">';
+  var gaps = [];
+  var labs = state.labs||{};
+  if(labs.dexa===undefined||labs.dexa===null||labs.dexa==='') gaps.push('骨密度（DEXA）');
+  if(!labs.bpSys) gaps.push('血压');
+  if(labs.fbg===undefined||labs.fbg===null||labs.fbg==='') gaps.push('空腹血糖');
+  if(labs.ldl===undefined||labs.ldl===null||labs.ldl==='') gaps.push('血脂（LDL）');
+  if(gaps.length) h += '<li>本次评估缺少【'+gaps.join('、')+'】数据，心血管与骨骼分层按保守路径处理，补齐数据后置信度会提升。</li>';
+  if((state.diary||[]).length<7) h += '<li>模式分析基于不足7天的记录，结论仅供参考；连续记录14天后的模式可靠性明显更高。</li>';
+  if(!(state.fsfi6 && state.fsfi6.done)) h += '<li>性健康维度本次未评估，该维度为可选匿名模块，随时可单独进入。</li>';
+  if(!gaps.length && (state.diary||[]).length>=7 && (state.fsfi6&&state.fsfi6.done)) h += '<li>各维度数据覆盖较全。</li>';
+  h += '</ul></div>';
+
+  /* 方法来源折叠（只写量表名与机构名，不放URL） */
+  h += '<details class="methods"><summary>本报告使用的评估方法与依据（点击展开）</summary><ul>'
+    + '<li>生殖衰老分期：STRAW+10 分期系统（HMBR/HRSW 研讨会共识）；FSH/E2/AMH 说明依据 NICE NG23。</li>'
+    + '<li>症状负荷：改良 Kupperman 指数（中国临床常用版，13项）。</li>'
+    + '<li>情绪：PHQ-2、PHQ-9（Spitzer 等 / Pfizer 原研，中文标准版）；焦虑：GAD-2、GAD-7（Spitzer 等）。</li>'
+    + '<li>睡眠：失眠严重程度指数 ISI（Morin 等）。</li>'
+    + '<li>性健康：FSFI-6（FSFI 简版，Rosen 等；本工具为简化教学版）。</li>'
+    + '<li>骨骼体测：WHO 骨密度 T 值标准；亚洲肌少症工作组握力口径；中国成人 BMI 与腰围切点。</li>'
+    + '<li>运动处方：ACSM 运动测试与处方指南、FITT 原则；盆底训练依据 NICE 与国际尿失禁咨询委员会口径。</li>'
+    + '<li>激素治疗教育：NAMS 2022 立场声明、WHI 研究数据；认知行为疗法依据 ES/NAMS 相关综述。</li>'
+    + '<li>营养：中国居民膳食营养素参考摄入量（钙、维生素D、蛋白）。</li>'
+    + '</ul><p class="tiny muted">报告使用「信号」「模式」语言，不构成诊断；量表原始分数仅出现在可打印就医摘要中供医生参考。</p></details>';
+
+  box.innerHTML = h;
+}
+$('reportRefresh') && ($('reportRefresh').onclick = function(){ renderReport(); });
+$('goSummary') && ($('goSummary').onclick = function(){ go('summary'); renderSummary(); });
+
+/* ---------- 可打印就医摘要 ---------- */
+function fmtDate(iso){
+  if(!iso) return '未记录';
+  var d = new Date(iso);
+  if(isNaN(d.getTime())) return '未记录';
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function levelWordForDoctor(kind, res){
+  if(kind==='mki') return res.level==='severe'?'重度区间':res.level==='moderate'?'中度区间':res.level==='mild'?'轻度区间':'正常范围';
+  if(kind==='phq9') return res.level==='severe'?'重度':res.level==='mods'?'中重度':res.level==='moderate'?'中度':res.level==='mild'?'轻度':'正常范围';
+  if(kind==='gad7') return res.level==='severe'?'重度':res.level==='moderate'?'中度':res.level==='mild'?'轻度':'正常范围';
+  if(kind==='isi') return res.level==='severe'?'重度':res.level==='moderate'?'中度':res.level==='subthreshold'?'亚临床失眠':'正常范围';
+  return '';
+}
+function renderSummary(){
+  $('sumDate').textContent = todayStr();
+  var h = '';
+
+  /* 基本信息与分期 */
+  h += '<div class="card tight"><h3>1. 基本情况与分期</h3><table class="mx"><tbody>';
+  h += '<tr><th style="width:30%">年龄</th><td>'+(state.stage&&state.stage.age?esc(state.stage.age)+' 岁':'未填')+'</td></tr>';
+  h += '<tr><th>生殖衰老分期（自评，STRAW+10）</th><td><b>'+esc(stageLabel())+'</b></td></tr>';
+  if(state.stage&&state.stage.fmp) h += '<tr><th>末次月经日期</th><td>'+esc(state.stage.fmp)+'</td></tr>';
+  if(state.scan&&state.scan.hx){
+    var hx = state.scan.hx;
+    var hxParts=[];
+    if(hx.surg) hxParts.push('妇科手术史：'+(hx.surg==='bso'?'双侧卵巢切除':hx.surg==='hyst'?'子宫切除（卵巢保留）':hx.surg==='ovary'?'单侧卵巢切除':'有'));
+    if(hx.pms) hxParts.push('既往经前综合征（PMS）');
+    if(hx.pmdd) hxParts.push('既往经前情绪障碍（PMDD）');
+    if(hx.ppd) hxParts.push('产后抑郁史');
+    if(hx.fam) hxParts.push('更年期症状家族史');
+    if(hxParts.length) h += '<tr><th>相关病史（自评）</th><td>'+esc(hxParts.join('；'))+'</td></tr>';
+  }
+  h += '</tbody></table></div>';
+
+  /* 量表域结果（给医生：含原始分数） */
+  h += '<div class="card tight"><h3>2. 量表与体测结果（原始分数供医生参考）</h3><table class="mx"><thead><tr><th>项目</th><th>原始结果</th><th>所落区间</th><th>完成日期</th></tr></thead><tbody>';
+  if(state.scan){
+    var m = ENG.mkiScore(state.scan.answers);
+    h += '<tr><td>改良Kupperman（13项，0至63）</td><td>'+m.score+' 分（完成'+m.completed+'/13项）</td><td>'+levelWordForDoctor('mki',m)+'</td><td>'+fmtDate(state.scan.doneAt)+'</td></tr>';
+    var p2 = ENG.phq2(state.scan.answers), g2 = ENG.gad2(state.scan.answers);
+    h += '<tr><td>PHQ-2（情绪初筛，≥3提示进一步评估）</td><td>'+p2.score+' 分</td><td>'+(p2.positive?'达进一步评估区间':'未达')+'</td><td>'+fmtDate(state.scan.doneAt)+'</td></tr>';
+    h += '<tr><td>GAD-2（焦虑初筛，≥3提示进一步评估）</td><td>'+g2.score+' 分</td><td>'+(g2.positive?'达进一步评估区间':'未达')+'</td><td>'+fmtDate(state.scan.doneAt)+'</td></tr>';
+  }
+  if(state.phq9 && state.phq9.done){
+    var p9 = ENG.phq9(state.phq9.answers);
+    h += '<tr><td>PHQ-9（0至27；切点5/10/15/20，中文界值11）</td><td>'+p9.score+' 分</td><td>'+levelWordForDoctor('phq9',p9)+(p9.cnCut?'（达中文界值11）':'')+'</td><td>'+fmtDate(state.phq9.at)+'</td></tr>';
+  } else if(state.phq9 && state.phq9.crisis){
+    h += '<tr><td>PHQ-9</td><td colspan="2"><b style="color:var(--red)">第9题为阳性，已触发安全提示与危机引导（未计分展示）</b></td><td>'+fmtDate(state.phq9.at)+'</td></tr>';
+  }
+  if(state.gad7){
+    var g7 = ENG.gad7(state.gad7.answers);
+    h += '<tr><td>GAD-7（0至21；切点5/10/15）</td><td>'+g7.score+' 分</td><td>'+levelWordForDoctor('gad7',g7)+'</td><td>'+fmtDate(state.gad7.at)+'</td></tr>';
+  }
+  if(state.isi){
+    var isv = ENG.isi(state.isi.answers);
+    h += '<tr><td>ISI 失眠严重程度指数（0至28；切点8/15/22，中文9）</td><td>'+isv.score+' 分</td><td>'+levelWordForDoctor('isi',isv)+(isv.cnCut?'（达中文界值9）':'')+'</td><td>'+fmtDate(state.isi.at)+'</td></tr>';
+  }
+  if(state.cog){
+    h += '<tr><td>认知症状自评（脑雾，0至3频度）</td><td>频度 '+esc(state.cog.freq)+' / 影响 '+esc(state.cog.impact)+'</td><td>主观症状自评（非正式认知测验）</td><td>'+fmtDate(state.cog.at)+'</td></tr>';
+  }
+  if(state.pelv){
+    h += '<tr><td>盆底症状简表</td><td colspan="2">漏尿：'+(state.pelv.leak?'有':'无')+'；下坠/脱垂感：'+(state.pelv.prolapse?'有':'无')+'</td><td>'+fmtDate(state.pelv.at)+'</td></tr>';
+  }
+  var l = state.labs||{};
+  if(l.dexa!==undefined&&l.dexa!==null&&l.dexa!==''){ var dx=ENG.dexa(l.dexa); h += '<tr><td>DEXA 骨密度 T值</td><td>'+esc(l.dexa)+'</td><td>'+esc(dx.text)+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>'; }
+  if(l.waist) h += '<tr><td>腰围</td><td>'+esc(l.waist)+' cm</td><td>'+(Number(l.waist)>=85?'≥85 cm 中心性肥胖':'&lt;85 cm')+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  if(l.grip) h += '<tr><td>握力</td><td>'+esc(l.grip)+' kg</td><td>'+(Number(l.grip)<20?'&lt;20 kg，建议评估肌少症':'≥20 kg')+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  var bm = ENG.bmi(l.height,l.weight);
+  if(bm) h += '<tr><td>身高/体重与BMI</td><td>'+esc(l.height)+'cm / '+esc(l.weight)+'kg</td><td>'+esc(bm.text)+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  if(l.bpSys) h += '<tr><td>血压（自录）</td><td>'+esc(l.bpSys)+'/'+esc(l.bpDia)+' mmHg</td><td>'+(l.bpSys>=140||l.bpDia>=90?'达高血压范围，建议就医确认':'记录值')+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  if(l.fbg!==undefined&&l.fbg!==null&&l.fbg!=='') h += '<tr><td>空腹血糖（自录）</td><td>'+esc(l.fbg)+' mmol/L</td><td>'+(Number(l.fbg)>=7.0?'≥7.0，达诊断阈值需复查确认':Number(l.fbg)>=6.1?'偏高，建议复查':'记录值')+'</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  if(l.ldl) h += '<tr><td>LDL-C（自录）</td><td>'+esc(l.ldl)+' mmol/L</td><td>控制目标请由医生个体化确定</td><td>'+fmtDate(l.savedAt)+'</td></tr>';
+  var riskParts=[];
+  if(l.rfCancer) riskParts.push('激素相关肿瘤个人史');
+  if(l.rfCvd) riskParts.push('未控制高血压/心血管疾病史');
+  if(l.rfBleed) riskParts.push('绝经后出血史');
+  if(l.rfVms) riskParts.push('重度潮热盗汗影响功能');
+  if(riskParts.length) h += '<tr><td>风险史勾选（本人确认）</th><td colspan="3"><b style="color:var(--red)">'+esc(riskParts.join('；'))+'</b></td></tr>';
+  h += '</tbody></table><p class="tiny muted">FSFI-6 性健康数据存储于独立私密空间，默认不列入本摘要；如本人愿意沟通，请口头或另行书面告知医生。</p></div>';
+
+  /* 症状时间线（近4周日记摘要） */
+  var d28 = (state.diary||[]).slice(-28);
+  h += '<div class="card tight"><h3>3. 近4周症状日记摘要</h3>';
+  if(d28.length){
+    h += '<table class="mx"><tbody>'
+      + '<tr><th style="width:34%">记录天数</th><td>'+d28.length+' 天</td></tr>'
+      + '<tr><th>有潮热的天数 / 其中重度盗汗天数</th><td>'+diaryHotDays(28)+' 天 / '+diaryNightHeavy(28)+' 晚</td></tr>'
+      + '<tr><th>睡眠评分均值（0至10）</th><td>'+(diaryAvg('sleep',28)!=null?diaryAvg('sleep',28):'未记录')+'</td></tr>'
+      + '<tr><th>情绪评分均值（0至10）</th><td>'+(diaryAvg('mood',28)!=null?diaryAvg('mood',28):'未记录')+'</td></tr>'
+      + '<tr><th>精力评分均值（0至10）</th><td>'+(diaryAvg('energy',28)!=null?diaryAvg('energy',28):'未记录')+'</td></tr>'
+      + '</tbody></table>';
+    /* 出血时间线 */
+    var bleed = d28.filter(function(x){return Number(x.period)===1 || x.spotting || x.flow;});
+    if(bleed.length){
+      h += '<p class="small" style="margin-top:8px"><b>出血/经期记录：</b>'+bleed.map(function(x){
+        var t=[];
+        if(Number(x.period)===1) t.push('经期('+(x.flow==='heavy'?'量多':x.flow==='spot'?'点滴':'正常')+')');
+        if(x.spotting) t.push('非经期出血');
+        return esc(x.date)+' '+t.join('，');
+      }).join('；')+'</p>';
+    }
+  } else {
+    h += '<p class="small muted">暂无日记记录。</p>';
+  }
+  h += '</div>';
+
+  /* 红旗应答 */
+  var flags = ENG.absoluteFlags(state);
+  h += '<div class="card tight"><h3>4. 工具触发的就医提示</h3>';
+  if(flags.length){
+    h += '<ul>';
+    flags.forEach(function(f){ h += '<li><b>'+esc(f.title)+'</b>：'+esc(f.action)+'</li>'; });
+    h += '</ul>';
+  } else {
+    h += '<p class="small">未触发绝对红旗。</p>';
+  }
+  h += '</div>';
+
+  /* 给医生的问题清单 */
+  h += '<div class="card tight"><h3>5. 我想和医生讨论的问题</h3><ul class="small">'
+    + '<li>我的症状与当前生殖衰老阶段是否相符？还需要排除哪些原因（甲状腺、贫血等）？</li>'
+    + '<li>我的潮热/睡眠/情绪症状是否需要治疗？有哪些激素与非激素选项，各自的禁忌与风险如何？</li>'
+    + (state.stage&&['post','poi','early','surgical'].indexOf(state.stage.result.code)>=0?'<li>我是否需要安排首次 DEXA 骨密度检测？补钙与维生素D应如何安排？</li>':'')
+    + ((state.pelv&&(state.pelv.leak||state.pelv.prolapse))?'<li>漏尿/下坠感是否需要盆底物理治疗评估？':'')
+    + '<li>（自行补充）：________________________________</li>'
+    + '</ul></div>';
+
+  h += '<p class="tiny muted" style="margin-top:10px">本摘要由本人使用「更年期女性健康地图」自评自管工具整理，供就诊沟通参考，不构成诊断。量表为筛查工具，结果解释以接诊医生判断为准。</p>';
+  $('summaryBody').innerHTML = h;
+}
+
+/* ---------- 自管方案匹配 ---------- */
+function manageLayer(){
+  var l = state.labs||{};
+  var dx = ENG.dexa(l.dexa);
+  if(dx && dx.light==='r') return 'bone';
+  if(l.rfCvd || (l.bpSys && (Number(l.bpSys)>=160 || Number(l.bpDia)>=100))) return 'cv';
+  var hasTraining = (state.diary||[]).length>=14;
+  return hasTraining ? 'standard' : 'novice';
+}
+var TRAIN_LAYERS = {
+  novice:{
+    name:'新手 / 久坐层',
+    activate:'从坐-站、墙推、弹力带划船开始，每周2次、每次20分钟左右，留有余力、不练到力竭。这个阶段坚持比强度重要，前两周只学动作。',
+    rows:[
+      ['抗阻','每周2天','低强度（约40至50% 1RM，RPE 约11至12）','1至2组 × 10至15次','坐-站、墙推、弹力带划船；组间休息1至2分钟'],
+      ['有氧','每周3天','中等偏轻（可完整说话）','20至30分钟','快走、固定自行车；充分热身5分钟'],
+      ['柔韧/放松','每天','轻度','5至10分钟','主要肌群静态拉伸']
+    ]
+  },
+  standard:{
+    name:'标准 / 进阶层',
+    activate:'每周2至3次抗阻（深蹲、髋铰链、划船、推举），65至85%强度区间，配合每周2至3次跳跃或踏步的骨强化内容；10个月以上能看到明确的骨密度收益。',
+    rows:[
+      ['抗阻','每周2至3天','中高强度（65至85% 1RM，RIR 1至2次）','2至3组 × 8至12次','深蹲、髋铰链、划船、推举；渐进超负荷'],
+      ['有氧','每周5天','中等强度（能说话不能唱歌）','30至60分钟','快走、慢跑、游泳、骑行'],
+      ['骨强化（冲击）','每周2至3天','中等','2至3组 × 8至10次','跳跃、踏步、跳绳（盆底/骨松情况除外）']
+    ]
+  },
+  bone:{
+    name:'合并骨质疏松层',
+    activate:'训练方案已切换为骨松层：脊柱保持中立、用髋铰链代替弯腰，避免脊柱屈曲加扭转和高处跳下；平衡训练每天10至15分钟。高负荷动作请在专业人员监督下进行。',
+    rows:[
+      ['抗阻','每周2至3天','中高（70至85% 1RM，监督下）','3组 × 5至8次','髋铰链为主、脊柱中立；避免弯腰扭转负重'],
+      ['平衡','每天','低至中','10至15分钟','单脚站、足跟走、太极；防跌倒'],
+      ['有氧','每周3至5天','中等','30至40分钟','平地快走；避免高冲击与跳跃']
+    ]
+  },
+  cv:{
+    name:'心血管安全层',
+    activate:'方案已切换为心血管安全层：低强度起步、充分热身、监测心率，避免憋气用力和突然爆发；规律中等强度有氧对心血管的证据是1A级。开始训练计划前建议先完成一次医生评估。',
+    rows:[
+      ['抗阻','每周2天','低至中（40至60%，RPE 11至14）','2组 × 12至15次','器械或弹力带；避免憋气与大重量'],
+      ['有氧','每周5天','中等（可说话）','30至45分钟','充分热身10分钟；心率不超过医生建议上限'],
+      ['避免动作','不适用','不适用','不适用','突然爆发、憋气用力、高冲击跳跃']
+    ]
+  }
+};
+function renderManage(){
+  var box = $('manageBody');
+  var layer = manageLayer();
+  var L = TRAIN_LAYERS[layer];
+  var h = '';
+
+  /* 运动总声明（合规口径，固定） */
+  h += '<div class="disclaimer"><b>运动与潮热的边界：</b>运动是整体健康的基础干预，对骨骼、肌肉、情绪、心血管证据充分；但运动能否减少潮热次数，目前研究结论不一致，部分女性运动反而诱发潮热。请选择凉爽环境与时段，本工具不把运动当作潮热的针对性治疗来承诺（Cochrane 系统综述与 NAMS 立场声明口径）。</div>';
+
+  /* 盆底闸门（先于训练处方） */
+  var pelvGate = (state.pelv && (state.pelv.leak||state.pelv.prolapse)) ||
+    (state.scan && Number(state.scan.answers.mki13||0)>=2) ||
+    (state.diary||[]).some(function(x){return (x.feel||[]).indexOf('urinary')>=0;});
+  if(pelvGate){
+    h += '<div class="flagbox" style="background:var(--yellow-bg);border-color:#EBD49A;color:#5C4A1F"><h3 style="color:#9A6B00">盆底闸门：高强度训练前请先读</h3>'
+      + '<p>你记录了漏尿或下坠感。在开始大重量抗阻或跳跃训练之前，建议先咨询盆底物理治疗师：大重量屏气动作可能加重盆底负担。盆底肌训练本身可以和其他训练同期进行，不是停止运动的理由。</p></div>';
+  }
+
+  /* 训练四层 */
+  h += '<div class="card tight"><h3>运动处方（已为你匹配：'+esc(L.name)+'）</h3>'
+    + '<p class="small">'+esc(L.activate)+'</p>'
+    + '<div style="overflow-x:auto"><table class="mx"><thead><tr><th>类型</th><th>频率</th><th>强度</th><th>容量</th><th>内容与要点</th></tr></thead><tbody>';
+  L.rows.forEach(function(r){
+    h += '<tr>'+r.map(function(c,i){return i===0?'<td><b>'+esc(c)+'</b></td>':'<td class="small">'+esc(c)+'</td>';}).join('')+'</tr>';
+  });
+  h += '</tbody></table></div>'
+    + '<p class="tiny muted">强度按 RPE（自觉劳累程度，6至20分）与 RIR（储备次数）表述，不依赖器械也可执行；有任何胸痛、眩晕、异常气短请停止并就医。</p></div>';
+
+  /* PFMT */
+  h += '<div class="card tight"><h3>盆底肌训练（PFMT）</h3>'
+    + '<p class="small">每天3组，每组至少8次最大收缩：收缩3至5秒（逐步延长到8至10秒），然后用同样长的时间放松。4至6周开始改善，12周做第一次充分评估。停止训练后效果会消退，把它并入日常（比如刷牙时）比单独安排时间更容易坚持。</p>'
+    + '<div class="note">动作要点：收缩肛门与尿道周围的肌肉（像中断排尿、忍住排气的感觉），保持正常呼吸、不憋气，腹部与大腿放松。若找不到肌肉或训练后疼痛，建议盆底物理治疗师指导。</div></div>';
+
+  /* 营养 */
+  h += '<div class="card tight"><h3>营养模块</h3>'
+    + '<table class="mx"><tbody>'
+    + '<tr><th style="width:26%">蛋白质</th><td class="small">每餐保证20至30克优质蛋白（约一掌大小的鱼禽肉、或两个鸡蛋加一杯奶），全天按每公斤体重1.0至1.2克安排，规律运动者1.2至1.6克。均匀分布三餐比集中在晚餐更有利于维持肌肉。</td></tr>'
+    + '<tr><th>钙与维生素D</th><td class="small">钙每日1200毫克，优先乳制品、深绿叶菜、北豆腐；补充剂分次服用、单次不超过500至600毫克。维生素D每日600至800 IU（70岁后800至1000 IU），补充前建议检测血清25(OH)D。</td></tr>'
+    + '<tr><th>饮食模式</th><td class="small">地中海饮食（蔬果、全谷、鱼、橄榄油、坚果）对心血管、体重和代谢证据充分，是基础饮食模式。关于潮热：目前没有证实某种饮食能直接消除潮热，用饮食日记找到你个人的触发物，比套用通用忌口更可靠。</td></tr>'
+    + '</tbody></table></div>';
+
+  /* iCBT */
+  h += '<div class="card tight"><h3>认知行为自助（iCBT）引导</h3>'
+    + '<p class="small">认知行为疗法对潮热的困扰感有中到大的效果、对失眠效果很大，是指南一线推荐；它改变的是你与症状的关系，不需要等到症状消失才开始。每天10分钟音频引导，连续6周。</p>'
+    + '<div class="note">边界说明：它不减少潮热的客观次数，且数字版本的效果证据仍在积累中。本工具不内置音频课程，可在正规医疗机构或可信平台获取引导资源。</div></div>';
+
+  /* MHT 教育 */
+  h += '<div class="card tight"><h3>激素治疗（MHT）科普，只做教育不做处方</h3>'
+    + '<div class="signal"><div class="seg"><b>机会窗：</b>激素治疗是目前对潮热盗汗最有效的治疗（潮热频率平均减少约75%）。研究显示在60岁以前、或绝经10年以内启动，获益风险比最有利；超过这个窗口启动则可能不利。是否启动、用哪种方案、剂量多少，是医生结合个人病史做的处方决策，本工具只提供科普与就诊准备。</div></div>'
+    + '<div class="signal"><div class="seg"><b>风险表述（群体数据）：</b>激素治疗的风险因方案而异：有子宫者需要雌孕联合，乳腺癌风险小幅增加（共识约为每年每千人多0.8例）；已切除子宫者单用雌激素的数据不同。血栓、卒中风险在治疗早期略增，经皮贴剂风险低于口服。50至59岁启动者的全因死亡数据约为HR 0.61。以上均为群体数据，个体决策请与医生共同完成。</div></div>'
+    + (state.labs && state.labs.rfCancer ? '<div class="flagbox"><b>你记录了激素相关肿瘤个人史：</b>激素治疗对此类情况有严格的适用限制，是否可以使用、使用何种方案，必须由肿瘤科与妇科医生共同判断。本模块内容对你仅作背景了解，不构成任何用药建议。</div>' : '')
+    + '<div class="note">已在使用激素治疗者：请按医嘱在用药后1、3、6、12个月复查，之后每年至少一次；复评页会按时提醒。本工具不出现具体剂量、不做调药建议。非激素类药物（如 fezolinetant、SSRI/SNRI 类、加巴喷丁等）同样只做科普：是否适合、与既往用药（如帕罗西汀与他莫昔芬的相互作用）请向医生或药师确认。</div></div>';
+
+  /* 体重管理（按需） */
+  var l2 = state.labs||{};
+  var bm2 = ENG.bmi(l2.height,l2.weight);
+  var wa2 = ENG.waist(l2.waist);
+  if((bm2 && bm2.light!=='g') || (wa2 && wa2.light==='y')){
+    h += '<div class="card tight"><h3>体重与腰围管理（已激活）</h3>'
+      + '<p class="small">你的BMI或腰围落在需要关注的区间。目标以每周规律运动加地中海饮食模式逐步调整，避免极端节食；抗阻训练有助于在减重中保留肌肉。血压、血糖、血脂的具体目标请由医生个体化确定，本工具不提供统一控制目标数值。</p></div>';
+  }
+
+  /* 补充剂争议口径 */
+  h += '<div class="card tight"><h3>关于大豆异黄酮、黑升麻等补充剂</h3>'
+    + '<p class="small">关于大豆异黄酮和黑升麻缓解潮热，研究结果相互矛盾，权威学会的口径是证据不足、不推荐作为潮热治疗；黑升麻另有肝损伤个案报告（NAMS 非激素治疗立场声明口径）。本工具不销售、不推荐任何补充剂。钙、维生素D、Omega-3在骨骼与心血管维度各有其价值，但这与治疗潮热是两件事。</p></div>';
+
+  box.innerHTML = h;
+}
+
+/* ---------- 复评提醒 ---------- */
+function addDays(iso, days){
+  var d = new Date(iso);
+  if(isNaN(d.getTime())) return null;
+  d.setDate(d.getDate()+days);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function renderReview(){
+  var box = $('reviewBody');
+  var h = '';
+  if(!state.reviewStart){
+    h = '<p class="muted">完成首诊扫描后，这里会以扫描日期为起点自动排出复查节奏。日期提示只保存在本机，不做推送。</p>';
+    box.innerHTML = h;
+    return;
+  }
+  var start = state.reviewStart;
+  var today = todayStr();
+  var items = [
+    {d:14,  name:'2周：日记趋势复查',  desc:'查看日记趋势与打卡情况；满7天已可看第一份模式镜像，满14天模式更可靠。', go:'trends'},
+    {d:28,  name:'4周：症状负荷复测',  desc:'复测首诊扫描（改良Kupperman），调整运动进阶；睡眠情绪专项按需复查。', go:'scan'},
+    {d:56,  name:'8周：症状加体能小结', desc:'症状负荷加上腰围、握力等体能指标小结；盆底训练4至6周应见改善。', go:'report'},
+    {d:84,  name:'12周：完整综合评估', desc:'完整综合评估，定下一阶段计划；盆底训练12周做第一次充分评估。', go:'report'},
+    {d:182, name:'6个月：中期调整',    desc:'中期调整运动与营养方案；血压血糖按医生安排复查。', go:'manage'},
+    {d:365, name:'12个月：年度评估',   desc:'年度评估、更新风险分层，提醒体检与骨密度检测。', go:'labs'}
+  ];
+  /* DEXA 置顶提醒 */
+  var postLike = state.stage && ['post','poi','early','surgical'].indexOf(state.stage.result.code)>=0;
+  var l = state.labs||{};
+  var hasDexa = (l.dexa!==undefined&&l.dexa!==null&&l.dexa!=='');
+  if(postLike && !hasDexa){
+    h += '<div class="flagbox" style="background:var(--yellow-bg);border-color:#EBD49A;color:#5C4A1F"><h3 style="color:#9A6B00">置顶提醒：请安排首次 DEXA 骨密度检测</h3>'
+      + '<p>绝经后女性、或POI/早绝经、手术绝经女性，建议把首次DEXA骨密度检测作为基线检查；结果出来后录入「化验单」页，骨骼方案会自动分层（T值≤-2.5时运动方案自动切骨松层）。</p></div>';
+  }
+  h += '<div style="overflow-x:auto"><table class="mx"><thead><tr><th>复查节点</th><th>计划日期</th><th>内容</th><th>状态</th></tr></thead><tbody>';
+  items.forEach(function(it){
+    var date = addDays(start, it.d);
+    var done = date < today;
+    var due = date <= today;
+    h += '<tr><td><b>'+esc(it.name)+'</b></td><td class="small">'+date+'</td>'
+      + '<td class="small muted">'+esc(it.desc)+'</td>'
+      + '<td>'+(due?'<span class="badge '+(done?'g':'y')+'">'+(done?'已到节点，请查看':'到期提醒')+'</span>':'<span class="badge n">未到</span>')+' <button class="btn sm sec" data-go="'+it.go+'" style="margin-left:6px">前往</button></td></tr>';
+  });
+  h += '</tbody></table></div>';
+  h += '<div class="note">已在使用激素治疗者，请按医嘱在用药后1、3、6、12个月复查（请以处方医生安排为准）。</div>';
+  box.innerHTML = h;
+}
+
+/* ---------- 数据与隐私 ---------- */
+function renderData(){
+  var info = $('dataInfo');
+  var parts = [];
+  parts.push('日记记录 '+(state.diary?state.diary.length:0)+' 天');
+  parts.push('首诊扫描 '+(state.scan?'已完成':'未完成'));
+  parts.push('分期 '+(state.stage?'已完成':'未完成'));
+  parts.push('化验单 '+(state.labs?'已录入':'未录入'));
+  var deepN = [state.phq9,state.gad7,state.isi,state.cog,state.pelv].filter(Boolean).length;
+  parts.push('深挖量表完成 '+deepN+' 项');
+  info.innerHTML = parts.join(' · ');
+  var fi = $('fsfiDataInfo');
+  if(fi){
+    var f = state.fsfi6;
+    fi.textContent = f && f.done ? '（本机存有FSFI-6数据，可单独删除）' : '（本机无FSFI-6数据）';
+  }
+}
+function exportJSON(){
+  /* 主导出包剔除 fsfi6 字段，落实数据隔离 */
+  var copy = JSON.parse(JSON.stringify(state));
+  delete copy.fsfi6;
+  var blob = new Blob([JSON.stringify(copy,null,2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'menopause_healthmap_'+todayStr()+'.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+$('dataExport') && ($('dataExport').onclick = exportJSON);
+$('dataDelete') && ($('dataDelete').onclick = function(){
+  if(!confirm('将删除本设备上的全部主数据（分期、扫描、日记、量表、化验单、复评），且不可恢复。FSFI-6 性健康数据需在下方单独删除。确定继续吗？')) return;
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  state = defaultState();
+  loadFsfi();
+  saveState();
+  renderData();
+  renderHomeDots();
+  alert('主数据已删除。');
+  go('home');
+});
+$('fsfiDelete') && ($('fsfiDelete').onclick = function(){
+  if(!confirm('将单独删除 FSFI-6 性健康数据（独立存储键），不影响其他数据。确定继续吗？')) return;
+  clearFsfi();
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw){ var s = JSON.parse(raw); delete s.fsfi6; localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+  }catch(e){}
+  renderData();
+  renderHomeDots();
+  alert('FSFI-6 数据已单独删除。');
+});
+
+/* ---------- 首页 ---------- */
+function homeDot(view){
+  if(view==='stage') return state.stage ? 'g' : 'n';
+  if(view==='scan'){
+    if(state.scanDraft) return 'y';
+    return state.scan ? 'g' : 'n';
+  }
+  if(view==='diary'){
+    var n = (state.diary||[]).length;
+    return n>=14 ? 'g' : n>=1 ? 'y' : 'n';
+  }
+  if(view==='deep'){
+    var has = state.phq9||state.gad7||state.isi||state.cog||state.pelv;
+    return has ? 'g' : 'n';
+  }
+  if(view==='labs'){
+    return state.labs ? 'y' : 'n';
+  }
+  return 'n';
+}
+function renderHomeDots(){
+  var map = {homeDotStage:'stage', homeDotScan:'scan', homeDotDiary:'diary', homeDotDeep:'deep', homeDotLabs:'labs'};
+  Object.keys(map).forEach(function(id){
+    var el = $(id);
+    if(!el) return;
+    el.className = 'dot '+homeDot(map[id]);
+  });
+}
+function renderHome(){
+  var sr = $('scanResume');
+  if(sr) sr.style.display = state.scanDraft ? 'inline-block' : 'none';
+  var st = $('homeTxtStage');
+  if(st && state.stage) st.textContent = '当前分期：'+state.stage.result.label;
+}
+
+/* ---------- 初始化 ---------- */
+loadState();
+renderHome();
+renderHomeDots();
+
+</script>
+</body>
+</html>
