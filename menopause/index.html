@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>更年期大健康循证资料底稿——症状·评估·干预训练SOP·心理社交·App产品架构</title>
+<style>
+:root{
+  --bg:#F8F6F0;
+  --ink:#1D2733;
+  --navy:#102A43;
+  --blue:#2978B5;
+  --blue-soft:#E8F1F9;
+  --orange:#F59E0B;
+  --orange-soft:#FDF3E2;
+  --muted:#667085;
+  --grid:#E6E1D8;
+  --card:#FFFFFF;
+  --green:#2E7D54;
+  --green-soft:#E7F3EC;
+  --red:#B4403A;
+  --red-soft:#FAECEA;
+  --gray-soft:#F0EDE6;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(16,42,67,.08),0 4px 14px rgba(16,42,67,.05);
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --serif:"Noto Serif SC","Songti SC","STSong",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:940px;margin:0 auto;padding:0 22px;}
+a{color:var(--blue);text-decoration:none;overflow-wrap:break-word;}
+a:hover{text-decoration:underline;}
+a:focus-visible,button:focus-visible{outline:3px solid rgba(41,120,181,.45);outline-offset:2px;border-radius:3px;}
+
+/* ---------- 封面 ---------- */
+.cover{
+  background:linear-gradient(160deg,var(--navy) 0%,#16385a 55%,#1d4a72 100%);
+  color:#F4F1EA;padding:64px 22px 54px;position:relative;overflow:hidden;
+}
+.cover::after{
+  content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;
+  border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.22),transparent 68%);
+}
+.cover .wrap{position:relative;z-index:1;}
+.cover .kicker{
+  display:inline-block;font-size:13px;letter-spacing:.18em;color:var(--orange);
+  border:1px solid rgba(245,158,11,.55);border-radius:999px;padding:4px 14px;margin-bottom:22px;
+  font-weight:600;
+}
+.cover h1{
+  font-family:var(--serif);font-size:34px;line-height:1.35;margin:0 0 16px;
+  color:#fff;font-weight:700;letter-spacing:.01em;
+}
+.cover .sub{font-size:16.5px;color:#D8E2EE;max-width:760px;margin:0 0 26px;}
+.cover .meta{
+  display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14px;color:#B9C8DA;margin-top:8px;
+}
+.cover .meta b{color:#F0E6D2;font-weight:600;}
+.draft-badge{
+  display:inline-block;background:var(--orange);color:#3A2700;font-weight:700;
+  font-size:13px;letter-spacing:.12em;padding:5px 14px;border-radius:6px;margin-bottom:18px;
+}
+
+/* ---------- 粘性目录 ---------- */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(16,42,67,.97);
+  border-bottom:3px solid var(--orange);
+}
+nav.toc .toc-inner{
+  max-width:940px;margin:0 auto;padding:0 14px;display:flex;gap:2px;
+  overflow-x:auto;scrollbar-width:thin;
+}
+nav.toc a{
+  color:#D8E2EE;font-size:13.5px;white-space:nowrap;padding:11px 11px;
+  display:block;border-bottom:3px solid transparent;
+}
+nav.toc a:hover{color:#fff;text-decoration:none;border-bottom-color:var(--orange);}
+nav.toc a.active{color:#fff;border-bottom-color:var(--orange);font-weight:600;}
+nav.toc .toc-num{color:var(--orange);font-family:var(--mono);font-size:12px;margin-right:3px;}
+
+/* ---------- 章节 ---------- */
+main{padding:38px 0 10px;}
+section{padding:30px 0 8px;scroll-margin-top:58px;}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+.sec-num{
+  font-family:var(--mono);font-size:14px;color:#fff;background:var(--blue);
+  border-radius:6px;padding:3px 9px;flex:none;font-weight:700;
+}
+h2{
+  font-family:var(--serif);font-size:26px;color:var(--navy);margin:0;line-height:1.3;
+  font-weight:700;
+}
+.sec-lead{color:var(--muted);font-size:15.5px;margin:8px 0 20px;border-left:3px solid var(--grid);padding-left:14px;}
+h3{font-size:19px;color:var(--navy);margin:30px 0 10px;font-weight:700;}
+h4{font-size:16.5px;color:var(--navy);margin:22px 0 8px;font-weight:700;}
+p{margin:10px 0;}
+ul,ol{margin:10px 0;padding-left:1.4em;}
+li{margin:5px 0;}
+strong{color:var(--navy);}
+.small{font-size:14px;color:var(--muted);}
+
+/* ---------- 统计卡 ---------- */
+.stat-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;margin:22px 0 8px;
+}
+.stat{
+  background:var(--card);border:1px solid var(--grid);border-radius:var(--radius);
+  padding:16px 18px 14px;box-shadow:var(--shadow);border-top:4px solid var(--blue);
+}
+.stat.orange{border-top-color:var(--orange);}
+.stat.navy{border-top-color:var(--navy);}
+.stat .num{
+  font-family:var(--mono);font-size:30px;font-weight:700;color:var(--blue);
+  line-height:1.15;letter-spacing:-.01em;
+}
+.stat.orange .num{color:#C2780A;}
+.stat.navy .num{color:var(--navy);}
+.stat .num .unit{font-size:16px;font-weight:600;}
+.stat .lbl{font-size:14.5px;font-weight:700;color:var(--navy);margin:4px 0 3px;}
+.stat .desc{font-size:13px;color:var(--muted);line-height:1.55;}
+
+/* ---------- 卡片/提示框 ---------- */
+.callout{
+  border-radius:var(--radius);padding:14px 18px;margin:18px 0;font-size:15px;
+  border:1px solid var(--grid);background:var(--card);box-shadow:var(--shadow);
+}
+.callout .ct{font-weight:700;color:var(--navy);display:block;margin-bottom:4px;}
+.callout.guide{background:var(--blue-soft);border-color:#BCD6EC;}
+.callout.guide .ct{color:#1C5E94;}
+.callout.warn{background:var(--orange-soft);border-color:#F0D9AE;}
+.callout.warn .ct{color:#9A6206;}
+.callout.danger{background:var(--red-soft);border-color:#E8C4C1;}
+.callout.danger .ct{color:var(--red);}
+.callout.gray{background:var(--gray-soft);border-color:var(--grid);}
+.callout.gray .ct{color:var(--muted);}
+.callout.ok{background:var(--green-soft);border-color:#BFDCCB;}
+.callout.ok .ct{color:var(--green);}
+
+/* ---------- 证据徽章 ---------- */
+.badge{
+  display:inline-block;font-size:12px;font-weight:700;border-radius:4px;
+  padding:1px 8px;white-space:nowrap;letter-spacing:.03em;
+}
+.badge.b1{background:var(--blue);color:#fff;}
+.badge.b2{background:var(--orange);color:#3A2700;}
+.badge.b3{background:#8A94A3;color:#fff;}
+.badge.b4{background:#fff;color:var(--red);border:1px solid var(--red);}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted);margin:10px 0 0;}
+.legend .badge{margin-right:4px;}
+
+/* ---------- 表格 ---------- */
+.table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--grid);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow);}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.6;min-width:560px;}
+caption{
+  text-align:left;font-weight:700;color:var(--navy);font-size:14.5px;
+  padding:12px 14px 8px;background:var(--card);
+}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--grid);}
+thead th{background:var(--navy);color:#fff;font-weight:600;font-size:13.5px;}
+tbody tr:nth-child(even){background:#FBF9F4;}
+tbody tr:hover{background:var(--blue-soft);}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;}
+td .sub{display:block;font-size:12.5px;color:var(--muted);}
+.tbl-note{font-size:13px;color:var(--muted);margin:6px 2px 0;}
+
+/* ---------- SVG 图 ---------- */
+figure{margin:22px 0;background:var(--card);border:1px solid var(--grid);border-radius:var(--radius);
+  padding:16px 16px 10px;box-shadow:var(--shadow);}
+figure svg{width:100%;height:auto;display:block;}
+figcaption{font-size:13.5px;color:var(--muted);padding:8px 4px 4px;}
+figcaption b{color:var(--navy);}
+
+/* ---------- 流程层 ---------- */
+.layers{margin:18px 0;display:grid;gap:8px;}
+.layer{
+  border-radius:8px;padding:12px 16px;color:#fff;font-size:14.5px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.layer .lname{font-weight:700;flex:none;min-width:132px;}
+.layer .ldesc{opacity:.95;}
+.layer.l1{background:#3E8FCB;}
+.layer.l2{background:#2978B5;}
+.layer.l3{background:#1C5E94;}
+.layer.l4{background:var(--navy);}
+
+.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0;}
+.flow-card{
+  background:var(--card);border:1px solid var(--grid);border-radius:var(--radius);
+  padding:13px 15px;box-shadow:var(--shadow);border-left:4px solid var(--blue);
+}
+.flow-card .step{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:700;letter-spacing:.08em;}
+.flow-card h4{margin:3px 0 6px;font-size:15.5px;}
+.flow-card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.6;}
+
+.refs{font-size:14px;}
+.refs li{margin:7px 0;line-height:1.65;}
+.refs .rt{font-weight:700;color:var(--navy);}
+
+footer{
+  margin-top:40px;border-top:3px solid var(--navy);background:var(--navy);color:#C7D3E2;
+  padding:26px 22px 40px;font-size:13.5px;
+}
+footer .wrap{max-width:940px;}
+footer b{color:#fff;}
+footer a{color:#9CC6EC;}
+
+@media (max-width:640px){
+  body{font-size:16px;}
+  .cover h1{font-size:26px;}
+  .cover{padding:46px 18px 40px;}
+  h2{font-size:22px;}
+  .stat .num{font-size:26px;}
+  .layer .lname{min-width:0;}
+  .layer{flex-direction:column;gap:2px;}
+}
+@media print{
+  nav.toc{display:none;}
+  body{background:#fff;font-size:12pt;}
+  .cover{background:#fff;color:#000;border-bottom:3px solid var(--navy);padding:24px 0;}
+  .cover h1{color:#000;}
+  .cover .sub,.cover .meta{color:#333;}
+  .cover::after{display:none;}
+  section{page-break-inside:avoid;}
+  .stat,.callout,figure,.table-scroll,.flow-card{box-shadow:none;}
+  .table-scroll{overflow:visible;border:none;}
+  table{min-width:0;font-size:11pt;}
+  a{color:#000;text-decoration:underline;}
+  footer{background:#fff;color:#000;border-top:1px solid #999;}
+  footer b,footer a{color:#000;}
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <span class="draft-badge">内部产品研发底稿 · 仅供内部使用</span>
+    <h1>更年期大健康循证资料底稿<br>——症状 · 评估 · 干预训练SOP · 心理社交 · App产品架构</h1>
+    <p class="sub">本底稿系统整合全球更年期领域的循证医学证据，覆盖症状谱系与分期、评估工具体系、权威学会指南、运动训练与营养SOP、激素与非激素药物、心理·性·社交证据、全球数字健康竞品与产品架构建议，为"更年期大健康App"产品研发提供证据底座。</p>
+    <div class="meta">
+      <span><b>证据基础：</b>NAMS / IMS / EMAS / BMS / AMS / 中华医学会绝经学组 / NICE 等学会立场声明</span>
+      <span><b>核心研究：</b>Cochrane 系统综述、JAMA / Lancet / NEJM / JMIR 等 RCT 与荟萃分析</span>
+      <span><b>检索截至：</b>2026年8月</span>
+      <span><b>成稿日期：</b>2026年8月30日</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="页面目录">
+  <div class="toc-inner">
+    <a href="#s1"><span class="toc-num">01</span>核心结论</a>
+    <a href="#s2"><span class="toc-num">02</span>概念与分期</a>
+    <a href="#s3"><span class="toc-num">03</span>症状全景</a>
+    <a href="#s4"><span class="toc-num">04</span>评估工具</a>
+    <a href="#s5"><span class="toc-num">05</span>机构与指南</a>
+    <a href="#s6"><span class="toc-num">06</span>机制</a>
+    <a href="#s7"><span class="toc-num">07</span>干预证据总表</a>
+    <a href="#s8"><span class="toc-num">08</span>训练SOP</a>
+    <a href="#s9"><span class="toc-num">09</span>营养SOP</a>
+    <a href="#s10"><span class="toc-num">10</span>MHT与药物</a>
+    <a href="#s11"><span class="toc-num">11</span>心理·性·社交</a>
+    <a href="#s12"><span class="toc-num">12</span>竞品与数字疗法</a>
+    <a href="#s13"><span class="toc-num">13</span>App产品架构</a>
+    <a href="#s14"><span class="toc-num">14</span>缺口与争议</a>
+    <a href="#s15"><span class="toc-num">15</span>参考文献</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<p class="legend" style="margin-top:8px;">
+  <span><span class="badge b1">指南推荐 / Level I 强证据</span> 学会指南或高质量RCT一致支持</span>
+  <span><span class="badge b2">Level II / 部分证据</span> 证据有限或仅特定人群/结局有效</span>
+  <span><span class="badge b3">专家共识 / 行业数据</span> 共识意见、市场或政策信息</span>
+  <span><span class="badge b4">不推荐 / 红线</span> 证据阴性、有害或合规禁止</span>
+</p>
+
+<!-- ============ 1 核心结论 ============ -->
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>核心结论速览</h2></div>
+  <p class="sec-lead">14 条对产品定义最关键的循证结论与数字。每条均可在后续章节溯源至学会指南、系统综述或行业数据。</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="num">46.3<span class="unit">%</span></div><div class="lbl">症状总体患病率</div><div class="desc">中国40–60岁女性更年期症状总体患病率；失眠50.0%、疲劳48.2%、情绪波动46.9%居前三，44岁后症状急剧上升、52岁达峰。<a href="https://pubmed.ncbi.nlm.nih.gov/40225777/" target="_blank" rel="noopener noreferrer">中国疾控中心 2025</a></div></div>
+    <div class="stat navy"><div class="num">~75<span class="unit">%</span></div><div class="lbl">MHT 潮热减少幅度</div><div class="desc">全身雌激素使潮热频率减少约75%，为VMS最有效治疗，远优于非激素药物（一般50–65%）；限&lt;60岁或绝经10年内、无禁忌者。<a href="https://journals.lww.com/menopause/fulltext/2022/07000/the_2022_hormone_therapy_position_statement_of.2.aspx" target="_blank" rel="noopener noreferrer">NAMS 2022</a></div></div>
+    <div class="stat"><div class="num">+2–4<span class="unit">%</span></div><div class="lbl">HiRIT 腰椎骨密度</div><div class="desc">高强度抗阻+冲击训练（HiRIT）使腰椎BMD净增加2–4%，股骨颈净差2.3%（p=0.025）；低冲击有氧对骨密度几乎无效。<a href="https://cdn-tap.talkmed.com/202606021804/78834b92d57d730ba31d61424bd36048/2026/01/22/8e4e957f1b208c838814925c690de18e022f1b66.pdf" target="_blank" rel="noopener noreferrer">Kumar 2025</a></div></div>
+    <div class="stat orange"><div class="num">OR 7.20</div><div class="lbl">盆底训练"治愈"尿失禁</div><div class="desc">以盆底肌训练为主的物理疗法 vs 无治疗，尿失禁"治愈"OR=7.20（95%CI 2.59–20.03），无严重不良事件；NICE 标准方案：≥8次最大收缩×每日3次。<a href="https://www.cochrane.org/evidence/CD015376_which-treatments-cure-or-improve-urinary-incontinence-bladder-leakage-older-women" target="_blank" rel="noopener noreferrer">Cochrane 2025</a></div></div>
+    <div class="stat"><div class="num">g −0.60<br>~−0.87</div><div class="lbl">CBT 潮热困扰效应量</div><div class="desc">CBT对潮热"困扰感"中到大效应（g=−0.60~−0.87），对失眠极大效应（g=−1.77~−2.48），但不显著减少潮热客观频率；NAMS Level I、NICE 一线推荐。<a href="https://bmcwomenshealth.biomedcentral.com/articles/10.1186/s12905-026-04563-3" target="_blank" rel="noopener noreferrer">Robinson 2026</a></div></div>
+    <div class="stat orange"><div class="num">+52<span class="unit">%</span></div><div class="lbl">围绝经期首发精神疾病风险</div><div class="desc">UK Biobank 12.8万女性：围绝经期首发精神疾病总风险升高52%（IRR=1.52），躁狂症升高112%（IRR=2.12）；绝经后回落。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11479941/" target="_blank" rel="noopener noreferrer">UK Biobank 2024</a></div></div>
+    <div class="stat"><div class="num">58.1<span class="unit">%</span></div><div class="lbl">性功能障碍患病率</div><div class="desc">中国围绝经期女性FSDI总分&lt;26.55者占58.1%；性欲障碍最高（50.7%），病耻感极强，是隐私化评估的高价值场景。<a href="https://journal03.magtech.org.cn/Jweb_sdykdxxb/CN/abstract/abstract5379.shtml" target="_blank" rel="noopener noreferrer">北京妇产医院研究</a></div></div>
+    <div class="stat"><div class="num">84.2<span class="unit">%</span></div><div class="lbl">绝经6年 GSM 患病率</div><div class="desc">绝经生殖泌尿综合征（GSM）随绝经年限进展：绝经1年64.7%、6年84.2%；阴道干涩影响高达93%女性，且不会自行缓解。<a href="https://seleguide.yiigle.com/uploads/guide_html/%E7%BB%9D%E7%BB%8F%E7%94%9F%E6%AE%96%E6%B3%8C%E5%B0%BF%E7%BB%BC%E5%90%88%E5%BE%81%E4%B8%B4%E5%BA%8A%E8%AF%8A%E7%96%97%E4%B8%93%E5%AE%B6%E5%85%B1%E8%AF%86.html" target="_blank" rel="noopener noreferrer">中华妇产科杂志 2020</a></div></div>
+    <div class="stat navy"><div class="num">80<span class="unit">%+</span></div><div class="lbl">有症状者未就医</div><div class="desc">Mayo Clinic 2025：超75%中年女性有更年期症状，但80%以上未就医，仅约1/4接受任何治疗；GSM 女性仅约1/5主动求助。<a href="https://newsnetwork.mayoclinic.org/discussion/mayo-clinic-study-finds-majority-of-midlife-women-with-menopause-symptoms-do-not-seek-care/" target="_blank" rel="noopener noreferrer">Mayo Clinic 2025</a></div></div>
+    <div class="stat orange"><div class="num">$10<span class="unit">亿+</span></div><div class="lbl">Midi Health 估值</div><div class="desc">美国更年期远程医疗独角兽：融资$1.5亿、估值超$10亿，保险覆盖约4500万人群、覆盖50州，每周约2.5万次问诊。<a href="https://sacra.com/c/midi-health/" target="_blank" rel="noopener noreferrer">Sacra</a></div></div>
+    <div class="stat"><div class="num">£15<span class="unit">亿</span></div><div class="lbl">英国年度经济损失</div><div class="desc">英国政府2025文献综述：更年期相关失业损失约15亿英镑/年（约6万女性退出劳动力市场），缺勤约1.91亿英镑；英国2025《就业权利法》首次将更年期写入立法。<a href="https://www.gov.uk/government/publications/menopause-in-the-workplace-literature-review/menopause-in-the-workplace-literature-review" target="_blank" rel="noopener noreferrer">UK Gov 2025</a></div></div>
+    <div class="stat orange"><div class="num">+57<span class="unit">%</span></div><div class="lbl">生产力损失增幅</div><div class="desc">美国50万女性大型研究：未治疗VMS与工作生产力损失增加57%相关；Mayo Clinic 4440名在职女性中13%出现减时、缺勤、离职等不良工作结局。<a href="https://hub.menopause.org/pdf/2024-Menopause-and-the-Workplace-Consensus-Recommendations.pdf" target="_blank" rel="noopener noreferrer">TMS 2024 职场共识</a></div></div>
+    <div class="stat navy"><div class="num">10<span class="unit">/10</span></div><div class="lbl">主流App全部数据外泄</div><div class="desc">Peak Privacy 安全测试：10款最广泛使用的更年期App全部向第三方（广告/分析/归因）发送数据，部分在注册前即开始传输——隐私是产品红线。<a href="https://www.the-independent.com/life-style/menopause-app-data-privacy-safety-b3010967.html" target="_blank" rel="noopener noreferrer">The Independent 2026</a></div></div>
+    <div class="stat"><div class="num">&lt;60<span class="unit">岁</span></div><div class="lbl">MHT 机会窗</div><div class="desc">&lt;60岁或绝经10年内启动MHT获益-风险比有利：WHI 50–59岁组治疗期全因死亡HR 0.61（0.43–0.87）；超窗启动则不利。<a href="https://jamanetwork.com/journals/jama/article-abstract/2650409" target="_blank" rel="noopener noreferrer">Manson JAMA 2017</a></div></div>
+  </div>
+
+  <div class="callout guide">
+    <span class="ct">对产品的一句话定位</span>
+    更年期不是"潮热+衰老"，而是横跨血管舒缩、泌尿生殖、睡眠、情绪、认知、性、骨骼肌肉、心血管代谢、体成分与职业功能的全身转型期；最高患病率（失眠/疲劳/情绪）、最高病耻感（GSM/性健康）与最大就医缺口（80%+未就医）三者叠加，构成数字健康产品的核心机会——<strong>分层评估 + 循证自我管理（运动/营养/CBT）+ 就医桥梁</strong>，而非处方替代。
+  </div>
+</section>
+
+<!-- ============ 2 概念与分期 ============ -->
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>概念与分期：先把"更年期"说清楚</h2></div>
+  <p class="sec-lead">STRAW+10 是国际公认的生殖衰老分期"金标准"；围绝经期诊断以年龄+月经史为主，单次激素检测价值有限。</p>
+
+  <h3>2.1 核心操作化定义</h3>
+  <ul>
+    <li><strong>绝经（menopause）</strong>：回顾性临床诊断——40岁以上女性末次月经后满12个月无月经、排除妊娠。本质是卵巢功能衰竭；<strong>单纯子宫切除而卵巢保留者不属于绝经</strong>。中国女性自然绝经平均年龄48–52岁，约90%在45–55岁之间。<a href="https://xhyxzz.pumch.cn/article/doi/10.12290/xhyxzz.2023-0190" target="_blank" rel="noopener noreferrer">中华医学会绝经学组 2023</a></li>
+    <li><strong>围绝经期（perimenopause）</strong>：从卵巢功能开始衰退至绝经后1年的过渡期，涵盖绝经过渡期（STRAW+10 的 −2、−1 阶段）及绝经后早期（+1a），通常持续4–8年，长者可逾10年。</li>
+    <li><strong>绝经过渡期（MT）</strong>：对应 −2、−1 阶段。早期标志为"10个周期中≥2次相邻周期长度差≥7天"；晚期标志为"闭经≥60天"。</li>
+    <li><strong>绝经后期（postmenopause）</strong>：+1（FMP后约5年内，症状与风险快速变化）与 +2（相对稳定的低雌激素稳态，可持续数十年）。</li>
+  </ul>
+
+  <h3>2.2 STRAW+10 分期系统（3期·10阶段）</h3>
+  <p>2011年 ReSTAGE 协作组基于 SWAN 等当代队列为原始7阶段模型完成经验性修订。核心理念：<strong>以月经周期特征为主要标准，内分泌指标仅作辅助</strong>——正是因为围绝经期激素高度波动。FMP（最终月经）为时间零点（0）。</p>
+
+  <figure>
+    <svg viewBox="0 0 940 300" role="img" aria-labelledby="straw-title straw-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="straw-title">STRAW+10 生殖衰老分期时间轴</title>
+      <desc id="straw-desc">时间轴自左至右分为生育期（-5至-3）、绝经过渡期（-2、-1）、最终月经FMP（0）与绝经后期（+1a、+1b、+1c、+2），并标注各阶段月经特征与FSH变化。</desc>
+      <!-- 阶段底色 -->
+      <rect x="40" y="70" width="330" height="120" rx="8" fill="#E8F1F9"/>
+      <rect x="370" y="70" width="200" height="120" rx="8" fill="#FDF3E2"/>
+      <rect x="570" y="70" width="330" height="120" rx="8" fill="#E7F3EC"/>
+      <!-- 时期标签 -->
+      <text x="205" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#1C5E94">生育期（−5 至 −3）</text>
+      <text x="470" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#9A6206">绝经过渡期（−2、−1）</text>
+      <text x="735" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D54">绝经后期（+1、+2）</text>
+      <!-- 节点 -->
+      <g font-family="monospace" font-size="13" font-weight="700" text-anchor="middle">
+        <circle cx="90" cy="130" r="16" fill="#2978B5"/><text x="90" y="135" fill="#fff">−5</text>
+        <circle cx="160" cy="130" r="16" fill="#2978B5"/><text x="160" y="135" fill="#fff">−4</text>
+        <circle cx="230" cy="130" r="16" fill="#2978B5"/><text x="230" y="135" fill="#fff">−3</text>
+        <circle cx="330" cy="130" r="16" fill="#F59E0B"/><text x="330" y="135" fill="#3A2700">−2</text>
+        <circle cx="470" cy="130" r="16" fill="#F59E0B"/><text x="470" y="135" fill="#3A2700">−1</text>
+        <polygon points="570,112 588,130 570,148 552,130" fill="#102A43"/>
+        <text x="570" y="135" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#fff">0</text>
+        <circle cx="640" cy="130" r="16" fill="#2E7D54"/><text x="640" y="135" fill="#fff">+1a</text>
+        <circle cx="710" cy="130" r="16" fill="#2E7D54"/><text x="710" y="135" fill="#fff">+1b</text>
+        <circle cx="780" cy="130" r="16" fill="#2E7D54"/><text x="780" y="135" fill="#fff">+1c</text>
+        <circle cx="860" cy="130" r="16" fill="#2E7D54"/><text x="860" y="135" fill="#fff">+2</text>
+      </g>
+      <!-- 连线 -->
+      <line x1="106" y1="130" x2="144" y2="130" stroke="#8AA8C4" stroke-width="2"/>
+      <line x1="176" y1="130" x2="214" y2="130" stroke="#8AA8C4" stroke-width="2"/>
+      <line x1="246" y1="130" x2="314" y2="130" stroke="#8AA8C4" stroke-width="2"/>
+      <line x1="346" y1="130" x2="454" y2="130" stroke="#D9A441" stroke-width="2"/>
+      <line x1="486" y1="130" x2="552" y2="130" stroke="#D9A441" stroke-width="2"/>
+      <line x1="588" y1="130" x2="624" y2="130" stroke="#7FB397" stroke-width="2"/>
+      <line x1="656" y1="130" x2="694" y2="130" stroke="#7FB397" stroke-width="2"/>
+      <line x1="726" y1="130" x2="764" y2="130" stroke="#7FB397" stroke-width="2"/>
+      <line x1="796" y1="130" x2="844" y2="130" stroke="#7FB397" stroke-width="2"/>
+      <!-- 关键标准 -->
+      <g font-size="11.5" fill="#1D2733" text-anchor="middle">
+        <text x="160" y="172">规律月经</text>
+        <text x="160" y="188">FSH 正常</text>
+        <text x="330" y="172">周期长度差≥7天</text>
+        <text x="330" y="188">（10周期中≥2次）</text>
+        <text x="470" y="172">闭经≥60天</text>
+        <text x="470" y="188">FSH≥25 IU/L</text>
+        <text x="570" y="172">FMP</text>
+        <text x="570" y="188">回顾性确认</text>
+        <text x="735" y="172">FMP后0–5年</text>
+        <text x="735" y="188">FSH持续升高</text>
+        <text x="860" y="172">持续至生命终点</text>
+        <text x="860" y="188">低雌激素稳态</text>
+      </g>
+      <!-- 底部时间标尺 -->
+      <line x1="40" y1="240" x2="900" y2="240" stroke="#667085" stroke-width="1.5"/>
+      <text x="205" y="262" text-anchor="middle" font-size="12" fill="#667085">月经规律 · 激素正常</text>
+      <text x="470" y="262" text-anchor="middle" font-size="12" fill="#667085">围绝经期：激素剧烈波动，症状高峰（中国数据约44岁起急升、52岁达峰）</text>
+      <text x="735" y="262" text-anchor="middle" font-size="12" fill="#667085">骨量快速丢失（绝经后3–10年）· GSM进行性加重</text>
+    </svg>
+    <figcaption><b>图 1 ·</b> STRAW+10 生殖衰老分期。App 分期判断向用户简化为"生育期 / 围绝经期 / 绝经后"三档，特殊类型（POI、早绝经、手术绝经）单独设入口。依据 <a href="https://cmab.yiigle.com/uploads/guide_html/%E7%BB%9D%E7%BB%8F%E7%AE%A1%E7%90%86%E4%B8%8E%E7%BB%9D%E7%BB%8F%E6%BF%80%E7%B4%A0%E6%B2%BB%E7%96%97%E4%B8%AD%E5%9B%BD%E6%8C%87%E5%8D%97%EF%BC%882018%EF%BC%89.html" target="_blank" rel="noopener noreferrer">中国绝经管理指南 2018</a>。</figcaption>
+  </figure>
+
+  <h3>2.3 特殊类型：POI、早绝经与手术绝经</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 1 · 早发性卵巢功能不全（POI）、早绝经与手术绝经的界定</caption>
+      <thead><tr><th scope="col">类型</th><th scope="col">定义</th><th scope="col">患病率</th><th scope="col">关键要点</th></tr></thead>
+      <tbody>
+        <tr><td><strong>POI</strong>（早发性卵巢功能不全）</td><td>&lt;40岁卵巢功能衰退；月经紊乱≥4个月 + FSH&gt;25 IU/L</td><td class="num">约1%</td><td>ESHRE 2024 更新：单次 FSH 升高即可诊断（不确定可复查）；约5–10%仍可自然妊娠，不同于"卵巢早衰"；<strong>MHT 推荐用至自然绝经平均年龄（约51岁）</strong>，冠心病风险约为正常绝经女性3倍。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11631070/" target="_blank" rel="noopener noreferrer">ESHRE 2024</a></td></tr>
+        <tr><td><strong>早绝经</strong></td><td>40–45岁之间绝经</td><td class="num">约5%</td><td>CVD、骨质疏松、认知下降风险升高；同样推荐 MHT 至平均绝经年龄。</td></tr>
+        <tr><td><strong>手术绝经</strong></td><td>双侧卵巢切除（BSO）所致</td><td class="num">—</td><td>激素突然、彻底下降，症状更重更急；低性欲/HSDD 患病率最高。含手术与化疗诱导在内，总体早绝经（含诱导）发生率约6.2%。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9996690/pdf/nihms-1871815.pdf" target="_blank" rel="noopener noreferrer">PMC 2023</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warn">
+    <span class="ct">为什么围绝经期不应依赖单次 FSH/激素检测？</span>
+    围绝经期的核心特征是<strong>激素波动而非单纯"雌激素低"</strong>：有排卵周期 FSH 可完全正常，无排卵周期可升至绝经后水平；E2 在围绝经期甚至可能反常升高；AMH 在过渡晚期即已不可测。因此任何单次检测都可能误导。<strong>NICE NG23 明确推荐：45岁以上有典型症状（含月经改变）者无需检测 FSH，可直接临床判断</strong>。App 不得引导用户以激素抽血"确诊围绝经"。
+  </div>
+</section>
+
+<!-- ============ 3 症状全景 ============ -->
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>症状全景：雌激素下降如何波及全身十余系统</h2></div>
+  <p class="sec-lead">更年期"绝不只有潮热"。以下按12类症状给出患病率、好发阶段与一句话机制；所有数字均来自三份循证底稿引用的原始研究。</p>
+
+  <figure>
+    <svg viewBox="0 0 940 430" role="img" aria-labelledby="prev-title prev-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="prev-title">更年期主要症状/负担指标患病率条形图</title>
+      <desc id="prev-desc">横向条形图展示11项指标：阴道干涩93%、GSM绝经6年84.2%、VMS 75-80%、中国睡眠质量差70.54%、就诊人群抑郁检出68.7%、性功能障碍58.1%、肌关节痛57-59%、失眠50.0%、疲劳48.2%、情绪波动46.9%、总体患病率46.3%，并标注各指标人群口径差异。</desc>
+      <g font-size="13" fill="#1D2733">
+        <!-- 网格线 -->
+        <g stroke="#E6E1D8" stroke-width="1">
+          <line x1="300" y1="20" x2="300" y2="400"/><line x1="420" y1="20" x2="420" y2="400"/>
+          <line x1="540" y1="20" x2="540" y2="400"/><line x1="660" y1="20" x2="660" y2="400"/>
+          <line x1="780" y1="20" x2="780" y2="400"/><line x1="900" y1="20" x2="900" y2="400"/>
+        </g>
+        <g font-size="11" fill="#667085" text-anchor="middle" font-family="monospace">
+          <text x="300" y="418">0</text><text x="420" y="418">20</text><text x="540" y="418">40</text>
+          <text x="660" y="418">60</text><text x="780" y="418">80</text><text x="900" y="418">100%</text>
+        </g>
+      </g>
+      <g font-size="12.5" fill="#102A43">
+        <!-- 每条：y间隔34，条从x=300起，6px=1% -->
+        <text x="292" y="38" text-anchor="end">阴道干涩（GSM，女性）</text>
+        <rect x="300" y="26" width="558" height="18" fill="#102A43"/><text x="866" y="40" font-family="monospace" font-weight="700" fill="#102A43">93%</text>
+        <text x="292" y="72" text-anchor="end">GSM（绝经6年）</text>
+        <rect x="300" y="60" width="505" height="18" fill="#102A43"/><text x="813" y="74" font-family="monospace" font-weight="700" fill="#102A43">84.2%</text>
+        <text x="292" y="106" text-anchor="end">血管舒缩症状 VMS（全球）</text>
+        <rect x="300" y="94" width="468" height="18" fill="#2978B5"/><text x="776" y="108" font-family="monospace" font-weight="700" fill="#1C5E94">75–80%</text>
+        <text x="292" y="140" text-anchor="end">睡眠质量差 PSQI&gt;7（中国围绝经）</text>
+        <rect x="300" y="128" width="423" height="18" fill="#2978B5"/><text x="731" y="142" font-family="monospace" font-weight="700" fill="#1C5E94">70.5%</text>
+        <text x="292" y="174" text-anchor="end">抑郁症状（中国就诊人群）*</text>
+        <rect x="300" y="162" width="412" height="18" fill="#2978B5"/><text x="720" y="176" font-family="monospace" font-weight="700" fill="#1C5E94">68.7%</text>
+        <text x="292" y="208" text-anchor="end">性功能障碍 FSFI（中国围绝经）</text>
+        <rect x="300" y="196" width="349" height="18" fill="#2978B5"/><text x="657" y="210" font-family="monospace" font-weight="700" fill="#1C5E94">58.1%</text>
+        <text x="292" y="242" text-anchor="end">肌肉/关节痛（围绝经–绝经后）</text>
+        <rect x="300" y="230" width="354" height="18" fill="#F59E0B"/><text x="662" y="244" font-family="monospace" font-weight="700" fill="#9A6206">57–59%</text>
+        <text x="292" y="276" text-anchor="end">失眠（中国40–60岁女性）</text>
+        <rect x="300" y="264" width="300" height="18" fill="#F59E0B"/><text x="608" y="278" font-family="monospace" font-weight="700" fill="#9A6206">50.0%</text>
+        <text x="292" y="310" text-anchor="end">疲劳（中国40–60岁女性）</text>
+        <rect x="300" y="298" width="289" height="18" fill="#F59E0B"/><text x="597" y="312" font-family="monospace" font-weight="700" fill="#9A6206">48.2%</text>
+        <text x="292" y="344" text-anchor="end">情绪波动/神经质（中国）</text>
+        <rect x="300" y="332" width="281" height="18" fill="#F59E0B"/><text x="589" y="346" font-family="monospace" font-weight="700" fill="#9A6206">46.9%</text>
+        <text x="292" y="378" text-anchor="end">更年期症状总体患病率（中国）</text>
+        <rect x="300" y="366" width="278" height="18" fill="#8A94A3"/><text x="586" y="380" font-family="monospace" font-weight="700" fill="#667085">46.3%</text>
+      </g>
+    </svg>
+    <figcaption><b>图 2 ·</b> 主要症状患病率。<b>*</b> 68.7% 抑郁检出率来自寻求医疗帮助的就诊人群，存在就诊偏倚；社区/人群口径的围绝经期抑郁症状率约 24.8%（中国12省调查）至 45%–68%（EMAS 引述范围）。不同指标的人群、地区与测量工具不同，不宜直接横向排名。</figcaption>
+  </figure>
+
+  <div class="table-scroll">
+    <table>
+      <caption>表 2 · 12类更年期症状：患病率 · 好发阶段 · 机制一句话</caption>
+      <thead><tr><th scope="col">症状类别</th><th scope="col">患病率/关键数字</th><th scope="col">好发阶段</th><th scope="col">机制一句话</th></tr></thead>
+      <tbody>
+        <tr><td><strong>① 血管舒缩（VMS）</strong>潮热、盗汗</td><td>全球75%–80%女性经历；平均持续5.2年，部分长达20年；69.4%潮热干扰睡眠</td><td>围绝经期–绝经早期最重</td><td>雌激素下降使下丘脑视前区体温调节带变窄，轻微温度波动即触发热潮红反射（KNDy/NK3R 通路，详见第6章）。<a href="https://www.ncbi.nlm.nih.gov/sites/books/NBK560840/" target="_blank" rel="noopener noreferrer">NCBI Bookshelf</a></td></tr>
+        <tr><td><strong>② GSM 泌尿生殖</strong>干涩、性交痛、尿急、反复UTI</td><td>绝经1年64.7%→6年84.2%；阴道干涩93%（中重度68%）；性交痛80%、急迫性尿失禁约28%</td><td>绝经后进行性加重，<strong>不自愈</strong></td><td>外阴阴道与下尿路组织富含雌激素受体，雌激素缺乏致萎缩、弹性下降、血供减少、pH升高。<a href="https://seleguide.yiigle.com/uploads/guide_html/%E7%BB%9D%E7%BB%8F%E7%94%9F%E6%AE%96%E6%B3%8C%E5%B0%BF%E7%BB%BC%E5%90%88%E5%BE%81%E4%B8%B4%E5%BA%8A%E8%AF%8A%E7%96%97%E4%B8%93%E5%AE%B6%E5%85%B1%E8%AF%86.html" target="_blank" rel="noopener noreferrer">中华妇产科杂志 2020</a></td></tr>
+        <tr><td><strong>③ 睡眠障碍</strong></td><td>影响40%–60%；失眠较绝经前增加56%；中国围绝经 PSQI&gt;7 达70.54%</td><td>围绝经期起持续</td><td>雌激素/孕激素下降直接破坏睡眠稳态 + 夜间潮热致觉醒碎片化 + 情绪共病 + 夜尿/OSA 增多。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11824937/" target="_blank" rel="noopener noreferrer">PMC 2025</a></td></tr>
+        <tr><td><strong>④ 情绪障碍</strong>焦虑、抑郁、易激惹</td><td>SWAN基线23% CES-D≥16；中国就诊人群焦虑58.9%/抑郁68.7%*；社区口径抑郁24.8%；首发精神疾病风险+52%</td><td><strong>围绝经期为最高风险窗</strong>，绝经后回落</td><td>5-HT/去甲肾上腺素/多巴胺单胺系统调节减弱 + 别孕烯醇酮下降致GABA能抑制减弱 + HPA轴失调 + 社会心理压力。</td></tr>
+        <tr><td><strong>⑤ 认知变化</strong>"脑雾"</td><td>40%–50%报告认知症状（专科门诊可达80%）；围绝经OR=1.31；客观测试差异极小</td><td>围绝经期多见，多为暂时性</td><td>雌激素支持海马/前额叶突触可塑性；主观抱怨与情绪、睡眠关联更强；65岁后启动MHT或增痴呆风险（WHIMS）。<a href="https://www.nature.com/articles/s44294-026-00132-z" target="_blank" rel="noopener noreferrer">npj Women's Health 2026</a></td></tr>
+        <tr><td><strong>⑥ 性功能障碍</strong></td><td>中国围绝经FSD 58.1%（FSFI&lt;26.55）：性欲50.7%&gt;唤起43.3%&gt;高潮35.6%；SWAN绝经后24%从无性欲</td><td>绝经后显著，手术绝经最重</td><td>GSM性症状 + 睾酮下降影响性欲 + 血管内皮变化影响充血 + 情绪/体像/关系因素叠加。</td></tr>
+        <tr><td><strong>⑦ 骨骼肌肉</strong>肌关节痛、骨量丢失、肌少症</td><td>肌/关节痛围绝经57%、绝经后59%（RR≈1.35，93,021人荟萃）；松质骨每年丢2%–3%；瘦体重−1SD 骨折风险+63%</td><td>绝经后最初3–10年骨丢失最快</td><td>雌激素缺乏致破骨活跃、肌肉蛋白合成减少、Ⅱ型肌纤维与神经肌肉接头功能下降。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12784006/" target="_blank" rel="noopener noreferrer">JBJS 2026</a></td></tr>
+        <tr><td><strong>⑧ 心血管</strong></td><td>FMP后1年内TC/LDL-C/ApoB急剧升高；女性CVD风险在SBP低至100 mmHg即显现；POI冠心病风险约3倍</td><td>绝经后期风险加速</td><td><strong>绝经独立于年龄加速CVD进展</strong>：血脂谱恶化、血压上升、CIMT/动脉僵硬度增加。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10237361/" target="_blank" rel="noopener noreferrer">PMC 2023</a></td></tr>
+        <tr><td><strong>⑨ 代谢/体成分</strong></td><td>过渡期增重约2.3–3.1 kg；美国40–59岁42% BMI≥30；内脏脂肪可达绝经前2倍</td><td>过渡期晚期达体重高峰</td><td>体重增加主要是年龄效应，<strong>脂肪向腹部内脏重新分布（梨形→苹果形）才是绝经特异性改变</strong>，驱动胰岛素抵抗与炎症。<a href="https://www.jacc.org/doi/10.1016/j.jacadv.2025.101791" target="_blank" rel="noopener noreferrer">JACC Advances 2025</a></td></tr>
+        <tr><td><strong>⑩ 皮肤毛发</strong></td><td>皮肤变薄干燥、皱纹、伤口愈合减慢；女性型脱发（FPHL）</td><td>绝经后逐渐显现</td><td>雌激素促进胶原合成、维持皮肤厚度水合、延长毛囊生长期；缺乏后生长期毛发比例减少（前额更明显）。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10092469/pdf/CED-47-2110.pdf" target="_blank" rel="noopener noreferrer">CED 2023</a></td></tr>
+        <tr><td><strong>⑪ 偏头痛</strong></td><td>围绝经期患病率16.7%→31%；46.3%绝经后仍发作，约1/5延续至60岁后；平均终止年龄49.7岁</td><td>围绝经期加重（与雌激素剧烈波动相关）</td><td>"雌激素撤退"理论：雌激素快速下降触发偏头痛；有先兆偏头痛者卒中风险更高，影响MHT途径选择。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12089631/" target="_blank" rel="noopener noreferrer">PMC 2025</a></td></tr>
+        <tr><td><strong>⑫ 社会/职业功能</strong></td><td>约45%职业女性报告影响工作、23%考虑减少工时；未治疗VMS年人均额外成本&gt;$2,000；80%+未就医</td><td>全程，围绝经期最重</td><td>症状负担 × 病耻感（48%认为更年期女性被视为"生产力低/情绪不稳"）× 缺乏职场支持。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10540666/" target="_blank" rel="noopener noreferrer">PMC 2023</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-note">* 就诊人群数据存在选择性偏倚，产品文案引用时应使用人群口径（如中国社区24.8%、EMAS 范围45%–68%）并注明来源；详见第11章与文末"口径说明"。</p>
+
+  <div class="callout gray">
+    <span class="ct">症状的年龄轨迹（中国CDC全国调查）</span>
+    症状并非随年龄匀速增长：<strong>44岁是症状爆发拐点，52岁达峰</strong>。50岁以下以疲劳、神经精神症状为主；50岁以后关节肌肉痛、性欲减退、尿路感染等长期雌激素缺乏相关的组织退化问题凸显。这为App分年龄段内容推荐提供了直接依据。<a href="https://m.thepaper.cn/newsDetail_forward_32037857" target="_blank" rel="noopener noreferrer">中国疾控中心 2025</a>
+  </div>
+</section>
+
+<!-- ============ 4 评估工具体系 ============ -->
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>评估工具体系：App 评估模块的直接依据</h2></div>
+  <p class="sec-lead">所有推荐量表均有中文验证版本（或中文应用研究）。核心总评二选一（MENQOL / 改良Kupperman），情绪、睡眠、性功能按筛查结果激活专项量表。</p>
+
+  <h3>4.1 量表大表：维度 · 条目 · 切点 · 中文验证 · App 场景</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 3 · 更年期评估量表汇总（App 选型依据）</caption>
+      <thead><tr><th scope="col">工具</th><th scope="col">维度/条目</th><th scope="col">评分与切点</th><th scope="col">中文验证</th><th scope="col">App 适用场景</th></tr></thead>
+      <tbody>
+        <tr><td><strong>MENQOL</strong> 更年期特异性生活质量</td><td>4领域29条：血管舒缩3/心理社会7/生理16/性3</td><td>条目1–8分，领域取均值，总分1–8；<strong>越高越差</strong></td><td>✅ 8城市1,137人验证，α=0.84–0.89 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5404407/" target="_blank" rel="noopener noreferrer">PMC 2017</a></td><td><strong>核心深度评估</strong>：领域划分清晰，适合生成症状画像与趋势追踪</td></tr>
+        <tr><td><strong>MRS</strong> 更年期评分量表</td><td>3维11条：躯体4/心理4/泌尿生殖3</td><td>0–44分，越高越重</td><td>⚠️ 国内应用研究较少，国际金标准</td><td>国际通用快速评估，含完整泌尿生殖维度</td></tr>
+        <tr><td><strong>改良 Kupperman（mKI）</strong></td><td>13项症状，程度×权重加权</td><td>0–63分；7–15轻 / 16–30中 / &gt;30重</td><td>✅ 中国临床最常用 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3615846/" target="_blank" rel="noopener noreferrer">PMC 2013</a></td><td><strong>入门快速筛查</strong>：医患认知度高、13题适中；心理维度弱，需配 PHQ-9/GAD-7</td></tr>
+        <tr><td><strong>Greene 更年期量表</strong></td><td>5领域21条：焦虑/抑郁/躯体/血管舒缩/性</td><td>0–3分/条，总分越高越差</td><td>⚠️ 国内应用少</td><td>心理维度细致评估；泌尿生殖未独立成维度</td></tr>
+        <tr><td><strong>PHQ-9</strong> 抑郁</td><td>9条（对应DSM-5）</td><td>0–27；5/10/15/20 分轻–重度；中文最佳界值11（敏81%/特84%）</td><td>✅ α=0.89，重测0.85 <a href="http://www.cmhj.cn/journal/portal/www/client/paper/1d6387e0de8ef0e6d5c8ce78379a3c29" target="_blank" rel="noopener noreferrer">中国心理卫生杂志</a></td><td>抑郁专项筛查；<strong>第9题（自杀意念）为危机转诊触发器</strong></td></tr>
+        <tr><td><strong>GAD-7</strong> 焦虑</td><td>7条</td><td>0–21；5/10/15 分级</td><td>✅ α=0.92，重测0.83</td><td>焦虑专项筛查（部分人群特异度有限）</td></tr>
+        <tr><td><strong>ISI</strong> 失眠严重程度</td><td>7条（近2周）</td><td>0–28；8/15/22 分级；<strong>中文版切点9分</strong>（原版7）</td><td>✅ α=0.804，重测0.887 <a href="https://xuebao.shsmu.edu.cn/article/2023/1674-8115/1674-8115-2023-43-11-1436.shtml" target="_blank" rel="noopener noreferrer">上海交大学报 2023</a></td><td><strong>睡眠常规筛查首选</strong>（7题快速）</td></tr>
+        <tr><td><strong>PSQI</strong> 匹兹堡睡眠质量</td><td>19条→7成分</td><td>0–21；&gt;7 提示睡眠质量差（敏98.3%/特90.3%）</td><td>✅ α=0.84–0.85 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12414071/" target="_blank" rel="noopener noreferrer">PMC 2025</a></td><td>睡眠深度评估（题多，按需激活）</td></tr>
+        <tr><td><strong>FSFI</strong> 女性性功能指数</td><td>19条6维：性欲/唤起/润滑/高潮/满意/性交痛</td><td>2–36；<strong>&lt;26.55 为性功能障碍</strong></td><td>✅ Sun等2011汉化验证 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7042168/" target="_blank" rel="noopener noreferrer">PMC 2020</a></td><td>性功能深度评估（高隐私，匿名入口）</td></tr>
+        <tr><td><strong>FSFI-6</strong> 简版</td><td>6条</td><td>2–30；切点19分，越低越差</td><td>❌ 中文版验证不详 <a href="https://www.surrey.ac.uk/sites/default/files/2022-09/FSFI-6-information.pdf" target="_blank" rel="noopener noreferrer">Surrey</a></td><td><strong>性功能快速初筛</strong></td></tr>
+        <tr><td><strong>MoCA</strong> 蒙特利尔认知评估</td><td>30分8领域</td><td>≥26正常（教育&lt;12年加1分）</td><td>✅ 北京/长沙等多版本</td><td><strong>不在App内自评</strong>：需专业人员施测约10分钟，改为认知症状自评+线下筛查引导</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.2 躯体与内分泌指标：测什么、怎么判、有什么坑</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 4 · 躯体评估指标与参考切点</caption>
+      <thead><tr><th scope="col">项目</th><th scope="col">方式</th><th scope="col">参考切点（中国标准）</th></tr></thead>
+      <tbody>
+        <tr><td>骨密度</td><td>DEXA</td><td>T≥−1.0正常；−2.5&lt;T&lt;−1.0低骨量；<strong>T≤−2.5骨质疏松</strong></td></tr>
+        <tr><td>体成分/腰围</td><td>BIA或DEXA；软尺</td><td>中心性肥胖：女性腰围<strong>≥85 cm</strong></td></tr>
+        <tr><td>握力（肌少症筛查）</td><td>握力计</td><td>女性<strong>&lt;20 kg</strong>（亚洲标准）</td></tr>
+        <tr><td>血压/血脂/血糖</td><td>血压计、空腹静脉血</td><td>正常&lt;120/80 mmHg；空腹血糖≥7.0 mmol/L为糖尿病；LDL-C目标依风险分层</td></tr>
+        <tr><td>BMI</td><td>身高体重</td><td>18.5–23.9正常；24–27.9超重；≥28肥胖</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout gray">
+    <span class="ct">内分泌指标判读（FSH / E2 / AMH）</span>
+    <strong>FSH</strong>：绝经后持续&gt;40 IU/L 可确认绝经状态，但围绝经期单次检测几乎无诊断价值；<strong>E2</strong>：绝经后持续&lt;20 pg/mL 可辅助确认，围绝经期反而可能升高（约1/3周期出现黄体期异常升高的"LOOP事件"）；<strong>AMH</strong>：反映卵巢储备，过渡晚期即不可测，不推荐用于常规诊断围绝经。NICE NG23：45岁以上有典型症状者无需检测FSH。
+  </div>
+
+  <h3>4.3 App 三层评估流程</h3>
+  <div class="flow-grid">
+    <div class="flow-card"><div class="step">第 1 层 · 快速筛查（约5分钟）</div><h4>症状负荷 + 红旗识别</h4><p>改良Kupperman（或MENQOL精简）+ PHQ-2/GAD-2 快速心理筛查；采集年龄、月经状态/末次月经、PMS/PMDD与产后抑郁史、手术史。输出：初步绝经阶段、症状负荷、红旗标识。</p></div>
+    <div class="flow-card"><div class="step">第 2 层 · 综合评估（15–20分钟）</div><h4>按需深入 + 风险分层</h4><p>按筛查结果激活：PHQ-9/GAD-7、ISI（必要时PSQI）、FSFI-6、MENQOL全版；加运动基础（IPAQ简版+坐立试验）、FRAX®简化骨风险、盆底简表、心血管简评、营养简表。输出：症状图谱、低/中/高风险分层、优先干预领域。</p></div>
+    <div class="flow-card" style="border-left-color:var(--red);"><div class="step">第 3 层 · 转诊红线</div><h4>危机与红旗必须出门</h4><p>PHQ-9第9题&gt;0 → 危机干预信息+心理援助热线；绝经后异常出血、严重VMS影响功能、疑似重度GSM/GSM出血、未控制高血压/CVD、乳腺癌等激素相关肿瘤史、考虑MHT/处方药 → 生成可导出就医摘要并引导就诊。</p></div>
+  </div>
+</section>
+
+<!-- ============ 5 机构与指南 ============ -->
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>全球权威机构与最新指南立场</h2></div>
+  <p class="sec-lead">7家权威机构在 MHT"机会窗"（&lt;60岁或绝经10年内）上高度一致；EMAS 2026"健康绝经"框架首次系统提出数字优先的分层照护蓝图，与本App定位直接呼应。</p>
+
+  <div class="table-scroll">
+    <table>
+      <caption>表 5 · 7家权威机构定位与2021–2026关键立场声明</caption>
+      <thead><tr><th scope="col">机构</th><th scope="col">定位</th><th scope="col">关键立场声明（年份/期刊）</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NAMS / The Menopause Society</strong>（北美绝经学会）</td><td>全球最具影响力更年期学会，北美金标准；设MSCP执业医师认证（100题考试，每3年45学时续证）</td><td>• 《2022激素治疗立场声明》<em>Menopause</em>：MHT为VMS/GSM最有效治疗，机会窗内获益&gt;风险，VTE高危优选经皮，有子宫必加孕激素 <a href="https://journals.lww.com/menopause/fulltext/2022/07000/the_2022_hormone_therapy_position_statement_of.2.aspx" target="_blank" rel="noopener noreferrer">NAMS 2022</a><br>• 《2023非激素治疗立场声明》<em>Menopause</em>：fezolinetant/SSRI/SNRI/加巴喷丁/临床催眠 Level I；运动、瑜伽、正念、减重、触发物回避 Level II–III <a href="https://depts.washington.edu/mbwc/content/page-files/NAMS_2023-nonhormone-therapy-position-statement_(1)22.pdf" target="_blank" rel="noopener noreferrer">NAMS 2023</a><br>• 2021运动与更年期立场声明：抗阻+负重冲击+平衡为证据最强组合</td></tr>
+        <tr><td><strong>IMS</strong>（国际绝经学会）</td><td>非营利国际学术组织，推荐被视为国际基准</td><td>• 2024–2025全球更年期管理推荐更新：MHT最有效、机会窗、个体化共同决策；生活方式推荐地中海饮食+每周≥150分钟中等强度运动+2次抗阻 <a href="https://demenopauzespecialist.nl/wp-content/uploads/2026/02/International-Menopause-Society-IMS-recommendations-and-key-messages-on-women-s-midlife-health-and-menopause-2.pdf" target="_blank" rel="noopener noreferrer">IMS 2024–25</a><br>• 补充疗法系统综述（2024）：维生素D安全性高质量证据；黑升麻、中药、针灸+中药中等证据 <a href="https://researchers.westernsydney.edu.au/en/publications/complementary-therapies-for-management-of-menopausal-symptoms-a-s/" target="_blank" rel="noopener noreferrer">Western Sydney 2025</a></td></tr>
+        <tr><td><strong>EMAS</strong>（欧洲绝经与男性更年期学会）</td><td>欧洲领先，以主题化立场声明著称</td><td>• <strong>2026"健康绝经"（Healthy Menopause）战略框架</strong>：数字优先、分层照护（见下图）<a href="https://m.ebiotrade.com/newsf/2026-7/20260721000902988.htm" target="_blank" rel="noopener noreferrer">EMAS 2026</a><br>• 2026抑郁临床要点：围绝经期抑郁症状45%–68% <a href="https://emas-online.org/wp-content/uploads/2026/07/Menopause-Essentials-2026-Depression.pdf" target="_blank" rel="noopener noreferrer">EMAS 2026 Depression</a><br>• 2024甲状腺疾病与更年期声明 <em>Maturitas</em> <a href="https://pubmed.ncbi.nlm.nih.gov/38658290/" target="_blank" rel="noopener noreferrer">PubMed 2024</a><br>• 2025欢迎FDA移除MHT黑框警告声明 <a href="https://emas-online.org/emas-statement-on-the-fda-decision-to-remove-black-box-warnings-from-menopausal-hormone-therapy-mht/emas-news/" target="_blank" rel="noopener noreferrer">EMAS 2025</a></td></tr>
+        <tr><td><strong>BMS</strong>（英国绝经学会）</td><td>英国领先，影响NICE指南制定，临床工具丰富</td><td>• 2025.11 GSM共识声明：非激素保湿剂每周≥2次效果可媲美局部阴道雌激素 <a href="https://thebms.org.uk/wp-content/uploads/2025/11/09-NEW-BMS-ConsensusStatement-Genitourinary-Syndrome-of-Menopause-GSM-NOV2025-A.pdf" target="_blank" rel="noopener noreferrer">BMS 2025</a><br>• 2025.8 睡眠障碍管理工具：睡眠卫生、HRT（经皮雌激素可能略优）、CBT-I <a href="https://thebms.org.uk:443/wp-content/uploads/2025/08/25-NEW-BMS-ToolsforClinicians-Managing-sleep-disturbance-AUGUST2025-A.pdf" target="_blank" rel="noopener noreferrer">BMS 2025</a><br>• 2026.6 "脑雾还是痴呆"临床鉴别工具 <a href="https://thebms.org.uk/wp-content/uploads/2026/06/26-NEW-BMS-ToolsforClinicians-Menopausal-%E2%80%98brain-fog-or-dementia-JUNE2026-D.pdf" target="_blank" rel="noopener noreferrer">BMS 2026</a></td></tr>
+        <tr><td><strong>AMS</strong>（澳大拉西亚绝经学会）</td><td>澳新学术组织；澳大利亚为全球MHT使用率最高国家之一</td><td>• 2023指南：机会窗、无固定最大使用期限、<strong>不推荐突然停药</strong>（每3–6个月减半渐减）、启动前心血管风险评估、POI/早绝经MHT用至约51岁、DEXA用于高危人群 <a href="https://mlrb.net/australian-menopause-society-hrt-guide/" target="_blank" rel="noopener noreferrer">AMS指南解读 2025</a></td></tr>
+        <tr><td><strong>中华医学会妇产科学分会绝经学组</strong></td><td>中国最权威绝经学术组织</td><td>• 《中国绝经管理与绝经激素治疗指南2023版》：新增第4条适应证"过早的低雌激素状态"；禁忌证由8条精简为6条；按人群给出MHT方案（肥胖/代谢综合征优选低剂量经皮）；用药后1/3/6/12月随诊 <a href="https://xhyxzz.pumch.cn/article/doi/10.12290/xhyxzz.2023-0190" target="_blank" rel="noopener noreferrer">协和医学杂志 2023</a> <a href="https://www.cn-healthcare.com/articlewm/20230522/wap-content-1553995.html" target="_blank" rel="noopener noreferrer">健康界 2023</a></td></tr>
+        <tr><td><strong>Mayo Clinic 更年期中心</strong></td><td>顶级医疗机构，Faubion（NAMS前主席）领导；DREAMS登记库12,000+女性</td><td>• emmii App RCT（NCT06919887）：TMS认证医生参与开发，症状追踪+协议化治疗建议+讨论指南，评估知识提升与共同决策 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12547328/" target="_blank" rel="noopener noreferrer">PMC 2025</a><br>• 2025就医缺口调查：80%+有症状女性未就医 <a href="https://newsnetwork.mayoclinic.org/discussion/mayo-clinic-study-finds-majority-of-midlife-women-with-menopause-symptoms-do-not-seek-care/" target="_blank" rel="noopener noreferrer">Mayo 2025</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-note">另：NICE NG23（英国，2024更新）推荐更年期特异性CBT为一线非激素治疗、45岁以上典型症状无需FSH检测；ACOG（美国，2023）持机会窗与"最低有效剂量、最短必要时间"立场。</p>
+
+  <h3>5.1 重点：EMAS 2026"健康绝经"四层数字优先框架</h3>
+  <p>EMAS 首次系统提出将精准医学、数字表型、可穿戴、AI 与混合照护整合进绝经医疗，把更年期从"生殖过渡"重新定位为<strong>"公共卫生转折点"</strong>。其分层医疗架构正是App产品的政策级参照：</p>
+  <div class="layers">
+    <div class="layer l1"><span class="lname">第1层 · 数字接入</span><span class="ldesc">App/可穿戴/数字表型作为第一入口：风险分层、症状监测、健康教育、数字决策支持——最大范围、最低成本覆盖人群。</span></div>
+    <div class="layer l2"><span class="lname">第2层 · 受训专业人员</span><span class="ldesc">经更年期能力培训与认证的基层/全科人员，承接数字工具筛出的需要照护者。</span></div>
+    <div class="layer l3"><span class="lname">第3层 · 多学科专科中心</span><span class="ldesc">处理复杂、高风险与合并症病例（肿瘤史、CVD、难治性症状等）。</span></div>
+    <div class="layer l4"><span class="lname">第4层 · 政策与治理</span><span class="ldesc">质量标准、数字健康与AI治理、结果监测、公平性机制——数字产品必须在治理框架内运行。</span></div>
+  </div>
+  <div class="callout guide">
+    <span class="ct">对App的含义</span>
+    本App定位为<strong>第1层数字接入</strong>：做风险分层、循证自我管理（运动/营养/CBT自助）、症状日记与就医桥梁；明确把处方决策导向第2–3层医疗人员，自身不越界做诊断与处方。
+  </div>
+</section>
+
+<!-- ============ 6 机制 ============ -->
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">06</span><h2>核心机制：雌激素下降为什么"全身都有感觉"</h2></div>
+  <p class="sec-lead">理解机制是产品内容"讲得对、讲得透"的前提。</p>
+  <h3>6.1 四条机制主线：体温调节、骨代谢、心血管代谢、情绪与睡眠</h3>
+
+  <div class="flow-grid">
+    <div class="flow-card"><div class="step">机制 1 · 体温调节（VMS）</div><h4>KNDy 神经元 / NK3R</h4><p>下丘脑弓状核 KNDy 神经元（kisspeptin/神经激肽B/强啡肽）调控视前区体温中枢。雌激素下降使 NKB 信号失衡、体温调节带变窄，散热阈值降低——轻微升温即触发潮热。<strong>fezolinetant 正是阻断 NK3 受体</strong>，从神经内分泌根源止汗。<a href="https://depts.washington.edu/mbwc/content/page-files/NAMS_2023-nonhormone-therapy-position-statement_(1)22.pdf" target="_blank" rel="noopener noreferrer">NAMS 2023</a></p></div>
+    <div class="flow-card"><div class="step">机制 2 · 骨代谢</div><h4>破骨 > 成骨</h4><p>雌激素是破骨细胞的关键抑制因子；缺乏后骨重建失衡，松质骨（脊椎、髋部）绝经后3–10年每年丢失2%–3%。同时肌肉蛋白合成减少、Ⅱ型肌纤维与神经肌肉接头功能下降，肌少症与骨质疏松并存（"骨少肌症"）。<a href="https://e-arm.org/journal/view.php?number=4451" target="_blank" rel="noopener noreferrer">e-arm 2026</a></p></div>
+    <div class="flow-card"><div class="step">机制 3 · 心血管与代谢</div><h4>内皮 · 脂谱 · 脂肪重分布</h4><p>雌激素维持血管内皮功能与HDL逆向转运；下降后LDL-C/ApoB急升、血压上升、内脏脂肪堆积（可达绝经前2倍）、胰岛素抵抗加重。绝经独立于年龄加速CVD，早绝经/POI风险更高。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10237361/" target="_blank" rel="noopener noreferrer">PMC 2023</a></p></div>
+    <div class="flow-card"><div class="step">机制 4 · 情绪与睡眠</div><h4>5-HT · GABA · 别孕烯醇酮</h4><p>雌激素增强5-HT合成与转运、支持海马/前额叶突触可塑性；孕激素代谢物<strong>别孕烯醇酮是 GABA_A 受体强效正向调节剂</strong>，其下降致GABA能抑制减弱——与PMDD机制同源，解释了PMS/PMDD/产后抑郁史女性围绝经期风险更高。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10813042/" target="_blank" rel="noopener noreferrer">Biomedicines 2024</a></p></div>
+  </div>
+  <div class="callout gray">
+    <span class="ct">关键概念：驱动情绪症状的是"波动"而非单纯"低水平"</span>
+    围绝经期雌激素的<strong>剧烈波动</strong>（而非持续低水平）被认为是情绪不稳定与偏头痛加重的主要驱动；雌激素在稳定水平时神经保护作用最明显。这也解释了为何围绝经期是精神疾病风险窗、绝经后风险回落，以及为何围绝经期单次激素检测无诊断价值。
+  </div>
+</section>
+
+<!-- ============ 7 干预证据总表 ============ -->
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">07</span><h2>干预总览与证据等级总表</h2></div>
+  <p class="sec-lead">一张表看清"什么有效、对什么有效、证据多强"。证据等级以 NAMS 2022/2023 立场声明、Cochrane 与高质量荟萃分析为准。</p>
+
+  <div class="table-scroll">
+    <table>
+      <caption>表 6 · 更年期主要干预措施证据总表（效应量为源文件引述数值）</caption>
+      <thead><tr><th scope="col">干预措施</th><th scope="col">针对症状/目标</th><th scope="col">证据等级</th><th scope="col">效应量 / 有效率</th><th scope="col">来源</th></tr></thead>
+      <tbody>
+        <tr><td><strong>全身 MHT（雌激素±孕激素）</strong></td><td>VMS、GSM（系统）、骨丢失、围绝经期情绪</td><td><span class="badge b1">指南一线 · A级</span></td><td>潮热频率↓约75%；骨折↓；机会窗内50–59岁全因死亡HR 0.61</td><td><a href="https://journals.lww.com/menopause/fulltext/2022/07000/the_2022_hormone_therapy_position_statement_of.2.aspx" target="_blank" rel="noopener noreferrer">NAMS 2022</a></td></tr>
+        <tr><td><strong>局部阴道雌激素</strong></td><td>GSM（干涩、性交痛、尿路症状）</td><td><span class="badge b1">指南一线</span></td><td>BMS：任何年龄安全；非激素保湿剂每周≥2次效果可媲美</td><td><a href="https://thebms.org.uk/wp-content/uploads/2025/11/09-NEW-BMS-ConsensusStatement-Genitourinary-Syndrome-of-Menopause-GSM-NOV2025-A.pdf" target="_blank" rel="noopener noreferrer">BMS 2025</a></td></tr>
+        <tr><td><strong>Fezolinetant（Veozah，NK3R拮抗剂）</strong></td><td>中重度VMS</td><td><span class="badge b1">NAMS Level I</span></td><td>潮热↓约60–70%；2023年FDA批准，近十年最大突破；需监测肝酶</td><td><a href="https://www.orpdl.org/durm/meetings/meetingdocs/2025_02_06/archives/2025_02_06_Veozah_PAUpdate.pdf" target="_blank" rel="noopener noreferrer">SKYLIGHT 1 / Lancet 2023</a></td></tr>
+        <tr><td><strong>帕罗西汀 7.5mg（Brisdelle）</strong></td><td>VMS</td><td><span class="badge b1">NAMS Level I</span></td><td>频率↓约37–44%（vs安慰剂27–37%）；唯一FDA批准非激素VMS药；他莫昔芬使用者禁用</td><td><a href="https://www.nejm.org/doi/full/10.1056/NEJMp1402080" target="_blank" rel="noopener noreferrer">NEJM 2014</a></td></tr>
+        <tr><td><strong>其他 SSRI/SNRI</strong>（文拉法辛、艾司西酞普兰、去甲文拉法辛）</td><td>VMS + 情绪</td><td><span class="badge b1">NAMS Level I</span></td><td>潮热↓25–65%（文拉法辛约50–60%）；约2周起效；舍曲林/氟西汀未达显著</td><td><a href="https://depts.washington.edu/mbwc/content/page-files/NAMS_2023-nonhormone-therapy-position-statement_(1)22.pdf" target="_blank" rel="noopener noreferrer">NAMS 2023</a></td></tr>
+        <tr><td><strong>加巴喷丁</strong></td><td>VMS（尤夜间盗汗）、睡眠</td><td><span class="badge b1">NAMS Level I</span></td><td>标准剂量较安慰剂多↓10–20%；高剂量（2400mg）可近雌激素水平但副作用大；睡前给药兼顾睡眠</td><td>NAMS 2023</td></tr>
+        <tr><td><strong>奥昔布宁</strong></td><td>VMS + 膀胱过度活动</td><td><span class="badge b2">Level I–II</span></td><td>VMS频率改善约30–50%；65岁以上慎长期用（抗胆碱能认知风险）</td><td><a href="https://www.msdmanuals.com/professional/gynecology-and-obstetrics/menopause/menopause" target="_blank" rel="noopener noreferrer">MSD Manual</a></td></tr>
+        <tr><td><strong>CBT（含iCBT、CBT-I）</strong></td><td>潮热困扰、失眠、抑郁焦虑、生活质量</td><td><span class="badge b1">NAMS Level I · NICE一线</span></td><td>潮热困扰 g=−0.60~−0.87；失眠 g=−1.77~−2.48；抑郁 d=−0.33；生活质量 d=−0.78；不显著减少潮热频率</td><td><a href="https://bmcwomenshealth.biomedcentral.com/articles/10.1186/s12905-026-04563-3" target="_blank" rel="noopener noreferrer">Robinson 2026</a>；<a href="https://www.ucl.ac.uk/pals/sites/pals/files/spector_et_al_2024_menopause_psychosocial_interventions_review.pdf" target="_blank" rel="noopener noreferrer">Spector 2024</a></td></tr>
+        <tr><td><strong>正念/冥想（MBI/MBSR）</strong></td><td>焦虑、压力、整体幸福感</td><td><span class="badge b2">NAMS Level II（VMS不推荐）</span></td><td>焦虑 d=−0.56（优于CBT）；对潮热频率无明确效果</td><td>Spector 2024；NAMS 2023</td></tr>
+        <tr><td><strong>临床催眠</strong></td><td>VMS频率与严重度</td><td><span class="badge b1">NAMS Level I</span></td><td>数项RCT显著减少潮热频率/严重度（常被忽视）</td><td>NAMS 2023</td></tr>
+        <tr><td><strong>渐进抗阻训练</strong></td><td>肌量、肌力、骨密度、体成分、功能</td><td><span class="badge b1">1A级（骨/肌）</span></td><td>力量/肌量/平衡/功能显著改善；12项RCT荟萃示功能MD 2.90分、BMD MD 0.10（GRADE低–极低）</td><td><a href="https://journals.lww.com/menopause/fulltext/2023/01000/resistance_training_for_postmenopausal_women_.10.aspx" target="_blank" rel="noopener noreferrer">Sá 2023</a></td></tr>
+        <tr><td><strong>HiRIT（高强度抗阻+冲击）</strong></td><td>骨密度（腰椎/股骨颈）</td><td><span class="badge b1">中–高</span></td><td>腰椎BMD净增2–4%；股骨颈净差2.3%（p=0.025）；需监督、8个月以上</td><td><a href="https://cdn-tap.talkmed.com/202606021804/78834b92d57d730ba31d61424bd36048/2026/01/22/8e4e957f1b208c838814925c690de18e022f1b66.pdf" target="_blank" rel="noopener noreferrer">Kumar 2025</a></td></tr>
+        <tr><td><strong>有氧训练</strong></td><td>心血管、体重/腰围、情绪认知</td><td><span class="badge b1">1A级（CVD/代谢）</span></td><td>每周150–300分钟中等强度；改善血脂血压内皮；对潮热频率证据不一致</td><td><a href="https://mlrb.net/detrimental-changes-in-health-during-menopause-the-role-of-physical-activity/" target="_blank" rel="noopener noreferrer">MLRB 2025</a></td></tr>
+        <tr><td><strong>盆底肌训练（PFMT）</strong></td><td>压力性尿失禁、盆腔器官脱垂</td><td><span class="badge b1">指南一线（NICE/Cochrane/ICS）</span></td><td>"治愈"OR=7.20（2.59–20.03），无严重不良事件；≥8次最大收缩×3次/天</td><td><a href="https://www.cochrane.org/evidence/CD015376_which-treatments-cure-or-improve-urinary-incontinence-bladder-leakage-older-women" target="_blank" rel="noopener noreferrer">Cochrane 2025</a></td></tr>
+        <tr><td><strong>瑜伽</strong></td><td>睡眠、焦虑、躯体症状、血压、BMI</td><td><span class="badge b2">Level II（VMS不推荐）</span></td><td>24项RCT：总症状/睡眠/焦虑/抑郁中等改善；对潮热频率与生活质量无显著改善</td><td><a href="https://www.sciencedirect.com/science/article/abs/pii/S0020748924001979" target="_blank" rel="noopener noreferrer">Wang 2025</a></td></tr>
+        <tr><td><strong>太极</strong></td><td>平衡、防跌倒、压力</td><td><span class="badge b1">平衡/跌倒证据最强</span></td><td>改善平衡、降低跌倒风险；温和适合低活动水平人群</td><td>NAMS运动声明</td></tr>
+        <tr><td><strong>减重（超重/肥胖者）</strong></td><td>VMS（围绝经早期）、代谢</td><td><span class="badge b2">Level II–III</span></td><td>对超重/肥胖女性潮热有效；高蛋白1.2–1.6g/kg/d+抗阻保肌</td><td>NAMS 2023</td></tr>
+        <tr><td><strong>蛋白质 1.0–1.2g/kg/d + 钙1200mg + VD 800–1000IU</strong></td><td>肌少症、骨健康</td><td><span class="badge b1">A级基础营养</span></td><td>每餐20–30g优质蛋白（亮氨酸2.5–3g）；25%绝经后女性蛋白摄入低于RDA</td><td><a href="https://mcpress.mayoclinic.org/women-health/how-much-protein-do-you-really-need-after-menopause/" target="_blank" rel="noopener noreferrer">Mayo Clinic 2025</a></td></tr>
+        <tr><td><strong>地中海饮食</strong></td><td>CVD、代谢、整体健康</td><td><span class="badge b2">整体获益 · VMS直接证据有限</span></td><td>心血管/代谢证据充分；直接改善VMS的系统综述仅1项</td><td>IMS 2024–25</td></tr>
+        <tr><td><strong>大豆异黄酮 / 黑升麻 / 当归 / 月见草 / 维E / 红三叶草</strong></td><td>VMS</td><td><span class="badge b4">NAMS 不推荐</span></td><td>RCT总体阴性、异质性大；黑升麻有肝安全个案；NAMS不推荐任何膳食补充剂治疗VMS</td><td>NAMS 2023</td></tr>
+        <tr><td><strong>潮热触发物回避（酒精/咖啡因/辛辣）</strong></td><td>VMS</td><td><span class="badge b2">Level II · 个体化</span></td><td>普遍禁忌证据不足；建议用"饮食-症状日记"识别个人触发模式</td><td>NAMS 2023</td></tr>
+        <tr><td><strong>可乐定 / 普瑞巴林 / 苏沃雷生</strong></td><td>VMS / 睡眠</td><td><span class="badge b4">不推荐</span></td><td>可乐定效果弱（10–20%）耐受性差；普瑞巴林Level III；苏沃雷生Level II</td><td>NAMS 2023</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn">
+    <span class="ct">产品表述红线：运动"不推荐作为VMS单一治疗" ≠ 运动没有价值</span>
+    NAMS 将运动、瑜伽、正念列为 VMS 的 Level II 证据（不推荐作为单一干预），依据是 Cochrane 综述显示其对潮热<strong>频率</strong>效应不一致、异质性大。但运动对骨、肌、心血管、代谢、情绪、睡眠、跌倒预防的证据是1A级。App 必须把运动定位为<strong>基础健康干预</strong>，不得宣传"运动治潮热"。
+  </div>
+</section>
+
+<!-- ============ 8 训练SOP ============ -->
+<section id="s8">
+  <div class="sec-head"><span class="sec-num">08</span><h2>训练 SOP：运动健康背景团队的核心交付物</h2></div>
+  <p class="sec-lead">NAMS 2021 运动立场声明确立三大支柱：<strong>抗阻训练 · 负重/冲击训练 · 平衡训练</strong>。本章给出可直接产品化的 FITT 处方、分层方案、安全红线与周计划示例。</p>
+
+  <h3>8.1 抗阻训练 FITT 处方（核心支柱）</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 7 · 抗阻训练剂量参数（%1RM=一次最大重复量百分比；RPE=自觉用力1–20量表）</caption>
+      <thead><tr><th scope="col">参数</th><th scope="col">新手/久坐起始</th><th scope="col">标准推荐</th><th scope="col">进阶/骨密度目标</th></tr></thead>
+      <tbody>
+        <tr><td><strong>频率</strong></td><td>2次/周，非连续日</td><td>2–3次/周，非连续日</td><td>3次/周</td></tr>
+        <tr><td><strong>强度</strong></td><td>40–50%1RM，RPE 11–13</td><td>65–85%1RM，RPE 13–16</td><td>80–90%1RM，RPE 16–18</td></tr>
+        <tr><td><strong>组数×次数</strong></td><td>1–2组 × 10–15次</td><td>2–3组 × 8–12次</td><td>3–4组 × 5–8次（高负荷）</td></tr>
+        <tr><td><strong>动作数</strong></td><td>4–6个复合动作为主</td><td>6–8个覆盖全身</td><td>8–10个，含核心稳定</td></tr>
+        <tr><td><strong>周期</strong></td><td>持续8周以上见效</td><td>10个月以上显著骨效应</td><td>长期维持（终身）</td></tr>
+        <tr><td><strong>关键动作</strong></td><td>坐-站、墙推、弹力带划船</td><td>深蹲、硬拉/髋铰链、推举、划船、弓步</td><td>监督下高负荷复合动作+跳跃冲击</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul>
+    <li><strong>渐进超负荷是必要条件</strong>：2–4周动作学习后逐步加重/加次/加组；多关节复合动作优先。</li>
+    <li><strong>不需要练到力竭</strong>：WHEN 2026 立场明确，50岁以上人群保留1–2次重复余量（RIR 1–2），力竭训练无证据支持且增加心血管与恢复负担。<a href="https://when.org.au/education/resistance-training-menopause/" target="_blank" rel="noopener noreferrer">WHEN 2026</a></li>
+    <li><strong>盆底先行评估</strong>：有脱垂/尿失禁者，高强度抗阻前先咨询盆底物理治疗师，减少瓦尔萨尔瓦憋气动作、强化核心-盆底协同。</li>
+  </ul>
+
+  <h3>8.2 有氧 · 冲击/负重 · 平衡 · 心身训练处方</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 8 · 四类训练的 FITT 与证据定位</caption>
+      <thead><tr><th scope="col">类型</th><th scope="col">频率</th><th scope="col">强度/时间</th><th scope="col">内容与证据定位</th></tr></thead>
+      <tbody>
+        <tr><td><strong>有氧</strong></td><td>新手3天/周；标准5天/周</td><td>中等强度（最大心率64–76%，能说话不能唱歌）；30–60分钟/次；每周150–300分钟中等或75–150分钟高强度</td><td>快走、慢跑、椭圆机、舞蹈、骑行、游泳。CVD/代谢/情绪1A级；<strong>对潮热频率证据不一致</strong>。潮热明显者选凉爽环境/时段、速干衣物。</td></tr>
+        <tr><td><strong>冲击/负重（骨健康）</strong></td><td>2–3次/周</td><td>地面反作用力&gt;4倍体重；跳跃、踏步、跳绳</td><td><strong>HiRIT</strong>（70–85%1RM抗阻+冲击，每周2–3次、8个月）：腰椎BMD +2–4%、股骨颈净差2.3%。低冲击有氧（步行/游泳）对BMD几乎无效。<a href="https://cdn-tap.talkmed.com/202606021804/78834b92d57d730ba31d61424bd36048/2026/01/22/8e4e957f1b208c838814925c690de18e022f1b66.pdf" target="_blank" rel="noopener noreferrer">Kumar 2025</a></td></tr>
+        <tr><td><strong>平衡/防跌倒</strong></td><td>新手每天5分钟；标准2–3次/周×15–20分钟；骨质疏松者每天10–15分钟</td><td>单腿站、脚跟走、太极、平衡板</td><td>太极对平衡/跌倒证据最强；<strong>90%髋部骨折源于跌倒</strong>，平衡+力量训练可降跌倒风险约30–50%。</td></tr>
+        <tr><td><strong>盆底肌训练 PFMT</strong></td><td>每天3组</td><td>每组≥8次最大收缩，每次3–5秒（渐增至8–10秒）后同等放松</td><td>尿失禁/脱垂一线（NICE/Cochrane），"治愈"OR=7.20；4–6周开始改善、12周充分评估；<strong>停止后效果消退，需长期坚持</strong>；监督训练优于自主。<a href="https://aci.health.nsw.gov.au/__data/assets/pdf_file/0008/959228/Menopause-managing-pelvic-organ-prolapse-and-incontinence-ACI-evidence-brief.pdf" target="_blank" rel="noopener noreferrer">ACI NSW 2024</a></td></tr>
+        <tr><td><strong>瑜伽/太极/普拉提</strong></td><td>1–3次/周</td><td>力量瑜伽/流瑜伽（标准）；阴/修复瑜伽（骨质疏松）</td><td>瑜伽改善睡眠/焦虑/躯体症状（中等效应），<strong>对潮热频率无显著效果</strong>；普拉提低冲击版利核心与盆底；注意避免过度腹压动作。<a href="https://www.sciencedirect.com/science/article/abs/pii/S0020748924001979" target="_blank" rel="noopener noreferrer">Wang 2025</a></td></tr>
+        <tr><td><strong>HIIT</strong></td><td>有运动基础后逐步引入</td><td>围绝经期谨慎管理总量；绝经后耐受性更好</td><td>人体证据有限（动物实验示心血管适应不受卵巢激素缺乏影响）；无严重CVD者可尝试。<a href="https://journals.physiology.org/doi/abs/10.1152/japplphysiol.00518.2023" target="_blank" rel="noopener noreferrer">Krzesiak 2024</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 940 300" role="img" aria-labelledby="bmd-title bmd-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="bmd-title">不同运动类型对腰椎与髋部骨密度的效应</title>
+      <desc id="bmd-desc">分组条形图：低冲击有氧对腰椎和髋部BMD效应均接近0；中等强度抗阻腰椎+0.5~1.0%、髋部0~+0.3%；高强度抗阻腰椎+1.0~2.0%、髋部0~+0.5%；HiRIT抗阻加冲击腰椎+2.0~4.0%、髋部+0.3~2.3%。</desc>
+      <g font-size="12.5" fill="#102A43">
+        <!-- 轴 -->
+        <line x1="180" y1="20" x2="180" y2="250" stroke="#667085" stroke-width="1.5"/>
+        <g stroke="#E6E1D8"><line x1="180" y1="20" x2="900" y2="20"/><line x1="180" y1="80" x2="900" y2="80"/><line x1="180" y1="140" x2="900" y2="140"/><line x1="180" y1="200" x2="900" y2="200"/></g>
+        <!-- 0线在x=180，每1%=90px -->
+        <!-- 低冲击有氧 y~35/65 -->
+        <text x="170" y="42" text-anchor="end">低冲击有氧（步行/游泳）</text>
+        <rect x="180" y="30" width="14" height="16" fill="#8A94A3"/>
+        <rect x="180" y="50" width="14" height="16" fill="#BFC7D1"/>
+        <text x="205" y="43" font-size="11.5" fill="#667085">腰椎 ≈0</text>
+        <text x="205" y="63" font-size="11.5" fill="#667085">髋部 ≈0</text>
+        <!-- 中等抗阻 y~95/125 -->
+        <text x="170" y="102" text-anchor="end">中等强度抗阻</text>
+        <rect x="180" y="90" width="67" height="16" fill="#2978B5"/>
+        <rect x="180" y="110" width="27" height="16" fill="#7FB0DA"/>
+        <text x="255" y="103" font-size="11.5" fill="#1C5E94">腰椎 +0.5~1.0%</text>
+        <text x="215" y="123" font-size="11.5" fill="#1C5E94">髋部 0~+0.3%</text>
+        <!-- 高强度抗阻 y~155/185 -->
+        <text x="170" y="162" text-anchor="end">高强度抗阻</text>
+        <rect x="180" y="150" width="135" height="16" fill="#2978B5"/>
+        <rect x="180" y="170" width="45" height="16" fill="#7FB0DA"/>
+        <text x="323" y="163" font-size="11.5" fill="#1C5E94">腰椎 +1.0~2.0%</text>
+        <text x="233" y="183" font-size="11.5" fill="#1C5E94">髋部 0~+0.5%</text>
+        <!-- HiRIT y~215/245 -->
+        <text x="170" y="222" text-anchor="end">HiRIT 抗阻+冲击</text>
+        <rect x="180" y="210" width="270" height="16" fill="#F59E0B"/>
+        <rect x="180" y="230" width="103" height="16" fill="#F7C46A"/>
+        <text x="458" y="223" font-size="11.5" font-weight="700" fill="#9A6206">腰椎 +2.0~4.0%</text>
+        <text x="291" y="243" font-size="11.5" font-weight="700" fill="#9A6206">髋部 +0.3~2.3%</text>
+        <!-- 图例 -->
+        <rect x="620" y="262" width="14" height="12" fill="#2978B5"/><text x="640" y="273" font-size="12">腰椎BMD</text>
+        <rect x="730" y="262" width="14" height="12" fill="#7FB0DA"/><text x="750" y="273" font-size="12">髋部/股骨颈BMD</text>
+      </g>
+    </svg>
+    <figcaption><b>图 3 ·</b> 运动类型与骨密度剂量-反应（示意区间，源自 Kumar 2025 引述 LIFTMOR/MEDEX-OP 试验）。髋部对运动反应弱于腰椎，但运动通过增肌、改善平衡、减少跌倒降低髋部骨折风险。</figcaption>
+  </figure>
+
+  <h3>8.3 分层方案：新手 / 进阶 / 骨质疏松 / 心血管风险</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 9 · 四类人群的运动处方分层</caption>
+      <thead><tr><th scope="col">模块</th><th scope="col">新手/久坐</th><th scope="col">标准/进阶</th><th scope="col">合并骨质疏松</th><th scope="col">心血管风险人群</th></tr></thead>
+      <tbody>
+        <tr><td><strong>抗阻</strong></td><td>2次/周；40–50%1RM；1–2组×10–15次；坐-站/墙推/弹力带</td><td>2–3次/周；65–85%1RM；2–3组×8–12次；深蹲硬拉推举划船</td><td>2–3次/周（监督）；渐进至70–85%1RM；3组×5–8次；髋铰链替代弯腰</td><td>2次/周；40–60%1RM，RPE 11–14；2组×12–15次；等长/低冲击为主</td></tr>
+        <tr><td><strong>有氧</strong></td><td>3天/周；20–30分钟；快走/游泳/骑行</td><td>5天/周；30–60分钟；可含1–2天高强度</td><td>3–4天/周；20–40分钟；快走/椭圆机（非冲击优先）</td><td>5天/周；30–45分钟中等强度，RPE 11–13；充分热身</td></tr>
+        <tr><td><strong>冲击</strong></td><td>台阶、快步走逐步引入</td><td>2–3次/周；跳跃、跳绳、台阶</td><td>有监督的冲击+抗阻联合</td><td>避免高冲击</td></tr>
+        <tr><td><strong>平衡</strong></td><td>每天5分钟；单腿站、脚跟走</td><td>2–3次/周×15–20分钟；太极、平衡板</td><td><strong>每天10–15分钟（重点）</strong>；太极、跌倒预防专项</td><td>2–3次/周；坐姿平衡为主</td></tr>
+        <tr><td><strong>瑜伽/柔韧</strong></td><td>1–2次/周；全身拉伸+呼吸</td><td>2–3次/周；力量/流瑜伽</td><td>2–3次/周改良版；阴/修复瑜伽，避免深度前屈扭转</td><td>2–3次/周；修复瑜伽、呼吸练习</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.4 安全红线（产品必须内置的禁忌提示）</h3>
+  <div class="callout danger">
+    <span class="ct">骨质疏松/骨量减少者</span>
+    ❌ 禁止脊柱屈曲+旋转组合（仰卧起坐加扭转、瑜伽深度前屈加扭转）、高冲击落地（高处跳下）、弯腰负重（传统弯腰硬拉）。✅ 采用髋铰链（保持脊柱中立）、稳定坐姿/站姿负重、有控制的冲击、平衡训练。⚠️ 任何引发脊柱疼痛的动作立即停止；训练前确认椎体骨折史。
+  </div>
+  <div class="callout warn">
+    <span class="ct">盆底功能障碍者</span>
+    ❌ 避免大重量瓦尔萨尔瓦憋气（大重量深蹲/硬拉）、高冲击跳跃、重度核心屈曲。✅ 先建立盆底-核心协同收缩、与呼吸协调、渐进加量。
+  </div>
+  <div class="callout warn">
+    <span class="ct">心血管风险人群</span>
+    ❌ 避免突然高强度爆发、长时间等长憋气、极端温度环境。✅ 逐步进阶、充分热身、监测心率与RPE、规律中等强度有氧。
+  </div>
+  <div class="callout gray">
+    <span class="ct">围绝经期的弹性原则</span>
+    激素波动致训练耐受性个体差异大，允许"好日子/坏日子"弹性调整；睡眠差的日子降强度而非完全停练；潮热发作时在凉爽环境、早晚凉爽时段运动。
+  </div>
+
+  <h3>8.5 周计划示例（标准人群，可产品化为模板）</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 10 · 每周训练安排示例（标准推荐剂量；新手按表9降级起步）</caption>
+      <thead><tr><th scope="col">周一</th><th scope="col">周二</th><th scope="col">周三</th><th scope="col">周四</th><th scope="col">周五</th><th scope="col">周六</th><th scope="col">周日</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>抗阻</strong>（下肢+核心）<br>深蹲/髋铰链/划船，2–3组×8–12次</td>
+          <td><strong>有氧</strong> 30–40分钟快走/椭圆机 + 平衡10分钟</td>
+          <td><strong>抗阻</strong>（上肢+推）<br>推举/俯卧撑/弓步，2–3组×8–12次</td>
+          <td><strong>瑜伽/太极</strong> 30–45分钟（柔韧+平衡+减压）</td>
+          <td><strong>抗阻+冲击</strong>（骨强化日）<br>复合动作 + 跳跃/踏步，进阶者HiRIT</td>
+          <td><strong>有氧</strong> 45–60分钟（舞蹈/慢跑/骑行，可含间歇）</td>
+          <td><strong>恢复</strong> 拉伸/呼吸练习 + <strong>PFMT 每天3组</strong>（含工作日）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-note">说明：PFMT 每日3组贯穿全周；骨质疏松者按表9替换冲击与脊柱动作；每次训练包含热身与放松；潮热时段调整运动环境与时间。所有方案遵循"能坚持 &gt; 最理想"原则——ACSM 2026 立场（基于137项系统综述、30,000+参与者）强调个体化比任何特定方法都重要。</p>
+</section>
+
+<!-- ============ 9 营养SOP ============ -->
+<section id="s9">
+  <div class="sec-head"><span class="sec-num">09</span><h2>营养 SOP：蛋白、钙维D与饮食模式</h2></div>
+  <p class="sec-lead">营养干预聚焦"肌肉-骨骼-代谢"基础盘；对潮热的直接饮食证据普遍有限，不做过度承诺。</p>
+
+  <h3>9.1 蛋白质：抗肌少症的第一营养素</h3>
+  <div class="stat-grid">
+    <div class="stat"><div class="num">1.0–1.2<span class="unit"> g/kg/d</span></div><div class="lbl">绝经后女性基本需求</div><div class="desc">高于RDA的0.8；运动活跃/减重期1.2–1.6，极量/低热量减重可达2.0–2.4。老年人存在"合成抵抗"，需比年轻人多约67%蛋白才能最大刺激肌肉蛋白合成。</div></div>
+    <div class="stat navy"><div class="num">20–30<span class="unit"> g/餐</span></div><div class="lbl">每餐优质蛋白</div><div class="desc">约0.4 g/kg/餐、亮氨酸2.5–3g（≈30g乳清蛋白或40–50g鸡胸肉）；均匀分布三餐比集中晚餐24小时肌肉蛋白合成高约25%。</div></div>
+    <div class="stat orange"><div class="num">25<span class="unit">%</span></div><div class="lbl">蛋白摄入低于RDA</div><div class="desc">绝经后女性中约1/4蛋白摄入不达标，其上下肢功能均低于达标者。抗阻训练+1.3g/kg/d蛋白（瘦红肉）可协同增肌、降IL-6。<a href="https://www.mdpi.com/2072-6643/10/8/1103/pdf" target="_blank" rel="noopener noreferrer">Nutrients 2018</a></div></div>
+  </div>
+  <p class="small">来源：<a href="https://mcpress.mayoclinic.org/women-health/how-much-protein-do-you-really-need-after-menopause/" target="_blank" rel="noopener noreferrer">Mayo Clinic 2025</a>；<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9235827/" target="_blank" rel="noopener noreferrer">肌少症综述 PMC</a>。动物蛋白（乳清最优）合成效率高于植物蛋白，素食者靠互补搭配+增加总量补足。</p>
+
+  <h3>9.2 钙与维生素D（骨骼基础营养）</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 11 · 钙与维生素D推荐摄入量</caption>
+      <thead><tr><th scope="col">营养素</th><th scope="col">51–70岁女性</th><th scope="col">&gt;70岁女性</th><th scope="col">最佳食物来源</th><th scope="col">要点</th></tr></thead>
+      <tbody>
+        <tr><td><strong>钙</strong></td><td class="num">1200 mg/天</td><td class="num">1200 mg/天</td><td>乳制品、深绿叶菜、含钙凝固剂豆腐、强化食品</td><td>优先食物来源；补充剂分次服，单次≤500–600mg吸收最佳</td></tr>
+        <tr><td><strong>维生素D</strong></td><td class="num">600–800 IU/天</td><td class="num">800–1000 IU/天</td><td>日晒（主要来源）、脂肪鱼、蛋黄、强化食品</td><td>补充前建议检测血清25(OH)D；与肌肉功能、免疫相关</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>9.3 饮食模式、体重管理与"触发物"</h3>
+  <ul>
+    <li><strong>地中海饮食</strong>：心血管/体重/代谢证据充分、风险极低，推荐为基础饮食模式；但直接改善VMS的系统综述仅1项，定位是"支持整体健康"而非"治潮热"。</li>
+    <li><strong>体重与腰围</strong>：减重对超重/肥胖女性的潮热有效（NAMS Level II–III，围绝经早期更佳）；策略为高蛋白1.2–1.6g/kg/d保肌 + 抗阻训练防代谢下降 + 循序渐进；<strong>腰围（中心性肥胖）比总体重更能预测代谢风险</strong>。</li>
+    <li><strong>潮热触发物</strong>：酒精/咖啡因/辛辣/热饮的普遍回避证据不足（Level II，不作通用禁忌）；个体差异大，App 用"饮食-症状日记"帮助用户识别<strong>个人</strong>触发模式。</li>
+  </ul>
+
+  <div class="callout danger">
+    <span class="ct">补充剂红线：NAMS 不推荐任何膳食补充剂治疗VMS</span>
+    大豆异黄酮、黑升麻、当归、月见草油、野山药、Omega-3、维生素E、红三叶草、大麻素均为 Level II 不推荐——RCT 总体阴性、异质性大；黑升麻另有肝损伤个案报告。补充剂不受FDA严格监管，成分一致性差。<strong>注意</strong>："不推荐治潮热"≠"全无益处"（钙/维D/Omega-3 在骨与心血管维度仍有价值）。<a href="https://depts.washington.edu/mbwc/content/page-files/NAMS_2023-nonhormone-therapy-position-statement_(1)22.pdf" target="_blank" rel="noopener noreferrer">NAMS 2023</a>
+  </div>
+</section>
+
+<!-- ============ 10 MHT与药物 ============ -->
+<section id="s10">
+  <div class="sec-head"><span class="sec-num">10</span><h2>MHT 与药物：最有效治疗与App的边界</h2></div>
+  <p class="sec-lead">MHT 是VMS/GSM最有效治疗，但属处方决策。本章供产品内容与就医引导使用——<strong>App 只做科普、记录与就医引导，不碰处方</strong>。</p>
+
+  <h3>10.1 机会窗与 WHI 20年随访</h3>
+  <p>"机会窗"（Window of Opportunity）是MHT领域最重要的概念：<strong>&lt;60岁或绝经10年内启动，获益-风险比有利；超窗启动则不利</strong>。WHI（27,347名女性）20年随访的年龄分层数据是核心证据：</p>
+  <div class="stat-grid">
+    <div class="stat"><div class="num">HR 0.61</div><div class="lbl">50–59岁治疗期全因死亡</div><div class="desc">95%CI 0.43–0.87；18年随访HR 0.87（0.76–1.00）。整体队列（平均63岁）全因死亡无差异（HR 0.99）。<a href="https://jamanetwork.com/journals/jama/article-abstract/2650409" target="_blank" rel="noopener noreferrer">Manson JAMA 2017</a></div></div>
+    <div class="stat orange"><div class="num">HR 1.28</div><div class="lbl">CEE+MPA 乳腺癌发病率</div><div class="desc">95%CI 1.13–1.45（有子宫、雌+孕）；但乳腺癌死亡率无显著差异（HR 1.35）。</div></div>
+    <div class="stat navy"><div class="num">HR 0.78</div><div class="lbl">CEE单用 乳腺癌发病率</div><div class="desc">95%CI 0.65–0.93（切除子宫、单用雌激素）；乳腺癌死亡率降低40%（HR 0.60）。提示<strong>孕激素种类/剂量</strong>是乳腺癌风险关键变量。<a href="https://jamanetwork.com/journals/jama/article-abstract/2761063" target="_blank" rel="noopener noreferrer">Chlebowski JAMA 2020</a></div></div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <caption>表 12 · WHI 20年随访核心结局（vs 安慰剂）</caption>
+      <thead><tr><th scope="col">结局</th><th scope="col">CEE+MPA（有子宫）</th><th scope="col">CEE单用（已切子宫）</th></tr></thead>
+      <tbody>
+        <tr><td>乳腺癌发病率</td><td>↑ 增加28%（HR 1.28）</td><td>↓ 降低22%（HR 0.78）</td></tr>
+        <tr><td>乳腺癌死亡率</td><td>无显著差异（HR 1.35）</td><td>↓ 降低40%（HR 0.60）</td></tr>
+        <tr><td>冠心病</td><td>干预早期整体增加；50–59岁组无差异或降低趋势</td><td>50–59岁组有保护趋势（低确定性）</td></tr>
+        <tr><td>卒中 / 静脉血栓</td><td>均↑</td><td>均↑（VTE程度较低）</td></tr>
+        <tr><td>骨折</td><td>↓ 减少</td><td>↓ 减少</td></tr>
+        <tr><td>全因死亡率</td><td>无差异（HR 0.98）</td><td>无差异（HR 1.04）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-note">WHI 局限：参与者平均63岁、仅12.5%为50–54岁，与因症状求治的人群特征不同；二次分析证实"时机假说"。乳腺癌风险幅度参考共识：雌+孕约每年每1000名女性多0.8例。</p>
+
+  <h3>10.2 给药途径、内膜保护与禁忌</h3>
+  <ul>
+    <li><strong>经皮优先场景</strong>：贴剂/凝胶/喷雾不经肝脏首过代谢，<strong>VTE风险显著低于口服</strong>，对甘油三酯影响更小；肥胖、吸烟、高血压、偏头痛、既往VTE、易栓症者首选经皮。<a href="https://journals.lww.com/menopause/fulltext/2022/07000/the_2022_hormone_therapy_position_statement_of.2.aspx" target="_blank" rel="noopener noreferrer">NAMS 2022</a></li>
+    <li><strong>有子宫必加孕激素</strong>：全身雌激素必须联合孕激素保护内膜（防增生/内膜癌）；低剂量阴道局部雌激素治疗GSM通常无需加孕激素。</li>
+    <li><strong>疗程</strong>：无强制上限；更长疗程需明确适应证（如持续VMS）+共同决策+定期重评。中国指南要求用药后1/3/6/12月随诊，之后每年至少1次。</li>
+  </ul>
+  <div class="callout danger">
+    <span class="ct">MHT 绝对禁忌证（App 风险筛查与就医提示用）</span>
+    已知或疑似乳腺癌；已知或疑似雌激素依赖性肿瘤（如内膜癌）；未诊断的异常子宫出血；活动性肝病/肝功能障碍；活动性静脉血栓栓塞；近期（6个月内）动脉血栓栓塞（卒中/心梗）；卟啉症。<br>
+    <strong>慎用（需医生个体化评估）</strong>：乳腺癌家族史/BRCA、高甘油三酯、胆囊疾病、偏头痛（有先兆卒中风险更高）、高血压、肥胖、糖尿病、子宫内膜异位症/子宫肌瘤史。中国2023版指南禁忌证已由8条精简为6条（血卟啉症、耳硬化症、脑膜瘤改为慎用）。
+  </div>
+
+  <h3>10.3 非激素药物疗效对比</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 13 · 非激素药物与MHT的VMS疗效对比（NAMS 2023）</caption>
+      <thead><tr><th scope="col">治疗</th><th scope="col">潮热频率减少</th><th scope="col">证据等级</th><th scope="col">关键备注</th></tr></thead>
+      <tbody>
+        <tr><td><strong>全身雌激素（MHT）</strong></td><td class="num">~75%</td><td><span class="badge b1">A级 金标准</span></td><td>机会窗内获益/风险比有利</td></tr>
+        <tr><td><strong>Fezolinetant（Veozah）</strong></td><td class="num">~60–70%</td><td><span class="badge b1">Level I</span></td><td>2023年FDA批准NK3R拮抗剂；4周起效、维持至52周；<strong>肝酶升高需监测肝功能</strong>；elinzanetant（NK3/NK1双靶）已在英国获批、FDA审查中</td></tr>
+        <tr><td><strong>高剂量加巴喷丁</strong></td><td class="num">~50–60%</td><td><span class="badge b1">A级</span></td><td>2400mg可近雌激素0.625mg水平，但头晕/嗜睡严重；肾功不全减量</td></tr>
+        <tr><td><strong>SSRI/SNRI</strong>（帕罗西汀7.5mg、文拉法辛、艾司西酞普兰、去甲文拉法辛）</td><td class="num">25–65%</td><td><span class="badge b1">Level I</span></td><td>帕罗西汀7.5mg为唯一FDA批准非激素VMS药（2013）；约2周起效；<strong>帕罗西汀抑制CYP2D6，他莫昔芬使用者禁用</strong>，可换文拉法辛；西酞普兰高剂量注意QT</td></tr>
+        <tr><td><strong>奥昔布宁</strong></td><td class="num">30–50%</td><td><span class="badge b2">Level I–II</span></td><td>合并膀胱过度活动"一药双效"；65岁以上避免长期用（抗胆碱能认知风险）</td></tr>
+        <tr><td><strong>标准剂量加巴喷丁</strong></td><td class="num">较安慰剂多10–20%</td><td><span class="badge b1">A级</span></td><td>900mg/d（300mg tid）；<strong>睡前给药兼顾夜间盗汗与睡眠</strong></td></tr>
+        <tr><td><strong>可乐定</strong></td><td class="num">10–20%</td><td><span class="badge b4">不推荐</span></td><td>效果弱、耐受性差；普瑞巴林（Level III）、苏沃雷生（Level II）亦不推荐</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout guide">
+    <span class="ct">App 在 MHT/药物上的四个允许动作</span>
+    ① 循证科普、纠正WHI以来的普遍误解；② 症状日记为就医提供数据；③ 复查时间节点提醒（1/3/6/12月）；④ MHT常见问题的循证解答与就医/专科查找入口。<strong>不得</strong>推荐具体药物、剂量、调药或处方。
+  </div>
+</section>
+
+<!-- ============ 11 心理·性·社交 ============ -->
+<section id="s11">
+  <div class="sec-head"><span class="sec-num">11</span><h2>心理 · 性 · 社交：被低估的风险与被沉默的需求</h2></div>
+  <p class="sec-lead">围绝经期是女性一生中心理健康风险最高的窗口之一；性健康病耻感最强、就医率最低；职场成本已被量化并进入立法。</p>
+
+  <h3>11.1 心理风险：围绝经期是明确的时间窗</h3>
+  <div class="stat-grid">
+    <div class="stat orange"><div class="num">+52<span class="unit">%</span></div><div class="lbl">首发精神疾病总风险</div><div class="desc">UK Biobank 12.8万女性（IRR=1.52，95%CI 1.39–1.67）；重度抑郁+30%；<strong>躁狂症+112%（IRR=2.12）</strong>；绝经后回落（IRR=1.09）。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11479941/" target="_blank" rel="noopener noreferrer">UK Biobank 2024</a></div></div>
+    <div class="stat"><div class="num">+40<span class="unit">%</span></div><div class="lbl">抑郁症状/诊断风险</div><div class="desc">UCL 荟萃7项研究9,141名女性：围绝经期较绝经前高约40%，绝经后回落至无显著差异。<a href="http://www.ucl.ac.uk/news/2024/may/women-are-40-more-likely-experience-depression-during-perimenopause" target="_blank" rel="noopener noreferrer">UCL 2024</a></div></div>
+    <div class="stat navy"><div class="num">24.8<span class="unit">%</span></div><div class="lbl">中国社区抑郁症状率</div><div class="desc">2023–24年12省13市6,432名围绝经期女性：轻度20.1%、中度3.9%、重度0.8%；症状重、睡眠差、腰臀比大为独立危险因素，<strong>规律运动有保护作用</strong>。<a href="http://chinaepi.icdc.cn/zhlxbx/ch/reader/view_abstract.aspx?file_no=20260303&flag=1" target="_blank" rel="noopener noreferrer">中华流行病学杂志 2025</a></div></div>
+  </div>
+  <div class="callout warn">
+    <span class="ct">最强预测因子：既往生殖期情绪障碍史</span>
+    有 PMS、PMDD 或产后抑郁病史的女性围绝经期抑郁风险显著更高（"生殖抑郁症"概念——对激素波动的神经敏感性增加）。<strong>App 初筛问卷必须包含 PMS/PMDD 史与产后抑郁史两个高价值变量。</strong>雌激素治疗对围绝经期女性有类似传统抗抑郁药的抗抑郁效果（Level II），但对绝经后已确立的临床抑郁无效。<a href="https://emas-online.org/wp-content/uploads/2021/04/depression-statement.pdf" target="_blank" rel="noopener noreferrer">EMAS 2020</a>
+  </div>
+
+  <h3>11.2 CBT/正念效应量（数字心理模块的证据底座）</h3>
+  <figure>
+    <svg viewBox="0 0 940 330" role="img" aria-labelledby="cbt-title cbt-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="cbt-title">CBT与正念干预对更年期各结局的效应量</title>
+      <desc id="cbt-desc">横向条形图展示标准化效应量绝对值：CBT失眠g=1.77-2.48最大，CBT/MBI生活质量d=0.78，CBT潮热困扰g=0.60-0.87，MBI焦虑d=0.56，CBT抑郁d=0.33，CBT潮热频率g=0.39，CBT焦虑d=0.22。</desc>
+      <g font-size="12.5" fill="#102A43">
+        <g stroke="#E6E1D8"><line x1="250" y1="20" x2="250" y2="300"/><line x1="400" y1="20" x2="400" y2="300"/><line x1="550" y1="20" x2="550" y2="300"/><line x1="700" y1="20" x2="700" y2="300"/><line x1="850" y1="20" x2="850" y2="300"/></g>
+        <g font-size="11" fill="#667085" text-anchor="middle" font-family="monospace"><text x="250" y="318">0</text><text x="400" y="318">0.5</text><text x="550" y="318">1.0</text><text x="700" y="318">1.5</text><text x="850" y="318">2.0+</text></g>
+        <!-- 每条 y间隔34，0.3=90px? 设1.0=300px → 0.1=30px；条从250起 -->
+        <text x="242" y="40" text-anchor="end">CBT 失眠（g=1.77–2.48）</text>
+        <rect x="250" y="27" width="600" height="18" fill="#102A43"/><text x="858" y="41" font-family="monospace" font-weight="700" fill="#102A43">极大</text>
+        <text x="242" y="74" text-anchor="end">CBT/MBI 生活质量（d=0.78）</text>
+        <rect x="250" y="61" width="234" height="18" fill="#2978B5"/><text x="492" y="75" font-family="monospace" font-weight="700" fill="#1C5E94">0.78 大</text>
+        <text x="242" y="108" text-anchor="end">CBT 潮热困扰（g=0.60–0.87）</text>
+        <rect x="250" y="95" width="261" height="18" fill="#2978B5"/><text x="519" y="109" font-family="monospace" font-weight="700" fill="#1C5E94">中–大</text>
+        <text x="242" y="142" text-anchor="end">MBI 焦虑（d=0.56）</text>
+        <rect x="250" y="129" width="168" height="18" fill="#2978B5"/><text x="426" y="143" font-family="monospace" font-weight="700" fill="#1C5E94">0.56</text>
+        <text x="242" y="176" text-anchor="end">CBT 抑郁（d=0.33）</text>
+        <rect x="250" y="163" width="99" height="18" fill="#F59E0B"/><text x="357" y="177" font-family="monospace" font-weight="700" fill="#9A6206">0.33 中</text>
+        <text x="242" y="210" text-anchor="end">CBT 潮热频率（g≈0.39）</text>
+        <rect x="250" y="197" width="117" height="18" fill="#F59E0B"/><text x="375" y="211" font-family="monospace" font-weight="700" fill="#9A6206">小</text>
+        <text x="242" y="244" text-anchor="end">CBT 焦虑（d=0.22）</text>
+        <rect x="250" y="231" width="66" height="18" fill="#F59E0B"/><text x="324" y="245" font-family="monospace" font-weight="700" fill="#9A6206">0.22</text>
+        <text x="242" y="278" text-anchor="end">CBT 认知功能（d=0.23）</text>
+        <rect x="250" y="265" width="69" height="18" fill="#F59E0B"/><text x="327" y="279" font-family="monospace" font-weight="700" fill="#9A6206">0.23</text>
+      </g>
+    </svg>
+    <figcaption><b>图 4 ·</b> 心理干预效应量（绝对值）。核心洞察：CBT 不主要减少潮热发生次数，而是改变对潮热的认知评价与应对——<strong>"改变与症状的关系"而非"消除症状"</strong>。数据源自 Robinson 2026（28 RCT，n=2,887）与 Spector 2024（30 RCT，n=3,501）；两研究效应量符号约定不同，此处统一取绝对值。</figcaption>
+  </figure>
+  <p>CBT-I（失眠认知行为治疗）是慢性失眠一线治疗（推荐等级高于药物），核心要素：刺激控制、睡眠限制、认知重构、睡眠卫生、放松训练。<strong>自助式CBT配合最小限度支持（电话/在线引导）即可产生临床意义改善</strong>，为App内CBT模块提供直接证据。NICE NG23 基于14项RCT正式推荐更年期特异性CBT。</p>
+
+  <h3>11.3 脑雾：主观体验与客观测量的落差</h3>
+  <p>40%–50%女性报告认知症状（专科门诊达80%）；REACT-Long Covid 队列（14,234名45–55岁女性）示围绝经OR=1.31、绝经后OR=1.13，但客观八项认知任务差异极小（仅0.03–0.06 SD），且主观抱怨与心理症状中度相关——脑雾更像"情绪+睡眠+激素交互的主观体验集合"。BMS 2026工具明确鉴别：<strong>脑雾起病45–55岁、波动、日常生活能力保留；痴呆起病65岁以上、进行性、影响独立生活</strong>。WHIMS：65岁后启动CEE+MPA使全因痴呆风险翻倍（每万人增23例），60岁前/绝经10年内启动则中性或可能有益（时机假说）。</p>
+
+  <h3>11.4 性健康：高患病率、高病耻、低就医</h3>
+  <ul>
+    <li><strong>性功能障碍58.1%</strong>（FSFI&lt;26.55）：性欲障碍50.7%最高，其次唤起43.3%、高潮35.6%、满意33.6%、性交痛29.5%、润滑28.5%；SWAN示绝经后24%从无性欲、41%很少有性欲，手术绝经最重。抑郁是FSD独立危险因素（P&lt;0.05）。</li>
+    <li><strong>GSM 就诊鸿沟</strong>：仅约1/5的GSM女性主动就医；就诊时仅54%主动讨论性健康、33%选择不提；欧洲仅4%女性报告外阴阴道症状。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11611114/" target="_blank" rel="noopener noreferrer">PMC 2024</a></li>
+    <li>GSM 与潮热不同——<strong>不会随时间缓解，反而进行性恶化</strong>；教育去病耻化 + 伴侣沟通话术 + 转诊路径是App首要任务。</li>
+  </ul>
+
+  <h3>11.5 职场、社会支持与病耻感</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 14 · 职场与社会维度关键证据</caption>
+      <thead><tr><th scope="col">维度</th><th scope="col">关键数据</th><th scope="col">来源</th></tr></thead>
+      <tbody>
+        <tr><td>生产力损失</td><td>未治疗VMS与工作生产力损失增加<strong>57%</strong>相关；Mayo 4,440名在职女性中13%出现减时/缺勤/辞职/提前退休等不良结局，且随症状严重度升高</td><td><a href="https://hub.menopause.org/pdf/2024-Menopause-and-the-Workplace-Consensus-Recommendations.pdf" target="_blank" rel="noopener noreferrer">TMS 2024 职场共识</a></td></tr>
+        <tr><td>英国经济成本</td><td>失业相关约<strong>15亿英镑/年</strong>（约6万女性退出劳动力市场）；缺勤约1.91亿英镑（严重症状者年缺勤约7天）；出勤主义约2,240万英镑</td><td><a href="https://www.gov.uk/government/publications/menopause-in-the-workplace-literature-review/menopause-in-the-workplace-literature-review" target="_blank" rel="noopener noreferrer">UK Gov 2025</a></td></tr>
+        <tr><td>美国/加拿大成本</td><td>未治疗VMS人均年增量直接医疗成本$1,346 + 间接成本$770；加拿大估计年损失约35亿加元（Deloitte）</td><td>Aviaconnect综述</td></tr>
+        <tr><td>立法进展</td><td>英国2024.4起首日灵活工作请求权；2024.10任命Mariella Frostrup为更年期就业大使；<strong>2025.12《就业权利法》御准，首次将更年期写入立法</strong>，要求250人以上雇主制定含更年期支持的平等行动计划（2026.4起实施）</td><td><a href="https://www.gov.uk/government/news/womens-health-campaigner-mariella-frostrup-appointed-as-government-menopause-employment-ambassador" target="_blank" rel="noopener noreferrer">UK Gov 2024</a></td></tr>
+        <tr><td>病耻感</td><td>48%受访者认为更年期女性被视为"生产力较低或情绪不稳定"；45%职业女性报告症状影响工作、23%考虑减少工时</td><td>PMC 2023</td></tr>
+        <tr><td>社会支持（保护因素）</td><td>牢固的同伴/婚姻/社区支持网络与更低的焦虑、抑郁、躯体症状一致相关；伴侣的误解是依从性重要障碍；同伴支持显著减轻孤独感与病耻感</td><td><a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1653806/full" target="_blank" rel="noopener noreferrer">Frontiers 2025</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout gray">
+    <span class="ct">文化与健康不平等（中国市场提示）</span>
+    亚洲女性更倾向报告躯体症状（关节痛、疲劳、心悸）而少报心理/性症状；去病耻化内容、通俗表达、"自然过渡"而非"疾病"的框架更符合文化接受度。此外需关注种族/族裔、社会经济、医疗可及性不平等，以及跨性别与性别多元群体长期被忽视的更年期需求。中年女性进食障碍的新发/复发/慢性化也在增加，筛查不应假设40+女性无此风险。
+  </div>
+</section>
+
+<!-- ============ 12 竞品与数字疗法 ============ -->
+<section id="s12">
+  <div class="sec-head"><span class="sec-num">12</span><h2>全球竞品与数字疗法证据</h2></div>
+  <p class="sec-lead">市场高速扩容但证据基础薄弱：三类模式（症状追踪/教育、远程医疗/处方、B2B员工福利），仅极少数产品有同行评审临床验证。</p>
+
+  <h3>12.1 主流产品对比</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 15 · 全球更年期数字健康代表性产品（融资/用户数据截至2026年8月源文件）</caption>
+      <thead><tr><th scope="col">产品</th><th scope="col">定位/模式</th><th scope="col">核心功能</th><th scope="col">规模/融资</th><th scope="col">差异化</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Midi Health</strong>（美）</td><td>更年期远程医疗独角兽；B2C保险报销+自付</td><td>视频问诊、个性化方案、HRT处方、实验室检测、生活方式模块</td><td>融资$1.5亿，估值<strong>$10亿+</strong>；覆盖50州、约4,500万保险人群，每周约2.5万次问诊</td><td>保险覆盖模式、AI辅助临床决策、多学科团队 <a href="https://sacra.com/c/midi-health/" target="_blank" rel="noopener noreferrer">Sacra</a></td></tr>
+        <tr><td><strong>Peppy</strong>（英→美）</td><td>B2B员工福利数字健康平台</td><td>1:1专家消息咨询、更年期/生育/新父母支持、群聊、直播</td><td><strong>B轮$4,500万</strong>；服务250+企业客户</td><td>纯B2B、多性别健康服务线、雇主ROI导向 <a href="https://justentrepreneurs.co.uk/news/peppy-the-global-leader-in-gender-based-healthcare-raises-45m-series-b-to-dominate-the-us-market" target="_blank" rel="noopener noreferrer">Just Entrepreneurs 2024</a></td></tr>
+        <tr><td><strong>Balance</strong>（英）</td><td>大众健康App；免费+订阅$38/年</td><td>症状追踪、循证教育、就诊报告、社区</td><td><strong>100万+全球用户</strong></td><td>Dr. Louise Newson背书、ORCHA审核、伴侣模式 <a href="https://apps.apple.com/gb/app/balance-menopause-hormones/id1503345959" target="_blank" rel="noopener noreferrer">App Store</a></td></tr>
+        <tr><td><strong>Caria</strong></td><td>更年期/中年健康App；订阅制</td><td>症状追踪、CBT/催眠/营养/正念/健身、社区</td><td><strong>已发表6周RCT</strong>（n=149）</td><td>唯一有发表RCT验证：潮热严重度 P=.007、抑郁PHQ-8显著改善 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12187029/" target="_blank" rel="noopener noreferrer">JMIR 2024</a></td></tr>
+        <tr><td><strong>Hers</strong>（美）</td><td>DTC女性健康平台（Hims &amp; Hers，NASDAQ上市）</td><td>异步问诊、HRT处方、消息随访；多品类</td><td>订阅约$99/月；50万+订阅会员</td><td>一站式、异步便捷、不接受保险 <a href="https://clearhormones.com/how-much-does/how-much-does-hers-menopause-treatment-cost" target="_blank" rel="noopener noreferrer">ClearHormones 2026</a></td></tr>
+        <tr><td><strong>Tia</strong>（美）</td><td>女性全周期护理诊所；会员制+保险</td><td>妇科/初保/围绝经/激素/生育/减重/精神等10专科</td><td>未披露</td><td>线上+线下协调护理 <a href="https://asktia.com/services/" target="_blank" rel="noopener noreferrer">Tia官网</a></td></tr>
+        <tr><td><strong>Gennev</strong>（美）</td><td>虚拟更年期诊所；按次+订阅</td><td>医生问诊、营养咨询、症状管理、HRT处方</td><td>融资$466万；2022年被Unified Women's Healthcare收购</td><td>早期进入者、全科+营养双支持 <a href="https://www.cbinsights.com/company/genneve" target="_blank" rel="noopener noreferrer">CB Insights</a></td></tr>
+        <tr><td><strong>Stella</strong></td><td>行为健康+临床；$99–240/年+临床费</td><td>CBT、盆底训练、正念、教练、社区；可选HRT</td><td>未披露</td><td>75%完成计划者报告症状改善、CBT为核心 <a href="https://wellnessinaging.com/product-reviews/best-menopause-app" target="_blank" rel="noopener noreferrer">WellnessInAging 2026</a></td></tr>
+        <tr><td><strong>MenoLife</strong></td><td>症状追踪洞察App；免费+高级版</td><td>40+症状追踪、趋势、同龄人比较、引导练习</td><td>14.5万+条症状日志用于学术研究</td><td>数据驱动洞察；近症状时点记录比年度临床回忆更准确 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11699220/" target="_blank" rel="noopener noreferrer">PMC 2024</a></td></tr>
+        <tr><td><strong>MPowder</strong>（英）</td><td>营养补剂品牌；D2C</td><td>植物基营养粉 + SMS症状追踪</td><td>融资$103万早期轮；9名员工</td><td>营养导向、追踪+补剂闭环 <a href="https://pitchbook.com/profiles/company/443337-40" target="_blank" rel="noopener noreferrer">PitchBook</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>12.2 数字疗法与可穿戴证据</h3>
+  <ul>
+    <li><strong>Caria RCT</strong>：6周、149名有问题性VMS且伴行为健康症状女性，干预组潮热严重度改善显著优于网络教育对照（P=.007；时间×治疗交互 P=.04），PHQ-8抑郁仅治疗组显著改善（P&lt;.001）。</li>
+    <li><strong>iCBT</strong>：NICE综述14项RCT中面对面/团体/电话/自助手册/互联网各递送方式效果差异不大；自助式+最小支持即有临床获益。</li>
+    <li><strong>症状日记</strong>：MenoLife 14.5万条日志分析示App近时点记录对一天多次的潮热比临床回忆更准确。</li>
+    <li><strong>可穿戴</strong>：Oura Ring 4/5（2025）推出Hot Flush Detection（夜间皮温模式识别潮热并关联睡眠中断），三星Galaxy Ring、Ultrahuman等跟进皮温/HRV；2026年都柏林Peri传感器专用于潮热/盗汗/睡眠/焦虑记录；<strong>Apple 在WWDC 2026宣布iOS 27 Cycle Tracking增加围绝经期/更年期支持</strong>（长期周期数据检测过渡期+症状记录+教育+Fitness+定制锻炼）。可穿戴目前是<strong>数据采集与模式识别工具，非诊断/治疗设备</strong>，英国全科医生仅将其作为HRT评估辅助。<a href="https://smartringhq.com/blog/smart-ring-for-menopause-perimenopause-uk-2026/" target="_blank" rel="noopener noreferrer">Smart Ring HQ 2026</a></li>
+  </ul>
+
+  <h3>12.3 现有App的四大问题（竞品教训）</h3>
+  <div class="callout danger">
+    <span class="ct">① 隐私：10/10 全部数据外泄</span>
+    Peak Privacy 对10款最广泛使用更年期App的安全测试发现，<strong>所有App都向第三方（广告网络、分析平台、归因服务）发送数据，部分在用户完成注册前即开始传输</strong>。更年期数据（睡眠、记忆、性功能、HRT使用）是最敏感的健康画像之一，存在监控定价、职场歧视乃至政治环境下被滥用的风险。<a href="https://www.the-independent.com/life-style/menopause-app-data-privacy-safety-b3010967.html" target="_blank" rel="noopener noreferrer">The Independent 2026</a>
+  </div>
+  <div class="callout warn">
+    <span class="ct">② 循证薄弱 ③ 商业偏见 ④ 医疗化失衡</span>
+    ② 2023系统综述：极少数App经过同行评审临床效用验证，多数停留在信息/追踪层面；部分推广缺乏与标准HRT等效证据的"生物同质性"激素检测与定制复合激素（JMIR 2026）。③ HRT导向App把一切引向激素、补剂App过度强调补剂，商业立场影响建议。④ 一方面把更年期过度医疗化制造焦虑，另一方面对重度抑郁/自杀意念等缺乏风险分层与紧急转诊。<a href="https://www.jmir.org/2026/1/e106205/PDF" target="_blank" rel="noopener noreferrer">JMIR 2026</a>；<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10542256/" target="_blank" rel="noopener noreferrer">PMC 2023</a>
+  </div>
+  <div class="callout gray">
+    <span class="ct">监管边界（SaMD 红线）</span>
+    一般健康类App（症状追踪、教育、生活方式建议、社区）不受FDA/CE/NMPA严格监管，但<strong>不得做疾病诊断、治疗、缓解、预防宣称</strong>；一旦声称诊断/治疗症状或提供治疗决策建议（如HRT剂量调整），即构成软件医疗器械（SaMD），需按FDA I/II/III类（510(k)/De Novo/PMA）审批；AI/ML个性化建议另需遵循AI-enabled SaMD要求。<a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/digital-health-frequently-asked-questions-faqs" target="_blank" rel="noopener noreferrer">FDA 数字健康FAQ</a>
+  </div>
+</section>
+
+<!-- ============ 13 App产品架构 ============ -->
+<section id="s13">
+  <div class="sec-head"><span class="sec-num">13</span><h2>App 产品架构建议（落地产物）</h2></div>
+  <p class="sec-lead">定位为 EMAS 框架的"第1层数字接入"：分层评估 → 个性化引擎 → 循证干预模块 → 全程安全合规。不做诊断、不碰处方、危机必转诊。</p>
+
+  <figure>
+    <svg viewBox="0 0 940 460" role="img" aria-labelledby="arch-title arch-desc" xmlns="http://www.w3.org/2000/svg">
+      <title id="arch-title">更年期大健康App产品架构流程图</title>
+      <desc id="arch-desc">架构自下而上分四层：用户入口（三层评估）、个性化引擎（年龄/绝经阶段/症状谱/合并症/运动基础等变量）、干预模块（训练SOP、营养、CBT自助、症状日记、盆底、社区）、安全合规层（不作诊断、不处方、危机转诊、隐私保护、内容循证标注）；高风险用户导出就医摘要转向医疗系统。</desc>
+      <!-- 第1层：评估入口 -->
+      <rect x="30" y="30" width="880" height="80" rx="8" fill="#E8F1F9" stroke="#BCD6EC"/>
+      <text x="50" y="55" font-size="14" font-weight="700" fill="#1C5E94">① 三层评估入口</text>
+      <g font-size="12.5" fill="#102A43">
+        <rect x="50" y="66" width="260" height="34" rx="5" fill="#fff" stroke="#BCD6EC"/><text x="62" y="87">快速筛查（5min）：Kupperman+PHQ-2/GAD-2+月经史</text>
+        <rect x="330" y="66" width="270" height="34" rx="5" fill="#fff" stroke="#BCD6EC"/><text x="342" y="87">综合评估（15–20min）：MENQOL/PHQ-9/GAD-7/ISI/FSFI-6+体测</text>
+        <rect x="620" y="66" width="270" height="34" rx="5" fill="#FAECEA" stroke="#E8C4C1"/><text x="632" y="87">转诊红线：自杀意念/异常出血/重度症状→就医摘要</text>
+      </g>
+      <!-- 箭头 -->
+      <path d="M470 110 L470 135" stroke="#667085" stroke-width="2" marker-end="url(#arr)"/>
+      <!-- 第2层：个性化引擎 -->
+      <rect x="30" y="140" width="880" height="80" rx="8" fill="#FDF3E2" stroke="#F0D9AE"/>
+      <text x="50" y="165" font-size="14" font-weight="700" fill="#9A6206">② 个性化引擎（规则+证据权重，非黑箱诊断）</text>
+      <g font-size="12" fill="#102A43">
+        <rect x="50" y="176" width="130" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="115" y="196" text-anchor="middle">年龄/绝经阶段</text>
+        <rect x="195" y="176" width="130" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="260" y="196" text-anchor="middle">症状谱/严重度</text>
+        <rect x="340" y="176" width="130" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="405" y="196" text-anchor="middle">合并症/禁忌筛查</text>
+        <rect x="485" y="176" width="130" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="550" y="196" text-anchor="middle">运动基础/体能</text>
+        <rect x="630" y="176" width="130" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="695" y="196" text-anchor="middle">心理史/社会支持</text>
+        <rect x="775" y="176" width="115" height="30" rx="5" fill="#fff" stroke="#F0D9AE"/><text x="832" y="196" text-anchor="middle">文化/偏好</text>
+      </g>
+      <path d="M470 220 L470 245" stroke="#667085" stroke-width="2"/>
+      <!-- 第3层：干预模块 -->
+      <rect x="30" y="250" width="880" height="110" rx="8" fill="#E7F3EC" stroke="#BFDCCB"/>
+      <text x="50" y="275" font-size="14" font-weight="700" fill="#2E7D54">③ 循证干预模块（核心模块全员 + 按需模块激活）</text>
+      <g font-size="12" fill="#102A43">
+        <rect x="50" y="286" width="160" height="58" rx="5" fill="#fff" stroke="#BFDCCB"/><text x="130" y="308" text-anchor="middle" font-weight="700">训练SOP</text><text x="130" y="326" text-anchor="middle">抗阻/有氧/HiRIT/盆底/平衡</text>
+        <rect x="225" y="286" width="160" height="58" rx="5" fill="#fff" stroke="#BFDCCB"/><text x="305" y="308" text-anchor="middle" font-weight="700">营养SOP</text><text x="305" y="326" text-anchor="middle">蛋白/钙维D/饮食-症状日记</text>
+        <rect x="400" y="286" width="160" height="58" rx="5" fill="#fff" stroke="#BFDCCB"/><text x="480" y="308" text-anchor="middle" font-weight="700">CBT自助/iCBT</text><text x="480" y="326" text-anchor="middle">CBT-I/潮热应对/正念音频</text>
+        <rect x="575" y="286" width="160" height="58" rx="5" fill="#fff" stroke="#BFDCCB"/><text x="655" y="308" text-anchor="middle" font-weight="700">症状日记+趋势</text><text x="655" y="326" text-anchor="middle">周/月可视化反馈闭环</text>
+        <rect x="750" y="286" width="140" height="58" rx="5" fill="#fff" stroke="#BFDCCB"/><text x="820" y="308" text-anchor="middle" font-weight="700">社区/同伴</text><text x="820" y="326" text-anchor="middle">匿名+内容审核+危机识别</text>
+      </g>
+      <!-- 第4层：合规底座 -->
+      <rect x="30" y="378" width="880" height="72" rx="8" fill="#102A43"/>
+      <text x="50" y="400" font-size="14" font-weight="700" fill="#F59E0B">④ 安全合规底座（贯穿全程）</text>
+      <text x="50" y="420" font-size="12.5" fill="#D8E2EE">不作诊断 · 不处方（MHT/药物只做就医引导）· PHQ-9第9题危机转诊+援助热线</text>
+      <text x="50" y="440" font-size="12.5" fill="#D8E2EE">隐私最小化采集 / 禁第三方广告追踪 / 数据可删除 · 内容标注证据等级与来源 · SaMD宣称边界</text>
+      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#667085"/></marker></defs>
+    </svg>
+    <figcaption><b>图 5 ·</b> App 产品架构总览。评估决定分层、引擎决定内容组合、模块承载交付、合规底座贯穿始终；高风险路径始终向医疗系统（EMAS 第2–3层）开放。</figcaption>
+  </figure>
+
+  <h3>13.1 个性化引擎的关键变量</h3>
+  <div class="table-scroll">
+    <table>
+      <caption>表 16 · 推荐引擎输入变量与对方案的影响</caption>
+      <thead><tr><th scope="col">变量类别</th><th scope="col">具体变量</th><th scope="col">对方案选择的影响</th></tr></thead>
+      <tbody>
+        <tr><td>绝经阶段</td><td>绝经前/围绝经早期/围绝经晚期/绝经后（年龄+月经史判定）</td><td>症状预期轨迹、干预重点、MHT科普口径不同</td></tr>
+        <tr><td>症状谱与严重度</td><td>主导症状（VMS/心理/睡眠/性/泌尿/躯体）+轻中重</td><td>模块选择与排序、是否触发转诊</td></tr>
+        <tr><td>心理史</td><td>PMS/PMDD史、产后抑郁史、既往抑郁焦虑</td><td>心理干预优先级与深度（最强预测因子）</td></tr>
+        <tr><td>合并症/禁忌</td><td>乳腺疾病史、血栓风险、CVD、高血压、偏头痛、甲状腺</td><td>MHT科普口径、运动分层（骨松/CVD方案）、非激素路径</td></tr>
+        <tr><td>运动基础</td><td>久坐/轻度/中等/规律；握力、坐立试验</td><td>运动处方起始强度与进阶速度</td></tr>
+        <tr><td>社会支持与文化</td><td>伴侣/同伴/职场支持；教育程度、地域、对MHT态度</td><td>社区与伴侣模块适配、内容框架与语言风格</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>13.2 干预模块与SOP复评周期</h3>
+  <ul>
+    <li><strong>核心模块（全员）</strong>：运动处方（按运动能力+骨风险+盆底+CVD风险分层）、营养指导、阶段匹配教育。</li>
+    <li><strong>按需模块</strong>：CBT自助（中重度VMS困扰/失眠/焦虑抑郁）、盆底训练（任何漏尿/脱垂症状）、体重管理（BMI≥24或腰围≥85cm且有意愿）、骨骼强化（FRAX中高危）、心身放松。</li>
+    <li><strong>复评节奏</strong>：2周看日记趋势与依从性→4周MRS复测调进阶→8周全面症状+体能评估→12周完整综合评估并定下一阶段计划→6个月中期调整→12个月年度评估、更新风险分层、提醒体检与DEXA。</li>
+  </ul>
+
+  <h3>13.3 依从性与留存策略</h3>
+  <div class="flow-grid">
+    <div class="flow-card"><div class="step">策略 1</div><h4>行为激活，而非信息过载</h4><p>第一天即给具体可执行小动作（如"3次深呼吸""记录1次潮热"），避免"看完内容就流失"；每周1–2个微习惯目标，阶梯进阶。</p></div>
+    <div class="flow-card"><div class="step">策略 2</div><h4>追踪必须闭环反馈</h4><p>追踪不是目的，反馈才是。每周/月生成可视化趋势报告让用户看到改善——这是最强持续动机；MenoLife数据显示多数用户约一周后流失，价值反馈必须更早。</p></div>
+    <div class="flow-card"><div class="step">策略 3</div><h4>社会连接提留存</h4><p>同经历女性的连接是最强参与动力之一：小组挑战、打卡、教练互动；社区需配专业审核、匿名发帖、负面情绪引导与危机识别。</p></div>
+    <div class="flow-card"><div class="step">策略 4</div><h4>可穿戴接入做客观镜像</h4><p>接入皮温/HRV/睡眠数据识别潮热与睡眠模式，定位为"自我观察工具"而非诊断；数据仅本地/最小化上传。</p></div>
+  </div>
+
+  <h3>13.4 安全合规红线清单（产品评审 Checklist）</h3>
+  <div class="callout danger">
+    <span class="ct">不可逾越的6条红线</span>
+    ① <strong>不作诊断</strong>：评估结果仅供参考，明示不替代医学诊断；② <strong>不处方</strong>：HRT/fezolinetant/SSRI等一切药物讨论导向医疗专业人员，不推荐具体药与剂量；③ <strong>危机转诊</strong>：PHQ-9第9题&gt;0即弹出危机干预信息与当地心理援助热线，重度VMS/异常出血等红旗强制就医提示；④ <strong>隐私保护</strong>：对照"10/10 App外泄"教训，最小化采集、禁止向广告/归因第三方发送健康数据、社区与健康数据隔离、提供数据删除；⑤ <strong>内容循证标注</strong>：所有健康建议标注证据等级与来源，不推广"生物同质性激素"等无等效证据疗法，不卖补剂导向内容；⑥ <strong>宣称合规</strong>：不做诊断/治疗/预防宣称，避免落入SaMD监管；AI建议遵循AI-enabled SaMD要求。
+  </div>
+</section>
+
+<!-- ============ 14 缺口与争议 ============ -->
+<section id="s14">
+  <div class="sec-head"><span class="sec-num">14</span><h2>研究缺口与争议（产品话术需留有余地）</h2></div>
+  <div class="table-scroll">
+    <table>
+      <caption>表 17 · 证据缺口与争议领域及对产品的含义</caption>
+      <thead><tr><th scope="col">议题</th><th scope="col">现状</th><th scope="col">对产品的含义</th></tr></thead>
+      <tbody>
+        <tr><td>运动单一治潮热</td><td>Cochrane/NAMS：对VMS频率效应不一致、异质性极大（Level II 不推荐作为单一治疗）；部分女性运动反而诱发潮热，机制不明</td><td>运动定位"整体健康基础干预"，不得承诺缓解潮热</td></tr>
+        <tr><td>围绝经期运动证据</td><td>绝大多数RCT在绝经后女性中进行；症状最重的围绝经期（激素波动对训练反应影响）数据很少</td><td>围绝经方案强调弹性与个体调整，避免照搬绝经后处方</td></tr>
+        <tr><td>长期依从性</td><td>运动干预研究多为12–24周，1年以上研究少，长期维持策略证据不足</td><td>留存策略本身需做RCT/真实世界验证</td></tr>
+        <tr><td>数字CBT更年期专用证据</td><td>CBT疗效确定，但App交付版本效应量是否等同面对面、更年期专用数字CBT证据仍在积累</td><td>iCBT模块引用NICE递送方式证据，同时规划自有RCT（对标Caria）</td></tr>
+        <tr><td>大豆异黄酮/黑升麻</td><td>结果矛盾：亚洲观察性研究常阳性、RCT总体阴性；可能与equol肠道菌群、剂量、时机有关；NAMS不推荐，日本等亚洲指南态度更积极；黑升麻有肝安全个案</td><td>内容按NAMS口径"证据不足、不推荐治疗VMS"，呈现争议但不带货</td></tr>
+        <tr><td>MHT乳腺癌风险</td><td>WHI：CEE+MPA增风险、CEE单用反降风险；百万妇女研究等观察性研究结论不同；共识为雌+孕小幅增加（约每年每千人0.8例）</td><td>科普避免"激素致癌/激素完全安全"两个极端，强调方案与个体差异</td></tr>
+        <tr><td>中国/亚洲人群数据</td><td>绝大多数RCT为欧美人群；亚洲女性症状谱、代谢、骨松模式、药物代谢可能不同</td><td>优先采用中国CDC/中华医学会数据，标注外推局限</td></tr>
+        <tr><td>App临床验证稀缺</td><td>仅Caria等极少数有同行评审RCT；多数App无临床效用验证</td><td>将"发表自有RCT"作为差异化与信任壁垒（参考Mayo emmii、Caria路径）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 15 参考文献 ============ -->
+<section id="s15">
+  <div class="sec-head"><span class="sec-num">15</span><h2>参考文献（合并去重）</h2></div>
+  <p class="sec-lead">以下为三份底稿引用的主要来源，按"指南/立场声明—系统综述/RCT/队列—行业政策与市场"分类；正文关键结论处已就近标注来源链接。</p>
+
+  <h3>A. 学会指南与立场声明</h3>
+  <ol class="refs">
+    <li><span class="rt">NAMS 2022 激素治疗立场声明</span>，<em>Menopause</em> 29(7):767–794。<a href="https://journals.lww.com/menopause/fulltext/2022/07000/the_2022_hormone_therapy_position_statement_of.2.aspx" target="_blank" rel="noopener noreferrer">journals.lww.com</a></li>
+    <li><span class="rt">NAMS 2023 非激素治疗立场声明</span>，<em>Menopause</em> 30(6):573–590。<a href="https://depts.washington.edu/mbwc/content/page-files/NAMS_2023-nonhormone-therapy-position-statement_(1)22.pdf" target="_blank" rel="noopener noreferrer">PDF全文</a></li>
+    <li><span class="rt">IMS 2024–2025 全球更年期管理推荐</span>。<a href="https://demenopauzespecialist.nl/wp-content/uploads/2026/02/International-Menopause-Society-IMS-recommendations-and-key-messages-on-women-s-midlife-health-and-menopause-2.pdf" target="_blank" rel="noopener noreferrer">IMS推荐文件PDF</a></li>
+    <li><span class="rt">EMAS 2026"健康绝经"（Healthy Menopause）战略框架</span>。<a href="https://m.ebiotrade.com/newsf/2026-7/20260721000902988.htm" target="_blank" rel="noopener noreferrer">生物通报道</a>；<span class="rt">EMAS 2026 抑郁临床要点</span> <a href="https://emas-online.org/wp-content/uploads/2026/07/Menopause-Essentials-2026-Depression.pdf" target="_blank" rel="noopener noreferrer">PDF</a>；<span class="rt">EMAS 2020 抑郁立场声明</span> <a href="https://emas-online.org/wp-content/uploads/2021/04/depression-statement.pdf" target="_blank" rel="noopener noreferrer">PDF</a>；<span class="rt">EMAS 2024 甲状腺与更年期声明</span> <a href="https://pubmed.ncbi.nlm.nih.gov/38658290/" target="_blank" rel="noopener noreferrer">PubMed</a>；<span class="rt">EMAS 2025 FDA移除MHT黑框警告声明</span> <a href="https://emas-online.org/emas-statement-on-the-fda-decision-to-remove-black-box-warnings-from-menopausal-hormone-therapy-mht/emas-news/" target="_blank" rel="noopener noreferrer">EMAS官网</a></li>
+    <li><span class="rt">BMS 2025 GSM共识声明</span> <a href="https://thebms.org.uk/wp-content/uploads/2025/11/09-NEW-BMS-ConsensusStatement-Genitourinary-Syndrome-of-Menopause-GSM-NOV2025-A.pdf" target="_blank" rel="noopener noreferrer">PDF</a>；<span class="rt">BMS 2025 睡眠障碍管理工具</span> <a href="https://thebms.org.uk:443/wp-content/uploads/2025/08/25-NEW-BMS-ToolsforClinicians-Managing-sleep-disturbance-AUGUST2025-A.pdf" target="_blank" rel="noopener noreferrer">PDF</a>；<span class="rt">BMS 2026"脑雾还是痴呆"工具</span> <a href="https://thebms.org.uk/wp-content/uploads/2026/06/26-NEW-BMS-ToolsforClinicians-Menopausal-%E2%80%98brain-fog-or-dementia-JUNE2026-D.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li><span class="rt">AMS 更年期管理指南解读（2023版）</span>。<a href="https://mlrb.net/australian-menopause-society-hrt-guide/" target="_blank" rel="noopener noreferrer">MLRB指南解读</a></li>
+    <li><span class="rt">中华医学会妇产科学分会绝经学组：《中国绝经管理与绝经激素治疗指南2023版》</span>，<em>协和医学杂志</em>。<a href="https://xhyxzz.pumch.cn/article/doi/10.12290/xhyxzz.2023-0190" target="_blank" rel="noopener noreferrer">协和医学杂志</a>；<a href="https://www.cn-healthcare.com/articlewm/20230522/wap-content-1553995.html" target="_blank" rel="noopener noreferrer">健康界解读</a>；《绝经管理与绝经激素治疗中国指南（2018）》<a href="https://cmab.yiigle.com/uploads/guide_html/%E7%BB%9D%E7%BB%8F%E7%AE%A1%E7%90%86%E4%B8%8E%E7%BB%9D%E7%BB%8F%E6%BF%80%E7%B4%A0%E6%B2%BB%E7%96%97%E4%B8%AD%E5%9B%BD%E6%8C%87%E5%8D%97%EF%BC%882018%EF%BC%89.html" target="_blank" rel="noopener noreferrer"> yiigle全文</a></li>
+    <li><span class="rt">绝经生殖泌尿综合征（GSM）临床诊疗专家共识（2020）</span>，<em>中华妇产科杂志</em>。<a href="https://seleguide.yiigle.com/uploads/guide_html/%E7%BB%9D%E7%BB%8F%E7%94%9F%E6%AE%96%E6%B3%8C%E5%B0%BF%E7%BB%BC%E5%90%88%E5%BE%81%E4%B8%B4%E5%BA%8A%E8%AF%8A%E7%96%97%E4%B8%93%E5%AE%B6%E5%85%B1%E8%AF%86.html" target="_blank" rel="noopener noreferrer">yiigle全文</a></li>
+    <li><span class="rt">NICE NG23 更年期指南（2024更新）</span>：CBT一线推荐与FSH检测建议。<a href="https://www.ncbi.nlm.nih.gov/books/NBK609725/pdf/Bookshelf_NBK609725.pdf" target="_blank" rel="noopener noreferrer">NCBI Bookshelf PDF</a>；<a href="https://www.nhs.uk/conditions/menopause-and-perimenopause/things-you-can-do/" target="_blank" rel="noopener noreferrer">NHS更年期建议</a></li>
+    <li><span class="rt">The Menopause Society 2024 职场更年期共识建议</span>。<a href="https://hub.menopause.org/pdf/2024-Menopause-and-the-Workplace-Consensus-Recommendations.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li><span class="rt">NAMS MSCP 执业医师认证与维护要求</span>。<a href="https://www.menopause.org/for-professionals/mscp-maintenance" target="_blank" rel="noopener noreferrer">NAMS官网</a></li>
+  </ol>
+
+  <h3>B. 系统综述、RCT 与队列研究</h3>
+  <ol class="refs" start="12">
+    <li>中国疾控中心：中国40–60岁女性更年期症状流行病学（2025）。<a href="https://pubmed.ncbi.nlm.nih.gov/40225777/" target="_blank" rel="noopener noreferrer">PubMed</a>；<a href="https://m.thepaper.cn/newsDetail_forward_32037857" target="_blank" rel="noopener noreferrer">澎湃新闻报道</a></li>
+    <li>Chlebowski RT, et al. MHT与乳腺癌发病/死亡长期随访，<em>JAMA</em> 2020;324(4):369–380。<a href="https://jamanetwork.com/journals/jama/article-abstract/2761063" target="_blank" rel="noopener noreferrer">JAMA</a></li>
+    <li>Manson JE, et al. MHT与全因/病因别长期死亡率，<em>JAMA</em> 2017;318(10):927–938。<a href="https://jamanetwork.com/journals/jama/article-abstract/2650409" target="_blank" rel="noopener noreferrer">JAMA</a></li>
+    <li>Johnson KA, et al. Fezolinetant SKYLIGHT 1 RCT，<em>Lancet</em> 2023；Veozah处方资料更新。<a href="https://www.orpdl.org/durm/meetings/meetingdocs/2025_02_06/archives/2025_02_06_Veozah_PAUpdate.pdf" target="_blank" rel="noopener noreferrer">PA Update PDF</a></li>
+    <li>帕罗西汀7.5mg治疗VMS III期RCT评述，<em>NEJM</em> 2014。<a href="https://www.nejm.org/doi/full/10.1056/NEJMp1402080" target="_blank" rel="noopener noreferrer">NEJM</a></li>
+    <li>Sá KMM, et al. 绝经后女性抗阻训练系统综述与荟萃分析，<em>Menopause</em> 2023;30(1):108–116。<a href="https://journals.lww.com/menopause/fulltext/2023/01000/resistance_training_for_postmenopausal_women_.10.aspx" target="_blank" rel="noopener noreferrer">Menopause期刊</a></li>
+    <li>Kumar S, et al. 运动与绝经后骨健康（HiRIT/LIFTMOR/MEDEX-OP），<em>Curr Osteoporos Rep</em> 2025。<a href="https://cdn-tap.talkmed.com/202606021804/78834b92d57d730ba31d61424bd36048/2026/01/22/8e4e957f1b208c838814925c690de18e022f1b66.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li>Cochrane 2025：老年女性尿失禁治疗网络荟萃分析（CD015376）。<a href="https://www.cochrane.org/evidence/CD015376_which-treatments-cure-or-improve-urinary-incontinence-bladder-leakage-older-women" target="_blank" rel="noopener noreferrer">Cochrane</a></li>
+    <li>Ontario HTA 2024：盆底肌训练治疗SUI/POP卫生技术评估。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11393479/" target="_blank" rel="noopener noreferrer">PMC</a></li>
+    <li>ACI NSW 2024：更年期盆腔器官脱垂与尿失禁管理证据简报。<a href="https://aci.health.nsw.gov.au/__data/assets/pdf_file/0008/959228/Menopause-managing-pelvic-organ-prolapse-and-incontinence-ACI-evidence-brief.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li>Wang H, et al. 瑜伽改善更年期症状系统综述与荟萃分析，<em>Int J Nurs Stud</em> 2025;161:104928。<a href="https://www.sciencedirect.com/science/article/abs/pii/S0020748924001979" target="_blank" rel="noopener noreferrer">ScienceDirect</a></li>
+    <li>Robinson K, et al. 心理社会干预对更年期生理症状效果荟萃分析（28 RCT, n=2,887），<em>BMC Womens Health</em> 2026。<a href="https://bmcwomenshealth.biomedcentral.com/articles/10.1186/s12905-026-04563-3" target="_blank" rel="noopener noreferrer">BMC</a></li>
+    <li>Spector A, et al. 更年期心理社会干预系统综述与荟萃分析（30 RCT, n=3,501），UCL 2024。<a href="https://www.ucl.ac.uk/pals/sites/pals/files/spector_et_al_2024_menopause_psychosocial_interventions_review.pdf" target="_blank" rel="noopener noreferrer">UCL PDF</a></li>
+    <li>Ye M, et al. 认知与行为疗法治疗更年期症状系统综述与荟萃分析，<em>Psychol Med</em> 2022;52(3):433–445。<a href="https://doi.org/10.1017/S0033291721005407" target="_blank" rel="noopener noreferrer">DOI链接</a></li>
+    <li>UK Biobank：围绝经期首发精神疾病风险（12.8万女性），2024。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11479941/" target="_blank" rel="noopener noreferrer">PMC</a>；<a href="http://www.ucl.ac.uk/news/2024/may/women-are-40-more-likely-experience-depression-during-perimenopause" target="_blank" rel="noopener noreferrer">UCL新闻</a></li>
+    <li>中国12省13市围绝经期女性抑郁流行病学（6,432人），<em>中华流行病学杂志</em> 2025。<a href="http://chinaepi.icdc.cn/zhlxbx/ch/reader/view_abstract.aspx?file_no=20260303&flag=1" target="_blank" rel="noopener noreferrer">期刊摘要</a></li>
+    <li>REACT-Long Covid 队列：围绝经期认知症状（14,234人），<em>npj Women's Health</em> 2026。<a href="https://www.nature.com/articles/s44294-026-00132-z" target="_blank" rel="noopener noreferrer">Nature</a></li>
+    <li>中国围绝经期女性性功能障碍FSFI调查（298人）。<a href="https://journal03.magtech.org.cn/Jweb_sdykdxxb/CN/abstract/abstract5379.shtml" target="_blank" rel="noopener noreferrer">首都医科大学学报</a>；FSFI中文版验证 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7042168/" target="_blank" rel="noopener noreferrer">PMC</a>；FSFI-6资料 <a href="https://www.surrey.ac.uk/sites/default/files/2022-09/FSFI-6-information.pdf" target="_blank" rel="noopener noreferrer">Surrey PDF</a></li>
+    <li>更年期肌肉/关节痛系统综述（37研究、93,021人），<em>JBJS</em> 2026。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12784006/" target="_blank" rel="noopener noreferrer">PMC</a></li>
+    <li>绝经与心血管风险纵向研究综述，2023。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10237361/" target="_blank" rel="noopener noreferrer">PMC</a>；更年期血脂血压综述 <a href="https://www.menopauseandsexualhealth.com/_files/ugd/fcfc5d_7668ea09b1204f6c967c0a9ebf93698c.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li>绝经过渡期体成分与内脏脂肪研究，2023。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9862030/" target="_blank" rel="noopener noreferrer">PMC</a>；<em>JACC Advances</em> 2025 更年期体重管理 <a href="https://www.jacc.org/doi/10.1016/j.jacadv.2025.101791" target="_blank" rel="noopener noreferrer">JACC</a></li>
+    <li>围绝经期偏头痛系列研究，2025。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12089631/" target="_blank" rel="noopener noreferrer">PMC</a>；<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12180204/" target="_blank" rel="noopener noreferrer">PMC（NOWAC队列）</a></li>
+    <li>更年期睡眠障碍综述与中国PSQI数据，2025。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11824937/" target="_blank" rel="noopener noreferrer">PMC</a>；<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12414071/" target="_blank" rel="noopener noreferrer">PMC（中国70.54%）</a>；VMS与睡眠 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10816958/" target="_blank" rel="noopener noreferrer">PMC</a></li>
+    <li>SWAN瘦体重/脂肪量与骨折风险，2023。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10023299/pdf/nihms-1860588.pdf" target="_blank" rel="noopener noreferrer">PMC PDF</a>；骨丢失速率 <a href="https://e-arm.org/journal/view.php?number=4451" target="_blank" rel="noopener noreferrer">e-arm</a></li>
+    <li>ESHRE 2024 POI管理指南更新。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11631070/" target="_blank" rel="noopener noreferrer">PMC</a>；早绝经/诱导绝经发生率 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9996690/pdf/nihms-1871815.pdf" target="_blank" rel="noopener noreferrer">PMC PDF</a></li>
+    <li>更年期女性蛋白质需求：Mayo Clinic 2025 <a href="https://mcpress.mayoclinic.org/women-health/how-much-protein-do-you-really-need-after-menopause/" target="_blank" rel="noopener noreferrer">Mayo Clinic Press</a>；肌少症综述 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9235827/" target="_blank" rel="noopener noreferrer">PMC</a>；蛋白+抗阻训练RCT <a href="https://www.mdpi.com/2072-6643/10/8/1103/pdf" target="_blank" rel="noopener noreferrer">Nutrients PDF</a></li>
+    <li>Caria App 6周RCT（n=149），<em>JMIR</em> 2024。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12187029/" target="_blank" rel="noopener noreferrer">PMC</a></li>
+    <li>MenoLife 14.5万条症状日志准确性研究，2024。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11699220/" target="_blank" rel="noopener noreferrer">PMC</a>；更年期App系统综述2023 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10542256/" target="_blank" rel="noopener noreferrer">PMC</a>；JMIR 2026更年期App评论 <a href="https://www.jmir.org/2026/1/e106205/PDF" target="_blank" rel="noopener noreferrer">JMIR PDF</a></li>
+    <li>Mayo Clinic emmii App RCT（NCT06919887），2025。<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12547328/" target="_blank" rel="noopener noreferrer">PMC</a>；Mayo 2025就医缺口调查 <a href="https://newsnetwork.mayoclinic.org/discussion/mayo-clinic-study-finds-majority-of-midlife-women-with-menopause-symptoms-do-not-seek-care/" target="_blank" rel="noopener noreferrer">Mayo Clinic News</a></li>
+    <li>别孕烯醇酮/GABA机制综述，<em>Biomedicines</em> 2024 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10813042/" target="_blank" rel="noopener noreferrer">PMC</a>；神经炎症与围绝经期抑郁 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12015406/" target="_blank" rel="noopener noreferrer">PMC</a>；HIIT动物实验 <a href="https://journals.physiology.org/doi/abs/10.1152/japplphysiol.00518.2023" target="_blank" rel="noopener noreferrer">J Appl Physiol</a></li>
+    <li>MENQOL中文版验证（8城市1,137人）<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5404407/" target="_blank" rel="noopener noreferrer">PMC</a>；MENQOL应用 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11133125/" target="_blank" rel="noopener noreferrer">PMC</a>；改良Kupperman <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3615846/" target="_blank" rel="noopener noreferrer">PMC</a>；PHQ-9/GAD-7中文版 <a href="http://www.cmhj.cn/journal/portal/www/client/paper/1d6387e0de8ef0e6d5c8ce78379a3c29" target="_blank" rel="noopener noreferrer">中国心理卫生杂志</a>；ISI中文版 <a href="https://xuebao.shsmu.edu.cn/article/2023/1674-8115/1674-8115-2023-43-11-1436.shtml" target="_blank" rel="noopener noreferrer">上海交大学报</a>；MoCA中文版 <a href="https://ir.psych.ac.cn/bitstream/311026/13284/16/WOS000311220700001.pdf" target="_blank" rel="noopener noreferrer">中科院心理所PDF</a></li>
+    <li>社会支持与更年期适应系统综述，<em>Front Public Health</em> 2025 <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1653806/full" target="_blank" rel="noopener noreferrer">Frontiers</a>；GSM就医行为欧洲研究 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11611114/" target="_blank" rel="noopener noreferrer">PMC</a>；种族健康不平等 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10880275/" target="_blank" rel="noopener noreferrer">PMC</a>；职场影响系统综述 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10540666/" target="_blank" rel="noopener noreferrer">PMC</a></li>
+  </ol>
+
+  <h3>C. 行业、政策与市场资料</h3>
+  <ol class="refs" start="44">
+    <li>英国政府：更年期职场文献综述（2025）<a href="https://www.gov.uk/government/publications/menopause-in-the-workplace-literature-review/menopause-in-the-workplace-literature-review" target="_blank" rel="noopener noreferrer">GOV.UK</a>；更年期就业大使任命 <a href="https://www.gov.uk/government/news/womens-health-campaigner-mariella-frostrup-appointed-as-government-menopause-employment-ambassador" target="_blank" rel="noopener noreferrer">GOV.UK</a>；2025就业权利法解读 <a href="https://www.themenopausehealthcoach.com/resources/menopause-rights-work-uk" target="_blank" rel="noopener noreferrer">Menopause Health Coach</a></li>
+    <li>Peak Privacy 更年期App隐私安全测试报道，<em>The Independent</em> 2026。<a href="https://www.the-independent.com/life-style/menopause-app-data-privacy-safety-b3010967.html" target="_blank" rel="noopener noreferrer">The Independent</a></li>
+    <li>FDA 数字健康（SaMD）常见问题。<a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/digital-health-frequently-asked-questions-faqs" target="_blank" rel="noopener noreferrer">FDA</a></li>
+    <li>Midi Health 市场与融资分析。<a href="https://sacra.com/c/midi-health/" target="_blank" rel="noopener noreferrer">Sacra</a>；<a href="https://startuply.vc/article/midi-health-s-50-state-clinic-is-a-wedge-into-the-1-billion-menopause-market-19s15n" target="_blank" rel="noopener noreferrer">Startuply</a></li>
+    <li>Peppy B轮$4,500万融资报道。<a href="https://justentrepreneurs.co.uk/news/peppy-the-global-leader-in-gender-based-healthcare-raises-45m-series-b-to-dominate-the-us-market" target="_blank" rel="noopener noreferrer">Just Entrepreneurs</a></li>
+    <li>竞品资料：Balance <a href="https://apps.apple.com/gb/app/balance-menopause-hormones/id1503345959" target="_blank" rel="noopener noreferrer">App Store</a>；Gennev <a href="https://www.cbinsights.com/company/genneve" target="_blank" rel="noopener noreferrer">CB Insights</a>；Hers <a href="https://clearhormones.com/how-much-does/how-much-does-hers-menopause-treatment-cost" target="_blank" rel="noopener noreferrer">ClearHormones</a>；Tia <a href="https://asktia.com/services/" target="_blank" rel="noopener noreferrer">Tia官网</a>；Stella等评测 <a href="https://wellnessinaging.com/product-reviews/best-menopause-app" target="_blank" rel="noopener noreferrer">WellnessInAging</a>；MenoLife <a href="https://menolabs.com/pages/our-app" target="_blank" rel="noopener noreferrer">MenoLabs</a>；MPowder <a href="https://pitchbook.com/profiles/company/443337-40" target="_blank" rel="noopener noreferrer">PitchBook</a></li>
+    <li>可穿戴设备：智能戒指更年期功能 <a href="https://smartringhq.com/blog/smart-ring-for-menopause-perimenopause-uk-2026/" target="_blank" rel="noopener noreferrer">Smart Ring HQ</a>；Peri传感器等 <a href="https://gtwebs.com/fitness/best-fitness-tracker-perimenopause-menopause-symptom-tracking/" target="_blank" rel="noopener noreferrer">GTWebs</a>；Apple iOS 27周期追踪 <a href="https://restoreintegrativemedical.com/how-apple-watch-can-help-you-manage-menopause-a-clinic-guided-approach/" target="_blank" rel="noopener noreferrer">Restore Clinic</a></li>
+    <li>其他背景资料：VMS概览 <a href="https://www.ncbi.nlm.nih.gov/sites/books/NBK560840/" target="_blank" rel="noopener noreferrer">NCBI Bookshelf</a>；MSD Manual更年期 <a href="https://www.msdmanuals.com/professional/gynecology-and-obstetrics/menopause/menopause" target="_blank" rel="noopener noreferrer">MSD Manual</a>；WHEN运动教育 <a href="https://when.org.au/education/resistance-training-menopause/" target="_blank" rel="noopener noreferrer">WHEN</a>；IMS补充疗法综述 <a href="https://researchers.westernsydney.edu.au/en/publications/complementary-therapies-for-management-of-menopausal-symptoms-a-s/" target="_blank" rel="noopener noreferrer">Western Sydney</a>；VMS经济成本综述 <a href="https://aviaconnectcontent.s3.amazonaws.com/b0176944-9c4e-4733-ab18-a89c523ba302" target="_blank" rel="noopener noreferrer">Aviaconnect</a>；女性型脱发 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10092469/pdf/CED-47-2110.pdf" target="_blank" rel="noopener noreferrer">CED PDF</a>；SWAN性欲数据 <a href="https://www.ohsu.edu/sites/default/files/2019-04/Libido-prevalence-Brief_FINAL.pdf" target="_blank" rel="noopener noreferrer">OHSU PDF</a></li>
+  </ol>
+</section>
+
+</div><!-- /wrap -->
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>更年期大健康循证资料底稿 v1</b> · 内部产品研发底稿 · 成稿日期2026年8月30日 · 证据检索截至2026年8月</p>
+    <p><b>编制口径说明：</b>本底稿由三份专题循证报告（症状·评估·机构 / 干预·训练SOP / 心理社交·数字健康）合并而成，所有事实、数字与引用均来自源文件及其引用的原始文献，未新增外部数据。源文件之间的口径差异按"指南 &gt; RCT/系统综述 &gt; 行业报道"优先级处理：① 围绝经期抑郁率存在多口径——中国就诊人群68.7%（存在就诊偏倚）、中国社区24.8%、EMAS引述45%–68%，正文并列呈现并标注人群；② CBT效应量在两份荟萃分析中分别以负值（改善方向）与正值报告，图4统一取绝对值并标注来源；③ 抗阻训练"潮热RR 13.0"等单项荟萃结果GRADE为低–极低，正文保留但标注证据质量，且与NAMS Level II"不推荐运动作为VMS单一治疗"的指南口径并存；④ GSM患病率按绝经年限（中国共识：1年64.7%/6年84.2%）与总体范围（40%–57%）分别标注；⑤ Ye et al. 2022（Psychol Med）在stream2正文中的链接为无效占位URL，参考文献改按该文DOI（10.1017/S0033291721005407）链接。</p>
+    <p>本文件不构成医疗建议；所有诊疗决策（含MHT与处方药）应咨询具备资质的医疗专业人员。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links = document.querySelectorAll('nav.toc a[href^="#"]');
+  var sections = [];
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if(el){ sections.push({id:id, el:el, link:a}); }
+    a.addEventListener('click', function(e){
+      if(el){
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+        history.replaceState(null, '', '#' + id);
+      }
+    });
+  });
+  function onScroll(){
+    var pos = window.scrollY + 80;
+    var current = sections.length ? sections[0].id : null;
+    sections.forEach(function(s){
+      if(s.el.offsetTop <= pos){ current = s.id; }
+    });
+    sections.forEach(function(s){
+      s.link.classList.toggle('active', s.id === current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
