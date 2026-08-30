@@ -237,6 +237,7 @@ input[type=range]{width:100%;accent-color:var(--data-blue);}
       <button data-view="matrix">系统矩阵</button>
       <button data-view="report">综合报告</button>
       <button data-view="manage">自管方案</button>
+      <button data-view="saw">今日 SAW</button>
       <button data-view="review">复评</button>
       <button data-view="data">数据</button>
     </div>
@@ -264,6 +265,7 @@ input[type=range]{width:100%;accent-color:var(--data-blue);}
     <button class="tile" data-go="matrix"><h4>10系统矩阵</h4><p>十个身体系统的当前灯色与90天趋势</p></button>
     <button class="tile" data-go="report"><h4>综合报告</h4><p>信号、模式、下一步、复查频率</p></button>
     <button class="tile" data-go="manage"><h4>自管方案</h4><p>训练、营养、盆底、骨骼的循证模块匹配</p></button>
+    <button class="tile" data-go="saw"><h4>今日 SAW · 10 分钟</h4><p>力量 S + 心肺 A + 呼吸觉察 W，每天 10 分钟，可点开、可打卡</p></button>
   </div>
   <div class="card tight">
     <h3>建议的使用顺序</h3>
@@ -558,6 +560,18 @@ input[type=range]{width:100%;accent-color:var(--data-blue);}
     <h2>为你匹配的循证模块</h2>
     <p class="muted">核心模块面向所有人：训练处方、营养、阶段教育。按需模块按你的扫描与体测结果激活。运动是整体健康的基础干预，本工具不承诺运动减少潮热频率。</p>
     <div id="manageBody"></div>
+  </div>
+</section>
+
+<!-- ================= SAW ================= -->
+<section class="view" id="view-saw">
+  <h2>今日 SAW · 每天 10 分钟</h2>
+  <p class="small muted">S · Strength 力量 3–5 分钟 · A · Anaerobic 心肺循环 3–5 分钟 · W · Wellness 呼吸与觉察 2–4 分钟。三个模块点开跟练，完成后打卡，本周进度自动统计。本工具只做训练引导与记录，不替代医生与物理治疗师评估。</p>
+  <div class="callout" id="sawLayerNote"></div>
+  <div id="sawToday"></div>
+  <div id="sawWeek"></div>
+  <div class="note" style="margin-top:18px">
+    <b>SAW 与「自管方案」的关系：</b>自管方案的 FITT 表是完整周计划参考；SAW 是把训练拆成每日 10 分钟的执行层。SAW 的 S/A/W 内容按同一分层（新手 / 标准 / 骨松 / 心血管）切换，盆底闸门、PHQ-9 第 9 题、GAD-7 ≥15 时的强度降级也一致。每天 SAW 不替代完整周计划，二者并行。
   </div>
 </section>
 
@@ -1191,6 +1205,7 @@ function go(view){
   if(view==='matrix') renderMatrix();
   if(view==='report') renderReport();
   if(view==='manage') renderManage();
+  if(view==='saw') renderSAW();
   if(view==='review') renderReview();
   if(view==='data') renderData();
   if(view==='home') renderHome();
@@ -2494,6 +2509,339 @@ function renderManage(){
     + '<p class="small">关于大豆异黄酮和黑升麻缓解潮热，研究结果相互矛盾，权威学会的口径是证据不足、不推荐作为潮热治疗；黑升麻另有肝损伤个案报告（NAMS 非激素治疗立场声明口径）。本工具不销售、不推荐任何补充剂。钙、维生素D、Omega-3在骨骼与心血管维度各有其价值，但这与治疗潮热是两件事。</p></div>';
 
   box.innerHTML = h;
+}
+
+/* ========== SAW 每日 10 分钟 ========== */
+var SAW_KEY = "menopause_map_v1_saw_private";
+function loadSaw(){
+  try{ var s = localStorage.getItem(SAW_KEY); return s ? JSON.parse(s) : {logs:{}}; }catch(e){ return {logs:{}}; }
+}
+function saveSaw(){
+  try{ localStorage.setItem(SAW_KEY, JSON.stringify(state.saw||{logs:{}})); }catch(e){}
+}
+function sawLayerName(layer){
+  return ({novice:"新手 / 久坐层", standard:"标准 / 进阶层", bone:"合并骨质疏松层", cv:"心血管安全层"})[layer] || layer;
+}
+var SAW_LAYERS = {
+  novice:{
+    S:{
+      focus:"自重入门，先学动作，不追求力竭",
+      safe:"动作慢、关节无痛范围内；任何头晕胸闷即停",
+      routine:[
+        ["坐—站","3 组 × 8 次","椅子前站立，髋主导、膝盖追脚尖；组间休息 60 秒"],
+        ["墙推（俯卧撑退阶）","2 组 × 10 次","手与肩同高、肩胛后缩；组间 60 秒"],
+        ["弹力带划船","2 组 × 12 次","肩胛先下沉再拉，避免耸肩"]
+      ],
+      timeMin:4
+    },
+    A:{
+      focus:"低冲击循环，30 秒动 + 30 秒休息 × 4 轮",
+      safe:"不跳、不憋气；可以完整说话为度",
+      routine:[
+        ["原地踏步抬膝","30 秒"],
+        ["休息","30 秒"],
+        ["站姿开合（无跳）","30 秒"],
+        ["休息","30 秒"],
+        ["臀桥","30 秒"],
+        ["休息","30 秒"],
+        ["靠墙静蹲","30 秒"],
+        ["休息","30 秒"]
+      ],
+      timeMin:4
+    },
+    W:{
+      focus:"4-7-8 呼吸或身体扫描，任选一",
+      safe:"任何练习引发不适即停，回到自然呼吸",
+      routine:[
+        ["4-7-8 呼吸","鼻吸 4 拍—屏 7 拍—口呼 8 拍 × 3 轮；如屏气不适，改为等长呼吸（吸 4 / 呼 6）"],
+        ["身体扫描（简化版）","从头到脚逐段觉察，每段 3 次呼吸，不评价感受"]
+      ],
+      timeMin:3
+    }
+  },
+  standard:{
+    S:{
+      focus:"大肌群 8–12 次，RIR 1–2 次；组间 60–90 秒",
+      safe:"盆底闸门阳性时避免憋气与腹压骤增；任何关节刺痛即停",
+      routine:[
+        ["高脚杯深蹲（或自重深蹲加重）","3 组 × 10 次","髋膝同动，膝追脚尖；组间 90 秒"],
+        ["髋铰链（哑铃 / 壶铃 RDL）","3 组 × 8 次","脊柱中立、屁股向后推；组间 90 秒"],
+        ["单臂划船","3 组 × 10 次 / 侧","肩胛先收再拉；组间 60 秒"]
+      ],
+      timeMin:5
+    },
+    A:{
+      focus:"肌肉循环训练，40 秒动 + 20 秒换动作 × 4 动作 × 1–2 圈",
+      safe:"盆底闸门阳性或漏尿信号时跳跃动作换为踏步替代",
+      routine:[
+        ["开合跳","40 秒"],
+        ["深蹲跳（或快速深蹲）","40 秒"],
+        ["登山","40 秒"],
+        ["高抬腿","40 秒"],
+        ["圈间休息 60 秒，可做第 2 圈",""]
+      ],
+      timeMin:4
+    },
+    W:{
+      focus:"箱式呼吸 + 正念 2 分钟",
+      safe:"如屏气不适，改为等长呼吸",
+      routine:[
+        ["箱式呼吸","吸 4 / 停 4 / 呼 4 / 停 4 × 6 轮"],
+        ["正念 2 分钟","关注呼吸与身体接触点，走神时温柔带回"]
+      ],
+      timeMin:3
+    }
+  },
+  bone:{
+    S:{
+      focus:"脊柱中立、髋铰链为主；严禁脊柱屈曲 + 扭转",
+      safe:"高负荷动作请在专业人员监督下；避免弯腰取物、仰卧起坐、脚趾触膝",
+      routine:[
+        ["髋铰链（轻重量）","3 组 × 6 次","脊柱全程中立，屁股后推；组间 90 秒"],
+        ["靠墙半蹲","2 组 × 30 秒","膝不超过脚尖"],
+        ["弹力带划船","2 组 × 10 次","坐姿、胸骨抬起"]
+      ],
+      timeMin:4
+    },
+    A:{
+      focus:"低冲击循环；严禁高处跳下、跑跳",
+      safe:"避免突然转身、冲击性动作",
+      routine:[
+        ["踏步快频","40 秒"],
+        ["站姿侧抬腿","40 秒 / 侧"],
+        ["靠墙俯卧撑","40 秒"],
+        ["臀桥","40 秒"],
+        ["圈间休息 60 秒",""]
+      ],
+      timeMin:4
+    },
+    W:{
+      focus:"平衡 + 呼吸（平衡训练与防跌倒证据充分）",
+      safe:"扶稳支撑物，赤脚或平底鞋",
+      routine:[
+        ["单脚站","30 秒 × 2 / 侧；进阶：闭眼单脚站"],
+        ["足跟走","30 秒"],
+        ["4-7-8 呼吸 × 3 轮",""]
+      ],
+      timeMin:3
+    }
+  },
+  cv:{
+    S:{
+      focus:"低强度，40–60%，RPE 11–14；避免憋气用力",
+      safe:"心率不超过医生建议上限；任何胸闷眩晕即停；启动前建议完成医生评估",
+      routine:[
+        ["弹力带推举","2 组 × 12 次","正常呼吸，不憋气；组间 60 秒"],
+        ["弹力带划船","2 组 × 12 次","组间 60 秒"],
+        ["坐姿腿伸展","2 组 × 12 次",""]
+      ],
+      timeMin:4
+    },
+    A:{
+      focus:"中等强度持续或循环；避免突然爆发与高冲击",
+      safe:"心率不超过医生建议上限；充分热身",
+      routine:[
+        ["固定自行车 / 快走","3–5 分钟","RPE 11–13，能完整说话"]
+      ],
+      timeMin:4
+    },
+    W:{
+      focus:"缓慢呼吸 + 放松",
+      safe:"避免长时间屏气",
+      routine:[
+        ["等长呼吸","吸 4 / 呼 6 × 10 轮"],
+        ["渐进性肌肉放松","从手—前臂—上臂—肩—脸—腹—腿，每段紧张 5 秒—放松 10 秒"]
+      ],
+      timeMin:3
+    }
+  }
+};
+
+function sawGateAlerts(){
+  var parts = [];
+  var pelvGate = (state.pelv && (state.pelv.leak||state.pelv.prolapse)) ||
+    (state.scan && Number(state.scan.answers.mki13||0)>=2) ||
+    (state.diary||[]).some(function(x){return (x.feel||[]).indexOf('urinary')>=0;});
+  if(pelvGate) parts.push('<div class="flagbox" style="background:var(--yellow-bg);border-color:#EBD49A;color:#5C4A1F"><h3 style="color:#9A6B00">盆底闸门</h3><p>你记录了漏尿或下坠感。A 模块的跳跃动作请换为踏步替代；S 模块避免憋气与腹压骤增。盆底肌训练可与 SAW 同期进行，建议预约盆底物理治疗师评估。</p></div>');
+  if(state.phq9 && state.phq9.crisis) parts.push('<div class="flagbox"><h3>安全提示</h3><p>你此前在 PHQ-9 第 9 题报告了自我伤害的想法。今天的 SAW 按你身体的真实意愿执行，A 模块不强求中高强度，优先 W 模块的呼吸与觉察。如果需要，请联系 24 小时心理援助热线 <b>12356</b> 或急救 <b>120</b>。</p></div>');
+  if(state.gad7){
+    var g = ENG.gad7(state.gad7.answers);
+    if(g && g.level==='severe') parts.push('<div class="flagbox" style="background:var(--yellow-bg);border-color:#EBD49A;color:#5C4A1F"><h3 style="color:#9A6B00">焦虑负荷较重</h3><p>GAD-7 达重度区间。今天可以把 W 模块时长翻倍、A 模块降到新手强度；同时建议尽快就诊，SAW 不能替代治疗。</p></div>');
+  }
+  return parts.join('');
+}
+
+function renderSAW(){
+  var layer = manageLayer();
+  var L = SAW_LAYERS[layer] || SAW_LAYERS.novice;
+  var today = todayStr();
+  if(!state.saw) state.saw = loadSaw();
+  if(!state.saw.logs[today]) state.saw.logs[today] = {};
+  var log = state.saw.logs[today];
+
+  var h = '';
+  h += sawGateAlerts();
+  h += '<div class="callout"><b>今日分层：'+esc(sawLayerName(layer))+'</b> · SAW 内容按此分层切换；分层依据与「自管方案」一致（DEXA、血压 / 心血管风险、训练天数）。</div>';
+
+  var modules = [
+    {key:"S", title:"S · Strength 力量", sub:"大肌群 8–12 次，组间 60–90 秒", data:L.S},
+    {key:"A", title:"A · Anaerobic 心肺循环", sub:"中高强度循环训练", data:L.A},
+    {key:"W", title:"W · Wellness 呼吸与觉察", sub:"自我照看", data:L.W}
+  ];
+  modules.forEach(function(m){
+    var done = !!log[m.key];
+    h += '<details class="card tight" style="margin:.8em 0" '+(done?'open':'')+'>'
+      +  '<summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px">'
+      +    '<span><b style="font-size:1.05em">'+esc(m.title)+'</b> <span class="small muted">· '+esc(m.data.timeMin)+' 分钟 · '+esc(m.sub)+'</span></span>'
+      +    '<span class="badge '+(done?'g':'n')+'">'+(done?'已完成':'未做')+'</span>'
+      +  '</summary>'
+      +  '<div style="margin-top:.8em">';
+    h += '<p class="small"><b>重点：</b>'+esc(m.data.focus)+'</p>';
+    h += '<p class="small"><b>安全边界：</b>'+esc(m.data.safe)+'</p>';
+    h += '<div style="overflow-x:auto"><table class="mx"><thead><tr><th style="width:40%">动作</th><th>组次 / 时长</th><th>要点</th></tr></thead><tbody>';
+    m.data.routine.forEach(function(row){
+      h += '<tr><td><b>'+esc(row[0])+'</b></td><td class="small">'+esc(row[1])+'</td><td class="small muted">'+esc(row[2])+'</td></tr>';
+    });
+    h += '</tbody></table></div>';
+
+    if(m.key !== 'W'){
+      var rpe = (log[m.key+'RPE']) || '';
+      var syms = log[m.key+'Syms'] || [];
+      h += '<div style="margin-top:.8em"><b>主观强度（RPE 6–20）：</b> '
+        +  '<label><input type="radio" name="rpe'+m.key+'" value="11" '+((rpe==11)?'checked':'')+'/> 11 轻</label> '
+        +  '<label><input type="radio" name="rpe'+m.key+'" value="13" '+((rpe==13)?'checked':'')+'/> 13 稍累</label> '
+        +  '<label><input type="radio" name="rpe'+m.key+'" value="15" '+((rpe==15)?'checked':'')+'/> 15 累</label> '
+        +  '<label><input type="radio" name="rpe'+m.key+'" value="17" '+((rpe==17)?'checked':'')+'/> 17 很累</label></div>';
+      h += '<div style="margin-top:.6em"><b>训练中不适（可多选，不选即无）：</b><br>'
+        +  '<label><input type="checkbox" class="sym'+m.key+'" value="盆底压力" '+((syms.indexOf('盆底压力')>=0)?'checked':'')+'/> 盆底压力</label> '
+        +  '<label><input type="checkbox" class="sym'+m.key+'" value="关节痛" '+((syms.indexOf('关节痛')>=0)?'checked':'')+'/> 关节痛</label> '
+        +  '<label><input type="checkbox" class="sym'+m.key+'" value="胸闷" '+((syms.indexOf('胸闷')>=0)?'checked':'')+'/> 胸闷</label> '
+        +  '<label><input type="checkbox" class="sym'+m.key+'" value="眩晕" '+((syms.indexOf('眩晕')>=0)?'checked':'')+'/> 眩晕</label> '
+        +  '<label><input type="checkbox" class="sym'+m.key+'" value="漏尿" '+((syms.indexOf('漏尿')>=0)?'checked':'')+'/> 漏尿</label></div>';
+    }
+
+    h += '<div style="margin-top:1em;display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
+      +  '<button class="btn sm sec" data-saw-timer="'+m.key+'" data-mins="'+m.data.timeMin+'">开始 '+m.data.timeMin+' 分钟计时</button>'
+      +  '<span id="timer-'+m.key+'" class="small muted" style="font-family:\'Source Han Sans SC\',sans-serif;font-size:1.1em;color:var(--deep-blue)">--:--</span>'
+      +  '<span style="flex:1"></span>'
+      +  (done
+           ? '<button class="btn sm sec" data-saw-undo="'+m.key+'">撤销完成</button>'
+           : '<button class="btn sm" data-saw-done="'+m.key+'">标记完成</button>')
+      +  '</div>';
+    h += '</div></details>';
+  });
+
+  var dates = Object.keys(state.saw.logs).sort();
+  var now = new Date();
+  var weekStart = new Date(now); weekStart.setDate(now.getDate() - now.getDay());
+  var ws = weekStart.getFullYear()+'-'+String(weekStart.getMonth()+1).padStart(2,'0')+'-'+String(weekStart.getDate()).padStart(2,'0');
+  var weekDates = dates.filter(function(d){return d >= ws && d <= today;});
+  var doneCount = 0, totalSlots = weekDates.length * 3;
+  var perModule = {S:0, A:0, W:0};
+  weekDates.forEach(function(d){
+    var lg = state.saw.logs[d] || {};
+    ["S","A","W"].forEach(function(k){ if(lg[k]){ doneCount++; perModule[k]++; } });
+  });
+  var rate = totalSlots ? Math.round(doneCount / totalSlots * 100) : 0;
+
+  var streak = 0;
+  var dd = new Date();
+  while(true){
+    var ds = dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0')+'-'+String(dd.getDate()).padStart(2,'0');
+    var lg = state.saw.logs[ds] || {};
+    if(lg.S && lg.A && lg.W){ streak++; dd.setDate(dd.getDate()-1); }
+    else break;
+  }
+
+  h += '<div class="card tight" style="margin-top:1.5em"><h3>本周 SAW 统计</h3>'
+    +  '<div class="grid grid-3">'
+    +  '<div class="kpi">'+doneCount+'<span class="kpi-unit">/ '+totalSlots+'</span></div>'
+    +  '<div class="kpi">'+rate+'<span class="kpi-unit">%</span></div>'
+    +  '<div class="kpi">'+streak+'<span class="kpi-unit">天连续</span></div>'
+    +  '</div>'
+    +  '<p class="small muted" style="margin-top:.5em">本周已完成：S '+perModule.S+' 次 · A '+perModule.A+' 次 · W '+perModule.W+' 次</p>'
+    +  '<div style="margin-top:.8em"><button class="btn sm sec" data-saw-clear-week>清空本周记录</button></div>'
+    +  '</div>';
+
+  h += '<div class="note" style="margin-top:1em">'
+    +  '<b>SAW 的三条底层逻辑：</b>'
+    +  '<ul style="margin:.4em 0;padding-left:1.4em">'
+    +  '<li>S 的 8–12 次力竭区间是维持肌量与骨密度的有效刺激（ACSM / NAMS，10 个月以上可见骨密度收益）。</li>'
+    +  '<li>A 的循环训练把心肺刺激压进 3–5 分钟，是周计划外的心肺微剂量。</li>'
+    +  '<li>W 的呼吸与觉察对潮热困扰感、睡眠、焦虑有一致证据（ES / NAMS 口径），它不减少潮热客观次数，改变的是你与症状的关系。</li>'
+    +  '</ul>'
+    +  '<span class="small muted">每天 SAW 不替代完整周计划；任何持续不适请就医。</span>'
+    +  '</div>';
+
+  var wk = '<div class="callout"><b>本周节奏建议：</b>至少 3 天完成全套 SAW（S+A+W 都打卡）；其余日子可只做 W；连续 4 周后回到「自管方案」调整 FITT 周计划。</div>';
+
+  $('sawToday').innerHTML = h;
+  $('sawWeek').innerHTML = wk;
+
+  document.querySelectorAll('[data-saw-done]').forEach(function(btn){
+    btn.onclick = function(){
+      var k = btn.getAttribute('data-saw-done');
+      state.saw.logs[today][k] = {at: new Date().toISOString()};
+      saveSaw(); renderSAW();
+    };
+  });
+  document.querySelectorAll('[data-saw-undo]').forEach(function(btn){
+    btn.onclick = function(){
+      var k = btn.getAttribute('data-saw-undo');
+      delete state.saw.logs[today][k];
+      delete state.saw.logs[today][k+'RPE'];
+      delete state.saw.logs[today][k+'Syms'];
+      saveSaw(); renderSAW();
+    };
+  });
+  document.querySelectorAll('[data-saw-timer]').forEach(function(btn){
+    btn.onclick = function(){
+      var k = btn.getAttribute('data-saw-timer');
+      var mins = Number(btn.getAttribute('data-mins'));
+      startSawTimer(k, mins);
+    };
+  });
+  document.querySelectorAll('[data-saw-clear-week]').forEach(function(btn){
+    btn.onclick = function(){
+      if(!confirm('清空本周 SAW 记录？仅清本周，历史保留。')) return;
+      Object.keys(state.saw.logs).forEach(function(d){
+        if(d >= ws && d <= today) delete state.saw.logs[d];
+      });
+      saveSaw(); renderSAW();
+    };
+  });
+  ["S","A"].forEach(function(k){
+    document.querySelectorAll('input[name="rpe'+k+'"]').forEach(function(r){
+      r.onchange = function(){ state.saw.logs[today][k+'RPE'] = Number(r.value); saveSaw(); };
+    });
+    document.querySelectorAll('.sym'+k).forEach(function(c){
+      c.onchange = function(){
+        var syms = state.saw.logs[today][k+'Syms'] || [];
+        if(c.checked){ if(syms.indexOf(c.value)<0) syms.push(c.value); }
+        else { syms = syms.filter(function(s){return s!==c.value;}); }
+        state.saw.logs[today][k+'Syms'] = syms;
+        saveSaw();
+      };
+    });
+  });
+}
+
+function startSawTimer(key, mins){
+  var el = $('timer-'+key);
+  if(!el) return;
+  var endTime = Date.now() + mins*60*1000;
+  if(window._sawTimer) clearInterval(window._sawTimer);
+  window._sawTimer = setInterval(function(){
+    var left = Math.max(0, endTime - Date.now());
+    var mm = Math.floor(left/60000), ss = Math.floor((left%60000)/1000);
+    el.textContent = String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+    if(left<=0){
+      clearInterval(window._sawTimer);
+      el.textContent = '时间到';
+      el.style.color = 'var(--green)';
+      setTimeout(function(){ el.style.color = 'var(--deep-blue)'; }, 3000);
+    }
+  }, 500);
 }
 
 /* ---------- 复评提醒 ---------- */
