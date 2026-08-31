@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Re-Thinking the Gym Floor · 课程体系独立审核报告</title>
+<style>
+:root{
+--bg:#F8F6F0;--card:#fff;--ink:#1B2A38;--ink2:#3D4F5F;
+--deep:#102A43;--blue:#2978B5;--orange:#F59E0B;
+--border:#D8D3C8;--highlight:#E8F0FE;
+--sans:"Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--serif:"Noto Serif SC","Source Han Serif SC","Songti SC",Georgia,serif;
+--mono:"JetBrains Mono","Fira Code",Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:58px;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 28px;}
+.topband{background:var(--deep);color:#C7CFD8;font-size:13px;display:flex;justify-content:space-between;padding:9px 28px;}
+.topband strong{color:#F4F1E8;}
+header.cover{background:linear-gradient(135deg,#102A43 0%,#1B3A5C 60%,#244B72 100%);color:#F4F1E8;padding:58px 0 48px;text-align:center;}
+header.cover h1{font-family:var(--serif);font-size:30px;font-weight:800;letter-spacing:.01em;margin-bottom:8px;}
+header.cover .en{font-size:15px;color:#A9CCE8;margin-bottom:20px;font-weight:400;}
+header.cover .meta{display:flex;justify-content:center;gap:30px;font-size:13px;color:#8FA7BF;flex-wrap:wrap;}
+header.cover .meta span strong{color:#C7CFD8;}
+
+nav.toc{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);padding:0;box-shadow:0 1px 4px rgba(0,0,0,.04);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+nav.toc .toc-inner{display:flex;gap:0;max-width:860px;margin:0 auto;padding:0 20px;white-space:nowrap;}
+nav.toc a{display:inline-block;padding:12px 13px;font-size:13px;color:var(--ink2);text-decoration:none;border-bottom:2.5px solid transparent;transition:color .2s,border-color .2s;flex-shrink:0;}
+nav.toc a:hover{color:var(--blue);border-bottom-color:var(--blue);}
+nav.toc a:focus-visible,footer a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+section{padding:44px 0;}
+section:nth-child(odd){background:var(--bg);}
+section:nth-child(even){background:#F3F0E8;}
+.sec-no{font-size:13px;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
+h2{font-family:var(--serif);font-size:23px;font-weight:700;color:var(--deep);margin-bottom:10px;line-height:1.35;}
+h3{font-size:17px;font-weight:700;color:var(--deep);margin:24px 0 10px;padding-left:12px;border-left:3px solid var(--blue);}
+.sec-lede{font-size:15.5px;color:var(--ink2);margin-bottom:20px;line-height:1.8;}
+p{margin-bottom:14px;font-size:15.5px;line-height:1.82;color:var(--ink);}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:16px;}
+.card h3{margin-top:0;}
+.card ul,.card ol{margin:0;padding-left:1.15em;}
+.card li{margin-bottom:8px;font-size:14.5px;line-height:1.7;}
+.card li:last-child{margin-bottom:0;}
+
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;border:1px solid var(--border);border-radius:10px;background:#fff;}
+table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6;}
+th{background:var(--deep);color:#F0EDE4;font-weight:600;text-align:left;padding:10px 14px;white-space:nowrap;font-size:13px;letter-spacing:.02em;}
+td{padding:10px 14px;border-top:1px solid var(--border);vertical-align:top;}
+tr:nth-child(even) td{background:#FAFAF7;}
+td:first-child{font-weight:600;color:var(--deep);}
+
+.verdict{background:linear-gradient(135deg,#FFF7E6,#FFF2D6);border-left:4px solid var(--orange);border-radius:8px;padding:18px 22px;margin:16px 0;}
+.verdict strong{color:var(--deep);}
+.verdict-final{background:linear-gradient(135deg,#102A43,#1B3A5C);color:#F4F1E8;border-radius:12px;padding:28px 30px;margin:24px 0;}
+.verdict-final h3{color:#F4F1E8;border-left-color:var(--orange);margin-top:0;}
+.verdict-final strong{color:#F59E0B;}
+.verdict-final p{color:#C7CFD8;}
+
+.grade{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;vertical-align:middle;margin-right:2px;letter-spacing:.02em;}
+.grade-a{background:#102A43;color:#fff;}
+.grade-b{background:#2978B5;color:#fff;}
+.grade-c{background:#F59E0B;color:#fff;}
+.grade-d{background:#9CA3AF;color:#fff;}
+
+.risk{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.02em;}
+.risk-high{background:#DC2626;color:#fff;}
+.risk-mid{background:#F59E0B;color:#fff;}
+.risk-low{background:#22C55E;color:#fff;}
+
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:24px 0;}
+.flow-step{width:100%;max-width:560px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;position:relative;}
+.flow-step .step-num{display:inline-block;background:var(--blue);color:#fff;font-size:12px;font-weight:700;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;margin-right:10px;flex-shrink:0;vertical-align:middle;}
+.flow-step .step-title{font-weight:700;color:var(--deep);font-size:15px;vertical-align:middle;}
+.flow-step .step-desc{margin-top:8px;font-size:14px;color:var(--ink2);line-height:1.7;}
+.flow-arrow{width:2px;height:22px;background:var(--blue);position:relative;flex-shrink:0;}
+.flow-arrow::after{content:"";position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--blue);}
+
+ul.audit-list{list-style:none;padding:0;margin:14px 0;}
+ul.audit-list li{padding:8px 0 8px 20px;position:relative;font-size:14.5px;line-height:1.7;border-bottom:1px solid #EDEBE4;}
+ul.audit-list li::before{content:"";position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%;background:var(--blue);}
+ul.audit-list li:last-child{border-bottom:none;}
+
+.risk-list{list-style:none;padding:0;margin:14px 0;}
+.risk-list li{padding:10px 14px;margin-bottom:8px;background:#FFF7F0;border-left:3px solid var(--orange);border-radius:0 8px 8px 0;font-size:14.5px;line-height:1.7;}
+
+.meta-table{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0;}
+.meta-table td{padding:10px 14px;border:1px solid var(--border);vertical-align:top;}
+.meta-table td:first-child{font-weight:600;background:var(--highlight);width:120px;white-space:nowrap;}
+
+footer{background:var(--deep);color:#C7CFD8;padding:34px 0 44px;font-size:13.5px;}
+footer a{color:#A9CCE8;}
+footer h2{color:#F4F1E8;font-size:18px;margin:0 0 14px;}
+footer ol{margin:6px 0 0;padding-left:1.3em;}
+footer li{margin-bottom:7px;line-height:1.6;}
+.disclaimer{font-size:12.5px;color:#8A94A0;margin-top:18px;border-top:1px solid #2A435C;padding-top:14px;max-width:80ch;}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+.rv.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto;}
+.rv{opacity:1;transform:none;transition:none;}
+}
+@media(max-width:900px){
+header.cover h1{font-size:24px;}
+h2{font-size:20px;}
+.wrap{padding:0 20px;}
+}
+@media(max-width:560px){
+.wrap{padding:0 16px;}
+header.cover .meta{flex-direction:column;gap:6px;}
+.flow-step{padding:14px 16px;}
+}
+@media print{
+body{background:#fff;font-size:12px;}
+nav.toc{display:none;}
+.rv{opacity:1;transform:none;}
+section{break-inside:avoid-page;padding:20px 0;}
+.card,.verdict-final{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="topband">
+  <span>独立课程审核 · <strong>Re-Thinking the Gym Floor</strong></span>
+  <span>审核性质：<strong>独立评价，不修改原课程</strong></span>
+</div>
+
+<header class="cover">
+  <div class="wrap">
+    <h1>《重新思考健身房训练现场》</h1>
+    <div class="en">Re-Thinking the Gym Floor · Independent Course Audit Report</div>
+    <div class="meta">
+      <span>审核范围：<strong>体系、证据、评估、边界、教学与商业前景</strong></span>
+      <span>使用场景：<strong>公司引进、合作、采购及品牌风险决策</strong></span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#s1">01 审核结论</a>
+    <a href="#s2">02 课程体系</a>
+    <a href="#s3">03 循证验证</a>
+    <a href="#s4">04 疼痛流程</a>
+    <a href="#s5">05 国际对标</a>
+    <a href="#s6">06 审核追问</a>
+    <a href="#s7">07 决策门槛</a>
+    <a href="#appendix-a">附录A</a>
+    <a href="#appendix-b">附录B</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- metadata strip -->
+<section style="padding:20px 0;">
+<div class="wrap">
+  <table class="meta-table rv">
+    <caption style="display:none;">审核报告基本信息</caption>
+    <tr><th scope="row">审核性质</th><td>独立评价；不修改原课程</td></tr>
+    <tr><th scope="row">审核范围</th><td>课程体系、证据等级、评估体系、职业边界、教学效果与商业前景</td></tr>
+    <tr><th scope="row">使用场景</th><td>公司引进、合作、采购及品牌风险决策</td></tr>
+    <tr><th scope="row">依据</th><td>课程原始提纲、IASP / IOC / WHO 资料、系统综述及代表性国际课程公开信息</td></tr>
+    <tr><th scope="row">限制</th><td>未审阅完整讲义、课堂录像、测试手册、参考文献包、学员数据或合同文件</td></tr>
+  </table>
+</div>
+</section>
+
+<!-- ============ SECTION 01 ============ -->
+<section id="s1">
+<div class="wrap">
+  <p class="sec-no">SECTION 01</p>
+  <h2>审核结论与决策建议</h2>
+  <p class="sec-lede">总体判断：建议「附条件进入下一轮尽调」，不建议仅凭现有提纲直接作为疼痛管理或康复认证项目上市。</p>
+
+  <div class="verdict-final rv">
+    <p>课程的核心思想——反对统一动作模板、承认解剖差异、区分疼痛与组织损伤、通过调整负荷 / 范围 / 位置维持训练——与现代运动科学和疼痛科学的大方向一致，且对私人教练具有较高现场吸引力。但课程说明把多项复杂命题写成「真相 / 迷思」，评估工具未提供测量学依据，疼痛安全流程和长期效果路径也不完整。其合理定位应为<strong>进阶教练决策工作坊</strong>，而非疼痛诊断、损伤治疗或康复资质课程。</p>
+  </div>
+
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">审核报告基本信息</caption>
+      <thead>
+        <tr><th>审核维度</th><th>当前判断</th><th>主要理由</th><th>公司决策含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>课程思想</td><td style="color:#22C55E;font-weight:700;">积极</td><td>情境化推理、个体化与负荷调节符合现代趋势</td><td>可形成品牌差异化</td></tr>
+        <tr><td>科学证据</td><td style="color:var(--orange);font-weight:700;">混合</td><td>部分主张较强，部分为启发式模型或低证据机制</td><td>须索取逐模块参考文献并外审</td></tr>
+        <tr><td>评估体系</td><td style="color:#DC2626;font-weight:700;">不充分</td><td>提到筛查，但无标准、信效度、阈值和复测规则</td><td>不得宣传为诊断或风险预测</td></tr>
+        <tr><td>职业安全</td><td style="color:#DC2626;font-weight:700;">不充分</td><td>虽提「不扮演临床医生」，但未展示红旗与转诊流程</td><td>上市前必须补齐</td></tr>
+        <tr><td>教学产出</td><td style="color:var(--orange);font-weight:700;">不清晰</td><td>两天覆盖面过广，未说明考核、课后追踪和能力标准</td><td>只能先承诺认知与基础决策改善</td></tr>
+        <tr><td>商业前景</td><td style="color:var(--blue);font-weight:700;">有潜力</td><td>主题新、实操强、适合私教升级；但同类课程已有成熟竞争者</td><td>需明确本地化、价格和不可替代价值</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card rv">
+    <h3 style="border-left:none;padding-left:0;">三项关键建议</h3>
+    <ul class="audit-list">
+      <li><strong>建议允许进入：</strong>完整课件审阅、证据包审核、讲师试讲、评估工具验证、法律与保险审查</li>
+      <li><strong>建议暂缓对外使用：</strong>「疼痛管理认证」「找到疼痛原因」「康复客户」「降低损伤风险」等表达</li>
+      <li><strong>Go / No-Go 关键门槛：</strong>红旗转诊、测量学、学习考核、适用对象和证据更新机制必须书面化</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ SECTION 02 ============ -->
+<section id="s2">
+<div class="wrap">
+  <p class="sec-no">SECTION 02</p>
+  <h2>课程体系梳理</h2>
+
+  <!-- 2.1 -->
+  <h3 id="s2-1">2.1 课程试图解决的问题</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">审核维度总览</caption>
+      <thead><tr><th>原课程识别的问题</th><th>课程给出的替代方向</th></tr></thead>
+      <tbody>
+        <tr><td>私教依赖单一「标准动作」和完美排列</td><td>从统一规则转向个体、任务和情境推理</td></tr>
+        <tr><td>把静态姿势或结构差异直接解释为疼痛原因</td><td>承认静态姿势预测能力有限，观察动态任务</td></tr>
+        <tr><td>把紧张感解释为结节或结构性缩短</td><td>考虑感觉、保护、位置、任务与组织因素</td></tr>
+        <tr><td>把疼痛直接等同损伤</td><td>区分疼痛体验、伤害感受与组织损伤</td></tr>
+        <tr><td>把肌肉损伤当作增肌必要条件</td><td>以机械张力、训练刺激和疲劳管理为核心</td></tr>
+        <tr><td>动作规则「一刀切」</td><td>通过负荷、范围、站位和提示进行个体化实验</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2.2 -->
+  <h3 id="s2-2">2.2 两天课程的整体内容与主要安排</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">两天课程安排</caption>
+      <thead><tr><th>日期 / 模块</th><th>主要内容</th><th>教学形式</th><th>预期产出</th></tr></thead>
+      <tbody>
+        <tr><td>第 1 天 · 模块 1<br>批判性思维</td><td>私教市场问题；主张—关键问题—证伪标准—现实的判断框架</td><td>课堂理论、行业案例</td><td>学员能够质疑「一定、必须、不能」等普遍化主张</td></tr>
+        <tr><td>第 1 天 · 模块 2<br>结构与功能</td><td>骨形态、关节几何、肢段比例、肌腱附着；个体差异和动作变异</td><td>解剖理论、动作案例</td><td>理解同一动作不必有统一站位和轨迹</td></tr>
+        <tr><td>第 1 天 · 模块 3<br>姿势</td><td>静态铅垂线、完美排列、静态姿势与疼痛 / 表现的关系；「下一个姿势」原则</td><td>理论、迷思拆解</td><td>减少依据静态姿势直接判断问题的倾向</td></tr>
+        <tr><td>第 1 天 · 模块 4<br>紧张与 ROM</td><td>紧张感、组织长度、神经保护、位置取向、任务、体液及 ECM</td><td>理论、可能包含动作示范</td><td>不把所有活动受限都解释为结节或缩短</td></tr>
+        <tr><td>第 1 天 · 模块 5<br>肌肥大与适应</td><td>机械张力、蛋白质合成、肌损伤、有效重复、疲劳和组次强度</td><td>理论、计划讨论</td><td>用刺激—疲劳权衡设计增肌训练</td></tr>
+        <tr><td>第 1 天 · 模块 6<br>疼痛</td><td>疼痛与损伤、神经系统输出、感觉输入、小脑；训练师边界</td><td>理论、场景讨论</td><td>通过负荷、范围和位置保持可耐受运动，而非诊断</td></tr>
+        <tr><td>第 2 天 · 模块 7<br>上肢与肩</td><td>肩胛肱骨节律、胸廓和关节几何；过顶、腕肘轨迹；推拉动作设置</td><td>健身房实验课</td><td>根据个体结构与任务调整推拉动作</td></tr>
+        <tr><td>第 2 天 · 模块 8<br>核心与脊柱</td><td>腹内压、骨盆—胸廓、动态躯干策略；胸廓、骨盆倾斜和旋转观察</td><td>健身房实验课</td><td>选择与负荷相匹配的核心策略，管理屈伸</td></tr>
+        <tr><td>第 2 天 · 模块 9<br>下肢</td><td>髋臼 / 股骨颈 / 足结构；髋踝活动；站距、深度、脚向、肌群偏向</td><td>健身房实验课</td><td>为深蹲及下肢动作选择可用设置、退阶与进阶</td></tr>
+        <tr><td>第 2 天 · 模块 10<br>问答</td><td>讲师答疑和总结</td><td>问答</td><td>整合原则与现场应用</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2.3 -->
+  <h3 id="s2-3">2.3 第一天理论与第二天训练的衔接逻辑</h3>
+  <div class="verdict rv">
+    <p>连接点不是「第一天讲疼痛、第二天做康复」，而是<strong>「第一天建立判断原则，第二天把原则应用到三个身体区域」</strong>。第一天试图拆除统一姿势、统一动作和单一疼痛解释；第二天则在肩、躯干和下肢动作中，通过观察活动能力和改变动作设置，让学员练习个体化决策。第二天是应用生物力学与教练决策实验课，而非提纲已证明的康复实训。</p>
+  </div>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">第一天与第二天的衔接逻辑</caption>
+      <thead><tr><th>第 1 天原则</th><th>第 2 天应用</th><th>具体连接方式</th></tr></thead>
+      <tbody>
+        <tr><td>解剖与比例存在差异</td><td>肩 / 胸廓、髋臼 / 股骨颈、足部结构</td><td>不要求统一握距、肩胛位置、站距、脚尖方向和深蹲深度</td></tr>
+        <tr><td>不存在适用于所有人的单一理想姿势</td><td>过顶、躯干屈伸、深蹲和足部运动</td><td>从「是否符合图表」转向「是否适合任务、负荷和个人」</td></tr>
+        <tr><td>紧张和 ROM 是多因素结果</td><td>过顶、胸廓、骨盆、髋踝活动观察</td><td>不自动用拉伸处理；先改变位置、任务和主动策略</td></tr>
+        <tr><td>疼痛不等同组织损伤</td><td>调整推拉、核心策略、负荷和活动范围</td><td>在排除风险的前提下寻找可耐受训练方案</td></tr>
+        <tr><td>机械张力与疲劳管理</td><td>股四头 / 臀肌偏向、推拉设置、组次强度</td><td>动作选择服务训练刺激，不追求抽象的完美动作</td></tr>
+        <tr><td>证伪与情境化推理</td><td>比较改变设置前后的反应</td><td>把每次动作调整视为小型假设检验</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2.4 -->
+  <h3 id="s2-4">2.4 第二天的训练导向与审核结论</h3>
+  <div class="verdict rv">
+    <p>第二天是第一天理论框架的区域化应用，教学导向为<strong>「个体化动作适配与训练决策」</strong>，而非修复一个预设的标准动作模式。学员通过肩部、躯干和下肢任务观察，调整站位、活动范围、身体位置、核心策略和负荷，在保留训练目标的前提下，提高动作的可执行性、可耐受性和训练刺激质量。</p>
+  </div>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">第二天训练导向与审核判断</caption>
+      <thead><tr><th>训练导向</th><th>第二天的具体体现</th><th>审核判断</th></tr></thead>
+      <tbody>
+        <tr><td>个体适配</td><td>根据肩 / 胸廓、骨盆 / 脊柱、髋 / 踝 / 足部差异调整推、拉、深蹲及下肢动作</td><td>最主要且与第一天一致的导向</td></tr>
+        <tr><td>动作能力扩展</td><td>观察过顶、胸廓、骨盆倾斜、旋转、髋踝活动，并选择退阶或进阶</td><td>目的在于增加可用动作选项，而非把所有人修复成同一模式</td></tr>
+        <tr><td>症状与限制管理</td><td>改变负荷、范围和位置，使训练处于可耐受状态</td><td>属于训练变量管理，不等同于疼痛治疗或损伤康复</td></tr>
+        <tr><td>训练刺激优化</td><td>调整站距、深度、轨迹及股四头 / 臀肌偏向，兼顾机械张力和疲劳</td><td>不仅避痛，也服务肌肉训练和表现目标</td></tr>
+        <tr><td>现场假设检验</td><td>比较不同设置下的动作、症状、舒适度和目标刺激反应</td><td>与第一天的证伪和情境化推理构成方法论连接</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card rv">
+    <p><strong>综合判断：</strong>课程第一天回答「为什么不能用统一规则判断所有人」，第二天回答「面对具体客户时怎样调整动作和训练变量」。第二天并未形成包含诊断、阶段性康复、复测、组织愈合和回归运动标准的康复体系，因此应被评价为<strong>应用生物力学与教练决策实操</strong>，而非动作模式修复或疼痛康复实训。</p>
+  </div>
+
+  <!-- 2.5 -->
+  <h3 id="s2-5">2.5 动作观察与判断依据</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">动作观察的判断依据与局限</caption>
+      <thead><tr><th>提纲中可识别的判断依据</th><th>它实际能告诉我们什么</th><th>不能据此直接推断什么</th></tr></thead>
+      <tbody>
+        <tr><td>个体骨形态、关节几何和肢段比例</td><td>解释为什么动作范围、站位和轨迹可能不同</td><td>不能只靠外观准确判断深层骨形态或疼痛原因</td></tr>
+        <tr><td>肩胛肱骨节律、胸廓形态</td><td>观察过顶和推拉时肩胛 / 胸廓如何配合</td><td>不能用单一「正常节律」诊断肩痛或功能障碍</td></tr>
+        <tr><td>过顶时是否出现脊柱动作</td><td>反映个人完成任务所采用的整体策略</td><td>脊柱参与不自动等于有害代偿；需看任务、负荷和症状</td></tr>
+        <tr><td>腕肘运动轨迹</td><td>观察关节和器械路径是否可执行、可耐受</td><td>轨迹不同不自动代表需要纠正</td></tr>
+        <tr><td>胸廓活动、骨盆倾斜和旋转能力</td><td>了解可用动作选项及改变姿势的能力</td><td>不能凭一次测试确定疼痛结构或所谓失衡</td></tr>
+        <tr><td>髋、踝活动度</td><td>了解深蹲或下肢任务的可用范围</td><td>受测试姿势、测量误差和任务影响，不能独立决定深蹲深度</td></tr>
+        <tr><td>站距、脚尖方向、深度改变后的表现</td><td>比较不同设置的即时可耐受性和目标刺激</td><td>即时舒服不证明长期最佳、组织已修复或损伤风险下降</td></tr>
+        <tr><td>疼痛、紧张感和动作限制的主观报告</td><td>了解客户体验和症状反应</td><td>疼痛大小不能直接代表组织损伤大小</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="verdict rv">
+    <p><strong>真正缺失的判断标准：</strong>提纲没有给出「好动作」的操作性定义。公司应要求课程方明确：判断结果优先级是安全、症状、任务完成、目标肌肉刺激、负荷能力、效率还是美观？每项观察是否有标准化指令、评分、信效度、阈值、复测规则和 if / then 决策树？没有这些，所谓评估只是教练观察，而非可复制的动作模式判断体系。</p>
+  </div>
+
+  <!-- 2.6 -->
+  <h3 id="s2-6">2.6 课程知识结构</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">课程知识结构层级</caption>
+      <thead><tr><th>层级</th><th>课程模块</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>方法论层</td><td>批判性思维与证伪框架</td><td>判断健身主张，而非只记规则</td></tr>
+        <tr><td>基础模型层</td><td>解剖差异、动作变异、姿势、紧张、疼痛、肌肥大</td><td>建立解释人体动作和适应的新框架</td></tr>
+        <tr><td>观察层</td><td>肩 / 上肢、胸廓 / 骨盆 / 脊柱、髋 / 踝 / 足部任务观察</td><td>生成动作与负荷假设</td></tr>
+        <tr><td>干预层</td><td>改变站距、范围、姿势、核心策略、负荷、组次与强度</td><td>寻找可耐受且符合训练目标的方案</td></tr>
+        <tr><td>边界层</td><td>训练师调整训练但不扮演临床医生</td><td>理论上限制越界</td></tr>
+        <tr><td>结果层</td><td>即时动作选择、退阶 / 进阶、减少不必要疲劳、保持训练</td><td>强调当下可执行性</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2.7 -->
+  <h3 id="s2-7">2.7 课程核心解决方案与决策流程</h3>
+  <div class="verdict rv">
+    <p>课程并未提供单一「矫正技术」，而是提供一套<strong>教练决策法</strong>：先质疑普遍规则，识别个体约束，再用可逆的训练变量调整进行现场实验，根据症状、动作和训练目标的即时反应选择下一步。</p>
+  </div>
+
+  <div class="flow rv">
+    <div class="flow-step"><span class="step-num">1</span><span class="step-title">拆解主张</span><div class="step-desc">把「必须、不能、一定会」转化为可检验的问题</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">2</span><span class="step-title">识别个体与任务</span><div class="step-desc">考虑结构、比例、当前能力、训练目标和情境</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">3</span><span class="step-title">进行动作任务观察</span><div class="step-desc">观察可用范围、症状、代偿和目标肌群 / 动作表现</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">4</span><span class="step-title">调整可控训练变量</span><div class="step-desc">负荷、范围、位置、站距、速度、提示、组次和频率</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">5</span><span class="step-title">比较即时反应</span><div class="step-desc">疼痛、舒适、控制、训练目标和疲劳是否改善</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">6</span><span class="step-title">决定下一步</span><div class="step-desc">维持、进阶、退阶、更换动作或转诊</div></div>
+  </div>
+
+  <div class="card rv">
+    <p><strong>审核解释：</strong>上述流程系根据课程提纲还原的「训练现场决策流程」，并非课程方明确定义并验证的康复协议。课程未展示诊断、阶段性康复、重返运动标准或长期追踪，因此不宜直接称为完整康复流程。</p>
+  </div>
+
+  <!-- 2.8 -->
+  <h3 id="s2-8">2.8 课程目标的时间层级</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">A/B 级课程主张循证评级</caption>
+      <thead><tr><th>时间层级</th><th>课程可能交付</th><th>提纲是否明确</th><th>审核判断</th></tr></thead>
+      <tbody>
+        <tr><td>当场</td><td>更新口令、站位、活动范围和负荷；让部分动作更可耐受</td><td>明确强调立即应用</td><td>最强卖点，但即时变化不等于治疗或长期有效</td></tr>
+        <tr><td>短期（数周）</td><td>改善教练的观察与编程决策</td><td>未给出教学追踪</td><td>需要课后案例和复训才能证明</td></tr>
+        <tr><td>长期（数月）</td><td>提高能力、减少复发、形成持久训练适应</td><td>没有路径与结果指标</td><td>现有提纲不足以承诺</td></tr>
+        <tr><td>职业长期</td><td>建立批判性思维和新知识框架</td><td>方向明确但无考核</td><td>可能有价值，取决于教学与证据质量</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ============ SECTION 03 ============ -->
+<section id="s3">
+<div class="wrap">
+  <p class="sec-no">SECTION 03</p>
+  <h2>课程内容的循证验证与分类</h2>
+  <p class="sec-lede"><strong>评级框架：</strong><span class="grade grade-a">A</span> 高——权威定义或多项一致系统综述；<span class="grade grade-b">B</span> 中——证据方向较一致但受人群 / 任务限制；<span class="grade grade-c">C</span> 低——间接、异质或主要依赖理论；<span class="grade grade-d">D</span> 不确定 / 争议——缺少清晰定义或直接证据。评级针对课程表述强度，不等同于正式临床 GRADE 指南。</p>
+
+  <!-- 3.1 -->
+  <h3 id="s3-1">3.1 A / B 级：方向较可靠，仍需情境限定</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">B/C 级课程主张循证评级</caption>
+      <thead><tr><th>课程主张</th><th>等级</th><th>审核结论</th><th>必要限定</th></tr></thead>
+      <tbody>
+        <tr><td>疼痛不直接等于组织损伤</td><td><span class="grade grade-a">A</span></td><td>与 IASP 和 IOC 一致</td><td>仍必须排查合理解释疼痛的损伤和红旗</td></tr>
+        <tr><td>肌肉不必先被损伤才能生长</td><td><span class="grade grade-a">A</span><span class="grade grade-b">B</span></td><td>肌损伤不是肌肥大必要条件</td><td>不能把机械张力称作唯一机制</td></tr>
+        <tr><td>膝盖过脚尖不是普遍禁忌</td><td><span class="grade grade-b">B</span></td><td>允许前移可用于训练且受目标与能力影响</td><td>会改变膝关节负荷需求，应渐进适配</td></tr>
+        <tr><td>动作设置应考虑解剖与肢段差异</td><td><span class="grade grade-b">B</span></td><td>结构会约束可用动作策略</td><td>结构不是唯一决定因素，不能凭结构直接诊断</td></tr>
+        <tr><td>不需要所有动作都最大化肩胛后缩下压</td><td><span class="grade grade-b">B</span></td><td>肩胛需随任务动态运动</td><td>具体策略取决于负荷、症状和动作</td></tr>
+        <tr><td>核心绷紧程度应匹配任务</td><td><span class="grade grade-b">B</span></td><td>腹内压和躯干刚度不是越大越好</td><td>重负荷与低负荷策略不同</td></tr>
+        <tr><td>负荷、范围和位置可用于维持可耐受训练</td><td><span class="grade grade-b">B</span></td><td>与现代运动康复原则相容</td><td>先排查安全问题并监测运动后反应</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3.2 -->
+  <h3 id="s3-2">3.2 B / C 级：部分成立，课程语言存在过度概括</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">C/D 级课程主张循证评级</caption>
+      <thead><tr><th>课程主张</th><th>等级</th><th>争议点</th><th>审核建议</th></tr></thead>
+      <tbody>
+        <tr><td>不存在理想姿势</td><td><span class="grade grade-b">B</span></td><td>没有适用于所有人的单一姿势，但某些暴露剂量和任务仍影响症状 / 负荷</td><td>理解为反对普遍化，不应理解为姿势完全无关</td></tr>
+        <tr><td>动作变异性是健康适应</td><td><span class="grade grade-b">B</span><span class="grade grade-c">C</span></td><td>变异可能是适应，也可能反映疲劳、疼痛或能力不足</td><td>需要结合结果判断，不能天然正面化</td></tr>
+        <tr><td>紧张主要来自神经保护和位置</td><td><span class="grade grade-c">C</span></td><td>感觉、耐受、刚度、组织结构和负荷历史均可能参与</td><td>避免排除结构与组织贡献</td></tr>
+        <tr><td>过度肌损伤会阻碍信号</td><td><span class="grade grade-c">C</span></td><td>会延迟恢复和降低后续训练量较合理；长期「阻断信号」直接证据不足</td><td>重点讲恢复与训练质量</td></tr>
+        <tr><td>有效重复模型可优化增肌</td><td><span class="grade grade-b">B</span><span class="grade grade-c">C</span></td><td>接近力竭可能重要，但「最后若干次」模型未经充分验证</td><td>作为启发式模型，并教授 RIR / RPE 与疲劳权衡</td></tr>
+        <tr><td>负重脊柱屈曲并非禁忌</td><td><span class="grade grade-b">B</span><span class="grade grade-c">C</span></td><td>屈曲不必然导致疼痛，但负荷、速度、疲劳与既往损伤影响风险</td><td>不可转译成「负重屈曲完全安全」</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3.3 -->
+  <h3 id="s3-3">3.3 C / D 级：证据不足、定义不清或风险较高</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">课程与专业疼痛流程对比</caption>
+      <thead><tr><th>课程内容</th><th>等级</th><th>主要问题</th><th>风险</th></tr></thead>
+      <tbody>
+        <tr><td>体液转移、重力管理、ECM 解释紧张与 ROM</td><td><span class="grade grade-c">C</span><span class="grade grade-d">D</span></td><td>未说明具体机制、测量、剂量或直接人体证据</td><td>容易形成无法证伪的新理论</td></tr>
+        <tr><td>感觉输入和小脑功能整合解释疼痛</td><td><span class="grade grade-d">D</span></td><td>小脑参与网络不等于可据此评估或干预疼痛</td><td>可能被误用为神经功能诊断</td></tr>
+        <tr><td>现场筛查可直接指导动作处方</td><td><span class="grade grade-d">D</span>（按现有提纲）</td><td>未提供信度、效度、阈值、预测价值和决策规则</td><td>正常差异病理化、错误安全感</td></tr>
+        <tr><td>通过即时动作改善「管理动作限制」</td><td><span class="grade grade-c">C</span></td><td>即时变化不证明组织改变、风险下降或长期结局</td><td>营销可能把体验改善夸大为康复</td></tr>
+        <tr><td>疼痛是行为改变机制</td><td><span class="grade grade-c">C</span></td><td>可作功能性解释，但不是完整临床模型</td><td>可能否认严重损伤或慢性疼痛复杂性</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ============ SECTION 04 ============ -->
+<section id="s4">
+<div class="wrap">
+  <p class="sec-no">SECTION 04</p>
+  <h2>国际专业疼痛定义、评估与处理流程</h2>
+
+  <!-- 4.1 -->
+  <h3 id="s4-1">4.1 国际权威定义</h3>
+  <div class="verdict-final rv">
+    <h3 style="border-left:none;padding-left:0;margin-bottom:12px;">IASP 2020 疼痛定义</h3>
+    <p>疼痛是与实际或潜在组织损伤相关，或类似于与此类损伤相关的不愉快感觉和情绪体验。IASP 同时强调：疼痛是个人体验，受生物、心理和社会因素影响；疼痛与伤害感受不同；疼痛通常具有适应性保护作用，但也可能损害功能和福祉。</p>
+  </div>
+  <div class="card rv">
+    <p><strong>IOC 运动员疼痛共识</strong>进一步指出：损伤可以没有疼痛，疼痛也可以没有可识别损伤；疼痛管理与损伤管理不必相同。临床人员仍需判断是否存在能够合理解释疼痛的损伤，并同时评估病理生理、生物力学、心理社会和运动环境因素。</p>
+  </div>
+
+  <!-- 4.2 -->
+  <h3 id="s4-2">4.2 专业运动相关疼痛评估与管理流程</h3>
+  <div class="flow rv">
+    <div class="flow-step"><span class="step-num">1</span><span class="step-title">主诉与情境</span><div class="step-desc">疼痛位置、性质、起病、时间、运动需求、训练史与目标</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">2</span><span class="step-title">安全与损伤排查</span><div class="step-desc">创伤、红旗、神经症状、系统性征象；必要时停止并转诊</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">3</span><span class="step-title">临床与功能评估</span><div class="step-desc">组织 / 机制假设、活动与力量、专项任务、负荷史、药物和既往史</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">4</span><span class="step-title">生物—心理—社会评估</span><div class="step-desc">睡眠、压力、恐惧回避、情绪、比赛 / 合同 / 团队压力</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">5</span><span class="step-title">共同目标与分层计划</span><div class="step-desc">明确疼痛、功能、训练和回归运动目标；选择最小伤害方案</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">6</span><span class="step-title">非药物优先与负荷管理</span><div class="step-desc">教育、保持可耐受活动、渐进运动、睡眠 / 心理支持和必要协作</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">7</span><span class="step-title">监测与复评</span><div class="step-desc">运动中、运动后、次日反应；功能、能力和参与度；调整或转诊</div></div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step"><span class="step-num">8</span><span class="step-title">回归训练 / 运动决策</span><div class="step-desc">基于能力、专项需求、风险容忍和多方共同决策，而非单看疼痛为零</div></div>
+  </div>
+
+  <!-- 4.3 -->
+  <h3 id="s4-3">4.3 本课程与专业流程逐项对比</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">国际课程对标矩阵</caption>
+      <thead><tr><th>专业流程要求</th><th>课程涉及程度</th><th>差距或争议</th><th>风险判断</th></tr></thead>
+      <tbody>
+        <tr><td>疼痛与损伤区分</td><td>明确涉及</td><td>方向正确，但「疼痛是保护输出」过于简化</td><td><span class="risk risk-mid">中</span></td></tr>
+        <tr><td>创伤、红旗和医学排查</td><td>提纲未见</td><td>没有停止、转诊和紧急处理标准</td><td><span class="risk risk-high">高</span></td></tr>
+        <tr><td>疼痛史和机制分类</td><td>提纲未见系统流程</td><td>无急 / 慢性、伤害感受 / 神经病理 / 可塑性区分</td><td><span class="risk risk-high">高</span></td></tr>
+        <tr><td>功能与专项需求</td><td>部分涉及动作任务</td><td>偏健身房动作，缺少基线和结果指标</td><td><span class="risk risk-mid">中</span></td></tr>
+        <tr><td>训练负荷史</td><td>只涉及疲劳和编程</td><td>未见近期负荷变化、运动后 / 次日监测规则</td><td><span class="risk risk-mid">中</span></td></tr>
+        <tr><td>心理社会与环境因素</td><td>极少</td><td>未见睡眠、恐惧、压力、团队文化和沟通</td><td><span class="risk risk-mid">中—高</span></td></tr>
+        <tr><td>评估测量学</td><td>未说明</td><td>筛查信效度和阈值未知</td><td><span class="risk risk-high">高</span></td></tr>
+        <tr><td>渐进负荷和长期康复</td><td>仅一般性调整</td><td>无阶段、进阶标准、复测和回归运动</td><td><span class="risk risk-high">高</span></td></tr>
+        <tr><td>执业边界</td><td>明确口头原则</td><td>缺少可操作边界、记录和转诊模板</td><td><span class="risk risk-mid">中—高</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4.4 -->
+  <h3 id="s4-4">4.4 主要争议与风险</h3>
+  <ul class="risk-list rv">
+    <li><strong>新还原论风险：</strong>课程反对结构还原论，却可能用「神经系统、体液、ECM、小脑」形成新的单一解释。</li>
+    <li><strong>去医学化过度风险：</strong>疼痛不等于损伤，不代表疼痛无需医学排查。</li>
+    <li><strong>正常差异病理化风险：</strong>骨形态和动作差异若缺少标准，可能被包装成需要矫正的问题。</li>
+    <li><strong>即时改善误读风险：</strong>换动作后疼痛下降只能支持「当下更可耐受」，不能证明病因、康复或长期安全。</li>
+    <li><strong>执业越界风险：</strong>训练师若使用「评估疼痛原因、处理损伤、康复」等语言，可能进入受监管医疗活动或增加责任风险。</li>
+    <li><strong>反教条口号风险：</strong>「姿势不重要、脊柱屈曲不危险、疼痛是大脑输出」均可能被初级学员断章取义。</li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ SECTION 05 ============ -->
+<section id="s5">
+<div class="wrap">
+  <p class="sec-no">SECTION 05</p>
+  <h2>与世界级相关课程的对比</h2>
+
+  <!-- 5.1 -->
+  <h3 id="s5-1">5.1 国际课程对标矩阵</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">创新性与亮点判断</caption>
+      <thead><tr><th>课程 / 机构</th><th>定位与强项</th><th>与本课程的共同点</th><th>本课程的不同 / 可能亮点</th><th>本课程相对短板</th></tr></thead>
+      <tbody>
+        <tr><td>NSCA CSCS</td><td>标准化力量体能认证；科学基础、计划、测试、技术和行业认可</td><td>生物力学、动作技术、计划设计</td><td>更集中处理私教教条、疼痛与个体动作设置</td><td>科学广度、先修门槛、标准化考试和认证强度较弱</td></tr>
+        <tr><td>NASM CES</td><td>纠正训练专项；评估—释放—拉伸—激活—整合</td><td>动作评估、个体计划和限制管理</td><td>更明确反对结构决定论，疼痛科学更现代</td><td>缺少 NASM 式标准流程和考试；现场筛查未验证</td></tr>
+        <tr><td>EXOS XPS</td><td>运动表现系统、数据决策、速度力量体能、监测、恢复与生活方式</td><td>系统思维、个体计划、现场工具</td><td>两天集中，聚焦健身房动作和教练语言</td><td>广度、数据监测、长期周期化和团队体系较弱</td></tr>
+        <tr><td>Pre-Script L1</td><td>应用生物力学、功能解剖、结构差异、动作设置和肌肥大</td><td>主题最接近，均强调形态差异与动作适配</td><td>加入证伪、疼痛科学和明确不做临床医生的意图</td><td>教材深度、课程时长和可复制体系可能不足</td></tr>
+        <tr><td>Clinical Athlete</td><td>复杂系统、运动处方、剂量、监测和回归运动；偏临床</td><td>反二元模型、个体化、运动为核心</td><td>更适合普通私教、门槛低、可立即用于健身房</td><td>临床推理、剂量、转诊与能力考核明显较浅</td></tr>
+        <tr><td>Physio Network</td><td>持续更新的临床大师课与研究综述；CPD / CEU</td><td>疼痛、运动和临床推理主题</td><td>集中实操和两天现场体验更强</td><td>证据更新机制、临床深度和专题广度较弱</td></tr>
+        <tr><td>Barbell Rehab</td><td>疼痛科学、后期康复到表现、两天实操</td><td>形式、疼痛科学和教练—临床桥梁相近</td><td>更覆盖普通健身房客户与肌肥大</td><td>回归运动、专项表现和安全流程可能不如明确</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5.2 -->
+  <h3 id="s5-2">5.2 创新性、差异与亮点判断</h3>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">决策门槛</caption>
+      <thead><tr><th>可能亮点</th><th>创新程度</th><th>审核评价</th></tr></thead>
+      <tbody>
+        <tr><td>把证伪框架直接带入健身房教练决策</td><td>较高</td><td>同类课程常教方法体系，本课程若真正教会学员挑战讲师自己的模型，会形成差异化</td></tr>
+        <tr><td>在两天内连接解剖差异、疼痛、肌肥大和现场动作</td><td>中等</td><td>组合方式有市场吸引力，但范围过大也可能牺牲深度</td></tr>
+        <tr><td>不强迫客户进入统一动作模板</td><td>中等</td><td>已是现代应用生物力学课程常见方向，并非全球首创</td></tr>
+        <tr><td>把临床疼痛洞见转译给私人教练</td><td>中等偏高</td><td>需求真实；关键在安全边界和转诊，而非只讲「疼痛不等于损伤」</td></tr>
+        <tr><td>低门槛现场评估＋立即调整</td><td>商业亮点高、科学风险高</td><td>若工具标准化可形成强产品；若无测量学，会成为主要声誉风险</td></tr>
+        <tr><td>反对肌损伤驱动增肌和强调疲劳管理</td><td>中低</td><td>内容符合当代肌肥大教育趋势，不构成独家创新</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<!-- ============ SECTION 06 ============ -->
+<section id="s6">
+<div class="wrap">
+  <p class="sec-no">SECTION 06</p>
+  <h2>公司必须追问的审核问题</h2>
+  <p class="sec-lede">以下六组问题构成本课程进入尽调前不可绕过的核查清单。</p>
+
+  <h3 id="s6-1">6.1 目标人群与教学目的</h3>
+  <ul class="audit-list rv">
+    <li>课程面向新手私教、已有认证教练、体能教练，还是物理治疗 / 运动康复人员？最低先修要求是什么？</li>
+    <li>两天课程的首要目标是什么：建立新知识框架、提高当场动作调整、形成长期编程能力，还是增加私教销售和变现能力？请限定一项。</li>
+    <li>「立即促进客户进步」具体指疼痛、动作舒适度、力量表现、训练完成率还是续课？用什么指标证明？</li>
+    <li>课程是否明确不承诺诊断、治疗、康复和降低损伤风险？证书名称是否会引起误解？</li>
+    <li>公司希望课程带来什么商业结果：报名收入、教练升级、客户留存、疼痛投诉下降、转诊体系还是品牌专业性？</li>
+  </ul>
+
+  <h3 id="s6-2">6.2 证据与课程内容</h3>
+  <ul class="audit-list rv">
+    <li>每个模块的完整参考文献、证据等级、反方证据和最近更新时间是什么？</li>
+    <li>「ECM、体液、小脑、有效重复、肌损伤阻碍信号」等核心表述是否有直接人类研究支持？</li>
+    <li>课程是否区分已证实事实、合理模型、讲师经验和待验证假设？</li>
+    <li>谁负责科学审核？是否有不参与授课和销售的独立专家审阅？</li>
+    <li>课程多久更新一次？新证据与旧课件冲突时有何修订机制？</li>
+    <li>课程是否真正允许学员证伪讲师观点，还是只让学员接受另一套固定模型？</li>
+  </ul>
+
+  <h3 id="s6-3">6.3 评估工具</h3>
+  <ul class="audit-list rv">
+    <li>每项 assessment screener 的标准化操作、评分、正常范围和决策阈值是什么？</li>
+    <li>评定者间信度、重测信度、敏感度 / 特异度、最小可检测变化和预测效度如何？</li>
+    <li>结果究竟用于观察症状与动作反应，还是声称识别结构、原因或损伤风险？</li>
+    <li>评估如何改变动作选择？是否有可审计的 if / then 决策树？</li>
+    <li>如何避免把胸廓、骨盆、足部或肩胛的正常差异病理化？</li>
+    <li>何时复测？即时变化和长期变化分别如何解释？</li>
+  </ul>
+
+  <h3 id="s6-4">6.4 职业边界与安全</h3>
+  <ul class="audit-list rv">
+    <li>课程是否系统教授创伤、红旗、进行性神经症状和系统性疾病征象？</li>
+    <li>训练师什么时候必须停止训练、建议就医或与物理治疗师协作？</li>
+    <li>是否提供知情同意、记录、转诊和跨专业沟通模板？</li>
+    <li>「可接受疼痛训练」的阈值、运动后和次日规则是什么？哪些人不适用？</li>
+    <li>课程宣传和证书是否经过当地医疗执业、广告、消费者保护和责任保险审查？</li>
+    <li>若学员依据课程建议导致症状恶化，讲师、培训方、公司和学员的责任如何界定？</li>
+  </ul>
+
+  <h3 id="s6-5">6.5 教学效果</h3>
+  <ul class="audit-list rv">
+    <li>哪些成果只要求「知道」，哪些要求「能独立做」，哪些必须在监督下完成？</li>
+    <li>是否有课前基础学习、知识测试、标准化实操考核和不通过标准？</li>
+    <li>两天结束后如何证明学员不是只记住「膝过脚尖没问题、疼痛不等于损伤」等口号？</li>
+    <li>是否有 4–8 周案例督导、复测或案例提交，以证明知识迁移？</li>
+    <li>是否收集客户层面的安全、功能、训练完成和投诉数据？</li>
+    <li>讲师间一致性如何保证？更换讲师后课程还能否复制？</li>
+  </ul>
+
+  <h3 id="s6-6">6.6 商业前景与合作条件</h3>
+  <ul class="audit-list rv">
+    <li>与 Pre-Script、NASM CES、EXOS 和 Barbell Rehab 相比，不可替代价值究竟是什么？</li>
+    <li>竞争优势来自内容、讲师个人影响力、本地语言、两天实操、价格，还是公司渠道？</li>
+    <li>公司购买的是一次讲师活动，还是拥有教材、录像、翻译、更新、复训与二次授课权的课程系统？</li>
+    <li>课程毛利、讲师依赖、获客成本、复购路径和后续进阶产品是什么？</li>
+    <li>是否可能与现有医疗、物理治疗或康复合作伙伴产生专业边界冲突？</li>
+    <li>能否在不使用「治疗、康复、纠正疼痛、找到根因、预防损伤」等语言的情况下形成有吸引力的营销？</li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ SECTION 07 ============ -->
+<section id="s7">
+<div class="wrap">
+  <p class="sec-no">SECTION 07</p>
+  <h2>审核结论：建议的决策门槛</h2>
+  <div class="tbl-scroll rv">
+    <table>
+    <caption style="display:none;">需索取材料清单</caption>
+      <thead><tr><th>决策</th><th>适用条件</th><th>当前状态</th></tr></thead>
+      <tbody>
+        <tr><td>直接引进并作为疼痛 / 康复认证上市</td><td>完整临床安全体系、验证评估、能力考核、法律审查、长期结果数据</td><td style="color:#DC2626;font-weight:700;">不满足</td></tr>
+        <tr><td>附条件引进为进阶教练工作坊</td><td>明确目标人群；提供证据包；补充红旗转诊；限制宣传；先做小规模试点</td><td style="color:var(--orange);font-weight:700;">可考虑</td></tr>
+        <tr><td>只做内部教练培训试点</td><td>公司承担质量控制，收集学员与客户结果，禁止对外扩大证书含义</td><td style="color:var(--blue);font-weight:700;">较合适</td></tr>
+        <tr><td>暂缓</td><td>课程方无法提供证据、评估手册、安全流程或合作权利不清</td><td style="color:#DC2626;font-weight:700;">应执行</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict-final rv">
+    <h3 style="border-left:none;padding-left:0;margin-bottom:12px;">推荐立场</h3>
+    <p>当前最稳妥的商业路径是：先定位为<strong>「高级私人教练的现代动作决策与疼痛沟通工作坊」</strong>，通过内部试点验证教学和安全，再决定是否商业化。不要在第一阶段使用康复、疼痛治疗或损伤风险预测定位。</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<!-- ============ APPENDIX A ============ -->
+<footer id="appendix-a">
+<div class="wrap">
+  <h2>附录 A｜审核使用的核心资料</h2>
+  <ol>
+    <li>IASP. Revised Definition of Pain (2020). <a href="https://www.iasp-pain.org/publications/iasp-news/iasp-announces-revised-definition-of-pain/" target="_blank" rel="noopener noreferrer">IASP 官网</a></li>
+    <li>IASP. Pain Terminology. <a href="https://www.iasp-pain.org/resources/terminology/" target="_blank" rel="noopener noreferrer">IASP Terminology</a></li>
+    <li>IOC Consensus Statement on Pain Management in Elite Athletes. <i>Br J Sports Med</i>. <a href="https://doi.org/10.1136/bjsports-2017-097884" target="_blank" rel="noopener noreferrer">DOI: 10.1136/bjsports-2017-097884</a></li>
+    <li>WHO guideline for non-surgical management of chronic primary low back pain (2023). <a href="https://www.who.int/publications/i/item/9789240081789" target="_blank" rel="noopener noreferrer">WHO 官网</a></li>
+    <li>Swain CTV et al. No consensus on causality of spine postures or physical exposure and low back pain. <a href="https://pubmed.ncbi.nlm.nih.gov/31451200/" target="_blank" rel="noopener noreferrer">PMID: 31451200</a></li>
+    <li>Saraceni N et al. Lumbar spine flexion during lifting and low back pain: systematic review / meta-analysis. <a href="https://pubmed.ncbi.nlm.nih.gov/31775556/" target="_blank" rel="noopener noreferrer">PMID: 31775556</a></li>
+    <li>Lucas N et al. Manual palpation for myofascial trigger points: systematic critical review. <a href="https://pubmed.ncbi.nlm.nih.gov/18503816/" target="_blank" rel="noopener noreferrer">PMID: 18503816</a></li>
+    <li>Fernández-de-Las-Peñas C et al. Trigger point diagnostic criteria: updated systematic review. <a href="https://pubmed.ncbi.nlm.nih.gov/32841969/" target="_blank" rel="noopener noreferrer">PMID: 32841969</a></li>
+    <li>Refalo MC et al. Proximity-to-failure and hypertrophy: systematic review / meta-analysis. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9935748/" target="_blank" rel="noopener noreferrer">PMCID: PMC9935748</a></li>
+    <li>Robinson ZP et al. Proximity to failure, strength and hypertrophy: meta-regressions. <a href="https://pubmed.ncbi.nlm.nih.gov/38970765/" target="_blank" rel="noopener noreferrer">PMID: 38970765</a></li>
+    <li>Grgic J et al. Failure versus non-failure resistance training: systematic review / meta-analysis. <a href="https://pubmed.ncbi.nlm.nih.gov/33497853/" target="_blank" rel="noopener noreferrer">PMID: 33497853</a></li>
+    <li>Cheatham SW et al. Factors influencing squat performance: systematic review. <a href="https://pubmed.ncbi.nlm.nih.gov/28290757/" target="_blank" rel="noopener noreferrer">PMID: 28290757</a></li>
+    <li>NSCA CSCS Exam Description. <a href="https://www.nsca.com/cscs-exam-description/" target="_blank" rel="noopener noreferrer">NSCA 官网</a></li>
+    <li>NASM Corrective Exercise Specialization. <a href="https://www.nasm.org/products/corrective-exercise-specialization" target="_blank" rel="noopener noreferrer">NASM 官网</a></li>
+    <li>EXOS Performance Specialist. <a href="https://exoslearn.inspire360.com/p/exos-performance-specialist" target="_blank" rel="noopener noreferrer">EXOS 官网</a></li>
+    <li>Pre-Script Level 1. <a href="https://www.pre-script.com/psl1" target="_blank" rel="noopener noreferrer">Pre-Script 官网</a></li>
+    <li>Clinical Athlete Provider Certification. <a href="https://clinicalathlete.com/" target="_blank" rel="noopener noreferrer">Clinical Athlete 官网</a></li>
+    <li>Physio Network Masterclass. <a href="https://www.physio-network.com/join-masterclass/" target="_blank" rel="noopener noreferrer">Physio Network 官网</a></li>
+    <li>Barbell Rehab Sports Performance Certification. <a href="https://barbellrehab.com/brs-certification/" target="_blank" rel="noopener noreferrer">Barbell Rehab 官网</a></li>
+  </ol>
+</div>
+</footer>
+
+<!-- ============ APPENDIX B ============ -->
+<section id="appendix-b" style="background:var(--deep);padding:30px 0;">
+<div class="wrap">
+  <h2 style="color:#F4F1E8;">附录 B｜审核限制与需索取材料</h2>
+  <div class="tbl-scroll rv" style="border-color:#2A435C;">
+    <table style="color:#C7CFD8;">
+      <caption style="display:none;">需索取材料清单</caption>
+      <thead><tr><th>需索取材料</th><th>审核用途</th></tr></thead>
+      <tbody>
+        <tr style="background:transparent;"><td style="color:#A9CCE8;">完整讲义、幻灯片和参考文献包</td><td>验证课程主张是否在课堂中被准确限定</td></tr>
+        <tr style="background:rgba(255,255,255,.03);"><td style="color:#A9CCE8;">评估筛查手册、评分表和决策树</td><td>审查信效度、可复制性和误判风险</td></tr>
+        <tr style="background:transparent;"><td style="color:#A9CCE8;">红旗、停止训练和转诊流程</td><td>审查安全与职业边界</td></tr>
+        <tr style="background:rgba(255,255,255,.03);"><td style="color:#A9CCE8;">考试、实操评分和证书标准</td><td>判断课程是否真正证明能力</td></tr>
+        <tr style="background:transparent;"><td style="color:#A9CCE8;">既往学员、客户结果和不良事件数据</td><td>验证教学效果与商业宣传</td></tr>
+        <tr style="background:rgba(255,255,255,.03);"><td style="color:#A9CCE8;">讲师资历证明、保险和当地执业状态</td><td>验证身份、责任与跨境授课风险</td></tr>
+        <tr style="background:transparent;"><td style="color:#A9CCE8;">知识产权、翻译、录像、复训和更新条款</td><td>判断合作是否可持续并降低讲师依赖</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="disclaimer">本报告不修改原课程，不构成医疗、法律或保险意见；公司在签约和对外宣传前仍需当地专业法律与临床审核。</p>
+</div>
+</section>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('in');});return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{threshold:0});
+  els.forEach(function(el){io.observe(el);});
+  setTimeout(function(){els.forEach(function(el){el.classList.add('in');});},3000);
+
+  document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(ev){
+      var id=a.getAttribute('href').slice(1);
+      var t=document.getElementById(id);
+      if(t){ev.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+})();
+</script>
+</body>
+</html>
