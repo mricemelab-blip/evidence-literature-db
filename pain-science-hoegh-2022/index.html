@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>疼痛科学实践系列深度解读 · Høegh 2022–2024 · JOSPT</title>
+<style>
+:root{
+--bg:#F8F6F0;--card:#fff;--ink:#1B2A38;--ink2:#3D4F5F;
+--deep:#102A43;--blue:#2978B5;--orange:#F59E0B;
+--green:#22C55E;--red:#DC2626;--border:#D8D3C8;--highlight:#E8F0FE;
+--sans:"Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+--serif:"Noto Serif SC","Source Han Serif SC","Songti SC",Georgia,serif;
+--mono:"JetBrains Mono","Fira Code",Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;scroll-padding-top:58px;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.78;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:860px;margin:0 auto;padding:0 28px;}
+.topband{background:var(--deep);color:#C7CFD8;font-size:13px;display:flex;justify-content:space-between;padding:9px 28px;}
+.topband strong{color:#F4F1E8;}
+header.cover{background:linear-gradient(135deg,#102A43 0%,#1B3A5C 60%,#244B72 100%);color:#F4F1E8;padding:58px 0 48px;text-align:center;}
+header.cover h1{font-family:var(--serif);font-size:28px;font-weight:800;letter-spacing:.01em;margin-bottom:8px;}
+header.cover .en{font-size:14px;color:#A9CCE8;margin-bottom:20px;font-weight:400;}
+header.cover .meta{display:flex;justify-content:center;gap:24px;font-size:13px;color:#8FA7BF;flex-wrap:wrap;}
+header.cover .meta span strong{color:#C7CFD8;}
+
+nav.toc{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);padding:0;box-shadow:0 1px 4px rgba(0,0,0,.04);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+nav.toc .toc-inner{display:flex;gap:0;max-width:860px;margin:0 auto;padding:0 20px;white-space:nowrap;}
+nav.toc a{display:inline-block;padding:12px 12px;font-size:12.5px;color:var(--ink2);text-decoration:none;border-bottom:2.5px solid transparent;transition:color .2s,border-color .2s;flex-shrink:0;}
+nav.toc a:hover{color:var(--blue);border-bottom-color:var(--blue);}
+nav.toc a:focus-visible,footer a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+section{padding:44px 0;}
+section:nth-child(odd){background:var(--bg);}
+section:nth-child(even){background:#F3F0E8;}
+.sec-no{font-size:13px;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:5px;}
+h2{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--deep);margin-bottom:10px;line-height:1.35;}
+h3{font-size:16.5px;font-weight:700;color:var(--deep);margin:22px 0 10px;padding-left:12px;border-left:3px solid var(--blue);}
+.sec-lede{font-size:15px;color:var(--ink2);margin-bottom:20px;line-height:1.8;}
+p{margin-bottom:14px;font-size:15px;line-height:1.82;color:var(--ink);}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:16px;}
+.card h3{margin-top:0;}
+.card ul,.card ol{margin:0;padding-left:1.15em;}
+.card li{margin-bottom:8px;font-size:14px;line-height:1.7;}
+.card li:last-child{margin-bottom:0;}
+
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;border:1px solid var(--border);border-radius:10px;background:#fff;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.6;}
+th{background:var(--deep);color:#F0EDE4;font-weight:600;text-align:left;padding:9px 13px;white-space:nowrap;font-size:12.5px;letter-spacing:.02em;}
+td{padding:9px 13px;border-top:1px solid var(--border);vertical-align:top;}
+tr:nth-child(even) td{background:#FAFAF7;}
+td:first-child{font-weight:600;color:var(--deep);}
+
+.verdict{background:linear-gradient(135deg,#FFF7E6,#FFF2D6);border-left:4px solid var(--orange);border-radius:8px;padding:18px 22px;margin:16px 0;}
+.verdict strong{color:var(--deep);}
+.verdict-final{background:linear-gradient(135deg,#102A43,#1B3A5C);color:#F4F1E8;border-radius:12px;padding:28px 30px;margin:24px 0;}
+.verdict-final h3{color:#F4F1E8;border-left-color:var(--orange);margin-top:0;}
+.verdict-final strong{color:#F59E0B;}
+.verdict-final p{color:#C7CFD8;}
+
+.grade{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:4px;vertical-align:middle;margin-right:2px;letter-spacing:.02em;}
+.grade-a{background:#102A43;color:#fff;}
+.grade-b{background:#2978B5;color:#fff;}
+.grade-c{background:#F59E0B;color:#fff;}
+.grade-d{background:#9CA3AF;color:#fff;}
+
+.risk{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.02em;}
+.risk-high{background:#DC2626;color:#fff;}
+.risk-mid{background:#F59E0B;color:#fff;}
+.risk-low{background:#22C55E;color:#fff;}
+
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;margin:22px 0;}
+.flow-step{width:100%;max-width:560px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:15px 18px;position:relative;}
+.flow-step .step-num{display:inline-block;background:var(--blue);color:#fff;font-size:11.5px;font-weight:700;width:22px;height:22px;line-height:22px;text-align:center;border-radius:50%;margin-right:10px;flex-shrink:0;vertical-align:middle;}
+.flow-step .step-title{font-weight:700;color:var(--deep);font-size:14.5px;vertical-align:middle;}
+.flow-step .step-desc{margin-top:7px;font-size:13.5px;color:var(--ink2);line-height:1.7;}
+.flow-arrow{width:2px;height:20px;background:var(--blue);position:relative;flex-shrink:0;}
+.flow-arrow::after{content:"";position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--blue);}
+
+ul.audit-list{list-style:none;padding:0;margin:14px 0;}
+ul.audit-list li{padding:8px 0 8px 20px;position:relative;font-size:14px;line-height:1.7;border-bottom:1px solid #EDEBE4;}
+ul.audit-list li::before{content:"";position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:50%;background:var(--blue);}
+ul.audit-list li:last-child{border-bottom:none;}
+
+.meta-table{width:100%;border-collapse:collapse;font-size:13.5px;margin:16px 0;}
+.meta-table td{padding:9px 13px;border:1px solid var(--border);vertical-align:top;}
+.meta-table td:first-child{font-weight:600;background:var(--highlight);width:110px;white-space:nowrap;}
+
+.timeline{position:relative;padding-left:28px;margin:20px 0;}
+.timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--blue);}
+.timeline-item{position:relative;margin-bottom:18px;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:10px;}
+.timeline-item::before{content:"";position:absolute;left:-24px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid var(--bg);}
+.timeline-item .tl-date{font-size:11.5px;color:var(--blue);font-weight:700;letter-spacing:.03em;}
+.timeline-item .tl-title{font-weight:700;color:var(--deep);font-size:14.5px;margin:3px 0 5px;}
+.timeline-item .tl-desc{font-size:13px;color:var(--ink2);line-height:1.7;}
+.timeline-item .tl-desc a{color:var(--blue);}
+.timeline-item .tl-desc a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+.concept-box{background:var(--highlight);border-radius:10px;padding:18px 22px;margin:16px 0;border-left:4px solid var(--blue);}
+.concept-box .cb-label{font-size:11.5px;color:var(--blue);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px;}
+.concept-box h4{font-size:15px;font-weight:700;color:var(--deep);margin-bottom:8px;}
+.concept-box p{font-size:14px;line-height:1.75;color:var(--ink);margin-bottom:0;}
+
+.key-msg{background:linear-gradient(135deg,#F0F4FF,#E4ECFA);border:1px solid #C8D6E8;border-radius:10px;padding:16px 20px;margin:14px 0;}
+.key-msg strong{color:var(--deep);}
+
+footer{background:var(--deep);color:#C7CFD8;padding:34px 0 44px;font-size:13px;}
+footer a{color:#A9CCE8;}
+footer h2{color:#F4F1E8;font-size:17px;margin:0 0 12px;}
+footer ol{margin:6px 0 0;padding-left:1.3em;}
+footer li{margin-bottom:7px;line-height:1.6;}
+.disclaimer{font-size:12px;color:#8A94A0;margin-top:18px;border-top:1px solid #2A435C;padding-top:14px;max-width:80ch;}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+.rv.in{opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto;}
+.rv{opacity:1;transform:none;transition:none;}
+}
+@media(max-width:900px){
+header.cover h1{font-size:22px;}
+h2{font-size:19px;}
+.wrap{padding:0 20px;}
+}
+@media(max-width:560px){
+.wrap{padding:0 14px;}
+header.cover .meta{flex-direction:column;gap:6px;}
+.flow-step{padding:13px 15px;}
+nav.toc .toc-inner{padding:0 10px;}
+nav.toc a{padding:10px 9px;font-size:11.5px;}
+}
+@media print{
+body{background:#fff;font-size:11.5px;}
+nav.toc{display:none;}
+.rv{opacity:1;transform:none;}
+section{break-inside:avoid-page;padding:18px 0;}
+.card,.verdict-final{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="topband">
+  <span>文献深度解读 · <strong>Pain Science in Practice</strong></span>
+  <span>系列共 7 篇 · JOSPT 2022–2024</span>
+</div>
+
+<header class="cover">
+  <div class="wrap">
+    <h1>疼痛科学实践：什么是疼痛神经科学？</h1>
+    <div class="en">Pain Science in Practice · Høegh M. · JOSPT Editorial Series 2022–2024 · 深度解读</div>
+    <div class="meta">
+      <span>作者：<strong>Morten Høegh</strong></span>
+      <span>期刊：<strong>J Orthop Sports Phys Ther</strong></span>
+      <span>系列：<strong>7 篇社论</strong></span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#s1">01 论文身份</a>
+    <a href="#s2">02 概念背景</a>
+    <a href="#s3">03 文章结构</a>
+    <a href="#s4">04 核心概念</a>
+    <a href="#s5">05 系列全景</a>
+    <a href="#s6">06 临床意义</a>
+    <a href="#s7">07 证据质量</a>
+    <a href="#s8">08 行业定位</a>
+    <a href="#s9">09 运动领域启示</a>
+    <a href="#s10">10 证据边界</a>
+    <a href="#s11">11 最终判断</a>
+    <a href="#appendix-a">附录A</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- metadata -->
+<section style="padding:18px 0;">
+<div class="wrap">
+  <table class="meta-table rv">
+    <caption style="display:none;">解读报告基本信息</caption>
+    <tr><th scope="row">文献类型</th><td>社论（Editorial）系列 · 临床教育导向</td></tr>
+    <tr><th scope="row">核心篇目</th><td>Høegh M. Pain Science in Practice: What Is Pain Neuroscience? Part 1. <em>J Orthop Sports Phys Ther</em> 2022;52(4):163–165. <a href="https://doi.org/10.2519/jospt.2022.10995" target="_blank" rel="noopener noreferrer">DOI</a></td></tr>
+    <tr><th scope="row">作者机构</th><td>Aalborg University, Department of Health Science and Technology, Faculty of Medicine, Denmark</td></tr>
+    <tr><th scope="row">系列跨度</th><td>2022.03 – 2024.02（7 篇社论，含 1 篇序言 + 6 篇主体）</td></tr>
+    <tr><th scope="row">学术支持</th><td>European Pain Federation (EFIC) 疼痛物理治疗核心课程</td></tr>
+    <tr><th scope="row">关键词</th><td>neuroscience, pain, pain education, pain neurobiology education</td></tr>
+  </table>
+</div>
+</section>
+
+<!-- ============ S1 ============ -->
+<section id="s1">
+<div class="wrap">
+  <p class="sec-no">SECTION 01</p>
+  <h2>论文身份</h2>
+
+  <div class="card rv">
+    <h3>主篇目 · Part 1</h3>
+    <p><strong>Høegh M.</strong> Pain Science in Practice: What Is Pain Neuroscience? Part 1. <em>J Orthop Sports Phys Ther</em> 2022;52(4):163–165. <a href="https://doi.org/10.2519/jospt.2022.10995" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2022.10995</a></p>
+    <p><strong>体裁：</strong>社论（Editorial），3 页，约 1,500 字正文 + 2 幅示意图。非原始研究，不承担新数据产出，定位为系列开篇的概念脚手架。</p>
+    <p><strong>作者背景：</strong>Morten Høegh，丹麦奥尔堡大学健康科学与技术系副教授，物理治疗师（PT），EFIC 疼痛物理治疗文凭课程核心课程编写者之一。在 JOSPT 疼痛科学系列中承担全部 7 篇社论的主笔或合著，并在《British Journal of Sports Medicine》发表疼痛 infographic（Høegh et al. 2021）。</p>
+  </div>
+
+  <div class="card rv">
+    <h3>系列定位</h3>
+    <p>「Pain Science in Practice」系列由 Høegh 发起，Michael Skovdal Rathleff（JOSPT 编辑）支持，面向肌骨康复临床工作者（物理治疗师、运动康复师、骨科医师），以每篇 3–4 页的篇幅，将疼痛神经科学的核心概念转化为临床可操作的认知框架。系列选题由 European Pain Federation 疼痛物理治疗核心课程背书 [<a href="https://europeanpainfederation.org/wp-content/uploads/2018/10/EFIC-Pain-Physiotherapy-Curriculum1.pdf" target="_blank" rel="noopener noreferrer">EFIC Curriculum PDF</a>]。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S2 ============ -->
+<section id="s2">
+<div class="wrap">
+  <p class="sec-no">SECTION 02</p>
+  <h2>概念背景：为什么要写这个系列？</h2>
+  <p class="sec-lede">疼痛科学在过去 20 年经历了一次范式转移——从「组织损伤→疼痛」的线性生物医学模型，转向「疼痛是神经系统保护性输出」的多因素生物心理社会模型。这一转变对肌骨康复临床实践产生了深远影响，但大量从业者仍停留在旧模型中。</p>
+
+  <div class="concept-box rv">
+    <div class="cb-label">范式转移的核心命题</div>
+    <h3>从 Descartes 到 Melzack &amp; Wall 到 IASP 2020</h3>
+    <p>笛卡尔的「疼痛是组织损伤的直接信号」模型统治医学近 300 年。1965 年 Melzack &amp; Wall 提出门控理论（Gate Control Theory），首次从神经生理层面证明疼痛不是简单的伤害信号传递，而是受中枢调制的主观体验。2020 年 IASP 更新疼痛定义，正式将疼痛表述为「与实际或潜在组织损伤相关的、或类似的不愉快的感觉和情感体验」<a href="https://www.iasp-pain.org/resources/terminology/" target="_blank" rel="noopener noreferrer">[IASP Terminology]</a>，删除了旧定义中隐含的「组织损伤」必要前提。</p>
+  </div>
+
+  <div class="card rv">
+    <h3>系列写作的临床动机</h3>
+    <ul class="audit-list">
+      <li><strong>知识断层：</strong>大量肌骨临床从业者接受的仍是生物医学疼痛模型训练，对神经科学层面的疼痛机制缺乏系统理解</li>
+      <li><strong>术语混乱：</strong>「伤害感受（nociception）」「疼痛（pain）」「敏化（sensitization）」「调节（modulation）」等概念在临床中被混用，导致评估和干预策略失准</li>
+      <li><strong>教育需求：</strong>EFIC 疼痛物理治疗核心课程要求从业者掌握疼痛机制知识，但缺乏面向临床的简明综述资源</li>
+      <li><strong>系列策略：</strong>以 7 篇短社论构建完整知识框架，每篇 3–4 页，聚焦 1–2 个核心概念，附带临床 Take-home message</li>
+    </ul>
+  </div>
+
+  <div class="verdict rv">
+    <p><strong>写作立场：</strong>Høegh 明确声明本系列「仅关注神经科学对疼痛理解的贡献」，不覆盖心理社会维度。这是有意限定的范围——系列旨在补足临床从业者的神经科学基础，而非替代完整的生物心理社会疼痛模型教育。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S3 ============ -->
+<section id="s3">
+<div class="wrap">
+  <p class="sec-no">SECTION 03</p>
+  <h2>Part 1 文章结构</h2>
+  <p class="sec-lede">Part 1 作为系列开篇，承担「搭建概念脚手架」的功能。全文分为 4 个逻辑单元，覆盖疼痛神经科学最基础的 4 个术语。</p>
+
+  <div class="flow rv">
+    <div class="flow-step">
+      <span class="step-num">1</span><span class="step-title">Stimuli and Perception（刺激与感知）</span>
+      <div class="step-desc">区分客观刺激（stimulus）与主观感知（perception）。用「树倒在森林中是否有声音」的哲学类比说明：神经元的激活不等于疼痛体验。 Nociceptive stimuli ≠ pain；它们激活的是伤害感受器（nociceptors）。</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step">
+      <span class="step-num">2</span><span class="step-title">Transduction（转导）</span>
+      <div class="step-desc">一种「能量」转化为另一种「能量」——化学、热、机械能转化为电信号（动作电位）。这是「神经系统是警报系统」比喻的基础。伤害感受器的适宜刺激包括化学、热和/或机械因素。</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step">
+      <span class="step-num">3</span><span class="step-title">Transmission（传递）</span>
+      <div class="step-desc">动作电位沿轴突传导至脊髓背角，触发钙离子内流，释放囊泡（含神经递质），突触后神经元产生新的动作电位，经脊髓丘脑侧束传至丘脑。涉及电压门控离子通道（如 Na<sub>V</sub>1.7）。</div>
+    </div>
+    <div class="flow-arrow"></div>
+    <div class="flow-step">
+      <span class="step-num">4</span><span class="step-title">Modulation（调制）</span>
+      <div class="step-desc">健康神经系统对体内环境变化的适应性调节，可产生促伤害或抗伤害效应。调制包括敏化（sensitization）现象，是后续篇章的主题。调制是短暂的、可逆的，与许多肌骨病症相关。</div>
+    </div>
+  </div>
+
+  <div class="card rv">
+    <h3>关键区分：Nociception ≠ Pain</h3>
+    <p>Part 1 最核心的概念贡献在于清晰区分了伤害感受（nociception）与疼痛（pain）：</p>
+    <ul class="audit-list">
+      <li><strong>Nociception：</strong>神经系统对高强度刺激的神经反应，即伤害感受神经元中的动作电位。可在实验条件下用压力、温度、化学化合物诱发</li>
+      <li><strong>Pain：</strong>主观体验，可以是伤害感受刺激的结果，但也可以在无伤害感受的情况下被体验到（如幻肢痛、纤维肌痛）</li>
+      <li><strong>临床推论：</strong>「你可以在临床上试图排除伤害感受，但你永远不能否定患者描述的疼痛体验」——这是 Part 1 的 Take-home message 1</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ S4 ============ -->
+<section id="s4">
+<div class="wrap">
+  <p class="sec-no">SECTION 04</p>
+  <h2>核心概念深度解读</h2>
+
+  <div class="concept-box rv">
+    <div class="cb-label">概念 1</div>
+    <h3>Stimulus vs. Perception</h3>
+    <p>Høegh 借用经典哲学类比：树倒下时空气粒子的运动是客观可测量的（stimulus），但「声音」作为意识体验需要感知者的存在（perception）。在神经科学中，振动（粒子运动）是刺激，声音体验是感知。类比到疼痛：伤害性刺激（nociceptive stimuli）激活的是伤害感受器，而非直接产生疼痛体验。这一区分是理解后续所有疼痛科学概念的认识论基础。</p>
+  </div>
+
+  <div class="concept-box rv">
+    <div class="cb-label">概念 2</div>
+    <h3>Transduction — 能量转化的警报器</h3>
+    <p>转导是疼痛通路的起点。伤害感受器将化学、热或机械能转化为电信号（动作电位）。文中特别提及 TRP 离子通道家族（如 TRPV1 响应 >43°C 热刺激和辣椒素），以及 Na<sub>V</sub>1.7 电压门控钠通道——<em>SCN9A</em> 基因编码 Na<sub>V</sub>1.7，其突变可导致先天性无痛症 [<a href="https://doi.org/10.1016/j.neuron.2019.01.047" target="_blank" rel="noopener noreferrer">McDermott et al. 2019, Neuron</a>] 或红斑性肢痛症 [<a href="https://doi.org/10.1523/JNEUROSCI.0462-16.2016" target="_blank" rel="noopener noreferrer">Yang et al. 2016, J Neurosci</a>]。这一基因-通道-表型链条是「伤害感受与疼痛存在因果关系」的最有力人类证据之一。</p>
+  </div>
+
+  <div class="concept-box rv">
+    <div class="cb-label">概念 3</div>
+    <h3>Transmission — 不是两根神经元的简单接力</h3>
+    <p>Høegh 特别纠正了一个常见误解：疼痛传递不是「外周神经元→脊髓神经元→丘脑」的两级简单通路。实际上，胶突细胞（glial cells）、突触间隙中的多种细胞参与了信号传递的调制。临床重要信息是：「神经传递依赖于复杂的细胞间交互，这些交互是临床工作者永远无法直接观察或测量的。」这暗示了临床评估的固有限度——我们只能推断，不能直接观测神经传递过程。</p>
+  </div>
+
+  <div class="concept-box rv">
+    <div class="cb-label">概念 4</div>
+    <h3>Modulation — 神经系统的自我调节</h3>
+    <p>调制是 Part 1 引入但延后展开的概念。健康神经系统会因体内外环境变化而产生促伤害（pro-nociceptive）或抗伤害（anti-nociceptive）的适应性变化。这些变化通常是短暂的，可能参与许多肌骨病症的发生。敏化（sensitization）是调制的一种表现形式，将在 Part 3（外周敏化）和 Part 4–5（中枢敏化）中详细展开。</p>
+  </div>
+
+  <div class="key-msg rv">
+    <p><strong>Take-home message 1：</strong>伤害感受是伤害感受神经元对高强度刺激的神经反应（动作电位）。疼痛感知可能是伤害感受刺激的结果，但疼痛是主观的，且可以在无伤害感受的情况下被体验。你可以在临床上试图排除伤害感受，但你永远不能否定患者描述的疼痛体验。</p>
+  </div>
+  <div class="key-msg rv">
+    <p><strong>Take-home message 2：</strong>注意感觉变化，并跟进神经系统检查 [<a href="https://doi.org/10.1097/PR9.0000000000000829" target="_blank" rel="noopener noreferrer">Schmid et al. 2020, Pain Rep</a>]。记住，并非所有变化都是病理性的，神经系统的调制是其生存功能的重要组成部分。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S5 ============ -->
+<section id="s5">
+<div class="wrap">
+  <p class="sec-no">SECTION 05</p>
+  <h2>系列全景：7 篇社论的完整知识图谱</h2>
+  <p class="sec-lede">从 2022 年 3 月到 2024 年 2 月，7 篇社论构建了一个从基础到临床的完整疼痛神经科学知识框架。以下按发表时间排列。</p>
+
+  <div class="timeline rv">
+    <div class="timeline-item">
+      <div class="tl-date">2022.03 · Vol 52(3)</div>
+      <div class="tl-title">序言 · Linking Basic Pain Science to the Clinic</div>
+      <div class="tl-desc">Høegh &amp; Rathleff. <a href="https://doi.org/10.2519/jospt.2022.10992" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2022.10992</a>. 系列序言，阐述写作目的：帮助临床工作者建立疼痛科学基础知识，从临床推理到管理。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2022.04 · Vol 52(4)</div>
+      <div class="tl-title">Part 1 · What Is Pain Neuroscience?</div>
+      <div class="tl-desc">Høegh M. <a href="https://doi.org/10.2519/jospt.2022.10995" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2022.10995</a>. 本解读主篇目。覆盖刺激与感知、转导、传递、调制 4 个基础概念。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2022.04 · Vol 52(4)</div>
+      <div class="tl-title">Part 2 · Receptors and MSK Pain</div>
+      <div class="tl-desc">Høegh M. <a href="https://doi.org/10.2519/jospt.2022.10994" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2022.10994</a>. 受体机制与肌骨疼痛的关系，从生物力学解释转向神经科学解释，讨论不同受体的临床意义。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2022.06 · Vol 52(6)</div>
+      <div class="tl-title">Part 3 · Peripheral Sensitization</div>
+      <div class="tl-desc">Høegh M. <a href="https://doi.org/10.2519/jospt.2022.11202" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2022.11202</a>. 外周敏化：组织损伤→炎症→敏化链条，轴突反射、神经源性炎症、C 纤维肽能通路、PGE<sub>2</sub> 与 NSAIDs 机制。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2023.01 · Vol 53(1)</div>
+      <div class="tl-title">Part 4 · Central Sensitization I</div>
+      <div class="tl-desc">Høegh M. <a href="https://doi.org/10.2519/jospt.2023.11569" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2023.11569</a>. 中枢敏化总论：背角神经元分层、同突触 vs. 异突触可塑性、胶质细胞角色、疼痛敏化与伤害感受性疼痛的关系、nociplastic pain 概念引入。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2023 · Vol 53</div>
+      <div class="tl-title">Part 5 · Central Sensitization II</div>
+      <div class="tl-desc">Høegh M. <a href="https://doi.org/10.2519/jospt.2023.11571" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2023.11571</a>. 中枢敏化机制深潜：wind-up、经典中枢敏化、长时程增强（LTP）。Wind-up 为同突触、短暂；经典中枢敏化为异突触、持续更久；LTP 为学习记忆相关的突触强度改变。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-date">2024.02 · Vol 54(2)</div>
+      <div class="tl-title">Part 6 · Descending Modulation of Pain</div>
+      <div class="tl-desc">Høegh &amp; Bannister. <a href="https://doi.org/10.2519/jospt.2024.12112" target="_blank" rel="noopener noreferrer">DOI: 10.2519/jospt.2024.12112</a>. 下行疼痛调制系统（DPMS）：脑干起源的神经元通路投射至脊髓，调制脊髓神经元活动。解释反刺激技术（针灸、手法）、患者期望与信念、社会/情境因素如何影响疼痛体验。涉及 DNIC、运动诱发镇痛（EIH）。</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ S6 ============ -->
+<section id="s6">
+<div class="wrap">
+  <p class="sec-no">SECTION 06</p>
+  <h2>临床意义：对肌骨康复实践的影响</h2>
+
+  <div class="card rv">
+    <h3>概念层面的临床转化</h3>
+    <ul class="audit-list">
+      <li><strong>评估逻辑转变：</strong>从「找损伤→治损伤」转向「评估神经系统状态→判断敏化程度→选择干预策略」。临床工作者需要学会区分 nociceptive pain、neuropathic pain 和 nociplastic pain 三种疼痛类型（Part 2 引入）</li>
+      <li><strong>疼痛教育的循证基础：</strong>Pain Neuroscience Education（PNE）的神经生物学机制——通过认知重构降低感知威胁，激活下行抑制通路，改变前扣带回、岛叶、前额叶的疼痛加工激活模式。2025 年 JOSPT 发表的 SR/MA 证实 PNE 联合其他康复干预可减少疼痛、残疾和灾难化思维（中等证据等级）[<a href="https://www.jospt.org/doi/10.2519/jospt.2025.13247" target="_blank" rel="noopener noreferrer">Khosrokiani et al. JOSPT 2025</a>]</li>
+      <li><strong>敏化概念的临床价值：</strong>外周敏化解释急性损伤后的痛觉过敏；中枢敏化解释疼痛持续存在但组织已愈合的情况。临床工作者需要识别敏化的体征（痛觉过敏、异常性疼痛、感觉减退/异常）并据此调整干预策略</li>
+      <li><strong>下行调制的可塑性：</strong>DPMS 的双向性（促进 vs. 抑制）解释了心理状态（焦虑、抑郁、灾难化）如何通过具体的突触机制调制疼痛。这为心理社会干预提供了神经生物学依据</li>
+    </ul>
+  </div>
+
+  <div class="verdict rv">
+    <p><strong>对「疼了不敢动」人群的启示：</strong>Part 1 的核心信息——「疼痛 ≠ 组织损伤」——直接挑战了恐惧-回避模型中「疼痛 = 危险信号 = 必须停止活动」的自动推理链条。如果疼痛可以是神经系统敏化的输出而非组织损伤的读数，那么运动重启的安全边界就不是「完全不疼」，而是「在可耐受范围内渐进负荷」。这与 Hanel 2020 荟萃分析的结论（运动训练降低恐惧-回避信念，SMD −0.378）形成理论闭环。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S7 ============ -->
+<section id="s7">
+<div class="wrap">
+  <p class="sec-no">SECTION 07</p>
+  <h2>证据质量评估</h2>
+
+  <div class="tbl-scroll rv">
+    <table>
+      <caption style="display:none;">证据质量评估表</caption>
+      <thead>
+        <tr><th>评估维度</th><th>判断</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>文献类型</td><td><span class="grade grade-d">社论</span></td><td>非原始研究，不承担新数据产出；基于已发表文献的叙述性综述</td></tr>
+        <tr><td>引用质量</td><td><span class="grade grade-a">高</span></td><td>引用来源包括 IASP 定义更新 (Raja et al. 2020, Pain)、Na<sub>V</sub>1.7 功能研究 (McDermott et al. 2019, Neuron)、Wall &amp; Melzack 疼痛教科书第 6 版、Kandel 神经科学原理第 6 版</td></tr>
+        <tr><td>概念准确性</td><td><span class="grade grade-a">高</span></td><td>核心概念（转导/传递/调制/感知）与主流神经科学教材一致；伤害感受≠疼痛的区分与 IASP 2020 定义完全吻合</td></tr>
+        <tr><td>临床适用性</td><td><span class="grade grade-b">中上</span></td><td>Take-home messages 简洁实用，但受篇幅限制（3 页），未提供具体评估流程或干预方案</td></tr>
+        <tr><td>范围局限</td><td><span class="grade grade-c">中</span></td><td>明确声明「仅关注神经科学贡献」，不覆盖心理社会维度；人类 nociception 数据多来自皮肤研究，深部组织数据有限</td></tr>
+        <tr><td>系列完整性</td><td><span class="grade grade-a">高</span></td><td>7 篇社论覆盖从基础概念（Part 1–2）→外周敏化（Part 3）→中枢敏化（Part 4–5）→下行调制（Part 6）的完整知识链</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict rv">
+    <p><strong>综合判断：</strong>作为系列开篇的社论，Part 1 不承担原始证据产出，其价值在于概念框架的准确性和临床转化的清晰度。核心概念经 IASP、Kandel 神经科学原理、Wall &amp; Melzack 疼痛教科书等多重权威来源交叉验证，概念准确性高。但受限于社论体裁和 3 页篇幅，不提供具体评估工具或干预方案——这些需要结合后续篇章（Part 3–6）和疼痛教育循证文献（如 Louw et al. 的 PNE 研究）才能形成完整的临床操作框架。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S8 ============ -->
+<section id="s8">
+<div class="wrap">
+  <p class="sec-no">SECTION 08</p>
+  <h2>行业定位：在疼痛科学文献版图中的位置</h2>
+
+  <div class="card rv">
+    <h3>与关键文献的关系</h3>
+    <ul class="audit-list">
+      <li><strong>Moseley &amp; Butler — Explain Pain 体系：</strong>Høegh 系列与 Explain Pain 的核心理念一致（疼痛是神经系统输出），但 Høegh 更聚焦神经生理机制的学术精确性，Moseley &amp; Butler 更侧重患者教育和临床隐喻 [<a href="https://doi.org/10.1016/j.jpain.2015.05.005" target="_blank" rel="noopener noreferrer">Moseley &amp; Butler 2015, J Pain</a>]</li>
+      <li><strong>Louw et al. — Pain Neuroscience Education：</strong>Louw 是 PNE 临床实施的主要推动者，Høegh 系列为 PNE 提供了更系统的神经科学基础。两者互补：Høegh 解释「为什么」，Louw 解决「怎么做」</li>
+      <li><strong>Nijs et al. — Central Sensitization：</strong>Nijs 团队在中枢敏化的临床识别和管理方面做了大量工作 [<a href="https://www.jospt.org/doi/10.2519/jospt.2020.0610" target="_blank" rel="noopener noreferrer">Nijs et al. 2020, JOSPT</a>]。Høegh Part 4–5 的中枢敏化综述与 Nijs 的工作高度一致</li>
+      <li><strong>IASP 2020 疼痛定义更新：</strong>Høegh Part 1 直接引用 Raja et al. 2020 的新定义 [<a href="https://doi.org/10.1097/j.pain.0000000000001939" target="_blank" rel="noopener noreferrer">Raja et al. 2020, Pain</a>]，将新定义的临床含义转化为临床工作者可理解的术语</li>
+      <li><strong>Lancet 2018 慢性背痛系列：</strong>Høegh 系列的核心前提（疼痛 ≠ 组织损伤）与《柳叶刀》2018 慢性背痛系列文章的立场一致，但 Høegh 更聚焦于神经生理机制层面的教育</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ S9 ============ -->
+<section id="s9">
+<div class="wrap">
+  <p class="sec-no">SECTION 09</p>
+  <h2>对运动/健身领域的启示</h2>
+
+  <div class="card rv">
+    <h3>对教练与训练从业者的直接价值</h3>
+    <ul class="audit-list">
+      <li><strong>疼痛≠损伤的认知升级：</strong>Part 1 的核心信息直接支持「疼痛是神经系统保护性输出，不是组织损伤的直接读数」这一教练教育命题。这与 Re-Thinking the Gym Floor 课程的 Block 6（What Actually Causes Pain?）完全一致</li>
+      <li><strong>个体差异的神经科学基础：</strong>Na<sub>V</sub>1.7 基因多态性导致不同个体对相同刺激的疼痛反应差异巨大——这为「因人而异设定训练参数」提供了分子层面的解释</li>
+      <li><strong>运动即镇痛的机制：</strong>Part 6（下行调制）解释了运动诱发镇痛（Exercise-Induced Hypoalgesia, EIH）的神经通路——脑干下行抑制通路释放 5-HT 和 NE 至脊髓背角，抑制伤害信号传递。这意味着运动本身可以是一种镇痛干预</li>
+      <li><strong>渐进负荷的科学依据：</strong>如果疼痛可以是中枢敏化的输出（而非组织损伤信号），那么运动重启的边界就不是「完全不疼」，而是「在可耐受范围内渐进暴露」。这为恐惧-回避人群的运动干预提供了理论支撑</li>
+    </ul>
+  </div>
+
+  <div class="verdict rv">
+    <p><strong>与 Re-Thinking the Gym Floor 课程的呼应：</strong>该课程 Block 6 的核心主张「Pain as a nervous system output and behavioral change mechanism」与 Høegh Part 1 的 Take-home message 1 完全一致。Høegh 系列为课程主张提供了来自 JOSPT（骨科与运动物理治疗领域顶级期刊）的学术背书，循证等级从课程的 A 级提升至 A 级（经顶级同行评审期刊确认）。</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ S10 ============ -->
+<section id="s10">
+<div class="wrap">
+  <p class="sec-no">SECTION 10</p>
+  <h2>证据边界</h2>
+
+  <div class="card rv">
+    <h3>已知的信息缺口</h3>
+    <ul class="audit-list">
+      <li><strong>深部组织 nociception 数据有限：</strong>Høegh 明确提到「大多数人类 nociception 研究数据来自皮肤（而非深部组织）」，肌骨疼痛主要涉及肌肉、骨骼、肌腱等深部结构，从皮肤到深部的外推存在不确定性</li>
+      <li><strong>动物模型到人类的转化：</strong>传统 nociception 研究依赖动物模型，人类数据相对有限。Høegh 指出技术进展正在改善这一状况，但转化鸿沟仍然存在</li>
+      <li><strong>心理社会维度缺失：</strong>系列明确限定「仅关注神经科学贡献」，不覆盖疼痛的心理社会维度。完整的生物心理社会疼痛模型需要额外补充（如恐惧-回避模型、灾难化思维、社会支持等）</li>
+      <li><strong>临床操作细节不足：</strong>作为社论，7 篇合计约 25 页，每篇聚焦概念解释，不提供具体的评估流程、干预方案或临床决策树。需要结合疼痛教育手册（如 Louw 的 PNE 手册）才能形成操作框架</li>
+      <li><strong>缺乏剂量-效应数据：</strong>系列未讨论疼痛教育的最佳剂量（时长、频次、形式）、不同人群的响应差异，或长期效果维持的数据</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ S11 ============ -->
+<section id="s11">
+<div class="wrap">
+  <p class="sec-no">SECTION 11</p>
+  <h2>最终判断</h2>
+
+  <div class="verdict-final rv">
+    <p>Høegh 的「Pain Science in Practice」系列是肌骨康复领域少有的、由单一作者在顶级期刊上系统构建的疼痛神经科学教育框架。7 篇社论从基础概念（转导/传递/调制/感知）到外周敏化、中枢敏化、下行调制，形成了完整的知识链条。概念准确性经 IASP 定义、Kandel 神经科学原理、Wall &amp; Melzack 疼痛教科书等多重权威来源验证。</p>
+    <p style="margin-top:14px;"><strong>核心价值：</strong>为临床工作者（物理治疗师、运动康复师、教练）提供了一条从「疼痛 = 组织损伤」到「疼痛 = 神经系统保护性输出」的认知升级路径。每条路径均有神经生理机制支撑，而非仅停留在理念层面。</p>
+    <p style="margin-top:14px;"><strong>使用建议：</strong>作为疼痛科学入门框架使用效果最佳。若需临床操作细节（评估工具、教育方案、干预流程），需补充 Louw 的 PNE 手册、Nijs 的中枢敏化临床指南、以及 2025 年 JOSPT 发表的 PNE 系统综述 [<a href="https://www.jospt.org/doi/10.2519/jospt.2025.13247" target="_blank" rel="noopener noreferrer">Khosrokiani et al. 2025</a>]。</p>
+  </div>
+
+  <div class="card rv">
+    <h3>推荐搭配阅读</h3>
+    <ul class="audit-list">
+      <li><strong>入门级：</strong>本系列 Part 1 → Part 2（受体）→ Part 3（外周敏化）——构建基础概念框架</li>
+      <li><strong>进阶级：</strong>Part 4–5（中枢敏化 I &amp; II）→ Part 6（下行调制）——理解慢性疼痛的神经机制</li>
+      <li><strong>操作级：</strong>Louw A et al. Pain Neuroscience Education 手册；Nijs J et al. Central Sensitization 临床指南</li>
+      <li><strong>循证级：</strong>Khosrokiani et al. 2025 JOSPT PNE 系统综述 [<a href="https://www.jospt.org/doi/10.2519/jospt.2025.13247" target="_blank" rel="noopener noreferrer">DOI</a>]；Hanel et al. 2020 运动与恐惧-回避荟萃分析 [<a href="https://doi.org/10.1007/s40279-020-01345-1" target="_blank" rel="noopener noreferrer">DOI</a>]</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ============ APPENDIX A ============ -->
+<section id="appendix-a" style="background:#F0EDE4;">
+<div class="wrap">
+  <p class="sec-no">APPENDIX A</p>
+  <h2>系列完整参考文献</h2>
+  <ol>
+    <li>Høegh M, Rathleff MS. Pain Science in Practice: Linking Basic Pain Science to the Clinic. <em>J Orthop Sports Phys Ther</em> 2022;52(3):125–126. <a href="https://doi.org/10.2519/jospt.2022.10992" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M. Pain Science in Practice: What Is Pain Neuroscience? Part 1. <em>J Orthop Sports Phys Ther</em> 2022;52(4):163–165. <a href="https://doi.org/10.2519/jospt.2022.10995" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M. Pain Science in Practice: What Is Pain Neuroscience? Part 2. <em>J Orthop Sports Phys Ther</em> 2022;52(4):166–168. <a href="https://doi.org/10.2519/jospt.2022.10994" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M. Pain Science in Practice (Part 3): Peripheral Sensitization. <em>J Orthop Sports Phys Ther</em> 2022;52(6):303–306. <a href="https://doi.org/10.2519/jospt.2022.11202" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M. Pain Science in Practice (Part 4): Central Sensitization I. <em>J Orthop Sports Phys Ther</em> 2023;53(1):1–4. <a href="https://doi.org/10.2519/jospt.2023.11569" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M. Pain Science in Practice (Part 5): Central Sensitization II. <em>J Orthop Sports Phys Ther</em> 2023;53. <a href="https://doi.org/10.2519/jospt.2023.11571" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Høegh M, Bannister K. Pain Science in Practice (Part 6): How Does Descending Modulation of Pain Work? <em>J Orthop Sports Phys Ther</em> 2024;54(2):97–100. <a href="https://doi.org/10.2519/jospt.2024.12112" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Raja SN et al. The revised IASP definition of pain. <em>Pain</em> 2020;161:1976–1982. <a href="https://doi.org/10.1097/j.pain.0000000000001939" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>McDermott LA et al. Defining the functional role of NaV1.7 in human nociception. <em>Neuron</em> 2019;101:905–919.e8. <a href="https://doi.org/10.1016/j.neuron.2019.01.047" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Moseley GL, Butler DS. Fifteen Years of Explaining Pain. <em>J Pain</em> 2015;16(9):807–813. <a href="https://doi.org/10.1016/j.jpain.2015.05.005" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Khosrokiani Z et al. Efficacy of Therapeutic Patient Education for MSK Conditions: SR with MA. <em>J Orthop Sports Phys Ther</em> 2025;55(10):623–648. <a href="https://www.jospt.org/doi/10.2519/jospt.2025.13247" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Hanel J et al. Effects of Exercise Training on Fear-Avoidance: SR &amp; MA. <em>Sports Med</em> 2020;50(12):2193–2207. <a href="https://doi.org/10.1007/s40279-020-01345-1" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>Schmid AB et al. Entrapment neuropathies. <em>Pain Rep</em> 2020;5:e829. <a href="https://doi.org/10.1097/PR9.0000000000000829" target="_blank" rel="noopener noreferrer">DOI</a></li>
+    <li>EFIC Core Curriculum for Pain Physiotherapy. <a href="https://europeanpainfederation.org/wp-content/uploads/2018/10/EFIC-Pain-Physiotherapy-Curriculum1.pdf" target="_blank" rel="noopener noreferrer">PDF</a></li>
+    <li>IASP Terminology. <a href="https://www.iasp-pain.org/resources/terminology/" target="_blank" rel="noopener noreferrer">iasp-pain.org</a></li>
+  </ol>
+</div>
+</section>
+
+</main>
+
+<footer>
+<div class="wrap">
+  <h2>文献来源</h2>
+  <p style="color:#A9CCE8;font-size:13px;">全部外部来源链接均经过验证，可在浏览器中直接打开。</p>
+  <p class="disclaimer">本解读基于 JOSPT 公开全文及 PubMed/DOI 元数据生成。解读中的临床推论和建议仅代表作者基于文献的分析判断，不构成医疗建议。原始文献版权归 JOSPT / Høegh M. 所有。</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var links=document.querySelectorAll('nav.toc a[href^="#"]');
+  links.forEach(function(a){
+    a.addEventListener('click',function(e){
+      var id=this.getAttribute('href').slice(1);
+      var target=document.getElementById(id);
+      if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}});
+  },{threshold:0});
+  document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+  setTimeout(function(){document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});},3000);
+});
+</script>
+</body>
+</html>
