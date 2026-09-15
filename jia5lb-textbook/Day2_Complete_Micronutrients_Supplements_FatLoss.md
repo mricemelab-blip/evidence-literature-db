@@ -1,13 +1,4 @@
-# 加5磅连锁健身房 · 三天营养认证课程教材
-
-## Day 2：全覆盖 · 微量营养素、补剂与方案落地
-
-> 版本：v1.0 | 日期：2026-09-15
-> 教材来源：SNC 2026 基础教材 v6 修订稿 + 咨询实务 v4 重写稿
-
----
-
-# 第5章 维生素、矿物质与水（Vitamins, Minerals and Hydration）
+# M5 维生素、矿物质与水
 
 ## 学术导言
 
@@ -169,7 +160,7 @@ ACSM 2007框架的三阶段补水原则[4]：
 
 训练后补水：摄入量应大于体重损失量，因为恢复期持续存在经尿液的强制性水分丢失。推荐比例为每丢失1 kg体重摄入1.25–1.5 L液体（含适量钠盐）[4]。
 
-关于"预设补水（Planned Drinking）"与"渴感补水（Drinking to Thirst）"的争议：两种策略并非非此即彼的对立选择，而是适用于不同场景的互补工具。渴感补水更适合90分钟以下、中低强度的常规训练课；预设补水更适合高温高湿环境、超长耐力赛（>4小时）、高强度间歇训练和有明确脱水史的训练者[4]。
+关于"预设补水（Planned Drinking）"与"渴感补水（Drinking to Thirst）"的争议：两种策略是适用于不同场景的互补工具。渴感补水更适合90分钟以下、中低强度的常规训练课；预设补水更适合高温高湿环境、超长耐力赛（>4小时）、高强度间歇训练和有明确脱水史的训练者[4]。
 
 90分钟以下中低强度训练中，普通白水通常足以满足液体需求，无需商业运动饮料[4]。运动中补液应遵循"双轨原则"：每丢失500 mL汗液，同步补充约300–500 mg钠。实用方案为含钠运动饮料（30–50 mmol/L）或咸味食物。
 
@@ -352,7 +343,6 @@ SF正常或高、CRP高：炎症干扰或慢性病相关改变，暂不按储铁
 [24] Stoffel NU, Cercamondi CI, Brittenham G, Zeder C, Geurts-Moespot AJ, Swinkels DW, Moretti D, Zimmermann MB. Iron absorption from oral iron supplements given on consecutive versus alternate days and as single morning doses versus twice-daily split dosing in iron-depleted women: two open-label, randomised controlled trials. Lancet Haematol. 2017;4(11):e524-e533. doi:10.1016/S2352-3026(17)30182-5
 
 [25] Stoffel NU, Zeder C, Brittenham GM, Moretti D, Zimmermann MB. Iron absorption from supplements is greater with alternate day than with consecutive day dosing in iron-deficient anemic women. Haematologica. 2020;105(5):1232-1239. doi:10.3324/haematol.2019.220830
-
 
 ---
 
@@ -665,10 +655,9 @@ WADA Code适用严格责任原则（Strict Liability Principle）：运动员对
 
 [26] NSF International. NSF Certified for Sport Certification Requirements. NSF; 2024. Available from: https://www.nsfsport.com/get-certified.php
 
-
 ---
 
-# Module 7 首次咨询SOP与行为改变干预框架
+# M7 首次咨询SOP与行为改变干预框架
 
 ## 学术导言
 
@@ -780,11 +769,11 @@ WADA Code适用严格责任原则（Strict Liability Principle）：运动员对
 
 **常见疑问与标准回应**：
 
-"多久能看到效果？"——"体重的可见变化通常需要4-6周，前提是方案执行率在70%以上。前两周的变化主要是水分波动，不是真实的脂肪或肌肉变化。"
+"多久能看到效果？"体重的可见变化通常需要4-6周，前提是方案执行率在70%以上。前两周的变化主要是水分波动，不是真实的脂肪或肌肉变化。"
 
-"我需要完全戒掉外卖吗？"——"不需要。外卖是当前条件限制下的现实选择，我们会在这个现实基础上找到优化空间，而不是要求你回到一个不现实的状态。"
+"我需要完全戒掉外卖吗？"不需要。外卖是当前条件限制下的现实选择，我们会在这个现实基础上找到优化空间，而不是要求你回到一个不现实的状态。"
 
-"你能帮我调药吗？"——"用药调整不在我的执业范围内。如果你目前的用药方案与饮食有关联，我会建议你跟主治医生沟通，我可以帮你准备沟通时需要带的信息。"
+"你能帮我调药吗？"用药调整不在我的执业范围内。如果你目前的用药方案与饮食有关联，我会建议你跟主治医生沟通，我可以帮你准备沟通时需要带的信息。"
 
 **关键动作清单**：
 - 回答疑问时遵循EPE（问-说-问）框架[8]
@@ -816,7 +805,7 @@ WADA Code适用严格责任原则（Strict Liability Principle）：运动员对
 
 来访者带着知识缺口进入咨询。知识缺口的诊断需要先区分两类性质完全不同的情况。第一类是真正的知识空白：来访者不知道蛋白质需要量、不了解训练日与休息日的营养差异、对食品标签阅读缺乏基本能力。第二类是知识错配：来访者掌握的"知识"中混杂大量来自社交媒体的错误信息，心理能力（C-psychological）中的批判性筛选不足[10]。
 
-对第一类，干预策略是Education（教育）——提供信息以增加知识或理解[10]。对第二类，干预策略是Training（训练）——传授技能使来访者获得行为能力，而非重复更多信息[10]。Education让来访者理解概念（"蛋白质需要1.6-2.2 g/kg/d"），Training让来访者会做这件事（"把1.6 g/kg翻译成你今晚的菜单"）。许多教练将两者混做"科普"，结果是来访者理解了但不会做[10]。
+对第一类，干预策略是Education（教育），提供信息以增加知识或理解[10]。对第二类，干预策略是Training（训练），传授技能使来访者获得行为能力，而非重复更多信息[10]。Education让来访者理解概念（"蛋白质需要1.6-2.2 g/kg/d"），Training让来访者会做这件事（"把1.6 g/kg翻译成你今晚的菜单"）。许多教练将两者混做"科普"，结果是来访者理解了但不会做[10]。
 
 信息交付使用EPE框架（问-说-问）[8]。先 elicitation（引出）来访者已有认知，再 provide（提供）循证信息，最后 elicitation（引出）来访者对新信息的理解与整合。这一框架确保信息交付是协作式的而非灌输式的，符合MI的Evocation精神[4]。
 
@@ -824,9 +813,9 @@ WADA Code适用严格责任原则（Strict Liability Principle）：运动员对
 
 "知道但做不到"是营养咨询中最常见的卡点。COM-B模型为这一卡点提供三个诊断方向[10]：
 
-**机会短板型**：来访者能复述蛋白质需求与膳食结构，但下班后缺乏烹饪时间与食材可及性，物理机会（O-physical）不足。对这类来访者追加营养教育无法改变行为，需要的干预是环境重构（BCT 12.1）——将零食从书桌移到厨房高柜，或将预切净菜纳入采购清单[12]。
+**机会短板型**：来访者能复述蛋白质需求与膳食结构，但下班后缺乏烹饪时间与食材可及性，物理机会（O-physical）不足。对这类来访者追加营养教育无法改变行为，需要的干预是环境重构（BCT 12.1），将零食从书桌移到厨房高柜，或将预切净菜纳入采购清单[12]。
 
-**能力错配型**：来访者知道要"多吃蛋白质"，但不会计算、不会备餐、不会读标签。需要的干预是操作指导（BCT 4.1）与行为示范（BCT 6.1）——现场示范食品标签阅读六步法，让来访者复演一遍[12]。
+**能力错配型**：来访者知道要"多吃蛋白质"，但不会计算、不会备餐、不会读标签。需要的干预是操作指导（BCT 4.1）与行为示范（BCT 6.1），现场示范食品标签阅读六步法，让来访者复演一遍[12]。
 
 **动机冲突型**：来访者清楚戒糖有助于减脂，在反思性动机（M-reflective，可言说的理由）与自动性动机（M-automatic，习惯与情绪驱动）之间存在未处理的张力。判别问题："你吃之前，心里先有'要不要吃'的念头，还是直接就吃了？"有念头但选择吃指向M-reflective未对齐，直接吃了再后悔指向M-automatic习惯型[10]。
 
@@ -961,10 +950,9 @@ ACSM对认证私人教练（CPT）的营养建议范围做出明确区分：CPT�
 
 [16] Academy of Nutrition and Dietetics/Commission on Dietetic Registration. *Code of Ethics for the Nutrition and Dietetics Profession*. Effective June 1, 2018.
 
-
 ---
 
-# Module 8 减脂方案专题
+# M8 减脂方案专题
 
 ## 学术导言
 
