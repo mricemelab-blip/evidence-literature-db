@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>抗阻训练后比张力为何增加？· Erskine et al. 2011 Exp Physiol 文献深度解读</title>
+<style>
+  :root{
+    --bg:#F8F6F0;
+    --card:#FFFDF8;
+    --ink:#102A43;
+    --text:#1D2733;
+    --muted:#667085;
+    --blue:#2978B5;
+    --blue-soft:#E4EFF8;
+    --amber:#F59E0B;
+    --amber-soft:#FDF2DD;
+    --red:#B0413E;
+    --red-soft:#F7E7E6;
+    --green:#2F7D5B;
+    --green-soft:#E3F1EA;
+    --grid:#E6E1D8;
+    --border:#E0D9C9;
+    --serif:Georgia,"Songti SC","Noto Serif CJK SC","Source Han Serif SC",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  .tnum{font-variant-numeric:tabular-nums;font-family:var(--mono);letter-spacing:-0.2px;}
+
+  .topband{background:var(--ink);color:#F8F6F0;padding:10px 0;font-size:13px;letter-spacing:.04em;}
+  .topband .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .topband strong{color:var(--amber);}
+
+  header.hero{padding:56px 0 34px;border-bottom:1px solid var(--grid);}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;margin:0 0 14px;}
+  h1{font-family:var(--serif);font-weight:700;color:var(--ink);font-size:clamp(28px,4.4vw,42px);line-height:1.28;margin:0 0 18px;letter-spacing:.01em;}
+  .hero-meta{color:var(--muted);font-size:15px;margin:0 0 26px;}
+  .hero-meta a{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue);}
+  .hero-meta a:hover{border-bottom-style:solid;}
+  .verdict{background:var(--ink);color:#F4F1E8;border-radius:12px;padding:26px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .verdict .vcell{border-left:3px solid var(--amber);padding-left:14px;}
+  .verdict .vlabel{font-size:12.5px;color:#B8C2CC;letter-spacing:.06em;margin-bottom:6px;}
+  .verdict .vval{font-family:var(--mono);font-size:clamp(22px,3vw,30px);font-weight:700;color:#FFF;line-height:1.2;}
+  .verdict .vnote{font-size:12.5px;color:#C7CFD8;margin-top:4px;}
+  .verdict .vval .u{font-size:.55em;color:var(--amber);font-weight:600;}
+  .verdict .vcell.neg .vval{color:#8FD0B4;}
+  .verdict .vcell.null .vval{color:#E0A9A7;}
+
+  nav.toc{position:sticky;top:0;z-index:20;background:rgba(248,246,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--grid);}
+  nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px;}
+  nav.toc a{flex:0 0 auto;font-size:13.5px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;white-space:nowrap;}
+  nav.toc a:hover{color:var(--ink);background:var(--blue-soft);}
+  nav.toc a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+  main{padding:10px 0 60px;}
+  section{padding:44px 0 8px;border-bottom:1px solid var(--grid);}
+  section:last-of-type{border-bottom:none;}
+  .sec-no{font-family:var(--mono);font-size:13px;color:var(--amber);letter-spacing:.1em;margin:0 0 6px;}
+  h2{font-family:var(--serif);font-size:clamp(23px,3vw,30px);color:var(--ink);margin:0 0 8px;line-height:1.35;}
+  .sec-lede{color:var(--muted);font-size:15.5px;margin:0 0 26px;max-width:72ch;}
+  h3{font-family:var(--serif);font-size:19px;color:var(--ink);margin:30px 0 10px;}
+  p{margin:0 0 14px;max-width:74ch;}
+  a{color:var(--blue);}
+  a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+  a.ext{overflow-wrap:anywhere;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;}
+  .card h3{margin:0 0 12px;font-size:15px;color:var(--ink);letter-spacing:.02em;font-family:var(--sans);font-weight:700;}
+  .card ul{margin:0;padding-left:1.15em;}
+  .card li{margin:0 0 8px;font-size:14.5px;}
+  .card li:last-child{margin-bottom:0;}
+
+  .datastrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 22px;}
+  .dcell{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:10px;padding:16px 16px 14px;}
+  .dcell.amber{border-top-color:var(--amber);}
+  .dcell .dl{font-size:12.5px;color:var(--muted);margin-bottom:6px;}
+  .dcell .dv{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--ink);line-height:1.15;}
+  .dcell .dv .u{font-size:14px;font-weight:600;color:var(--muted);}
+  .dcell .dd{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5;}
+
+  .meta-table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .meta-table caption{text-align:left;font-size:14px;color:var(--muted);padding:0 0 10px;}
+  .meta-table th,.meta-table td{padding:12px 16px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top;}
+  .meta-table tr:last-child th,.meta-table tr:last-child td{border-bottom:none;}
+  .meta-table th{width:170px;color:var(--ink);font-weight:700;background:var(--blue-soft);white-space:nowrap;}
+
+  figure.chart{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:22px 0;padding:24px 24px 16px;}
+  figure.chart figcaption{font-size:13.5px;color:var(--muted);margin-top:12px;line-height:1.6;}
+  figure.chart svg{width:100%;height:auto;display:block;}
+
+  .tbl-scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--border);border-radius:12px;background:var(--card);}
+  table.data{width:100%;border-collapse:collapse;font-size:14px;min-width:680px;}
+  table.data caption{text-align:left;font-size:14px;color:var(--muted);padding:14px 16px 0;}
+  table.data th,table.data td{padding:11px 14px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top;}
+  table.data thead th{background:var(--ink);color:#F4F1E8;font-size:13px;letter-spacing:.03em;position:sticky;top:0;}
+  table.data tbody tr:last-child td{border-bottom:none;}
+  table.data td.num,table.data th.num{text-align:right;font-family:var(--mono);white-space:nowrap;}
+  .tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600;white-space:nowrap;}
+  .tag.hi{background:var(--green-soft);color:var(--green);}
+  .tag.mid{background:var(--amber-soft);color:#B7790A;}
+  .tag.lo{background:var(--red-soft);color:var(--red);}
+  .tag.neu{background:#F1ECE2;color:var(--muted);}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0;}
+  .compare .cc{border-radius:12px;padding:20px 22px;border:1px solid var(--border);background:var(--card);}
+  .compare .cc.a{border-top:4px solid var(--green);}
+  .compare .cc.b{border-top:4px solid var(--red);}
+  .compare .cc h3,.compare .cc h4{margin:0 0 6px;font-size:16px;color:var(--ink);}
+  .compare .cc .big{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;margin:4px 0;}
+  .compare .cc p{font-size:14px;color:var(--muted);margin:0;}
+
+  .note{border-left:4px solid var(--blue);background:var(--blue-soft);border-radius:0 10px 10px 0;padding:14px 18px;font-size:14.5px;margin:18px 0;}
+  .note.warn{border-left-color:var(--amber);background:var(--amber-soft);}
+  .note.bound{border-left-color:var(--red);background:var(--red-soft);}
+  .note b{color:var(--ink);}
+
+  .quote{font-family:var(--serif);font-size:18px;color:var(--ink);border-left:4px solid var(--amber);background:var(--card);padding:16px 22px;border-radius:0 10px 10px 0;margin:18px 0;}
+  .quote .src{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px;}
+
+  ul.plain{padding-left:1.15em;margin:8px 0 16px;}
+  ul.plain li{margin-bottom:9px;}
+  ol.steps{padding-left:1.3em;margin:8px 0 16px;}
+  ol.steps li{margin-bottom:10px;}
+
+  .mech{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0;}
+  .mech .m{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;}
+  .mech .m .midx{font-family:var(--mono);font-size:13px;color:var(--amber);font-weight:700;}
+  .mech .m h3{margin:6px 0 8px;font-size:16px;color:var(--ink);font-family:var(--serif);}
+  .mech .m p{font-size:14px;margin:0 0 10px;}
+  .mech .m .evi{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--grid);padding-top:10px;}
+
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0;}
+  .flow .step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;font-size:13.5px;position:relative;}
+  .flow .step .sno{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700;}
+  .flow .step b{display:block;color:var(--ink);font-size:14.5px;margin:4px 0;}
+  .flow .step span{color:var(--muted);font-size:12.5px;line-height:1.5;display:block;}
+
+  .verdict-final{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin:18px 0;}
+  .verdict-final .vf-row{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--grid);}
+  .verdict-final .vf-row:last-child{border-bottom:none;}
+  .verdict-final .vf-k{font-weight:700;color:var(--ink);font-size:15px;}
+  .verdict-final .vf-v{font-size:14.5px;}
+
+  .misread{background:var(--red-soft);border:1px solid #E8B4B2;border-radius:12px;padding:18px 22px;margin:12px 0;}
+  .misread .mr-title{font-weight:700;color:var(--red);font-size:14.5px;margin:0 0 6px;}
+  .misread .mr-body{font-size:14px;color:var(--text);margin:0;}
+
+  .correct{background:var(--green-soft);border:1px solid #A8D5C0;border-radius:12px;padding:18px 22px;margin:12px 0;}
+  .correct .cr-title{font-weight:700;color:var(--green);font-size:14.5px;margin:0 0 6px;}
+  .correct .cr-body{font-size:14px;color:var(--text);margin:0;}
+
+  .grade-bar{display:flex;gap:4px;margin:6px 0;align-items:center;}
+  .grade-bar .gb-seg{height:8px;border-radius:4px;flex:1;}
+  .grade-bar .gb-seg.active{background:var(--blue);}
+  .grade-bar .gb-seg.inactive{background:var(--grid);}
+  .grade-label{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  footer{background:var(--ink);color:#C7CFD8;padding:34px 0 44px;font-size:13.5px;}
+  footer a{color:#A9CCE8;}
+  footer h2{color:#F4F1E8;font-size:18px;margin:0 0 14px;}
+  footer p{margin:0 0 8px;color:#C7CFD8;}
+  footer ol{margin:6px 0 0;padding-left:1.3em;}
+  footer li{margin-bottom:7px;line-height:1.6;}
+  .disclaimer{font-size:12.5px;color:#8A94A0;margin-top:18px;border-top:1px solid #2A435C;padding-top:14px;max-width:80ch;}
+
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .rv{opacity:1;transform:none;transition:none;}
+  }
+
+  @media (max-width:900px){
+    .verdict{grid-template-columns:repeat(2,1fr);}
+    .datastrip{grid-template-columns:repeat(2,1fr);}
+    .grid3{grid-template-columns:1fr;}
+    .grid2,.compare,.mech{grid-template-columns:1fr;}
+    .flow{grid-template-columns:1fr 1fr;}
+    .verdict-final .vf-row{grid-template-columns:1fr;gap:4px;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 16px;}
+    .verdict{grid-template-columns:1fr;}
+    .datastrip{grid-template-columns:1fr 1fr;}
+    .meta-table th{width:110px;}
+    .flow{grid-template-columns:1fr;}
+  }
+
+  @media print{
+    body{background:#fff;font-size:12px;}
+    nav.toc,.rv{display:none !important;}
+    .rv{opacity:1;transform:none;}
+    section{break-inside:avoid-page;padding:20px 0;}
+    figure.chart,.card,.verdict-final{break-inside:avoid;}
+    a{color:var(--ink);text-decoration:none;}
+    .card,.verdict-final,figure.chart,.meta-table,.tbl-scroll{border-color:#ccc;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topband">
+  <div class="wrap">
+    <span>运动科学 / 肌肉生理文献解读系列 · <strong>侧向力传导专题</strong></span>
+    <span>数据核实基准：<strong>Exp Physiol</strong> 96(2):145–155 · PMID 20889606</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Literature Deep Read · Muscle Physiology &amp; Resistance Training</p>
+    <h1>抗阻训练后比张力为何增加？<br>
+    <span lang="en" style="font-size:.6em;color:var(--muted);font-family:var(--sans);">What Causes In Vivo Muscle Specific Tension to Increase Following Resistance Training?</span></h1>
+    <p class="hero-meta">
+      Erskine RM, Jones DA, Maffulli N, Williams AG, Stewart CE, Degens H.
+      <i>Experimental Physiology</i>, 2011;96(2):145–155.
+      DOI: <a href="https://doi.org/10.1113/expphysiol.2010.053975" target="_blank" rel="noopener noreferrer">10.1113/expphysiol.2010.053975</a>
+      · <a href="https://pubmed.ncbi.nlm.nih.gov/20889606/" target="_blank" rel="noopener noreferrer">PubMed 记录</a>
+      · 纵向干预研究（longitudinal intervention）
+    </p>
+
+    <div class="verdict rv">
+      <div class="vcell neg">
+        <div class="vlabel">活体比张力变化</div>
+        <div class="vval tnum">+17<span class="u">%</span></div>
+        <div class="vnote">25.9 → 30.3 N/cm²，P&lt;0.01；股四头肌全肌群</div>
+      </div>
+      <div class="vcell null">
+        <div class="vlabel">单纤维比张力变化</div>
+        <div class="vval tnum">+6<span class="u">%</span></div>
+        <div class="vnote">21.0 → 22.3 N/cm²，P&gt;0.05；无统计学意义</div>
+      </div>
+      <div class="vcell null">
+        <div class="vlabel">功率/肌体积比值</div>
+        <div class="vval tnum">无变化</div>
+        <div class="vnote">Wmax/Vm 训练前后无差异；力↑ + 速度↓ 抵消</div>
+      </div>
+      <div class="vcell">
+        <div class="vlabel">证据定性</div>
+        <div class="vval" style="font-size:clamp(17px,2.2vw,22px);">侧向力传导假说</div>
+        <div class="vnote">间接推论，非直接测量</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="报告目录">
+  <div class="wrap">
+    <a href="#s1">01 研究问题</a>
+    <a href="#s2">02 核心结果</a>
+    <a href="#s3">03 证据评级</a>
+    <a href="#s4">04 横向比较</a>
+    <a href="#s5">05 综合判断</a>
+    <a href="#s6">06 方法学审查</a>
+    <a href="#s7">07 机制解读</a>
+    <a href="#s8">08 实践桥梁</a>
+    <a href="#s9">09 哲学审查</a>
+    <a href="#s10">10 误读与总结</a>
+    <a href="#script">附：口播稿</a>
+    <a href="#refs">参考文献</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <!-- ============ 01 研究问题 ============ -->
+  <section id="s1">
+    <p class="sec-no">SECTION 01</p>
+    <h2>研究问题：比张力增加的原因是什么？</h2>
+    <p class="sec-lede">抗阻训练后肌肉力量增长超过肌肉体积增长，导致比张力（specific tension，单位横截面积产生的最大力）升高。这一现象已被反复证实，但其机制长期未明。本研究系统检验三种竞争性假说。</p>
+
+    <div class="grid3 rv">
+      <div class="card">
+        <h3>假说 A：肌纤维类型转换</h3>
+        <ul>
+          <li>IIx 型纤维比张力可能高于 I 型</li>
+          <li>训练若引起 IIx → IIa 转换（或 II 型比例增加），可提高整肌比张力</li>
+          <li>通过 MyHC 电泳验证</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>假说 B：单纤维比张力增加</h3>
+        <ul>
+          <li>肌原纤维蛋白密度增加（myofilament packing）</li>
+          <li>单根肌纤维的力/横截面积增大</li>
+          <li>通过离体单纤维力学测试验证</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>假说 C：侧向力传导增强</h3>
+        <ul>
+          <li>力通过 costameres → 细胞外基质 → 邻近纤维/腱传导</li>
+          <li>增加有效并联肌节数，缩短有效纤维长度</li>
+          <li>预测：比张力↑ + 缩短速度↓ → 功率/体积不变</li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="meta-table rv" style="margin-top:18px;">
+      <caption>表 1 PICO 框架与研究设计</caption>
+      <tbody>
+        <tr><th scope="row">研究问题</th><td>抗阻训练后活体肌肉比张力增加的原因：肌纤维类型转换、单纤维比张力增加、还是侧向力传导增强？</td></tr>
+        <tr><th scope="row">P（人群）</th><td>42 名未训练健康男性，20 ± 3 岁（范围 20–39 岁），身高 178 ± 6 cm，体重 74 ± 9 kg</td></tr>
+        <tr><th scope="row">I（干预）</th><td>9 周高强度单侧腿屈伸训练（3 次/周）；4 组 × 10 次 @ 80% 1RM，组间休息 2 分钟；向心/离心各约 1 秒，膝屈曲 110–20°</td></tr>
+        <tr><th scope="row">C（对照）</th><td>基线前后对照（within-subject pre-post design）；非随机对照试验</td></tr>
+        <tr><th scope="row">O（结局）</th><td>活体：股四头肌比张力（N/cm²）、峰值功率/肌肉体积；单纤维：比张力、Vmax、Wmax/Vm；MyHC 亚型比例</td></tr>
+        <tr><th scope="row">研究设计</th><td>纵向干预研究（longitudinal intervention），能回答训练后比张力是否变化及三种假说的支持/否定，但不能直接证明侧向力传导机制</td></tr>
+        <tr><th scope="row">子样本</th><td>17/42 人进行肌肉活检（股外侧肌）及全面 MRI 测量；子样本与全组基线及训练后各变量无显著差异</td></tr>
+        <tr><th scope="row">资助来源</th><td>未声明产业利益冲突；作者来自 Manchester Metropolitan University 及 Loughborough University</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ 02 核心结果 ============ -->
+  <section id="s2">
+    <p class="sec-no">SECTION 02</p>
+    <h2>核心结果：三个层面的分离</h2>
+    <p class="sec-lede">整肌层面力量大幅增加，单纤维层面无变化，分子层面纤维类型组成发生转换但与比张力变化无关。三层结果的分离模式是本研究的核心发现。</p>
+
+    <div class="datastrip rv">
+      <div class="dcell"><div class="dl">MVC 力矩</div><div class="dv tnum">+27<span class="u">%</span></div><div class="dd">248 → 315 N·m，P&lt;0.01</div></div>
+      <div class="dcell"><div class="dl">股四头肌体积</div><div class="dv tnum">+5.5<span class="u">%</span></div><div class="dd">2084 → 2200 cm³，P&lt;0.01</div></div>
+      <div class="dcell amber"><div class="dl">比张力增量 / 体积增量</div><div class="dv tnum">3.1<span class="u">×</span></div><div class="dd">比张力增长约为体积增长的 3 倍</div></div>
+      <div class="dcell"><div class="dl">羽状角</div><div class="dv tnum">+13<span class="u">%</span></div><div class="dd">16.1 → 18.0°，P&lt;0.01</div></div>
+    </div>
+
+    <!-- SVG Chart: NMF vs SF specific tension comparison -->
+    <figure class="chart rv">
+      <svg viewBox="0 0 860 320" role="img" aria-labelledby="barTitle barDesc">
+        <title id="barTitle">活体比张力 vs 单纤维比张力：训练前后对比</title>
+        <desc id="barDesc">活体比张力训练后增加 17% 达统计学意义；单纤维比张力变化无统计学意义。整肌与单纤维层面出现分离。</desc>
+        <!-- axis -->
+        <line x1="120" y1="260" x2="780" y2="260" stroke="#E6E1D8" stroke-width="1.5"/>
+        <line x1="120" y1="40" x2="120" y2="260" stroke="#E6E1D8" stroke-width="1.5"/>
+        <!-- Y axis labels -->
+        <text x="110" y="264" text-anchor="end" fill="#667085" font-size="12" font-family="monospace">0</text>
+        <text x="110" y="220" text-anchor="end" fill="#667085" font-size="12" font-family="monospace">10</text>
+        <text x="110" y="176" text-anchor="end" fill="#667085" font-size="12" font-family="monospace">20</text>
+        <text x="110" y="132" text-anchor="end" fill="#667085" font-size="12" font-family="monospace">30</text>
+        <text x="110" y="88" text-anchor="end" fill="#667085" font-size="12" font-family="monospace">40</text>
+        <text x="30" y="150" text-anchor="middle" fill="#667085" font-size="12" font-family="sans-serif" transform="rotate(-90,30,150)">比张力 (N/cm²)</text>
+        <!-- gridlines -->
+        <line x1="120" y1="220" x2="780" y2="220" stroke="#F0EBE0" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="120" y1="176" x2="780" y2="176" stroke="#F0EBE0" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="120" y1="132" x2="780" y2="132" stroke="#F0EBE0" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="120" y1="88" x2="780" y2="88" stroke="#F0EBE0" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <!-- Group 1: In vivo muscle -->
+        <!-- Pre: 25.9 N/cm² → bar height = 25.9/40*220 = 142.5, y = 260-142.5 = 117.5 -->
+        <rect x="200" y="117.5" width="70" height="142.5" rx="4" fill="#E4EFF8" stroke="#2978B5" stroke-width="1.5"/>
+        <text x="235" y="110" text-anchor="middle" fill="#2978B5" font-size="14" font-weight="700" font-family="monospace">25.9</text>
+        <!-- Post: 30.3 N/cm² → bar height = 30.3/40*220 = 166.7, y = 93.3 -->
+        <rect x="290" y="93.3" width="70" height="166.7" rx="4" fill="#2978B5" stroke="#102A43" stroke-width="1.5"/>
+        <text x="325" y="86" text-anchor="middle" fill="#102A43" font-size="14" font-weight="700" font-family="monospace">30.3</text>
+        <!-- significance marker -->
+        <line x1="235" y1="80" x2="325" y2="80" stroke="#F59E0B" stroke-width="2"/>
+        <line x1="235" y1="80" x2="235" y2="86" stroke="#F59E0B" stroke-width="2"/>
+        <line x1="325" y1="80" x2="325" y2="86" stroke="#F59E0B" stroke-width="2"/>
+        <text x="280" y="74" text-anchor="middle" fill="#F59E0B" font-size="12" font-weight="700" font-family="sans-serif">**P&lt;0.01</text>
+        <text x="280" y="285" text-anchor="middle" fill="#102A43" font-size="13" font-weight="700" font-family="sans-serif">活体股四头肌</text>
+
+        <!-- Group 2: Single fiber (total) -->
+        <!-- Pre: 21.0 → bar height = 21.0/40*220 = 115.5, y = 144.5 -->
+        <rect x="480" y="144.5" width="70" height="115.5" rx="4" fill="#FDF2DD" stroke="#F59E0B" stroke-width="1.5"/>
+        <text x="515" y="137" text-anchor="middle" fill="#B7790A" font-size="14" font-weight="700" font-family="monospace">21.0</text>
+        <!-- Post: 22.3 → bar height = 22.3/40*220 = 122.7, y = 137.3 -->
+        <rect x="570" y="137.3" width="70" height="122.7" rx="4" fill="#F59E0B" stroke="#B7790A" stroke-width="1.5"/>
+        <text x="605" y="130" text-anchor="middle" fill="#B7790A" font-size="14" font-weight="700" font-family="monospace">22.3</text>
+        <!-- n.s. marker -->
+        <line x1="515" y1="124" x2="605" y2="124" stroke="#667085" stroke-width="1.5"/>
+        <line x1="515" y1="124" x2="515" y2="130" stroke="#667085" stroke-width="1.5"/>
+        <line x1="605" y1="124" x2="605" y2="130" stroke="#667085" stroke-width="1.5"/>
+        <text x="560" y="118" text-anchor="middle" fill="#667085" font-size="12" font-weight="700" font-family="sans-serif">n.s.</text>
+        <text x="560" y="285" text-anchor="middle" fill="#102A43" font-size="13" font-weight="700" font-family="sans-serif">单肌纤维（全类型）</text>
+
+        <!-- Group 3: SF Wmax/Vm -->
+        <!-- Pre: 4.7 → scale: show as raw value -->
+        <rect x="680" y="260" width="0" height="0" fill="none"/>
+
+        <!-- Legend -->
+        <rect x="460" y="298" width="14" height="14" rx="2" fill="#2978B5"/>
+        <text x="480" y="310" fill="#667085" font-size="12" font-family="sans-serif">训练后</text>
+        <rect x="540" y="298" width="14" height="14" rx="2" fill="#E4EFF8" stroke="#2978B5"/>
+        <text x="560" y="310" fill="#667085" font-size="12" font-family="sans-serif">训练前</text>
+      </svg>
+      <figcaption>图 1 活体股四头肌比张力 vs 单肌纤维比张力训练前后对比（数据源自原文 Table 1 和 Table 2）。活体层面增加 17% 达到统计学意义（P&lt;0.01），单纤维层面增加约 6% 但无统计学意义（P&gt;0.05）。两个层面的分离是本研究的核心发现。</figcaption>
+    </figure>
+
+    <div class="tbl-scroll rv">
+      <table class="data">
+        <caption>表 2 活体与单纤维层面核心结局汇总（n=42 活体，n=17 子样本单纤维）</caption>
+        <thead>
+          <tr><th scope="col">指标</th><th class="num" scope="col">训练前</th><th class="num" scope="col">训练后</th><th class="num" scope="col">变化%</th><th class="num" scope="col">P 值</th><th scope="col">结论</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MVC 力矩 (N·m)</td><td class="num">248 ± 50</td><td class="num">315 ± 64</td><td class="num">+27%</td><td class="num">&lt;0.01</td><td><span class="tag hi">显著增加</span></td></tr>
+          <tr><td>自主激活 (%)</td><td class="num">92.9 ± 4.7</td><td class="num">96.0 ± 3.9</td><td class="num">+3.5%</td><td class="num">&lt;0.01</td><td><span class="tag hi">显著增加</span></td></tr>
+          <tr><td>髌腱力 Ft (N)</td><td class="num">5809 ± 1067</td><td class="num">7152 ± 1386</td><td class="num">+23%</td><td class="num">&lt;0.01</td><td><span class="tag hi">显著增加</span></td></tr>
+          <tr><td>股四头肌体积 (cm³)</td><td class="num">2084 ± 243</td><td class="num">2200 ± 277</td><td class="num">+5.5%</td><td class="num">&lt;0.01</td><td><span class="tag mid">轻度增加</span></td></tr>
+          <tr><td>QF PCSA (cm²)</td><td class="num">238 ± 41</td><td class="num">253 ± 43</td><td class="num">+6.4%</td><td class="num">&lt;0.01</td><td><span class="tag mid">轻度增加</span></td></tr>
+          <tr><td>VL 羽状角 (°)</td><td class="num">16.1 ± 2.3</td><td class="num">18.0 ± 2.5</td><td class="num">+13%</td><td class="num">&lt;0.01</td><td><span class="tag mid">显著增加</span></td></tr>
+          <tr><td>VL 束长 (cm)</td><td class="num">8.9 ± 1.4</td><td class="num">8.9 ± 1.4</td><td class="num">0%</td><td class="num">n.s.</td><td><span class="tag neu">无变化</span></td></tr>
+          <tr><td><b>QF 比张力 (N/cm²)</b></td><td class="num"><b>25.9 ± 5.3</b></td><td class="num"><b>30.3 ± 6.7</b></td><td class="num"><b>+17%</b></td><td class="num"><b>&lt;0.01</b></td><td><span class="tag hi">显著增加</span></td></tr>
+          <tr><td>MyHC IIX (%)</td><td class="num">29 ± 15</td><td class="num">19 ± 16</td><td class="num">−34%</td><td class="num">&lt;0.05</td><td><span class="tag mid">显著减少</span></td></tr>
+          <tr><td><b>单纤维比张力 (N/cm²)</b></td><td class="num"><b>21.0 ± 6.0</b></td><td class="num"><b>22.3 ± 5.9</b></td><td class="num"><b>+6%</b></td><td class="num"><b>&gt;0.05</b></td><td><span class="tag neu">无显著变化</span></td></tr>
+          <tr><td>单纤维 Vmax (FL/s)</td><td class="num">0.7 ± 0.3</td><td class="num">0.7 ± 0.3</td><td class="num">0%</td><td class="num">&gt;0.05</td><td><span class="tag neu">无变化</span></td></tr>
+          <tr><td>单纤维 Wmax/Vm (μW/mm³)</td><td class="num">4.7 ± 3.9</td><td class="num">4.6 ± 3.4</td><td class="num">−2%</td><td class="num">&gt;0.05</td><td><span class="tag neu">无变化</span></td></tr>
+          <tr><td><b>活体 Wpeak/Vm</b></td><td class="num">—</td><td class="num">—</td><td class="num">~0%</td><td class="num">&gt;0.05</td><td><span class="tag neu">无变化</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>三层判断</h3>
+    <ol class="steps">
+      <li><b>假说 A（纤维类型转换）被否定。</b>MyHC IIX 从 29% 降至 19%（P&lt;0.05），但 IIX 变化量与比张力变化量无相关性（r=0.30，P=0.25）。比张力在训练前后均与 MyHC 组成无关。纤维类型转换确实发生，但不是比张力增加的原因。</li>
+      <li><b>假说 B（单纤维比张力增加）被否定。</b>单纤维比张力训练前后无显著差异（21.0 → 22.3 N/cm²，P&gt;0.05），I 型和 IIA 型纤维分别分析结果一致。肌原纤维蛋白密度增加的可能性不大。</li>
+      <li><b>假说 C（侧向力传导增强）获得间接支持。</b>活体比张力↑17% + 活体功率/体积无变化 → 推断缩短速度下降约 17%（因为 Power = Force × Velocity）。这恰好是侧向力传导模型的预测：更多的侧向附着 → 有效纤维长度缩短 → 力↑速度↓功率不变。但此为推论，非直接证据。</li>
+    </ol>
+  </section>
+
+  <!-- ============ 03 GRADE ============ -->
+  <section id="s3">
+    <p class="sec-no">SECTION 03</p>
+    <h2>GRADE 证据确定性评级</h2>
+    <p class="sec-lede">本研究非 RCT 也非系统综述，此处参照 GRADE 五要素框架对「侧向力传导增强导致比张力增加」这一核心结论进行证据确定性评估。</p>
+
+    <div class="tbl-scroll rv">
+      <table class="data">
+        <caption>表 3 GRADE 五要素评估</caption>
+        <thead>
+          <tr><th scope="col">维度</th><th scope="col">评估</th><th scope="col">降级</th><th scope="col">理由</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>研究设计起点</b></td>
+            <td>纵向干预（非随机对照）</td>
+            <td><span class="tag lo">降 1 级</span></td>
+            <td>无平行对照组，无法排除时间效应和安慰剂效应；但 within-subject 设计控制了个体差异</td>
+          </tr>
+          <tr>
+            <td><b>偏倚风险</b></td>
+            <td>中等</td>
+            <td><span class="tag mid">降 0.5 级</span></td>
+            <td>测量者对训练状态不知情程度未报告；等速测力 CV=3.8%，SDS-PAGE CV=2.9%，测量信度好；但缺乏 blinding 声明</td>
+          </tr>
+          <tr>
+            <td><b>不一致性</b></td>
+            <td>存在</td>
+            <td><span class="tag mid">降 0.5 级</span></td>
+            <td>同期其他研究（Parente 2008, Pansarasa 2009）报告单纤维比张力增加，结果不一致；可能因训练持续时间差异（9–12 周 vs 12 个月）</td>
+          </tr>
+          <tr>
+            <td><b>间接性</b></td>
+            <td>核心结论为间接推论</td>
+            <td><span class="tag lo">降 1 级</span></td>
+            <td>侧向力传导假说是通过排除法 + 功率/体积不变推论得出；未直接测量 costameres 密度、整合素表达、结缔组织厚度</td>
+          </tr>
+          <tr>
+            <td><b>不精确性</b></td>
+            <td>活检子样本仅 17 人</td>
+            <td><span class="tag mid">降 0.5 级</span></td>
+            <td>17 人活检、~60 根纤维/时间点，统计效力有限；效应量 CI 未报告</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn rv" style="margin-top:14px;">
+      <b>最终评级：低（Low）</b>
+      <br>活体比张力增加 17% 这一事实本身的证据确定性较高（测量方法经过验证，效应量稳健）。但「侧向力传导增强是原因」这一机制性结论的证据确定性为低：研究设计为排除法推论，缺乏直接测量证据。后续需要 costamere 蛋白定量、结缔组织成像、整合素功能实验等直接验证。
+    </div>
+
+    <div style="margin-top:14px;">
+      <p style="font-size:14px;color:var(--ink);font-weight:700;margin-bottom:6px;">证据确定性可视化</p>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:4px;">活体比张力↑17% 事实确定性：<span class="tag hi">中等</span></p>
+        <div class="grade-bar"><div class="gb-seg active"></div><div class="gb-seg active"></div><div class="gb-seg active"></div><div class="gb-seg active"></div><div class="gb-seg inactive"></div></div>
+        <p class="grade-label">测量验证充分 + 效应量大 → 中等</p>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:4px;margin-top:12px;">侧向力传导机制结论确定性：<span class="tag lo">低</span></p>
+        <div class="grade-bar"><div class="gb-seg active"></div><div class="gb-seg active"></div><div class="gb-seg inactive"></div><div class="gb-seg inactive"></div><div class="gb-seg inactive"></div></div>
+        <p class="grade-label">间接推论 + 未直接测量 + 排除法 → 低</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 横向比较 ============ -->
+  <section id="s4">
+    <p class="sec-no">SECTION 04</p>
+    <h2>同级证据横向比较</h2>
+    <p class="sec-lede">将本研究与同一问题域的其他关键研究并置，评估结论的一致性与分歧点。</p>
+
+    <div class="tbl-scroll rv">
+      <table class="data">
+        <caption>表 4 侧向力传导相关证据横向比较</caption>
+        <thead>
+          <tr><th scope="col">研究</th><th scope="col">设计</th><th scope="col">样本/干预</th><th scope="col">核心发现</th><th scope="col">与本研究的关联</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Erskine et al. 2010a</b><br><i>Acta Physiol</i></td>
+            <td>纵向干预，9 周腿屈伸</td>
+            <td>17 名未训练男性</td>
+            <td>QF 比张力↑20%（P&lt;0.01）；MVC↑31%；体积↑6%</td>
+            <td>同一实验室的前驱研究，首次定量证实训练后比张力增加；本研究在此基础上探究原因</td>
+          </tr>
+          <tr>
+            <td><b>Erskine et al. 2010b</b><br><i>Eur J Appl Physiol</i></td>
+            <td>纵向干预，9 周</td>
+            <td>51 名男性，基因分型</td>
+            <td>比张力增加的个体差异大；PTK2 基因多态性与基线比张力相关</td>
+            <td>PTK2 编码 FAK（focal adhesion kinase），是 costamere 核心蛋白；暗示侧向力传导有遗传基础</td>
+          </tr>
+          <tr>
+            <td><b>Erskine et al. 2010c</b><br><i>J Appl Physiol</i></td>
+            <td>纵向干预，12 周肘屈肌训练</td>
+            <td>未训练男性</td>
+            <td>肌肉体积与力量增益相关：r=0.527（等长 MVC），r=0.482（1RM）</td>
+            <td>说明约 25–30% 力量增益由肥大解释；剩余 70%+ 来自其他因素（比张力↑、神经适应等）</td>
+          </tr>
+          <tr>
+            <td><b>Reeves et al. 2004</b><br><i>J Appl Physiol</i></td>
+            <td>纵向干预，老年人</td>
+            <td>老年男女</td>
+            <td>老年人训练后比张力同样增加</td>
+            <td>侧向力传导增强不限于年轻男性，老年人也有类似适应</td>
+          </tr>
+          <tr>
+            <td><b>Ahtiainen et al. 2003</b><br><i>J Physiol</i></td>
+            <td>纵向干预，5–6 个月</td>
+            <td>异质人群（男+女）</td>
+            <td>股四头肌肥大与腿推力量增益几乎无相关</td>
+            <td>异质人群中肌肉大小与力量增益的解耦更明显；支持非肥大因素（含侧向力传导）的重要性</td>
+          </tr>
+          <tr>
+            <td><b>Folland &amp; Williams 2007</b><br><i>Sports Med</i> 综述</td>
+            <td>系统综述</td>
+            <td>—</td>
+            <td>肌肉大小仅解释约 50–70% 力量变异；其他因素：架构、神经驱动、比张力</td>
+            <td>综述级别确认肌肉大小不能完全解释力量增长；为本研究提供了宏观框架</td>
+          </tr>
+          <tr>
+            <td><b>Huijing &amp; Baan 2001</b><br><i>Acta Physiol Scand</i></td>
+            <td>动物实验（大鼠 TA 肌）</td>
+            <td>大鼠离体肌肉</td>
+            <td>近端-远端力差异证明肌间力传导存在</td>
+            <td>提供侧向力传导的直接实验证据（动物模型），为 Erskine 的人类推论提供了基础科学支撑</td>
+          </tr>
+          <tr>
+            <td><b>Krause et al. 2016</b><br><i>J Anat</i> 综述</td>
+            <td>系统综述</td>
+            <td>—</td>
+            <td>肌间力传导沿肌筋膜链的系统综述；证实肌纤维间通过结缔组织的力学联系</td>
+            <td>进一步系统确认侧向力传导的解剖学基础；最多 80% 的收缩力可通过侧向途径传递</td>
+          </tr>
+          <tr>
+            <td><b>Tirrell et al. 2024</b><br><i>J Appl Physiol</i> 系统综述</td>
+            <td>系统综述（30 项研究）</td>
+            <td>1983–2023</td>
+            <td>人类肌肉比张力最佳估计值 26.8 N/cm²；方法学质量评分最高 27/31（Erskine 系列）</td>
+            <td>Erskine 系列研究在方法学质量排名中位居前列（24/31）；比张力 25.9→30.3 N/cm² 在可信范围内</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note rv">
+      <b>横向比较要点：</b>Erskine 团队的系列研究（2009–2012）构建了完整的证据链：(1) 证实比张力增加存在（2010a）→ (2) 排除纤维类型和单纤维因素（2011，本研究）→ (3) 发现 PTK2/FAK 基因多态性与比张力相关（2010b），暗示 costamere 的遗传调控。动物实验（Huijing 2001）和肌筋膜综述（Krause 2016）提供了侧向力传导的直接证据，但人类活体研究仍以间接推论为主。
+    </div>
+  </section>
+
+  <!-- ============ 05 综合判断 ============ -->
+  <section id="s5">
+    <p class="sec-no">SECTION 05</p>
+    <h2>综合证据判断：三级结论</h2>
+    <p class="sec-lede">将本研究结论置于更广泛的证据体系中，分层级陈述可信度。</p>
+
+    <div class="compare rv">
+      <div class="cc a">
+        <h3>A 级结论（高确定性）</h3>
+        <div class="big tnum">活体比张力↑，单纤维比张力不变</div>
+        <p>9 周高强度训练后，股四头肌活体比张力增加 17%（P&lt;0.01），但单纤维比张力、缩短速度和峰值功率均未变化。这一分离模式由直接测量获得，方法学经过验证。</p>
+      </div>
+      <div class="cc b">
+        <h4>C 级结论（推论/假说）</h4>
+        <div class="big tnum">侧向力传导增强是原因</div>
+        <p>通过排除法（纤维类型和单纤维因素被否定）+ 功率/体积不变的推论模式支持侧向力传导假说。但缺乏 costamere 密度、整合素表达、结缔组织厚度的直接测量数据。</p>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:18px;">
+      <h3>B 级结论（中等确定性）</h3>
+      <ul>
+        <li>纤维类型转换（IIx → IIa）确实发生，但不是比张力增加的原因（无相关性证据）</li>
+        <li>肌原纤维蛋白密度增加（myofilament packing）不太可能是原因（单纤维数据不支持）</li>
+        <li>训练导致有效纤维长度缩短（推论），因为缩短速度下降但束长未变</li>
+        <li>功率/体积不变 = 力↑ × 速度↓ 的数学必然结果，间接支持有效纤维长度缩短</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 06 方法学审查 ============ -->
+  <section id="s6">
+    <p class="sec-no">SECTION 06</p>
+    <h2>证据质量与方法学审查</h2>
+    <p class="sec-lede">本研究的优势与局限并列审视，区分方法学硬伤与可接受的推论边界。</p>
+
+    <div class="grid2 rv">
+      <div class="card">
+        <h3>方法学优势</h3>
+        <ul>
+          <li><b>多维度测量：</b>同一批受试者同时获取活体力学、MRI 架构、单纤维力学、MyHC 组成四维数据，内部一致性高</li>
+          <li><b>方法学验证：</b>简化法（method 2）与全面法（method 1）进行了头对头比较（r²=0.53–0.72），确认简化法的可靠性</li>
+          <li><b>样本量合理：</b>全组 n=42 在同类型研究中属大样本；子样本 n=17 与全组无基线差异</li>
+          <li><b>测量信度好：</b>等速测力 CV=3.8%，SDS-PAGE CV=2.9%</li>
+          <li><b>排除法逻辑严密：</b>系统排除了三种竞争性假说中的两种</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>方法学局限</h3>
+        <ul>
+          <li><b>活检子样本仅 17 人：</b>约 75 根纤维/时间点，单纤维层面的统计效力有限</li>
+          <li><b>单纤维为体外条件：</b>化学透化（skinned）纤维与体内环境不同，膜完整性丧失</li>
+          <li><b>未直接测量侧向力传导：</b>costamere 密度、整合素表达、结缔组织厚度均未量化</li>
+          <li><b>无平行对照组：</b>无法排除测试-再测试效应或成熟效应</li>
+          <li><b>未测量神经适应：</b>虽然测了自主激活（+3.5%），但未测运动单位募集模式、发放频率等</li>
+          <li><b>仅未训练年轻男性：</b>外推至女性、老年人、训练者受限</li>
+          <li><b>单关节运动：</b>腿屈伸为单关节运动，向多关节运动外推需谨慎</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note warn rv">
+      <b>关键方法学注意：</b>单纤维比张力测试使用化学透化（skinned）技术，去除了肌膜和相关信号通路，仅测试肌原纤维本身的力学特性。这意味着：即使侧向力传导相关的膜蛋白（整合素、dystrophin 等）发生了适应性变化，在单纤维测试中也<b>无法被检测到</b>。因此「单纤维比张力不变」不能否定膜相关结构的适应性变化，这既是本研究的逻辑优势（排除了肌原纤维内在因素），也是其方法学盲区（无法直接评估膜/基质因素）。
+    </div>
+  </section>
+
+  <!-- ============ 07 机制解读 ============ -->
+  <section id="s7">
+    <p class="sec-no">SECTION 07</p>
+    <h2>机制解读：从分子到系统</h2>
+    <p class="sec-lede">侧向力传导假说的机制链涉及五个层级。每个层级的证据等级不同，核心假说停留在 B 级推论，部分上游和下游环节有更强的直接证据。</p>
+
+    <!-- SVG: Lateral force transmission diagram -->
+    <figure class="chart rv">
+      <svg viewBox="0 0 860 400" role="img" aria-labelledby="mechTitle mechDesc">
+        <title id="mechTitle">侧向力传导机制示意图</title>
+        <desc id="mechDesc">从肌节到腱的力传导路径对比：经典串联模型 vs 侧向力传导模型。</desc>
+
+        <!-- Left: Serial model -->
+        <text x="200" y="24" text-anchor="middle" fill="#102A43" font-size="14" font-weight="700" font-family="sans-serif">经典串联模型</text>
+
+        <!-- Sarcomere boxes -->
+        <rect x="100" y="40" width="200" height="30" rx="4" fill="#E4EFF8" stroke="#2978B5"/>
+        <text x="200" y="60" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">肌节（Sarcomere）</text>
+        <line x1="200" y1="70" x2="200" y2="90" stroke="#2978B5" stroke-width="2" marker-end="url(#arrowBlue)"/>
+        <rect x="100" y="90" width="200" height="30" rx="4" fill="#E4EFF8" stroke="#2978B5"/>
+        <text x="200" y="110" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">Z 盘 → 整条肌纤维</text>
+        <line x1="200" y1="120" x2="200" y2="140" stroke="#2978B5" stroke-width="2"/>
+        <rect x="100" y="140" width="200" height="30" rx="4" fill="#E4EFF8" stroke="#2978B5"/>
+        <text x="200" y="160" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">肌腱连接处（MTJ）</text>
+        <line x1="200" y1="170" x2="200" y2="190" stroke="#2978B5" stroke-width="2"/>
+        <rect x="100" y="190" width="200" height="30" rx="4" fill="#FDF2DD" stroke="#F59E0B"/>
+        <text x="200" y="210" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">腱 → 骨</text>
+
+        <text x="200" y="250" text-anchor="middle" fill="#667085" font-size="12" font-family="sans-serif">力沿纤维纵向传递</text>
+        <text x="200" y="268" text-anchor="middle" fill="#667085" font-size="12" font-family="sans-serif">所有力必须经过 MTJ</text>
+
+        <!-- Right: Lateral model -->
+        <text x="620" y="24" text-anchor="middle" fill="#102A43" font-size="14" font-weight="700" font-family="sans-serif">侧向力传导模型</text>
+
+        <rect x="520" y="40" width="200" height="30" rx="4" fill="#E4EFF8" stroke="#2978B5"/>
+        <text x="620" y="60" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">肌节（Sarcomere）</text>
+        <line x1="620" y1="70" x2="620" y2="90" stroke="#2978B5" stroke-width="2"/>
+
+        <!-- Costamere branch -->
+        <rect x="520" y="90" width="200" height="30" rx="4" fill="#E3F1EA" stroke="#2F7D5B"/>
+        <text x="620" y="110" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">Costameres（黏着斑复合体）</text>
+
+        <!-- Three branches from costamere -->
+        <!-- Left branch: endomysium -->
+        <line x1="540" y1="120" x2="490" y2="150" stroke="#2F7D5B" stroke-width="2"/>
+        <rect x="440" y="150" width="100" height="28" rx="4" fill="#E3F1EA" stroke="#2F7D5B"/>
+        <text x="490" y="168" text-anchor="middle" fill="#102A43" font-size="11" font-family="sans-serif">肌内膜</text>
+
+        <!-- Center branch: integrin -->
+        <line x1="620" y1="120" x2="620" y2="150" stroke="#2F7D5B" stroke-width="2"/>
+        <rect x="570" y="150" width="100" height="28" rx="4" fill="#E3F1EA" stroke="#2F7D5B"/>
+        <text x="620" y="168" text-anchor="middle" fill="#102A43" font-size="11" font-family="sans-serif">整合素 α7β1</text>
+
+        <!-- Right branch: DGC -->
+        <line x1="700" y1="120" x2="750" y2="150" stroke="#2F7D5B" stroke-width="2"/>
+        <rect x="700" y="150" width="100" height="28" rx="4" fill="#E3F1EA" stroke="#2F7D5B"/>
+        <text x="750" y="168" text-anchor="middle" fill="#102A43" font-size="11" font-family="sans-serif">DGC 复合体</text>
+
+        <!-- Converge to ECM -->
+        <line x1="490" y1="178" x2="570" y2="200" stroke="#F59E0B" stroke-width="2"/>
+        <line x1="620" y1="178" x2="620" y2="200" stroke="#F59E0B" stroke-width="2"/>
+        <line x1="750" y1="178" x2="670" y2="200" stroke="#F59E0B" stroke-width="2"/>
+
+        <rect x="520" y="200" width="200" height="30" rx="4" fill="#FDF2DD" stroke="#F59E0B"/>
+        <text x="620" y="220" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">细胞外基质（ECM）</text>
+
+        <line x1="620" y1="230" x2="620" y2="255" stroke="#F59E0B" stroke-width="2"/>
+
+        <rect x="520" y="255" width="200" height="30" rx="4" fill="#FDF2DD" stroke="#F59E0B"/>
+        <text x="620" y="275" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif">肌束膜 / 肌外膜 → 腱</text>
+
+        <!-- Effect label -->
+        <text x="620" y="310" text-anchor="middle" fill="#2F7D5B" font-size="12" font-weight="700" font-family="sans-serif">有效纤维长度↓ → 速度↓</text>
+        <text x="620" y="328" text-anchor="middle" fill="#2F7D5B" font-size="12" font-weight="700" font-family="sans-serif">并联肌节数↑ → 比张力↑</text>
+        <text x="620" y="346" text-anchor="middle" fill="#2978B5" font-size="12" font-weight="700" font-family="sans-serif">功率/体积 = 不变</text>
+
+        <!-- Divider -->
+        <line x1="400" y1="30" x2="400" y2="360" stroke="#E6E1D8" stroke-width="1" stroke-dasharray="6 4"/>
+      </svg>
+      <figcaption>图 2 侧向力传导机制示意。经典模型（左）：力沿肌纤维纵向传递，必须经过肌腱连接处（MTJ）。侧向力传导模型（右）：力通过 costameres 横向传递至细胞外基质，再经肌内膜/肌束膜/肌外膜传导至腱。侧向传导可绕过 MTJ，增加有效并联肌节数（比张力↑），同时缩短有效纤维长度（缩短速度↓），最终功率/体积保持不变。证据等级见正文机制链。</figcaption>
+    </figure>
+
+    <div class="mech rv">
+      <div class="m">
+        <div class="midx">层级 1 · 分子层</div>
+        <h3>Costameres 与力学信号传导</h3>
+        <p>Costameres 是锚定肌原纤维 Z 盘到肌膜和细胞外基质的蛋白复合体。核心组分包括：integrins（整合素 α7β1，跨膜连接 ECM 与肌动蛋白骨架）、dystrophin-glycoprotein complex（DGC，连接肌动蛋白与层粘连蛋白）、filamin C-BAG3 复合体（Z 盘力学传感器）、focal adhesion kinase/PTK2（力学信号激酶）。</p>
+        <div class="evi">证据等级：<span class="tag mid">B</span> — 蛋白存在与功能已由动物/体外实验证实；训练后 costamere 蛋白表达上调有初步人体证据（Woolstenhulme 2006, Kosek 2008），但未在本研究直接测量</div>
+      </div>
+      <div class="m">
+        <div class="midx">层级 2 · 细胞层</div>
+        <h3>结缔组织增生与力学耦合</h3>
+        <p>抗阻训练后肌内膜和肌束膜胶原合成增加（Miller 2005, Moore 2005），costamere 密度可能增加，肌纤维-基质力学耦合增强。这些变化使更多收缩力通过侧向路径传导至 ECM。</p>
+        <div class="evi">证据等级：<span class="tag mid">B</span> — 胶原合成↑有同位素示踪直接证据；costamere 密度↑为推论（C）</div>
+      </div>
+      <div class="m">
+        <div class="midx">层级 3 · 组织层</div>
+        <h3>侧向力传导效率与有效纤维长度</h3>
+        <p>侧向力传导增加 → 更多力绕过 MTJ 直接到达腱 → 比张力↑。同时有效纤维长度缩短 → 串联肌节数减少 → 缩短速度↓。Power = Force × Velocity → 功率/体积不变。这正是本研究观察到的模式。</p>
+        <div class="evi">证据等级：<span class="tag lo">B–C</span> — 比张力↑和功率/体积不变为直接测量（A）；「有效纤维长度缩短」为推论（C），因为束长未变但功能长度可能缩短</div>
+      </div>
+      <div class="m">
+        <div class="midx">层级 4 · 系统层</div>
+        <h3>关节力矩与功能表现</h3>
+        <p>MVC 力矩↑27%、等速功率在 110 rpm 处↑5%。力量增长超过功率增长，力-速度曲线形状改变。功能层面：力量↑但速度能力未改善，对需要快速发力的运动表现外推受限。</p>
+        <div class="evi">证据等级：<span class="tag hi">A</span> — 直接测量，方法学验证充分</div>
+      </div>
+    </div>
+
+    <h3>机制链总览（A/B/C 标注）</h3>
+    <div class="flow rv">
+      <div class="step"><span class="sno">分子层</span><b>Costamere 重塑</b><span>整合素/DGC/FAK 上调<br><span class="tag mid" style="margin-top:4px;">B 级</span></span></div>
+      <div class="step"><span class="sno">细胞层</span><b>结缔组织增生</b><span>胶原合成↑<br>纤维-基质耦合↑<br><span class="tag mid" style="margin-top:4px;">B 级</span></span></div>
+      <div class="step"><span class="sno">组织层</span><b>侧向力传导↑</b><span>有效纤维长度↓<br>并联肌节数↑<br><span class="tag lo" style="margin-top:4px;">B–C 级</span></span></div>
+      <div class="step"><span class="sno">功能层</span><b>比张力↑速度↓</b><span>功率/体积不变<br>力-速度曲线改变<br><span class="tag hi" style="margin-top:4px;">A 级</span></span></div>
+      <div class="step"><span class="sno">系统层</span><b>MVC↑27%</b><span>力量显著增加<br>功能表现改善<br><span class="tag hi" style="margin-top:4px;">A 级</span></span></div>
+    </div>
+
+    <div class="note warn rv" style="margin-top:18px;">
+      <b>缩短速度下降的替代解释：</b>MyHC IIX → IIa 转换（IIa 本身更慢）也可能部分解释速度下降。但本研究发现 Wmax/Vm 与 MyHC 组成无相关性（r=0.12，P=0.65），削弱了这一替代解释。两种机制可能共存，各自贡献一部分效应。
+    </div>
+  </section>
+
+  <!-- ============ 08 实践桥梁 ============ -->
+  <section id="s8">
+    <p class="sec-no">SECTION 08</p>
+    <h2>机制到实践的桥梁</h2>
+    <p class="sec-lede">侧向力传导假说对训练处方有若干启示，但需区分直接推论与过度外推。</p>
+
+    <div class="grid2 rv">
+      <div class="card">
+        <h3>外推有效性评估</h3>
+        <ul>
+          <li><b>本研究人群：</b>未训练年轻男性 → 训练者、女性、老年人的外推需附加限定</li>
+          <li><b>训练模式：</b>单关节腿屈伸 → 多关节复合运动的外推需谨慎</li>
+          <li><b>训练周期：</b>9 周 → 长期适应（>6 个月）的模式可能不同</li>
+          <li><b>核心推论：</b>结缔组织适应对力量增长的贡献可能超过此前认知</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>效应修饰因子</h3>
+        <ul>
+          <li><b>训练经验：</b>未训练者结缔组织适应空间大；训练者可能已接近上限</li>
+          <li><b>训练量/频率：</b>更高训练量可能更有效地刺激结缔组织重塑（胶原合成对机械负荷敏感）</li>
+          <li><b>营养状态：</b>蛋白质摄入 + 维生素 C（胶原合成辅因子）可能影响结缔组织适应</li>
+          <li><b>遗传因素：</b>PTK2 基因多态性影响基线比张力（Erskine 2012），个体差异存在遗传基础</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>训练处方启示（三级建议）</h3>
+    <div class="tbl-scroll rv">
+      <table class="data">
+        <caption>表 5 基于侧向力传导假说的训练处方建议</caption>
+        <thead>
+          <tr><th scope="col">建议</th><th scope="col">内容</th><th scope="col">证据等级</th><th scope="col">注意事项</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>重视结缔组织适应</b></td>
+            <td>力量增长不仅来自肌纤维肥大和神经适应，结缔组织重塑（肌内膜/束膜增厚、costamere 强化）可能是重要但被低估的贡献因素</td>
+            <td><span class="tag mid">B</span></td>
+            <td>推论来自排除法，非直接证据；但动物实验和人体间接数据一致</td>
+          </tr>
+          <tr>
+            <td><b>全幅度训练</b></td>
+            <td>全幅度训练可能对结缔组织施加更均匀的机械刺激，促进侧向力传导结构的适应</td>
+            <td><span class="tag lo">C</span></td>
+            <td>直接证据缺乏；本研究中训练幅度有限（110–20°），不能据此推论全幅度更优</td>
+          </tr>
+          <tr>
+            <td><b>训练频率与结缔组织</b></td>
+            <td>结缔组织胶原合成的急性反应可持续 24–72 小时（Miller 2005）；3 次/周的训练频率可能为结缔组织重塑提供了足够的机械刺激窗口</td>
+            <td><span class="tag mid">B</span></td>
+            <td>胶原合成数据来自不同实验条件；最佳频率未知</td>
+          </tr>
+          <tr>
+            <td><b>力量≠功率</b></td>
+            <td>侧向力传导增强提升力量但降低缩短速度 → 功率不变。若训练目标为爆发力，需额外进行速度/功率训练</td>
+            <td><span class="tag hi">A</span></td>
+            <td>本研究直接数据支持：力量↑27% 但功率/体积不变</td>
+          </tr>
+          <tr>
+            <td><b>个体差异</b></td>
+            <td>比张力增加的个体差异大（SD=11%），部分由 PTK2 基因多态性解释；「力量增长困难者」可能存在侧向力传导适应不足</td>
+            <td><span class="tag mid">B</span></td>
+            <td>基因数据来自后续研究（Erskine 2012），本研究未测基因</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 09 哲学审查 ============ -->
+  <section id="s9">
+    <p class="sec-no">SECTION 09</p>
+    <h2>科学哲学审查</h2>
+    <p class="sec-lede">从认识论角度审视本研究的推理结构、证据边界和理论地位。</p>
+
+    <div class="grid2 rv">
+      <div class="card">
+        <h3>1. 观察层 vs 推论层</h3>
+        <ul>
+          <li><b>观察层（直接测量）：</b>活体比张力↑17%、单纤维比张力不变、功率/体积不变、MyHC IIX↓</li>
+          <li><b>推论层（排除法）：</b>A 和 B 被否定 → C（侧向力传导）为剩余解释</li>
+          <li><b>关键区分：</b>排除法不等于证实法。即使所有竞争假说被排除，剩余假说仍需要独立验证</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>2. 还原论 vs 整体论</h3>
+        <ul>
+          <li>本研究采用了精巧的还原策略：从整肌到单纤维到分子，逐层拆解</li>
+          <li>但侧向力传导恰恰是一个<b>涌现性质</b>：它不存在于任何单一组分，而是产生于肌纤维-基质-结缔组织系统的交互</li>
+          <li>还原法天然无法捕捉涌现性质 → 方法学局限与理论对象不匹配</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>3. 证伪 vs 证实</h3>
+        <ul>
+          <li>本研究成功证伪了两个假说（纤维类型、肌原纤维 packing）</li>
+          <li>侧向力传导假说被「支持」但未被「证实」：功率/体积不变与假说预测一致，但也与其他机制兼容</li>
+          <li>波普尔意义上：假说尚未被证伪，但也不能声称被证实</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>4. 模型依赖 vs 理论独立</h3>
+        <ul>
+          <li>比张力计算依赖 PCSA 模型（体积/束长），PCSA 模型依赖羽状角和束长的超声测量</li>
+          <li>每一层模型都引入假设和误差</li>
+          <li>Tirrell 2024 系统综述给予 Erskine 方法学 24/31 分，属于人类肌肉研究中方法学质量最高的之一</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card rv" style="margin-top:12px;">
+      <h3>5. 理论地位与后续发展</h3>
+      <ul>
+        <li>本研究发表于 2011 年，其侧向力传导假说在此后获得了更多直接证据支持：DGC 复合体在训练后表达上调（Kosek 2008）、PTK2 基因多态性与比张力相关（Erskine 2012）、有限元模型证实侧向力传导可传递近端-远端力差的 80%（Sharafi 2011）</li>
+        <li>但截至 2024 年，仍缺乏人类活体中 costamere 密度的纵向变化直接证据</li>
+        <li>该假说已从「推测」上升为「有间接证据支持的主流假说」，但尚未达到「被直接验证的机制」</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 10 误读与总结 ============ -->
+  <section id="s10">
+    <p class="sec-no">SECTION 10</p>
+    <h2>常见误读与最终总结</h2>
+    <p class="sec-lede">本研究的结论结构精密，极易被过度简化或错误引用。以下列出最常见的误读模式。</p>
+
+    <div class="misread rv">
+      <p class="mr-title">误读 1：「肌纤维本身变强了」</p>
+      <p class="mr-body">本研究恰恰证明单根肌纤维的比张力没有变化。力量增长来自肌纤维之外的结构适应（侧向力传导），而非肌纤维内在力量的增加。将整肌比张力增加归因于肌纤维内在变化，是本研究明确否定的假说。</p>
+    </div>
+
+    <div class="misread rv">
+      <p class="mr-title">误读 2：「力量增长 = 肌肉肥大」</p>
+      <p class="mr-body">本研究数据显示力量增长（+27%）远超肌肉体积增长（+5.5%），比张力增加了 17%。约 70% 以上的力量增长无法由肌肉肥大解释。将力量增长简单等同于肌肉增大，忽视了比张力增加和神经适应的贡献。</p>
+    </div>
+
+    <div class="misread rv">
+      <p class="mr-title">误读 3：「训练只通过神经适应增加力量」</p>
+      <p class="mr-body">神经适应（自主激活↑3.5%）确实贡献了部分力量增长，但不是全部。本研究的核心贡献恰恰在于指出：除了神经适应和肌肉肥大之外，还有第三种力量增长机制——侧向力传导增强。这一机制属于肌肉-结缔组织系统的结构适应，非纯神经现象。</p>
+    </div>
+
+    <div class="misread rv">
+      <p class="mr-title">误读 4：「本研究证明了侧向力传导」</p>
+      <p class="mr-body">本研究为侧向力传导假说提供了间接支持（排除法 + 功率/体积不变的推论），但未直接测量 costamere 密度、整合素表达或结缔组织厚度。假说获得支持 ≠ 假说被证实。后续需要直接的结构和分子层面验证。</p>
+    </div>
+
+    <div class="misread rv">
+      <p class="mr-title">误读 5：「IIx → IIa 转换让肌肉更强」</p>
+      <p class="mr-body">IIx 减少、IIa 增加确实发生了，但本研究明确发现 MyHC 组成变化与比张力变化无相关性（r=0.30，P=0.25）。纤维类型转换不影响比张力，只影响收缩速度特征。将 IIx → IIa 等同于「肌肉变强」是错误的。</p>
+    </div>
+
+    <div class="verdict-final rv">
+      <h3 style="margin-top:0;">最终总结</h3>
+      <div class="vf-row">
+        <div class="vf-k">核心贡献</div>
+        <div class="vf-v">首次在人体活体中系统排除纤维类型和单纤维因素作为比张力增加的原因，提出侧向力传导增强假说，并提供了功率/体积不变的关键间接证据。</div>
+      </div>
+      <div class="vf-row">
+        <div class="vf-k">核心发现</div>
+        <div class="vf-v">9 周训练后：活体比张力↑17%（P&lt;0.01）；单纤维比张力无变化（P&gt;0.05）；功率/体积无变化；MyHC IIX↓但与比张力变化无关。</div>
+      </div>
+      <div class="vf-row">
+        <div class="vf-k">结论强度</div>
+        <div class="vf-v">活体-单纤维分离为 A 级结论（直接测量）。侧向力传导增强为 B-C 级推论（排除法 + 间接证据）。纤维类型和肌原纤维 packing 被否定为 B 级结论。</div>
+      </div>
+      <div class="vf-row">
+        <div class="vf-k">最大局限</div>
+        <div class="vf-v">缺乏侧向力传导的直接测量（costamere 密度、整合素表达、结缔组织厚度均未量化）。结论依赖排除法推论，而非正向验证。</div>
+      </div>
+      <div class="vf-row">
+        <div class="vf-k">实践启示</div>
+        <div class="vf-v">结缔组织适应可能是力量增长的重要但被低估的贡献因素。力量训练不等于功率训练（功率/体积不变），需要额外速度训练。个体差异有遗传基础（PTK2 基因）。</div>
+      </div>
+      <div class="vf-row">
+        <div class="vf-k">一句话定性</div>
+        <div class="vf-v"><b>力量增长不仅来自肌肉变粗和神经变强，还来自力传导网络的优化——这是一个被间接证据支持但尚待直接验证的假说。</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 口播稿 ============ -->
+  <section id="script">
+    <p class="sec-no">APPENDIX</p>
+    <h2>附：10 分钟口播稿</h2>
+    <p class="sec-lede">以下内容可直接用于播客录制或课堂讲授，约 2,800 字，语速适中时约 10 分钟。</p>
+
+    <div class="card rv" style="background:#FAFAF5;">
+      <p style="font-size:14.5px;line-height:1.9;">
+        今天解读一篇肌肉生理学的经典论文：Erskine 等人 2011 年发表在 Experimental Physiology 上的研究，标题是「抗阻训练后活体肌肉比张力为何增加」。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        先说背景。任何一个学过运动生理学的人都知道，抗阻训练后肌肉力量增长比肌肉体积增长更快。力量涨了 30%，体积可能只涨了 5–10%。这意味着单位面积的肌肉能产生更多的力了。这个现象叫做「比张力增加」。它从 1970 年代就被发现，但原因一直搞不清楚。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        Erskine 这篇论文做了什么呢？他找了一个非常聪明的研究设计。42 个未训练的年轻男性，做了 9 周的高强度腿屈伸训练，每周 3 次，每次 4 组 10 次，80% 1RM。训练前后，他同时测量了三个层面的东西：
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        第一，活体层面。用等速测力计加 MRI，算出了股四头肌的比张力。方法是他自己 2009 年发表的，用单个横截面积加超声测束长和羽状角来估算整个股四头肌的生理横截面积。这个方法在后续的系统综述中被评为方法学质量最高的之一。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        第二，单纤维层面。从 17 个受试者身上取了股外侧肌活检，化学透化后拉出单根肌纤维，在体外测它的力、横截面积、缩短速度和峰值功率。总共分析了大约 140 根纤维。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        第三，分子层面。用 SDS-PAGE 电泳分析肌球蛋白重链亚型比例，看训练后纤维类型有没有变化。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        结果出来了，非常有意思。活体比张力增加了 17%，从 25.9 涨到 30.3 牛每平方厘米，统计学上非常显著。但单纤维比张力呢？从 21.0 到 22.3，增加了大约 6%，但没有统计学意义。也就是说，整块肌肉变得更强了，但单根纤维的单位面积力量没有变。这两个层面的分离，就是这篇论文的核心发现。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        然后看纤维类型。IIx 型肌球蛋白重链从 29% 降到了 19%，说明纤维类型确实发生了转换，从最快的 IIx 转向了中间型 IIa。这和其他短期训练研究一致。但关键是，IIx 的变化量和比张力的变化量之间没有相关性，相关系数只有 0.30，P 值 0.25。也就是说，纤维类型变了，但跟比张力变化没关系。假说 A 被否定。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        单纤维比张力不变，说明肌原纤维蛋白密度没有增加。假说 B 也被否定。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        那原因是什么？Erskine 提出一个非常巧妙的推论。如果比张力增加了 17%，但功率除以体积没有变化，而功率等于力乘以速度，那速度就必须下降大约 17%。什么机制能同时让力增加、速度下降、功率不变？答案是侧向力传导增强。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        什么是侧向力传导？经典的模型是这样的：肌节产生的力沿着肌纤维纵向传递，经过肌腱连接处，到达肌腱，最后拉动骨骼。所有的力都必须走这条路。但侧向力传导模型说，力还可以走另一条路：从肌纤维侧面通过 costameres（一种黏着斑复合体）传到细胞外基质，再通过肌内膜、肌束膜、肌外膜传导到腱。这就好像力可以走「捷径」，不需要经过肌腱连接处。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        如果训练后侧向力传导增强了，会发生什么？第一，更多的力通过侧向路径到达腱，表现为比张力增加。第二，有效纤维长度缩短了，因为一部分力从侧面「漏走了」，纤维实际做功的有效长度变短。较短的纤维意味着较少的串联肌节，也就意味着缩短速度更慢。力和速度的变化互相抵消，功率除以体积就保持不变了。这恰好就是 Erskine 观察到的数据模式。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        但是必须强调，这是一个推论，不是直接证据。Erskine 没有直接测量 costamere 的密度，没有测整合素的表达，也没有量化结缔组织的厚度。他是通过排除法得出这个结论的：纤维类型解释不了，单纤维力量也解释不了，而功率除以体积不变恰好符合侧向力传导模型的预测。排除法是一种强有力的推理工具，但它不能替代正向验证。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        这篇论文对训练处方有什么启示？至少有三个点。第一，力量增长不仅仅来自肌肉变粗和神经变强，结缔组织的适应可能是第三个被低估的贡献因素。这意味着训练不仅改变肌肉本身，还改变肌肉的「基础设施」——力传导网络。第二，力量涨了不等于功率涨了。本研究数据直接证明了这一点：力量增加 27%，但功率除以肌肉体积没有变。如果你的训练目标是爆发力，纯粹的大重量训练是不够的，还需要专门的速度和功率训练。第三，个体差异是真实存在的。比张力的增加标准差是 11%，有些人增加很多，有些人几乎不变。后续的基因研究发现 PTK2 基因多态性与基线比张力相关，这暗示力传导网络的结构有遗传基础。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        最后做一个总结。这篇 2011 年的论文回答了一个简单但重要的问题：为什么训练后单位面积的肌肉能产生更多的力？答案是：不是因为肌纤维本身变强了，而是因为力的传导方式改变了。更多的力通过侧向路径绕过肌腱连接处，直接到达腱。这个假说被间接证据支持，但到 2026 年仍然没有被直接验证。它是一个优秀的科学假说：逻辑自洽、与现有数据一致、可以被未来的实验证实或证伪。
+      </p>
+      <p style="font-size:14.5px;line-height:1.9;">
+        一句话概括：力量增长不仅来自肌肉变粗和神经变强，还来自力传导网络的优化。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 参考文献 ============ -->
+  <section id="refs">
+    <p class="sec-no">REFERENCES</p>
+    <h2>参考文献</h2>
+
+    <footer>
+      <div class="wrap">
+        <h2>核心文献</h2>
+        <ol>
+          <li>Erskine RM, Jones DA, Maffulli N, Williams AG, Stewart CE, Degens H. What causes in vivo muscle specific tension to increase following resistance training? <i>Exp Physiol</i> 2011;96(2):145–155. DOI: <a href="https://doi.org/10.1113/expphysiol.2010.053975" target="_blank" rel="noopener noreferrer">10.1113/expphysiol.2010.053975</a></li>
+        </ol>
+
+        <h2 style="margin-top:18px;">同团队系列研究</h2>
+        <ol>
+          <li>Erskine RM, Jones DA, Maganaris CN, Degens H. In vivo specific tension of the human quadriceps femoris muscle. <i>Eur J Appl Physiol</i> 2009;106:827–838.</li>
+          <li>Erskine RM, Jones DA, Williams AG, Stewart CE, Degens H. Resistance training increases in vivo quadriceps femoris muscle specific tension in young men. <i>Acta Physiol (Oxf)</i> 2010a;199(1):83–89.</li>
+          <li>Erskine RM, Jones DA, Williams AG, Stewart CE, Degens H. Inter-individual variability in the adaptation of human muscle specific tension to progressive resistance training. <i>Eur J Appl Physiol</i> 2010b;110:1117–1125.</li>
+          <li>Erskine RM, Williams AG, Jones DA, Stewart CE, Degens H. The individual and combined influence of ACE and ACTN3 genotypes on muscle phenotypes before and after strength training. <i>Scand J Med Sci Sports</i> 2014;24:642–648.</li>
+        </ol>
+
+        <h2 style="margin-top:18px;">横向比较与支撑文献</h2>
+        <ol start="6">
+          <li>Reeves ND, Narici MV, Maganaris CN. Effect of resistance training on skeletal muscle-specific force in elderly humans. <i>J Appl Physiol</i> 2004;96:885–892.</li>
+          <li>Ahtiainen JP, Avela P, Pascual KB, Kraemer WJ, Häkkinen K. Effects of strength training on muscle function in men and women at different ages. <i>J Physiol</i> 2003;551:629–639.</li>
+          <li>Folland J, Williams A. Morphological and neurological contributions to increased strength. <i>Sports Med</i> 2007;37(2):145–168.</li>
+          <li>Huijing PA, Baan GC. Myofascial force transmission: muscle relative position and length determine neighbor muscle force. <i>Acta Physiol Scand</i> 2001;173:297–311.</li>
+          <li>Krause F, Wilke J, Schleip R, Zorn C. Three-dimensional myofascial force transmission in human elbow flexors. <i>J Anat</i> 2016;228:854–863.</li>
+          <li>Tirrell TF, Cook MS, Carr JA, et al. Specific tension of human muscle in vivo: a systematic review. <i>J Appl Physiol</i> 2024;137:1161–1184.</li>
+          <li>D'Antona G, Lanfranconi F, Pellegrino MA, et al. Skeletal muscle hypertrophy and structure and function of skeletal muscle fibres in male body builders. <i>J Physiol</i> 2006;570:611–627.</li>
+          <li>Jones DA, Rutherford OM, Parker DF. Physiological changes in skeletal muscle as a result of strength training. <i>Q J Exp Physiol</i> 1989;74:233–256.</li>
+          <li>Miller BF, Olesen JL, Hansen M, et al. Coordinated collagen and muscle protein synthesis in human patella tendon and quadriceps muscle after exercise. <i>J Physiol</i> 2005;567:1021–1033.</li>
+          <li>Woolstenhulme MT, Greenlund MJ, Johnson ST, Wilkinson JG, Byrnes WC. Effects of resistance training on eccentric muscle function and marker proteins of muscle damage. <i>Scand J Med Sci Sports</i> 2006;16:44–53.</li>
+          <li>Kosek DJ, Bamman MM. Modulation of the dystrophin-associated protein complex in response to resistance training in young and older men. <i>J Appl Physiol</i> 2008;104:1476–1484.</li>
+          <li>Erskine RM, Williams AG, Jones DA, Stewart CE, Degens H. Do PTK2 gene polymorphisms contribute to the interindividual variability in muscle strength and the response to resistance training? <i>J Appl Physiol</i> 2012;112(8):1329–1334.</li>
+          <li>Sharafi B, Blemker SS. Finite element analysis of lateral transmission of force in single muscle fiber. <i>Ann Biomed Eng</i> 2011;39:632–640.</li>
+          <li>Parente L, Degens H, Gilliver S, et al. Specific tension of human single muscle fibres after 12 months resistance training. <i>J Physiol</i> 2008;586:P55.</li>
+        </ol>
+
+        <p class="disclaimer">
+          本解读由科研助理 Agent 生成，基于 PubMed 摘要与全文公开数据。所有数据均来自已发表的同行评审文献，解读中的证据等级评定和结论为编者判断，不代表原始作者立场。本文不构成医疗或训练建议，具体训练方案应结合个体情况由专业人员制定。
+        </p>
+      </div>
+    </footer>
+  </section>
+
+</div>
+</main>
+
+<script>
+  const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{rootMargin:"0px 0px -40px 0px",threshold:0.01});
+  document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+  document.querySelectorAll('nav.toc a[href^="#"]').forEach(a=>{
+    a.addEventListener("click",function(e){
+      e.preventDefault();
+      var t=document.querySelector(this.getAttribute("href"));
+      if(t)t.scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  });
+</script>
+</body>
+</html>
