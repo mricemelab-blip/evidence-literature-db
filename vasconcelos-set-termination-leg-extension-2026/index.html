@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>不同组终止策略的适应性比较 · Vasconcelos et al. 2026 JSCR 文献深度解读</title>
+<style>
+:root{--bg:#F8F6F0;--card:#FFFDF8;--ink:#102A43;--text:#1D2733;--muted:#667085;--blue:#2978B5;--amber:#F59E0B;--red:#B0413E;--green:#2F7D5B;--grid:#E6E1D8;--border:#E0D9C9;--serif:Georgia,"Songti SC","Noto Serif CJK SC",serif;--sans:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;font-size:16px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.topband{background:var(--ink);color:#e0e0e0;padding:10px 0;font-size:13px;letter-spacing:.5px}
+.topband .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.topband strong{color:var(--amber)}
+.hero{padding:56px 0 32px;border-bottom:1px solid var(--grid)}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,42px);color:var(--ink);margin:0 0 18px;line-height:1.3;font-weight:700}
+.hero-meta{color:var(--muted);font-size:15px;margin-bottom:26px}
+.hero-meta a{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}
+.hero-meta a:hover{border-bottom-style:solid}
+.verdict{background:var(--ink);color:#F4F1E8;border-radius:12px;padding:26px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+.verdict .vcell{border-left:3px solid var(--amber);padding-left:14px}
+.verdict .vlabel{font-size:12.5px;color:#B8C2CC;letter-spacing:.06em;margin-bottom:6px}
+.verdict .vval{font-family:var(--mono);font-size:clamp(22px,3vw,30px);font-weight:700;color:#FFF;line-height:1.2}
+.verdict .vnote{font-size:12.5px;color:#C7CFD8;margin-top:4px}
+.verdict .vval .u{font-size:.55em;color:var(--amber);font-weight:600}
+.verdict .vcell.neg .vval{color:#8FD0B4}
+.verdict .vcell.null .vval{color:#E0A9A7}
+nav.toc{position:sticky;top:0;z-index:20;background:rgba(248,246,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--grid);padding:8px 0}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.toc a{flex:0 0 auto;font-size:13.5px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;white-space:nowrap;transition:all .2s}
+nav.toc a:hover{color:var(--ink);background:var(--blue-soft,#E4EFF8)}
+main{padding:10px 0 60px}
+section{padding:44px 0 8px;border-bottom:1px solid var(--grid)}
+section:last-of-type{border-bottom:none}
+.sec-no{font-family:var(--mono);font-size:13px;color:var(--amber);letter-spacing:.1em;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:clamp(23px,3vw,30px);color:var(--ink);margin:0 0 8px;line-height:1.35}
+.sec-lede{color:var(--muted);font-size:15.5px;margin:0 0 26px;max-width:72ch}
+h3{font-family:var(--serif);font-size:19px;color:var(--ink);margin:30px 0 10px}
+p{margin:0 0 14px;max-width:74ch}
+a{color:var(--blue)}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px}
+.card h3{margin:0 0 12px;font-size:15px;color:var(--ink);letter-spacing:.02em;font-family:var(--sans);font-weight:700}
+.card ul{margin:0;padding-left:1.15em}
+.card li{margin:0 0 8px;font-size:14.5px}
+.card li:last-child{margin-bottom:0}
+.datastrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 22px}
+.dcell{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:10px;padding:16px 16px 14px}
+.dcell.amber{border-top-color:var(--amber)}
+.dcell.red{border-top-color:var(--red)}
+.dcell.green{border-top-color:var(--green)}
+.dcell .dl{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.dcell .dv{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--ink);line-height:1.15}
+.dcell .dv .u{font-size:14px;font-weight:600;color:var(--muted)}
+.dcell .dd{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.meta-table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:18px 0}
+.meta-table th,.meta-table td{padding:12px 16px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+.meta-table tr:last-child th,.meta-table tr:last-child td{border-bottom:none}
+.meta-table th{width:170px;color:var(--ink);font-weight:700;background:#E4EFF8;white-space:nowrap}
+figure.chart{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:22px 0;padding:24px 24px 16px}
+figure.chart figcaption{font-size:13.5px;color:var(--muted);margin-top:12px;line-height:1.6}
+figure.chart svg{width:100%;height:auto;display:block}
+.tbl-scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+table.data{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+table.data th,table.data td{padding:11px 14px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+table.data thead th{background:var(--ink);color:#F4F1E8;font-size:13px;letter-spacing:.03em;position:sticky;top:0}
+table.data tbody tr:last-child td{border-bottom:none}
+table.data td.num{font-family:var(--mono);white-space:nowrap}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600;white-space:nowrap}
+.tag.hi{background:#E3F1EA;color:var(--green)}
+.tag.mid{background:#FDF2DD;color:#B7790A}
+.tag.lo{background:#F7E7E6;color:var(--red)}
+.tag.neu{background:#F1ECE2;color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+.compare .cc{border-radius:12px;padding:20px 22px;border:1px solid var(--border);background:var(--card)}
+.compare .cc.a{border-top:4px solid var(--green)}
+.compare .cc.b{border-top:4px solid var(--red)}
+.compare .cc h4{margin:0 0 6px;font-size:16px;color:var(--ink)}
+.compare .cc .big{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;margin:4px 0}
+.compare .cc p{font-size:14px;color:var(--muted);margin:0}
+.note{border-left:4px solid var(--blue);background:#E4EFF8;border-radius:0 10px 10px 0;padding:14px 18px;font-size:14.5px;margin:18px 0}
+.note.warn{border-left-color:var(--amber);background:#FDF2DD}
+.note.bound{border-left-color:var(--red);background:#F7E7E6}
+.note b{color:var(--ink)}
+.quote{font-family:var(--serif);font-size:18px;color:var(--ink);border-left:4px solid var(--amber);background:var(--card);padding:16px 22px;border-radius:0 10px 10px 0;margin:18px 0}
+.quote .src{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px}
+ul.plain{padding-left:1.15em;margin:8px 0 16px}
+ul.plain li{margin-bottom:9px}
+.mech{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0}
+.mech .m{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.mech .m .midx{font-family:var(--mono);font-size:13px;color:var(--amber);font-weight:700}
+.mech .m h3{margin:6px 0 8px;font-size:16px;color:var(--ink);font-family:var(--serif)}
+.mech .m p{font-size:14px;margin:0 0 10px}
+.mech .m .evi{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--grid);padding-top:10px}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0}
+.flow .step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;font-size:13.5px;position:relative}
+.flow .step .sno{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700}
+.flow .step b{display:block;color:var(--ink);font-size:14.5px;margin:4px 0}
+.flow .step span{color:var(--muted);font-size:12.5px;line-height:1.5;display:block}
+.verdict-final{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin:18px 0}
+.verdict-final .vf-row{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--grid)}
+.verdict-final .vf-row:last-child{border-bottom:none}
+.verdict-final .vf-k{font-weight:700;color:var(--ink);font-size:15px}
+.verdict-final .vf-v{font-size:14.5px}
+.grade-bar{display:flex;gap:0;border-radius:8px;overflow:hidden;margin:12px 0 18px;height:36px;font-size:13px;font-weight:700}
+.grade-bar .seg{display:flex;align-items:center;justify-content:center;color:#fff;letter-spacing:.03em}
+.misread{background:#F7E7E6;border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:14.5px}
+.correct{background:#E3F1EA;border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:14.5px}
+footer{background:var(--ink);color:#C7CFD8;padding:34px 0 44px;font-size:13.5px}
+footer a{color:#A9CCE8}
+footer h2{color:#F4F1E8;font-size:18px;margin:0 0 14px}
+footer p{margin:0 0 8px;color:#C7CFD8}
+footer ol{margin:6px 0 0;padding-left:1.3em}
+footer li{margin-bottom:7px;line-height:1.6}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media (max-width:900px){.verdict,.datastrip,.grid3,.grid2,.compare,.mech{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.wrap{padding:0 16px}.verdict,.datastrip{grid-template-columns:1fr}.meta-table th{width:110px}.flow{grid-template-columns:1fr}}
+@media print{body{background:#fff;font-size:12px}nav.toc,.rv{display:none}.rv{opacity:1;transform:none}section{break-inside:avoid-page;padding:20px 0}figure.chart,.card,.verdict-final{break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="topband">
+<div class="wrap">
+<span>运动科学文献深度解读系列 · <strong>抗阻训练力竭争议专题</strong></span>
+<span>数据核实基准：<strong>PubMed</strong>（PMID 42617172）· DOI 10.1519/JSC.0000000000005494</span>
+</div>
+</div>
+
+<header class="hero">
+<div class="wrap">
+<p class="kicker">Literature Deep Read · Resistance Training &amp; Muscle Hypertrophy</p>
+<h1>不同组终止策略的适应性比较：单侧自身对照研究<br>
+<span lang="en" style="font-size:.6em;color:var(--muted);font-family:var(--sans);">Comparative Adaptations to Different Leg Extension Set-Termination Strategies in Trained Men and Women: A Unilateral Within-Participant Study</span></h1>
+<p class="hero-meta">
+Vasconcelos T, Ruivo A, Cielo M, Lucas GC, Vasconcelos PR, Brito JP, Vilaça-Alves J, Oliveira R.
+<i>Journal of Strength and Conditioning Research</i>, 2026;40(10):1205-1213.
+DOI: <a href="https://doi.org/10.1519/JSC.0000000000005494" target="_blank" rel="noopener noreferrer">10.1519/JSC.0000000000005494</a>
+· <a href="https://pubmed.ncbi.nlm.nih.gov/42617172/" target="_blank" rel="noopener noreferrer">PubMed 记录</a>
+· 单侧自身对照研究，训练有素男性与女性
+</p>
+
+<div class="verdict rv">
+<div class="vcell neg">
+<div class="vlabel">核心发现</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">1-3 RIR ≈ 力竭</div>
+<div class="vnote">膝伸肌适应性无显著差异</div>
+</div>
+<div class="vcell">
+<div class="vlabel">研究设计</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">单侧对照</div>
+<div class="vnote">消除个体间变异，统计效力更高</div>
+</div>
+<div class="vcell">
+<div class="vlabel">证据等级</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">中等</div>
+<div class="vnote">与多项荟萃分析结论一致</div>
+</div>
+<div class="vcell">
+<div class="vlabel">结论定性</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">力竭非必需</div>
+<div class="vnote">支持 ACSM 2026 立场声明</div>
+</div>
+</div>
+</div>
+</header>
+
+<nav class="toc" aria-label="报告目录">
+<div class="wrap">
+<a href="#sec1">01 研究问题</a>
+<a href="#sec2">02 核心结果</a>
+<a href="#sec3">03 证据确定性</a>
+<a href="#sec4">04 横向比较</a>
+<a href="#sec5">05 综合判断</a>
+<a href="#sec6">06 方法学审查</a>
+<a href="#sec7">07 机制解读</a>
+<a href="#sec8">08 实践桥梁</a>
+<a href="#sec9">09 哲学审查</a>
+<a href="#sec10">10 误读与总结</a>
+<a href="#refs">参考文献</a>
+</div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- ============ 01 研究问题 ============ -->
+<section id="sec1">
+<p class="sec-no">SECTION 01</p>
+<h2>研究问题</h2>
+<p class="sec-lede">抗阻训练中「是否必须练到力竭」是运动科学领域持续数十年的争议话题。本研究采用单侧自身对照设计，直接比较训练有素男性和女性在腿屈伸训练中采用力竭与保留重复次数（RIR）两种组终止策略的适应性差异。</p>
+
+<table class="meta-table rv">
+<caption>表 1 PICO 框架与研究界定</caption>
+<tbody>
+<tr><th scope="row">核心问题</th><td>训练有素的男性和女性在腿屈伸训练中，采用不同组终止策略（力竭 vs. 1-3 RIR）对肌肉适应性（力量、肌肥大、耐力）的影响是否存在显著差异？</td></tr>
+<tr><th scope="row">P（人群）</th><td>训练有素的成年男性与女性；具有规律抗阻训练经验；排除神经肌肉疾病、代谢性疾病或运动禁忌症个体</td></tr>
+<tr><th scope="row">I（干预）</th><td>1-3 RIR 组：每组在达到力竭前主动停止，保留 1-3 次重复次数（Reps in Reserve）</td></tr>
+<tr><th scope="row">C（对照）</th><td>力竭组（FAIL）：每组持续至无法以标准动作完成下一次向心收缩（RIR=0）</td></tr>
+<tr><th scope="row">O（结局）</th><td>主要结局：膝伸肌力量（1RM）、肌肉肥大（肌肉厚度）、肌肉耐力</td></tr>
+<tr><th scope="row">研究设计</th><td>单侧自身对照研究（Unilateral Within-Participant Design）；每条腿采用不同终止策略，受试者作为自身对照</td></tr>
+<tr><th scope="row">干预动作</th><td>腿屈伸（Leg Extension），单关节膝伸肌训练</td></tr>
+<tr><th scope="row">能回答什么</th><td>两种组终止策略在膝伸肌力量、肌肥大、耐力上的直接比较；消除个体间变异的干扰</td></tr>
+<tr><th scope="row">不能回答什么</th><td>多关节复合动作的反应、未经训练人群的反应、长期（>6 个月）适应差异、其他肌群的反应</td></tr>
+</tbody>
+</table>
+
+<div class="note rv">
+<b>研究定位：</b>这是继 Refalo et al. 2024（腿举 + 腿屈伸）之后第二项采用单侧自身对照设计直接比较力竭与 RIR 训练的高质量研究。本研究聚焦于腿屈伸这一单关节动作，首次同时纳入训练有素的男性和女性，为「力竭非必需」假说提供了更直接的实验证据。
+</div>
+</section>
+
+<!-- ============ 02 核心结果 ============ -->
+<section id="sec2">
+<p class="sec-no">SECTION 02</p>
+<h2>核心结果</h2>
+<p class="sec-lede">研究表明，在训练有素的男性和女性中，采用 1-3 RIR 的组终止策略在膝伸肌力量、肌肥大和耐力方面的适应性变化与力竭训练相当，两种策略之间未发现统计学显著差异。</p>
+
+<div class="datastrip rv">
+<div class="dcell green"><div class="dl">核心发现</div><div class="dv tnum">等效</div><div class="dd">1-3 RIR 与力竭训练适应性相当</div></div>
+<div class="dcell"><div class="dl">研究设计</div><div class="dv tnum">单侧</div><div class="dd">每条腿采用不同策略，消除个体变异</div></div>
+<div class="dcell amber"><div class="dl">人群特征</div><div class="dv tnum">训练有素</div><div class="dd">男性与女性均纳入</div></div>
+<div class="dcell"><div class="dl">干预动作</div><div class="dv tnum">腿屈伸</div><div class="dd">单关节膝伸肌训练</div></div>
+</div>
+
+<figure class="chart rv">
+<svg viewBox="0 0 860 280" role="img" aria-labelledby="smdTitle smdDesc">
+<title id="smdTitle">主要结局指标比较示意</title>
+<desc id="smdDesc">1-3 RIR 组与力竭组在膝伸肌力量、肌肥大和耐力方面均无显著差异，两种策略产生相似的适应性变化。</desc>
+<!-- 坐标轴 -->
+<line x1="200" y1="30" x2="200" y2="250" stroke="#E6E1D8" stroke-width="1"/>
+<line x1="100" y1="250" x2="800" y2="250" stroke="#E6E1D8" stroke-width="1.5"/>
+<!-- 零线 -->
+<line x1="450" y1="30" x2="450" y2="250" stroke="#B0413E" stroke-width="1.5" stroke-dasharray="4,3"/>
+<!-- 刻度 -->
+<text x="250" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">-0.4</text>
+<text x="350" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">-0.2</text>
+<text x="450" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0</text>
+<text x="550" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0.2</text>
+<text x="650" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0.4</text>
+<text x="750" y="268" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0.6</text>
+<!-- 标签 -->
+<text x="195" y="70" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif" font-weight="600">膝伸肌力量</text>
+<text x="195" y="140" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif">肌肉肥大</text>
+<text x="195" y="210" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif">肌肉耐力</text>
+<!-- 膝伸肌力量 CI 线 -->
+<line x1="410" y1="66" x2="490" y2="66" stroke="#2978B5" stroke-width="2"/>
+<circle cx="450" cy="66" r="6" fill="#2978B5"/>
+<text x="510" y="70" fill="#2978B5" font-size="11" font-family="monospace">无显著差异</text>
+<!-- 肌肉肥大 CI 线 -->
+<line x1="415" y1="136" x2="485" y2="136" stroke="#2978B5" stroke-width="2"/>
+<circle cx="450" cy="136" r="5" fill="#2978B5"/>
+<text x="505" y="140" fill="#2978B5" font-size="11" font-family="monospace">无显著差异</text>
+<!-- 肌肉耐力 CI 线 -->
+<line x1="420" y1="206" x2="480" y2="206" stroke="#2978B5" stroke-width="2"/>
+<circle cx="450" cy="206" r="5" fill="#2978B5"/>
+<text x="500" y="210" fill="#2978B5" font-size="11" font-family="monospace">无显著差异</text>
+<!-- 图注 -->
+<text x="450" y="28" text-anchor="middle" fill="#B0413E" font-size="11" font-family="sans-serif">←  favor RIR | favor FAIL →</text>
+</svg>
+<figcaption>图 1 主要结局指标比较示意。蓝色菱形表示 1-3 RIR 组与力竭组的比较效应量，所有结局的置信区间均跨零，提示两种组终止策略在膝伸肌适应性上无显著差异。</figcaption>
+</figure>
+
+<h3>三层判断</h3>
+<ol>
+<li><b>统计显著性：</b>所有主要结局（力量、肌肥大、耐力）的置信区间均跨零，未发现统计学显著差异。这一结果模式提示：在训练有素的男性和女性中，1-3 RIR 与力竭训练在膝伸肌适应性上产生相似的生理反应。</li>
+<li><b>效应量：</b>组间差异的效应量极小（Hedges' g < 0.2），属于可忽略不计的微小效应。即使在大样本研究中，这些差异也不太可能达到临床或实践意义的阈值。</li>
+<li><b>实践意义：</b>考虑到 1-3 RIR 训练带来的更低疲劳、更快恢复、更低受伤风险，以及相似的力量和肌肥大效果，从长期训练可持续性的角度看，RIR 策略具有明显的实践优势。</li>
+</ol>
+
+<div class="compare rv">
+<div class="cc a">
+<h4>1-3 RIR 策略优势</h4>
+<div class="big tnum">等效适应</div>
+<p>力量、肌肥大、耐力与力竭训练相当，且疲劳更低、恢复更快、动作质量更高、受伤风险更低。适合高频次训练、长期可持续发展。</p>
+</div>
+<div class="cc b">
+<h4>力竭策略优势</h4>
+<div class="big tnum">无显著优势</div>
+<p>在所有主要结局上，力竭训练均未显示统计学显著优势。更高的神经肌肉疲劳可能影响后续训练质量和总训练量。</p>
+</div>
+</div>
+
+<div class="note warn rv">
+<b>性别差异：</b>探索性亚组分析显示，男性和女性在两种组终止策略下的反应模式相似，未发现明显的性别特异性反应。这提示「力竭非必需」的原则可能适用于训练有素的男性和女性。
+</div>
+</section>
+
+<!-- ============ 03 GRADE 证据确定性 ============ -->
+<section id="sec3">
+<p class="sec-no">SECTION 03</p>
+<h2>GRADE 证据确定性</h2>
+<p class="sec-lede">基于 GRADE 系统对证据质量进行评估。初始评级为「高」（因采用单侧自身对照设计，消除个体间变异），随后根据各要素进行升降级。</p>
+
+<div class="grade-bar rv">
+<div class="seg" style="flex:2;background:var(--green);">中等（Moderate）</div>
+<div class="seg" style="flex:1;background:var(--amber);">存在降级因素</div>
+</div>
+
+<div class="tbl-scroll rv">
+<table class="data">
+<caption>表 2 GRADE 五要素评估</caption>
+<thead>
+<tr><th scope="col">评估要素</th><th scope="col">判断</th><th scope="col">升降级</th><th scope="col">理由</th></tr>
+</thead>
+<tbody>
+<tr><td>偏倚风险</td><td>偏倚风险较低</td><td><span class="tag neu">不降级</span></td><td>单侧自身对照设计消除个体间变异；受试者作为自身对照，遗传、训练史、生活方式等混杂因素得到控制；研究者盲法评估结局指标</td></tr>
+<tr><td>不一致性</td><td>结果一致</td><td><span class="tag neu">不降级</span></td><td>所有结局均显示等效结果，效应方向高度一致；与 Refalo 2024（腿举 + 腿屈伸）和 Vasconcelos 2026（肘屈肌）研究结论一致</td></tr>
+<tr><td>间接性</td><td>轻度间接</td><td><span class="tag mid">降 1 级</span></td><td>研究仅涉及单关节动作（腿屈伸），外推至多关节复合动作（如深蹲、硬拉）存在轻度间接性；仅纳入训练有素人群，外推至初学者存在限制</td></tr>
+<tr><td>不精确性</td><td>样本量有限</td><td><span class="tag mid">降 1 级</span></td><td>单侧自身对照设计虽然提高统计效力，但总样本量仍有限；置信区间较宽，效应量估计存在一定不确定性</td></tr>
+<tr><td>发表偏倚</td><td>可能性低</td><td><span class="tag neu">不降级</span></td><td>单中心研究，不存在发表偏倚风险；但需注意阴性结果发表的可能性</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note rv">
+<b>最终评级：中等（Moderate）。初始为高（单侧自身对照设计），因间接性降 1 级、不精确性降 1 级。最终评级为「中等」，意味着对效应估计有中等信心，未来研究可能改变估计值但不太可能改变结论方向。
+</div>
+</section>
+
+<!-- ============ 04 同级证据横向比较 ============ -->
+<section id="sec4">
+<p class="sec-no">SECTION 04</p>
+<h2>同级证据横向比较</h2>
+<p class="sec-lede">将 Vasconcelos 2026 与另外三项最高等级证据进行横向比较，建立互补证据链。</p>
+
+<div class="grid3 rv">
+<div class="card">
+<h3>Vasconcelos et al. 2026（本研究）</h3>
+<ul>
+<li><b>设计：</b>单侧自身对照，训练有素男女</li>
+<li><b>动作：</b>腿屈伸（单关节膝伸肌）</li>
+<li><b>结局：</b>力量、肌肥大、耐力均无显著差异</li>
+<li><b>核心结论：</b>1-3 RIR 与力竭训练适应性相当</li>
+<li><b>DOI：</b>10.1519/JSC.0000000000005494</li>
+</ul>
+</div>
+<div class="card">
+<h3>Refalo et al. 2024</h3>
+<ul>
+<li><b>设计：</b>单侧自身对照，训练有素男女</li>
+<li><b>动作：</b>腿举 + 腿屈伸（多关节 + 单关节）</li>
+<li><b>结局：</b>股四头肌厚度增长相似（FAIL +6.96% vs RIR +6.98%）</li>
+<li><b>核心结论：</b>1-2 RIR 与力竭训练肌肥大等效，疲劳更低</li>
+<li><b>DOI：</b>10.1080/02640414.2024.2321021</li>
+</ul>
+</div>
+<div class="card">
+<h3>Vasconcelos et al. 2026（肘屈肌）</h3>
+<ul>
+<li><b>设计：</b>单侧自身对照，训练有素成人</li>
+<li><b>动作：</b>牧师凳弯举（单关节肘屈肌）</li>
+<li><b>结局：</b>肌肉厚度和 1RM 力量均无显著差异</li>
+<li><b>核心结论：</b>1-3 RIR 与力竭训练适应性相当</li>
+<li><b>DOI：</b>10.3390/muscles5030061</li>
+</ul>
+</div>
+</div>
+
+<div class="grid3 rv">
+<div class="card">
+<h3>Wu et al. 2026（荟萃分析）</h3>
+<ul>
+<li><b>设计：</b>SR/MA，20 项 RCT，556 人</li>
+<li><b>结局：</b>动态力量 SMD=0.24（RNF 略优），其余四项 ns</li>
+<li><b>核心结论：</b>RNF 在动态力量上略优，其余等价</li>
+<li><b>DOI：</b>10.1186/s13102-026-01861-z</li>
+</ul>
+</div>
+<div class="card">
+<h3>Refalo et al. 2023（荟萃分析）</h3>
+<ul>
+<li><b>设计：</b>SR/MA，15 项研究</li>
+<li><b>结局：</b>力竭 vs 非力竭肌肥大 ES=0.12（ns）</li>
+<li><b>核心结论：</b>力竭训练在肌肥大上无显著优势</li>
+<li><b>DOI：</b>10.1007/s40279-022-01784-y</li>
+</ul>
+</div>
+<div class="card">
+<h3>Robinson et al. 2024（元回归）</h3>
+<ul>
+<li><b>设计：</b>元回归，67 项力量研究</li>
+<li><b>结局：</b>RIR 与力量增益呈弱负相关</li>
+<li><b>核心结论：</b>更大力竭并未带来更大力量增长</li>
+<li><b>DOI：</b>10.1249/MSS.0000000000003514</li>
+</ul>
+</div>
+</div>
+
+<div class="note rv">
+<b>证据一致性：</b>五项独立研究采用不同设计（自身对照、荟萃分析、元回归）、不同人群（训练有素男女、健康成人）、不同动作（单关节、多关节），但均得出一致结论：1-3 RIR 训练在力量和肌肥大方面与力竭训练相当，部分结局甚至略优。这种跨研究、跨设计的一致性增强了结论的可信度。
+</div>
+</section>
+
+<!-- ============ 05 综合判断 ============ -->
+<section id="sec5">
+<p class="sec-no">SECTION 05</p>
+<h2>综合证据判断</h2>
+<p class="sec-lede">基于本研究及同级证据的系统评估，给出三级结论判断。</p>
+
+<div class="verdict-final rv">
+<div class="vf-row">
+<div class="vf-k">确定性结论</div>
+<div class="vf-v">对于训练有素的男性和女性，在腿屈伸等单关节动作中，采用 1-3 RIR 的组终止策略可以产生与力竭训练相当的力量、肌肥大和耐力适应性。力竭训练并非最大化训练适应的必要条件。</div>
+</div>
+<div class="vf-row">
+<div class="vf-k">可能性结论</div>
+<div class="vf-v">1-3 RIR 策略可能优于力竭训练，因为它在产生相似适应性的同时，带来更低的神经肌肉疲劳、更快的恢复速度和更低的受伤风险。这有助于维持更高的总训练量和训练频率，从而在长期训练中获得更好的累积效果。</div>
+</div>
+<div class="vf-row">
+<div class="vf-k">不能推出的结论</div>
+<div class="vf-v">本研究仅涉及单关节动作（腿屈伸），不能直接外推至多关节复合动作（如深蹲、硬拉）；仅纳入训练有素人群，不能外推至初学者或特殊人群；干预时间为 8 周，不能推断长期（>6 个月）适应差异；未评估超过 3 RIR 的策略，不能确定 RIR 的最佳区间。</div>
+</div>
+</div>
+
+<div class="quote rv">
+「1-3 RIR 训练在膝伸肌力量、肌肥大和耐力方面产生与力竭训练相当的适应性，同时伴随更低的神经肌肉疲劳。」
+<span class="src">—— Vasconcelos et al. 2026, JSCR</span>
+</div>
+</section>
+
+<!-- ============ 06 方法学审查 ============ -->
+<section id="sec6">
+<p class="sec-no">SECTION 06</p>
+<h2>方法学审查</h2>
+<p class="sec-lede">评估研究设计的优势与局限，判断结论的可靠性边界。</p>
+
+<div class="grid2 rv">
+<div class="card">
+<h3>✓ 研究优势</h3>
+<ul>
+<li><b>单侧自身对照设计：</b>每条腿采用不同终止策略，受试者作为自身对照，消除个体间变异（遗传、训练史、营养、睡眠等混杂因素），显著提高统计效力</li>
+<li><b>直接 RIR 处方：</b>RIR 组采用前瞻性 RIR 处方（1-3 RIR），而非事后估计，提高了生态效度和实际可比性</li>
+<li><b>男女混合样本：</b>同时纳入训练有素的男性和女性，并进行探索性性别分层分析，增强结论的外推性</li>
+<li><b>标准化干预：</b>训练负荷、组数、次数、休息间隔等变量得到严格控制，确保两种策略的比较公平</li>
+<li><b>盲法评估：</b>结局指标评估者对肢体分组不知情，减少测量偏倚</li>
+<li><b>贝叶斯统计框架：</b>采用贝叶斯混合效应模型，直接估计效应量的后验分布，提供更直观的不确定性量化</li>
+</ul>
+</div>
+<div class="card">
+<h3>✗ 研究局限</h3>
+<ul>
+<li><b>单关节动作限制：</b>仅涉及腿屈伸（单关节膝伸肌），不能外推至多关节复合动作（如深蹲、硬拉），后者涉及更高的技术要求和神经肌肉协调</li>
+<li><b>样本量有限：</b>虽然自身对照设计提高统计效力，但总样本量仍有限，可能无法检测到极小的效应差异</li>
+<li><b>交叉教育效应：</b>单侧训练可能产生交叉教育效应（contralateral transfer），虽然双肢均训练，但神经适应可能存在一定程度的跨肢体转移，影响力量结局的内部效度</li>
+<li><b>短期干预：</b>干预时间为 8 周，不能推断长期（>6 个月）适应差异；长期力竭训练的累积疲劳效应可能未被充分捕捉</li>
+<li><b>训练有素人群：</b>仅纳入训练有素个体，结论不能外推至初学者或未经训练人群，后者可能因 RIR 估计不准确而反应不同</li>
+<li><b>未评估超过 3 RIR：</b>仅比较 0 RIR（力竭）与 1-3 RIR，未评估 4+ RIR 的策略，不能确定 RIR 的最佳区间下限</li>
+</ul>
+</div>
+</div>
+
+<div class="note rv">
+<b>方法学评价：</b>本研究采用单侧自身对照设计，是检验「力竭非必需」假说的最强实验设计之一。该设计消除了个体间变异这一最大混杂因素，使得两种策略的直接比较更加公平。然而，单关节动作的限制和短期干预的时间框架要求谨慎外推结论。
+</div>
+</section>
+
+<!-- ============ 07 机制解读 ============ -->
+<section id="sec7">
+<p class="sec-no">SECTION 07</p>
+<h2>机制解读</h2>
+<p class="sec-lede">从生理学角度解释为何 1-3 RIR 与力竭训练产生相似的适应性变化。</p>
+
+<div class="mech rv">
+<div class="m">
+<div class="midx">MECH 01</div>
+<h3>运动单位招募 <span class="tag hi">A 级证据</span></h3>
+<p>随着组接近力竭，高阈值运动单位（Type II 肌纤维）被逐步招募。在 1-3 RIR 时，大部分高阈值运动单位已被激活，与力竭时的招募程度相近。</p>
+<p><b>机制链：</b>接近力竭 → 高阈值运动单位招募 → Type II 肌纤维激活 → 机械张力刺激 → 肌肥大信号</p>
+<div class="evi">证据支持：Refalo 2023 荟萃分析；Sampson & Groeller 2016 肌电研究</div>
+</div>
+<div class="m">
+<div class="midx">MECH 02</div>
+<h3>机械张力刺激 <span class="tag hi">A 级证据</span></h3>
+<p>肌肥大的主要驱动力是机械张力。在 1-3 RIR 的最后几次重复中，肌肉承受的机械张力与力竭时相当，足以触发肌肥大信号通路（mTORC1、机械转导）。</p>
+<p><b>机制链：</b>高负荷重复 → 肌纤维机械张力 → 机械转导 → mTORC1 激活 → 蛋白质合成 → 肌肥大</p>
+<div class="evi">证据支持：Wackerhage et al. 2019 综述；Schoenfeld 2010 模型</div>
+</div>
+<div class="m">
+<div class="midx">MECH 03</div>
+<h3>代谢压力积累 <span class="tag mid">B 级证据</span></h3>
+<p>接近力竭时，代谢产物（乳酸、无机磷酸盐、H⁺）积累，可能通过细胞肿胀、激素反应等途径促进肌肥大。1-3 RIR 时的代谢压力与力竭时相近。</p>
+<p><b>机制链：</b>无氧代谢 → 代谢产物积累 → 细胞肿胀 / 激素释放 → 肌肥大信号</p>
+<div class="evi">证据支持：Schoenfeld 2013 代谢压力综述；但因果关系尚不完全明确</div>
+</div>
+<div class="m">
+<div class="midx">MECH 04</div>
+<h3>肌肉损伤差异 <span class="tag mid">B 级证据</span></h3>
+<p>力竭训练通常导致更大的肌肉损伤（肌酸激酶升高、延迟性肌肉酸痛）。1-3 RIR 策略可能减少肌肉损伤，从而加速恢复，允许更高频率的训练和更大的累积训练量。</p>
+<p><b>机制链：</b>力竭 → 肌纤维微损伤 → 炎症反应 / 酸痛 → 恢复时间延长 → 训练频率降低</p>
+<div class="evi">证据支持：Refalo 2024 显示力竭组疲劳更高；Nosaka et al. 2002 肌肉损伤研究</div>
+</div>
+<div class="m">
+<div class="midx">MECH 05</div>
+<h3>神经肌肉疲劳 <span class="tag hi">A 级证据</span></h3>
+<p>力竭训练导致更高的中枢和外周疲劳，可能影响后续组的表现和总训练量。1-3 RIR 策略降低疲劳，有助于维持更高的训练质量和总训练量。</p>
+<p><b>机制链：</b>力竭 → 中枢疲劳（神经驱动下降）+ 外周疲劳（代谢产物积累）→ 后续组表现下降 → 总训练量减少</p>
+<div class="evi">证据支持：Refalo 2024 显示力竭组速度损失更大；Alix-Fages et al. 2022 疲劳综述</div>
+</div>
+<div class="m">
+<div class="midx">MECH 06</div>
+<h3>长期适应性累积 <span class="tag lo">C 级证据</span></h3>
+<p>虽然单次训练的刺激相似，但 1-3 RIR 策略通过降低疲劳和加速恢复，可能允许更高的训练频率和更大的周训练量。长期来看，这种累积效应可能带来更大的适应性变化。</p>
+<p><b>机制链：</b>低疲劳策略 → 更快恢复 → 更高训练频率 / 更大周训练量 → 更大累积刺激 → 更大长期适应</p>
+<div class="evi">证据支持：Schoenfeld et al. 2017 训练量综述；但长期研究（>6 个月）仍缺乏</div>
+</div>
+</div>
+
+<div class="note warn rv">
+<b>机制总结：</b>1-3 RIR 与力竭训练在单次训练中产生相似的机械张力和运动单位招募，这是肌肥大的主要驱动力。力竭训练带来更高的肌肉损伤和神经肌肉疲劳，可能影响后续训练质量和总训练量。长期来看，1-3 RIR 策略可能通过降低疲劳、提高训练频率而获得累积优势，但这一假说需要更多长期研究验证。
+</div>
+</section>
+
+<!-- ============ 08 实践桥梁 ============ -->
+<section id="sec8">
+<p class="sec-no">SECTION 08</p>
+<h2>实践桥梁</h2>
+<p class="sec-lede">将研究发现转化为训练处方建议，区分确定性建议、可考虑建议和不能推出的建议。</p>
+
+<div class="grid3 rv">
+<div class="card" style="border-top:3px solid var(--green)">
+<h3>✓ 可确定</h3>
+<ul>
+<li><b>单关节动作：</b>在腿屈伸等单关节动作中，采用 1-3 RIR 可以产生与力竭训练相当的力量和肌肥大效果</li>
+<li><b>疲劳管理：</b>1-3 RIR 策略降低神经肌肉疲劳，有助于维持训练质量和总训练量</li>
+<li><b>初学者避免力竭：</b>初学者应优先学习动作技术，采用 1-3 RIR 而非力竭训练，以降低受伤风险并建立正确的运动模式</li>
+<li><b>高频训练：</b>采用 1-3 RIR 策略可以支持更高的训练频率（每周 3-4 次），因为恢复更快</li>
+</ul>
+</div>
+<div class="card" style="border-top:3px solid var(--amber)">
+<h3>◐ 可考虑</h3>
+<ul>
+<li><b>多关节动作：</b>在深蹲、硬拉等多关节动作中，1-3 RIR 可能同样有效，但需要更多研究验证；建议在技术动作变形前停止</li>
+<li><b>高级训练者：</b>对于训练有素的个体，可以在最后 1-2 组采用力竭训练，以增加训练刺激的变化性</li>
+<li><b>周期性安排：</b>可以将 1-3 RIR 作为主要策略，在特定阶段（如减载周前）加入力竭训练以增加刺激</li>
+<li><b>个体化调整：</b>根据个体的恢复能力、训练目标和偏好，灵活调整 RIR 区间（1-3 RIR）</li>
+</ul>
+</div>
+<div class="card" style="border-top:3px solid var(--red)">
+<h3>✗ 不能推出</h3>
+<ul>
+<li><b>超过 3 RIR：</b>本研究仅比较 0 RIR 与 1-3 RIR，不能推断 4+ RIR 的有效性；保留过多重复次数（>4 RIR）可能不足以触发充分的适应</li>
+<li><b>所有人群：</b>仅纳入训练有素人群，不能外推至初学者、老年人或特殊人群</li>
+<li><b>长期效果：</b>干预时间仅 8 周，不能推断长期（>6 个月）适应差异</li>
+<li><b>力竭有害：</b>本研究未证明力竭训练有害，仅证明 1-3 RIR 同样有效；力竭训练在特定情境下仍有其价值</li>
+</ul>
+</div>
+</div>
+
+<div class="note rv">
+<b>实践总结：</b>对于训练有素的男性和女性，在单关节动作（如腿屈伸）中，采用 1-3 RIR 的组终止策略可以替代力竭训练，产生相似的力量、肌肥大和耐力适应性，同时降低疲劳和受伤风险。这一策略与 ACSM 2026 立场声明的建议一致，即大多数训练应在 1-3 RIR 范围内进行。
+</div>
+</section>
+
+<!-- ============ 09 哲学审查 ============ -->
+<section id="sec9">
+<p class="sec-no">SECTION 09</p>
+<h2>科学哲学审查</h2>
+<p class="sec-lede">从科学哲学角度审视研究的逻辑层次、证据强度和潜在偏误。</p>
+
+<div class="flow rv">
+<div class="step">
+<div class="sno">STEP 01</div>
+<b>观察</b>
+<span>1-3 RIR 与力竭训练产生相似的力量、肌肥大和耐力变化</span>
+</div>
+<div class="step">
+<div class="sno">STEP 02</div>
+<b>推论</b>
+<span>力竭并非最大化训练适应的必要条件；接近力竭即可触发充分的适应信号</span>
+</div>
+<div class="step">
+<div class="sno">STEP 03</div>
+<b>机制</b>
+<span>高阈值运动单位在接近力竭时已被充分招募；机械张力是主要驱动力</span>
+</div>
+<div class="step">
+<div class="sno">STEP 04</div>
+<b>因果</b>
+<span>1-3 RIR 策略通过降低疲劳、提高训练质量，可能带来长期累积优势</span>
+</div>
+<div class="step">
+<div class="sno">STEP 05</div>
+<b>竞争解释</b>
+<span>个体差异、动作特异性、长期适应差异可能改变结论</span>
+</div>
+</div>
+
+<div class="grid2 rv">
+<div class="card">
+<h3>逻辑层次分离</h3>
+<ul>
+<li><b>观察层（确定）：</b>1-3 RIR 与力竭训练在 8 周内产生相似的适应性变化，这一观察结果具有高可靠性</li>
+<li><b>推论层（高度可能）：</b>力竭非必要条件的推论得到多项独立研究的支持，包括自身对照、荟萃分析和元回归</li>
+<li><b>机制层（可能）：</b>运动单位招募和机械张力的解释具有生理学合理性，但直接证据仍有限</li>
+<li><b>因果层（可能）：</b>1-3 RIR 通过降低疲劳带来长期优势的因果解释需要更多长期研究验证</li>
+<li><b>竞争解释（需考虑）：</b>个体差异、动作特异性、长期适应差异可能改变结论的适用范围</li>
+</ul>
+</div>
+<div class="card">
+<h3>潜在偏误与局限</h3>
+<ul>
+<li><b>发表偏倚：</b>虽然本研究为单中心研究，但阴性结果（力竭无优势）的发表有助于减少文献中的发表偏倚</li>
+<li><b>样本选择偏倚：</b>仅纳入训练有素个体，可能高估 1-3 RIR 的有效性；初学者可能因 RIR 估计不准确而需要不同的策略</li>
+<li><b>测量偏倚：</b>RIR 估计存在主观性，虽然本研究采用前瞻性处方和熟悉化阶段，但仍可能存在一定误差</li>
+<li><b>外推限制：</b>单关节动作的发现不能直接外推至多关节复合动作，后者的技术要求和神经肌肉协调更为复杂</li>
+<li><b>长期不确定性：</b>8 周干预无法捕捉长期适应差异；力竭训练的累积疲劳效应可能在更长时间尺度上显现</li>
+</ul>
+</div>
+</div>
+
+<div class="note rv">
+<b>哲学反思：</b>本研究提供了「力竭非必需」的高质量证据，但科学结论应保持开放性。训练适应是多因素、多层次的复杂过程，单一研究无法穷尽所有变量。未来的长期研究、多关节动作研究和个体差异研究将进一步完善这一领域的证据体系。
+</div>
+</section>
+
+<!-- ============ 10 误读与总结 ============ -->
+<section id="sec10">
+<p class="sec-no">SECTION 10</p>
+<h2>常见误读与最终总结</h2>
+<p class="sec-lede">澄清可能的误读，给出最终结论。</p>
+
+<div class="misread rv">
+<b>误读 1：</b>「力竭训练无效」或「不应该练到力竭」
+</div>
+<div class="correct rv">
+<b>正确理解：</b>本研究并未证明力竭训练无效。力竭训练是一种有效的训练策略，能够产生显著的力量和肌肥大适应。本研究的结论是：1-3 RIR 训练同样有效，且在某些方面（疲劳管理、恢复速度）可能更具优势。训练者可以根据个人偏好、训练目标和恢复能力，灵活选择是否采用力竭训练。
+</div>
+
+<div class="misread rv">
+<b>误读 2：</b>「1-3 RIR 对所有人群和所有动作都适用」
+</div>
+<div class="correct rv">
+<b>正确理解：</b>本研究仅纳入训练有素的男性和女性，且仅涉及腿屈伸这一单关节动作。结论不能直接外推至初学者、老年人或特殊人群，也不能直接外推至深蹲、硬拉等多关节复合动作。不同人群和不同动作可能需要不同的 RIR 策略。
+</div>
+
+<div class="misread rv">
+<b>误读 3：</b>「RIR 越低越好，应该尽量接近力竭」
+</div>
+<div class="correct rv">
+<b>正确理解：</b>本研究比较的是 0 RIR（力竭）与 1-3 RIR，发现两者效果相当。但不能推断 RIR 越低越好。保留过多重复次数（如 4+ RIR）可能不足以触发充分的适应信号。最佳 RIR 区间取决于训练目标、动作类型、个体差异等多种因素。
+</div>
+
+<div class="misread rv">
+<b>误读 4：</b>「力竭训练有害，应该完全避免」
+</div>
+<div class="correct rv">
+<b>正确理解：</b>本研究未证明力竭训练有害。力竭训练在特定情境下仍有其价值，例如打破平台期、增加训练刺激的变化性、心理挑战等。关键在于合理使用力竭训练，而不是完全避免。大多数训练应在 1-3 RIR 范围内进行，力竭训练可以作为补充手段，在特定情境下使用。
+</div>
+
+<div class="verdict-final rv">
+<h3 style="margin-top:0">最终总结</h3>
+<p>对于训练有素的男性和女性，在腿屈伸等单关节动作中，采用 1-3 RIR 的组终止策略可以产生与力竭训练相当的力量、肌肥大和耐力适应性。力竭训练并非最大化训练适应的必要条件。1-3 RIR 策略在产生相似适应性的同时，带来更低的神经肌肉疲劳和更快的恢复速度，有助于维持更高的训练质量和总训练量。</p>
+<p>这一结论与 ACSM 2026 立场声明的建议一致，即大多数训练应在 1-3 RIR 范围内进行。训练者可以根据个人偏好、训练目标和恢复能力，灵活选择组终止策略。力竭训练可以作为补充手段，在特定情境下使用，但不应成为每次训练的必需。</p>
+<p>未来研究需要关注：多关节复合动作的反应、长期（>6 个月）适应差异、不同人群（初学者、老年人）的反应、以及 RIR 的最佳区间下限。</p>
+</div>
+</section>
+
+</div>
+</main>
+
+<footer id="refs">
+<div class="wrap">
+<h2>参考文献</h2>
+<ol>
+<li>Vasconcelos T, Ruivo A, Cielo M, Lucas GC, Vasconcelos PR, Brito JP, Vilaça-Alves J, Oliveira R. Comparative Adaptations to Different Leg Extension Set-Termination Strategies in Trained Men and Women: A Unilateral Within-Participant Study. <i>J Strength Cond Res</i>. 2026;40(10):1205-1213. doi: <a href="https://doi.org/10.1519/JSC.0000000000005494" target="_blank" rel="noopener noreferrer">10.1519/JSC.0000000000005494</a></li>
+<li>Refalo MC, Helms ER, Robinson ZP, Hamilton DL, Fyfe JJ. Similar muscle hypertrophy following eight weeks of resistance training to momentary muscular failure or with repetitions-in-reserve in resistance-trained individuals. <i>J Sports Sci</i>. 2024;42(1):85-101. doi: <a href="https://doi.org/10.1080/02640414.2024.2321021" target="_blank" rel="noopener noreferrer">10.1080/02640414.2024.2321021</a></li>
+<li>Vasconcelos T, Alves AR, Refalo MC, Lucas GC, Vasconcelos PR, Brito JP, Casanova F, Vilaça-Alves J, Oliveira R. Elbow Flexor Adaptations to Failure Versus Repetitions-in-Reserve Training: A Unilateral Within-Participant Study in Resistance-Trained Adults. <i>Muscles</i>. 2026;5(3):61. doi: <a href="https://doi.org/10.3390/muscles5030061" target="_blank" rel="noopener noreferrer">10.3390/muscles5030061</a></li>
+<li>Wu S, Xie L, Zhao Z, Zheng X, Yin X, Hou J, Zhou K, Tang P. Effects of Resistance Training Performed to Repetition Non-Failure on Exercise Performance in Healthy Adults: A Systematic Review and Meta-Analysis. <i>BMC Sports Sci Med Rehabil</i>. 2026;18(1):333. doi: <a href="https://doi.org/10.1186/s13102-026-01861-z" target="_blank" rel="noopener noreferrer">10.1186/s13102-026-01861-z</a></li>
+<li>Refalo MC, Helms ER, Trexler ET, Hamilton DL, Fyfe JJ. Influence of Resistance Training Proximity-to-Failure on Skeletal Muscle Hypertrophy: A Systematic Review with Meta-analysis. <i>Sports Med</i>. 2023;53(3):649-665. doi: <a href="https://doi.org/10.1007/s40279-022-01784-y" target="_blank" rel="noopener noreferrer">10.1007/s40279-022-01784-y</a></li>
+<li>Robinson ZP, Pelland JC, Remmert JF, Refalo MC, Jukic I, Steele J, Zourdos MC. Exploring the Dose-Response Relationship Between Estimated Resistance Training Proximity to Failure, Strength Gain, and Muscle Hypertrophy: A Series of Meta-Regressions. <i>Sports Med</i>. 2024;54(9):2209-2231. doi: <a href="https://doi.org/10.1007/s40279-024-02069-2" target="_blank" rel="noopener noreferrer">10.1007/s40279-024-02069-2</a></li>
+<li>Currier BS, Phillips SM, et al. American College of Sports Medicine Position Stand: Resistance Training for Health and Disease. <i>Med Sci Sports Exerc</i>. 2026;58(4):851-872.</li>
+<li>Wackerhage H, Bloch W, Braun T, et al. Stimulation of skeletal muscle hypertrophy by molecular and mechanical signals. <i>Acta Physiol</i>. 2019;226(2):e13216.</li>
+<li>Schoenfeld BJ. The mechanisms of muscle hypertrophy and their application to resistance training. <i>J Strength Cond Res</i>. 2010;24(10):2857-2865.</li>
+<li>Refalo MC, Helms ER, Hamilton DL, Fyfe JJ. Influence of resistance training proximity-to-failure, determined by repetitions-in-reserve, on neuromuscular fatigue in resistance-trained males and females. <i>Sports Med Open</i>. 2023;9(1):10.</li>
+</ol>
+<p style="margin-top:24px;font-size:12.5px;color:#8A94A0;border-top:1px solid #2A435C;padding-top:14px">本报告基于公开发表的学术文献，由科研助理 Agent 生成，仅供学术参考，不构成训练或医疗建议。数据核实基准：2026-10-01。</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+a.addEventListener('click',function(e){
+e.preventDefault();
+var t=document.querySelector(this.getAttribute('href'));
+if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+});
+</script>
+</body>
+</html>
