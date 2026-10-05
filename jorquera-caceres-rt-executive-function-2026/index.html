@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抗阻训练选择性改善社区老年人工作记忆与认知灵活性，对抑制控制无显著效应 · Jorquera-Cáceres et al. 2026 JAMDA 文献深度解读</title>
+<style>
+:root{--bg:#F8F6F0;--card:#FFFDF8;--ink:#102A43;--text:#1D2733;--muted:#667085;--blue:#2978B5;--amber:#F59E0B;--red:#B0413E;--green:#2F7D5B;--grid:#E6E1D8;--border:#E0D9C9;--serif:Georgia,"Songti SC","Noto Serif CJK SC",serif;--sans:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.7;font-size:16px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+.topband{background:var(--ink);color:#e0e0e0;padding:10px 0;font-size:13px;letter-spacing:.5px}
+.topband .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.topband strong{color:var(--amber)}
+.hero{padding:56px 0 32px;border-bottom:1px solid var(--grid)}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+h1{font-family:var(--serif);font-size:clamp(28px,4.4vw,42px);color:var(--ink);margin:0 0 18px;line-height:1.3;font-weight:700}
+.hero-meta{color:var(--muted);font-size:15px;margin-bottom:26px}
+.hero-meta a{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue)}
+.hero-meta a:hover{border-bottom-style:solid}
+.verdict{background:var(--ink);color:#F4F1E8;border-radius:12px;padding:26px 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+.verdict .vcell{border-left:3px solid var(--amber);padding-left:14px}
+.verdict .vlabel{font-size:12.5px;color:#B8C2CC;letter-spacing:.06em;margin-bottom:6px}
+.verdict .vval{font-family:var(--mono);font-size:clamp(22px,3vw,30px);font-weight:700;color:#FFF;line-height:1.2}
+.verdict .vnote{font-size:12.5px;color:#C7CFD8;margin-top:4px}
+.verdict .vval .u{font-size:.55em;color:var(--amber);font-weight:600}
+.verdict .vcell.neg .vval{color:#8FD0B4}
+.verdict .vcell.null .vval{color:#E0A9A7}
+nav.toc{position:sticky;top:0;z-index:20;background:rgba(248,246,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--grid);padding:8px 0}
+nav.toc .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.toc a{flex:0 0 auto;font-size:13.5px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;white-space:nowrap;transition:all .2s}
+nav.toc a:hover{color:var(--ink);background:var(--blue-soft,#E4EFF8)}
+main{padding:10px 0 60px}
+section{padding:44px 0 8px;border-bottom:1px solid var(--grid)}
+section:last-of-type{border-bottom:none}
+.sec-no{font-family:var(--mono);font-size:13px;color:var(--amber);letter-spacing:.1em;margin:0 0 6px}
+h2{font-family:var(--serif);font-size:clamp(23px,3vw,30px);color:var(--ink);margin:0 0 8px;line-height:1.35}
+.sec-lede{color:var(--muted);font-size:15.5px;margin:0 0 26px;max-width:72ch}
+h3{font-family:var(--serif);font-size:19px;color:var(--ink);margin:30px 0 10px}
+p{margin:0 0 14px;max-width:74ch}
+a{color:var(--blue)}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px}
+.card h3{margin:0 0 12px;font-size:15px;color:var(--ink);letter-spacing:.02em;font-family:var(--sans);font-weight:700}
+.card ul{margin:0;padding-left:1.15em}
+.card li{margin:0 0 8px;font-size:14.5px}
+.card li:last-child{margin-bottom:0}
+.datastrip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 22px}
+.dcell{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--blue);border-radius:10px;padding:16px 16px 14px}
+.dcell.amber{border-top-color:var(--amber)}
+.dcell.red{border-top-color:var(--red)}
+.dcell.green{border-top-color:var(--green)}
+.dcell .dl{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.dcell .dv{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--ink);line-height:1.15}
+.dcell .dv .u{font-size:14px;font-weight:600;color:var(--muted)}
+.dcell .dd{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.meta-table{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:18px 0}
+.meta-table th,.meta-table td{padding:12px 16px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+.meta-table tr:last-child th,.meta-table tr:last-child td{border-bottom:none}
+.meta-table th{width:170px;color:var(--ink);font-weight:700;background:#E4EFF8;white-space:nowrap}
+figure.chart{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:22px 0;padding:24px 24px 16px}
+figure.chart figcaption{font-size:13.5px;color:var(--muted);margin-top:12px;line-height:1.6}
+figure.chart svg{width:100%;height:auto;display:block}
+.tbl-scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--border);border-radius:12px;background:var(--card)}
+table.data{width:100%;border-collapse:collapse;font-size:14px;min-width:680px}
+table.data th,table.data td{padding:11px 14px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:top}
+table.data thead th{background:var(--ink);color:#F4F1E8;font-size:13px;letter-spacing:.03em;position:sticky;top:0}
+table.data tbody tr:last-child td{border-bottom:none}
+table.data td.num{font-family:var(--mono);white-space:nowrap}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600;white-space:nowrap}
+.tag.hi{background:#E3F1EA;color:var(--green)}
+.tag.mid{background:#FDF2DD;color:#B7790A}
+.tag.lo{background:#F7E7E6;color:var(--red)}
+.tag.neu{background:#F1ECE2;color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+.compare .cc{border-radius:12px;padding:20px 22px;border:1px solid var(--border);background:var(--card)}
+.compare .cc.a{border-top:4px solid var(--green)}
+.compare .cc.b{border-top:4px solid var(--red)}
+.compare .cc h4{margin:0 0 6px;font-size:16px;color:var(--ink)}
+.compare .cc .big{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--ink);line-height:1.2;margin:4px 0}
+.compare .cc p{font-size:14px;color:var(--muted);margin:0}
+.note{border-left:4px solid var(--blue);background:#E4EFF8;border-radius:0 10px 10px 0;padding:14px 18px;font-size:14.5px;margin:18px 0}
+.note.warn{border-left-color:var(--amber);background:#FDF2DD}
+.note.bound{border-left-color:var(--red);background:#F7E7E6}
+.note b{color:var(--ink)}
+.quote{font-family:var(--serif);font-size:18px;color:var(--ink);border-left:4px solid var(--amber);background:var(--card);padding:16px 22px;border-radius:0 10px 10px 0;margin:18px 0}
+.quote .src{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:8px}
+ul.plain{padding-left:1.15em;margin:8px 0 16px}
+ul.plain li{margin-bottom:9px}
+.mech{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:18px 0}
+.mech .m{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.mech .m .midx{font-family:var(--mono);font-size:13px;color:var(--amber);font-weight:700}
+.mech .m h3{margin:6px 0 8px;font-size:16px;color:var(--ink);font-family:var(--serif)}
+.mech .m p{font-size:14px;margin:0 0 10px}
+.mech .m .evi{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--grid);padding-top:10px}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0}
+.flow .step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 12px;text-align:center;font-size:13.5px;position:relative}
+.flow .step .sno{font-family:var(--mono);font-size:12px;color:var(--amber);font-weight:700}
+.flow .step b{display:block;color:var(--ink);font-size:14.5px;margin:4px 0}
+.flow .step span{color:var(--muted);font-size:12.5px;line-height:1.5;display:block}
+.verdict-final{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 30px;margin:18px 0}
+.verdict-final .vf-row{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--grid)}
+.verdict-final .vf-row:last-child{border-bottom:none}
+.verdict-final .vf-k{font-weight:700;color:var(--ink);font-size:15px}
+.verdict-final .vf-v{font-size:14.5px}
+.grade-bar{display:flex;gap:0;border-radius:8px;overflow:hidden;margin:12px 0 18px;height:36px;font-size:13px;font-weight:700}
+.grade-bar .seg{display:flex;align-items:center;justify-content:center;color:#fff;letter-spacing:.03em}
+.misread{background:#F7E7E6;border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:14.5px}
+.correct{background:#E3F1EA;border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:14px 18px;margin:12px 0;font-size:14.5px}
+footer{background:var(--ink);color:#C7CFD8;padding:34px 0 44px;font-size:13.5px}
+footer a{color:#A9CCE8}
+footer h2{color:#F4F1E8;font-size:18px;margin:0 0 14px}
+footer p{margin:0 0 8px;color:#C7CFD8}
+footer ol{margin:6px 0 0;padding-left:1.3em}
+footer li{margin-bottom:7px;line-height:1.6}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media (max-width:900px){.verdict,.datastrip,.grid3,.grid2,.compare,.mech{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.wrap{padding:0 16px}.verdict,.datastrip{grid-template-columns:1fr}.meta-table th{width:110px}.flow{grid-template-columns:1fr}}
+@media print{body{background:#fff;font-size:12px}nav.toc,.rv{display:none}.rv{opacity:1;transform:none}section{break-inside:avoid-page;padding:20px 0}figure.chart,.card,.verdict-final{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="topband">
+<div class="wrap">
+<span>运动科学文献深度解读系列 · <strong>抗阻训练与认知功能专题</strong></span>
+<span>数据核实基准：<strong>PubMed</strong>（PMID 42623933）· DOI 10.1016/j.jamda.2026.106427</span>
+</div>
+</div>
+<header class="hero">
+<div class="wrap">
+<p class="kicker">Literature Deep Read · Resistance Training &amp; Cognitive Function</p>
+<h1>抗阻训练选择性改善社区老年人工作记忆与认知灵活性，对抑制控制无显著效应<br>
+<span lang="en" style="font-size:.6em;color:var(--muted);font-family:var(--sans);">Selective Improvement in Working Memory and Cognitive Flexibility, No Significant Effect on Inhibitory Control</span></h1>
+<p class="hero-meta">
+Jorquera-Cáceres I, Salazar-Méndez J, Arnal-Gómez A, Espí-López GV, Alvarado-Araya P.
+<i>Journal of the American Medical Directors Association</i>, 2026;27(10):106427.
+DOI: <a href="https://doi.org/10.1016/j.jamda.2026.106427" target="_blank" rel="noopener noreferrer">10.1016/j.jamda.2026.106427</a>
+· <a href="https://pubmed.ncbi.nlm.nih.gov/42623933/" target="_blank" rel="noopener noreferrer">PubMed 记录</a>
+· 系统综述/荟萃分析，22项RCT，17项进入MA
+</p>
+<div class="verdict rv">
+<div class="vcell neg">
+<div class="vlabel">工作记忆</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">SMD 0.30</div>
+<div class="vnote">小效应，p=0.04，显著</div>
+</div>
+<div class="vcell">
+<div class="vlabel">认知灵活性</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">|SMD| 0.50</div>
+<div class="vnote">中等效应，p=0.009，显著</div>
+</div>
+<div class="vcell null">
+<div class="vlabel">抑制控制</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">不显著</div>
+<div class="vnote">效应方向不确定，待确认</div>
+</div>
+<div class="vcell">
+<div class="vlabel">证据等级</div>
+<div class="vval" style="font-size:clamp(17px,2.2vw,22px);">低确定性</div>
+<div class="vnote">GRADE low ~ very low</div>
+</div>
+</div>
+</div>
+</header>
+<nav class="toc" aria-label="报告目录">
+<div class="wrap">
+<a href="#sec1">01 研究问题</a>
+<a href="#sec2">02 核心结果</a>
+<a href="#sec3">03 证据确定性</a>
+<a href="#sec4">04 横向比较</a>
+<a href="#sec5">05 综合判断</a>
+<a href="#sec6">06 方法学审查</a>
+<a href="#sec7">07 机制解读</a>
+<a href="#sec8">08 实践桥梁</a>
+<a href="#sec9">09 哲学审查</a>
+<a href="#sec10">10 误读与总结</a>
+<a href="#refs">参考文献</a>
+</div>
+</nav>
+<main>
+<div class="wrap">
+<!-- ============ 01 研究问题 ============ -->
+<section id="sec1">
+<p class="sec-no">SECTION 01</p>
+<h2>研究问题</h2>
+<p class="sec-lede">抗阻训练（RT）能否改善无认知障碍的社区居住老年人（≥60岁）的执行功能（Executive Function, EF）？与既往聚焦全运动类型的荟萃分析不同，本研究首次将焦点锁定在RT，并对EF三个子域进行差异化分析。</p>
+<table class="meta-table rv">
+<caption>表 1 PICO 框架与研究界定</caption>
+<tbody>
+<tr><th scope="row">核心问题</th><td>抗阻训练能否改善无认知障碍的社区居住老年人（≥60岁）的执行功能三个子域（抑制控制、工作记忆、认知灵活性）？</td></tr>
+<tr><th scope="row">P（人群）</th><td>社区居住老年人，≥60岁，无认知障碍（排除MCI/痴呆）</td></tr>
+<tr><th scope="row">I（干预）</th><td>抗阻训练（任何形式的结构化阻力训练）</td></tr>
+<tr><th scope="row">C（对照）</th><td>对照组（无干预/常规活动）或其他运动干预</td></tr>
+<tr><th scope="row">O（结局）</th><td>执行功能三个子域：抑制控制（Inhibitory Control）、工作记忆（Working Memory）、认知灵活性（Cognitive Flexibility）</td></tr>
+<tr><th scope="row">研究设计</th><td>系统综述 + 荟萃分析（SR/MA）；系统检索PubMed、Web of Science、SCOPUS、EMBASE四库，截止2025年2月17日</td></tr>
+<tr><th scope="row">纳入规模</th><td>22项RCT符合纳入标准，17项进入最终MA</td></tr>
+<tr><th scope="row">质量评估</th><td>偏倚风险：Cochrane RoB 2.0；证据质量：GRADE</td></tr>
+<tr><th scope="row">能回答什么</th><td>RT对EF三个子域的效应大小；RT相对于对照和其他运动形式的比较效应</td></tr>
+<tr><th scope="row">不能回答什么</th><td>RT的剂量-反应关系；RT对MCI/痴呆人群的效果；RT认知效益的长期维持效果；RT与其他运动形式的优劣排序（NMA）</td></tr>
+</tbody>
+</table>
+<div class="note rv">
+<b>研究定位：</b>JAMDA（IF≈25）是老年医学/长期照护领域顶刊。本文是首篇聚焦「RT × 社区老年人 × EF三子域」的系统综述与荟萃分析，填补了既往全运动类型MA未能区分EF子域差异效应的空白。
+</div>
+</section>
+<!-- ============ 02 核心结果 ============ -->
+<section id="sec2">
+<p class="sec-no">SECTION 02</p>
+<h2>核心结果</h2>
+<p class="sec-lede">RT对社区老年人EF呈现选择性效应模式：工作记忆和认知灵活性改善达统计显著，抑制控制未达显著。RT与其他运动形式头对头比较，三个子域均无显著差异。</p>
+<div class="datastrip rv">
+<div class="dcell green"><div class="dl">工作记忆</div><div class="dv tnum">0.30</div><div class="dd">SMD (95%CI 0.02–0.59)，p=0.04</div></div>
+<div class="dcell green"><div class="dl">认知灵活性</div><div class="dv tnum">−0.50</div><div class="dd">SMD (95%CI −0.88–−0.12)，p=0.009</div></div>
+<div class="dcell red"><div class="dl">抑制控制</div><div class="dv tnum">ns</div><div class="dd">未达统计显著，点估计待原文核实</div></div>
+<div class="dcell amber"><div class="dl">RT vs 其他运动</div><div class="dv tnum">全ns</div><div class="dd">三子域头对头比较均无显著差异</div></div>
+</div>
+<figure class="chart rv">
+<svg viewBox="0 0 860 300" role="img" aria-labelledby="forestTitle forestDesc">
+<title id="forestTitle">RT vs 对照：执行功能三子域效应量示意</title>
+<desc id="forestDesc">工作记忆SMD=0.30（显著），认知灵活性|SMD|=0.50（显著），抑制控制未达显著。</desc>
+<!-- 坐标轴 -->
+<line x1="280" y1="30" x2="280" y2="260" stroke="#E6E1D8" stroke-width="1"/>
+<line x1="100" y1="260" x2="800" y2="260" stroke="#E6E1D8" stroke-width="1.5"/>
+<!-- 零线 -->
+<line x1="450" y1="30" x2="450" y2="260" stroke="#B0413E" stroke-width="1.5" stroke-dasharray="4,3"/>
+<!-- 刻度 -->
+<text x="280" y="278" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">-0.6</text>
+<text x="350" y="278" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">-0.3</text>
+<text x="450" y="278" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0</text>
+<text x="550" y="278" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0.3</text>
+<text x="650" y="278" text-anchor="middle" fill="#667085" font-size="11" font-family="monospace">0.6</text>
+<!-- 标签 -->
+<text x="275" y="75" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif" font-weight="600">工作记忆</text>
+<text x="275" y="155" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif" font-weight="600">认知灵活性</text>
+<text x="275" y="230" text-anchor="end" fill="#102A43" font-size="13" font-family="sans-serif">抑制控制</text>
+<!-- 工作记忆 CI: 0.02 to 0.59, point=0.30 -->
+<line x1="454" y1="71" x2="580" y2="71" stroke="#2F7D5B" stroke-width="2.5"/>
+<rect x="507" y="63" width="14" height="14" fill="#2F7D5B" rx="2"/>
+<text x="600" y="75" fill="#2F7D5B" font-size="11" font-family="monospace">0.30 * 显著</text>
+<!-- 认知灵活性 CI: -0.88 to -0.12, point=-0.50 -->
+<line x1="264" y1="151" x2="430" y2="151" stroke="#2F7D5B" stroke-width="2.5"/>
+<rect x="335" y="143" width="14" height="14" fill="#2F7D5B" rx="2"/>
+<text x="200" y="155" fill="#2F7D5B" font-size="11" font-family="monospace">−0.50 * 显著</text>
+<!-- 抑制控制 CI: approximate, crossing zero -->
+<line x1="390" y1="226" x2="520" y2="226" stroke="#B0413E" stroke-width="2"/>
+<rect x="445" y="218" width="14" height="14" fill="#B0413E" rx="2"/>
+<text x="540" y="230" fill="#B0413E" font-size="11" font-family="monospace">ns（点估计待核实）</text>
+<!-- 图注 -->
+<text x="450" y="22" text-anchor="middle" fill="#B0413E" font-size="11" font-family="sans-serif">←  favor control | favor RT →</text>
+</svg>
+<figcaption>图 1 RT vs 对照：执行功能三子域效应量示意。绿色方块表示统计显著的效应量，红色表示未达显著。认知灵活性SMD为负值，方向取决于原始量表评分方向（某些测试分数越低代表表现越好）。</figcaption>
+</figure>
+<h3>三层判断</h3>
+<ol>
+<li><b>统计显著性：</b>工作记忆（p=0.04）和认知灵活性（p=0.009）达到显著水平。工作记忆p值接近0.05阈值，稳健性存疑。抑制控制未达显著，原文未报告具体点估计和CI。</li>
+<li><b>效应大小：</b>工作记忆SMD=0.30属小效应（Cohen's d 0.2–0.5区间）；认知灵活性|SMD|=0.50属中等效应下限。两者均未达到大效应（>0.8）。</li>
+<li><b>实践意义：</b>小至中等效应的认知改善在个体层面可能不易被感知。这种程度的工作记忆或认知灵活性改善能否转化为日常生活中的功能性变化（如双任务步态、药物管理、财务决策），当前数据无法直接回答。</li>
+</ol>
+<div class="note warn rv">
+<b>RT vs 其他运动：</b>当RT与其他运动形式（有氧、多组分、太极等）直接比较时，三个子域均无显著差异。这意味着RT对EF的"优势"可能并非RT独有——其他运动形式也能产生类似的认知效益。
+</div>
+</section>
+<!-- ============ 03 GRADE 证据确定性 ============ -->
+<section id="sec3">
+<p class="sec-no">SECTION 03</p>
+<h2>GRADE 证据确定性</h2>
+<p class="sec-lede">原文摘要提及使用GRADE评估但未报告各结局的具体评级细节。以下为基于GRADE框架的近似证据确定性判断。原文作者自述"overall low certainty of evidence"。</p>
+<div class="grade-bar rv">
+<div class="seg" style="flex:1;background:var(--red);">低～极低确定性（Low ~ Very Low）</div>
+<div class="seg" style="flex:2;background:var(--amber);">存在多项降级因素</div>
+</div>
+<div class="tbl-scroll rv">
+<table class="data">
+<caption>表 2 GRADE 五要素评估（工作记忆 RT vs Control，近似评级）</caption>
+<thead>
+<tr><th scope="col">评估要素</th><th scope="col">判断</th><th scope="col">升降级</th><th scope="col">理由</th></tr>
+</thead>
+<tbody>
+<tr><td>偏倚风险</td><td>高偏倚风险</td><td><span class="tag lo">降 1–2 级</span></td><td>摘要明确报告"high RoB across studies"；使用RoB 2.0评估；运动RCT无法实施参与者盲法</td></tr>
+<tr><td>不一致性</td><td>异质性高</td><td><span class="tag mid">降 1 级</span></td><td>原文提及"heterogeneity of intervention protocols"但未报告I²；17项研究在强度、频率、持续时间上差异巨大</td></tr>
+<tr><td>间接性</td><td>人群匹配</td><td><span class="tag neu">不降级</span></td><td>社区老年人（无认知障碍）与临床问题匹配；但EF测评工具多样（Stroop、TMT、N-back等）引入操作定义层面的间接性</td></tr>
+<tr><td>不精确性</td><td>CI下限跨零边缘</td><td><span class="tag mid">降 1 级</span></td><td>工作记忆95%CI下限仅0.02（刚好跨零）；抑制控制未报告点估计和CI</td></tr>
+<tr><td>发表偏倚</td><td>不确定</td><td><span class="tag mid">降 1 级</span></td><td>原文未报告funnel plot或Egger检验；认知-运动MA领域阴性结果更可能未被发表</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note rv">
+<b>综合评级：</b>⊕○○○ 极低 ~ ⊕⊕○○ 低确定性。原文作者自述"overall low certainty of evidence"与上述判断一致。认知灵活性效应量稍大但CI同样较宽。抑制控制因未达统计显著，GRADE评级意义有限。
+</div>
+</section>
+<!-- ============ 04 同级证据横向比较 ============ -->
+<section id="sec4">
+<p class="sec-no">SECTION 04</p>
+<h2>同级证据横向比较</h2>
+<p class="sec-lede">将 Jorquera-Cáceres 2026 与三篇最高等级证据进行横向比较，建立互补证据链。</p>
+<div class="grid2 rv">
+<div class="card">
+<h3>Jorquera-Cáceres et al. 2026（本研究）</h3>
+<ul>
+<li><b>设计：</b>SR/MA，22项RCT，17项进入MA</li>
+<li><b>聚焦：</b>RT × 社区老年人（≥60岁）× EF三子域</li>
+<li><b>结局：</b>工作记忆SMD=0.30，认知灵活性|SMD|=0.50，抑制控制ns</li>
+<li><b>核心贡献：</b>首次区分EF子域的差异效应</li>
+<li><b>DOI：</b>10.1016/j.jamda.2026.106427</li>
+</ul>
+</div>
+<div class="card">
+<h3>Balbim et al. 2026（BJSM）</h3>
+<ul>
+<li><b>设计：</b>SR + pairwise MA + NMA，227项RCT</li>
+<li><b>聚焦：</b>所有运动类型 × 认知功能（无痴呆老年人）</li>
+<li><b>结局：</b>Exercise-Only vs Control三认知域均显著；Exercise-Plus在EF上优于Exercise-Only</li>
+<li><b>核心贡献：</b>迄今最大规模运动×认知MA；多组分训练EF效应优于单一运动</li>
+<li><b>DOI：</b>10.1136/bjsports-2026-111684</li>
+</ul>
+</div>
+<div class="card">
+<h3>Chen et al. 2020（Sports Med）</h3>
+<ul>
+<li><b>设计：</b>SR/MA，所有运动类型</li>
+<li><b>聚焦：</b>运动训练 × 老年人EF</li>
+<li><b>结局：</b>运动训练对EF有中等正向效应；效应受运动类型、持续时间调节</li>
+<li><b>核心贡献：</b>确认不同认知域响应不同</li>
+<li><b>DOI：</b>10.1007/s40279-020-01292-x</li>
+</ul>
+</div>
+<div class="card">
+<h3>Northey et al. 2018（BJSM）</h3>
+<ul>
+<li><b>设计：</b>SR/MA，≥50岁成人</li>
+<li><b>聚焦：</b>RT × 认知功能</li>
+<li><b>结局：</b>RT对认知功能显著（SMD=0.34, 95%CI 0.08–0.60），效应与有氧相当</li>
+<li><b>核心贡献：</b>较早确认RT认知效益的MA，但未区分EF子域</li>
+<li><b>DOI：</b>10.1136/bjsports-2016-096587</li>
+</ul>
+</div>
+</div>
+<div class="note rv">
+<b>一致性分析：</b>四篇MA在方向上一致——运动训练（包括RT）对老年人EF有正向但小至中等的效应。本文的新贡献在于：聚焦RT并区分了EF子域，发现RT对工作记忆和认知灵活性有效、对抑制控制无效，这一子域特异性模式与Chen 2020中"不同认知域响应不同"的观察一致。Balbim 2026提供的宏观背景：多组分训练在EF上优于单一运动，提示RT单独使用可能并非认知效益的最优策略。
+</div>
+</section>
+<!-- ============ 05 综合判断 ============ -->
+<section id="sec5">
+<p class="sec-no">SECTION 05</p>
+<h2>综合证据判断</h2>
+<p class="sec-lede">基于本研究及同级证据的系统评估，给出三级结论判断。</p>
+<div class="verdict-final rv">
+<div class="vf-row">
+<div class="vf-k">比较确定的结论</div>
+<div class="vf-v">运动训练（包括RT）对老年人EF有小幅正向效应，效应在不同认知子域之间存在差异。RT的EF效应并不优于其他运动形式（头对头比较无显著差异）。</div>
+</div>
+<div class="vf-row">
+<div class="vf-k">可能成立，仍有不确定性</div>
+<div class="vf-v">RT对工作记忆和认知灵活性的效应可能是真实的（统计显著），但效应量小且证据确定性低。多组分训练可能比单一RT产生更全面的认知效益（Balbim 2026证据支持）。</div>
+</div>
+<div class="vf-row">
+<div class="vf-k">当前证据不能支持的结论</div>
+<div class="vf-v">①"RT是改善老年人EF的最优运动方式"——头对头比较不支持。②"RT对抑制控制无效"——可能只是检验效能不足。③RT认知效益的剂量-反应关系——本文未分析。④"RT能预防认知衰退/痴呆"——随访时间不足。</div>
+</div>
+</div>
+<div class="note warn rv">
+<b>冲突来源：</b>认知测评工具的多样性（Stroop vs TMT vs N-back测量同一子域但操作定义不同）、训练方案的异质性（强度、频率、持续时间差异大）、人群异质性（健康老年人 vs MCI vs 机构居住者）。这些因素导致效应量估计在不同MA之间存在差异。
+</div>
+</section>
+<!-- ============ 06 方法学审查 ============ -->
+<section id="sec6">
+<p class="sec-no">SECTION 06</p>
+<h2>方法学审查</h2>
+<p class="sec-lede">评估SR/MA设计的优势与局限，判断结论的可靠性边界。</p>
+<div class="grid2 rv">
+<div class="card">
+<h3>✓ 研究优势</h3>
+<ul>
+<li><b>首个聚焦RT × EF子域的MA：</b>首次将焦点锁定在RT并区分EF三个子域的差异效应，填补了全运动类型MA的分析空白</li>
+<li><b>RoB 2.0评估：</b>使用当前Cochrane推荐的最新偏倚风险评估工具</li>
+<li><b>GRADE证据分级：</b>对证据质量进行了系统评估</li>
+<li><b>双比较框架：</b>同时报告RT vs Control和RT vs Other Exercise，提供更全面的比较视角</li>
+<li><b>高影响力期刊发表：</b>JAMDA（IF≈25）的同行评审过程本身构成一定的质量保障</li>
+</ul>
+</div>
+<div class="card">
+<h3>✗ 研究局限</h3>
+<ul>
+<li><b>原始研究高RoB：</b>摘要明确报告"high RoB across studies"，对结论可信度构成重大减分项</li>
+<li><b>异质性未充分报告：</b>提及"heterogeneity of intervention protocols"但未报告I²值；17项研究在训练强度（40%–80% 1RM?）、频率（2–3次/周?）、持续时间（8–52周?）上差异巨大</li>
+<li><b>预测区间缺失：</b>未报告预测区间；如有，很可能跨零，意味着在新研究中效应可能为零甚至为负</li>
+<li><b>检索策略不完整：</b>仅检索4个数据库，未纳入Cochrane Library和PsycINFO；未报告预注册信息</li>
+<li><b>无剂量-反应分析：</b>未进行亚组分析或Meta回归检验训练强度、频率、持续时间的调节效应</li>
+<li><b>敏感性分析缺失：</b>摘要未报告leave-one-out或其他敏感性分析</li>
+<li><b>PRISMA 2020合规性：</b>引用了PRISMA 2020但未报告流程细节</li>
+</ul>
+</div>
+</div>
+<div class="note rv">
+<b>运动干预的特殊方法学问题：</b>运动RCT几乎不可能实施参与者盲法（参与者知道自己在做不做训练），且训练方案无法标准化到药物试验的精度。这属于"不可消除的偏倚来源"。i-CONTENT工具（Hoogeboom 2021，被本文引用）可评估运动干预的方案质量。
+</div>
+</section>
+<!-- ============ 07 机制解读 ============ -->
+<section id="sec7">
+<p class="sec-no">SECTION 07</p>
+<h2>机制解读</h2>
+<p class="sec-lede">RT改善EF的生物学通路按层级展开。本文未直接测量机制指标，以下通路来自独立机制研究的交叉整合，每层标注证据等级。</p>
+<div class="mech rv">
+<div class="m">
+<div class="midx">MECH 01 · 分子层</div>
+<h3>肌因子释放 <span class="tag hi">B 级证据</span></h3>
+<p>骨骼肌在抗阻收缩时释放鸢尾素（Irisin）和IGF-1等肌因子（Myokines）进入血液循环。多项人体研究已证实RT后血清Irisin/IGF-1升高。</p>
+<p><b>因果链起点：</b>骨骼肌收缩 → 肌因子释放（Irisin/IGF-1）→ 血液循环</p>
+<div class="evi">证据支持：多项独立人体实验；但本文未测量肌因子水平</div>
+</div>
+<div class="m">
+<div class="midx">MECH 02 · 细胞层</div>
+<h3>BDNF上调与神经发生 <span class="tag hi">B 级证据</span></h3>
+<p>Irisin穿越血脑屏障后刺激海马BDNF表达。BDNF促进齿状回神经发生和突触可塑性（LTP），主要靶区为海马和前额叶皮层。</p>
+<p><b>关键限制：</b>"Irisin穿越血脑屏障→直接导致BDNF上调"的因果链在人体中未被完整证明，更多来自动物实验和间接推断。</p>
+<div class="evi">证据支持：人体RT研究证实血清BDNF升高；动物模型直接观察到神经发生</div>
+</div>
+<div class="m">
+<div class="midx">MECH 03 · 组织层</div>
+<h3>脑结构保留与白质完整性 <span class="tag mid">B–C 级证据</span></h3>
+<p>RT减缓老年人海马和前额叶灰质萎缩（Best 2015等RCT通过MRI观察到）。白质纤维束完整性可能改善，但RT的直接影像学证据不足——多数白质研究使用有氧运动范式。</p>
+<div class="evi">证据支持：Best 2015 RCT（灰质）；有氧运动的白质MRI证据较充分，RT直接证据不足</div>
+</div>
+<div class="m">
+<div class="midx">MECH 04 · 系统层</div>
+<h3>神经炎症抑制与脑血流 <span class="tag lo">B–C 级证据</span></h3>
+<p>RT降低全身性炎症标志物（IL-6、CRP），可能间接减少神经炎症。运动提高脑血流和葡萄糖代谢，但RT的慢性效应特异性证据不足——多数脑血流研究使用有氧运动。</p>
+<p><b>睡眠中介：</b>2026年最新MA发现约50%的运动认知效应可能由睡眠中介——但这是所有运动类型的综合效应，非RT特异性数据。</p>
+<div class="evi">证据支持：RT降低外周炎症有支持；"外周炎症降低→神经炎症降低→EF改善"的完整因果链在人体中未被直接验证</div>
+</div>
+</div>
+<figure class="chart rv">
+<svg viewBox="0 0 860 120" role="img" aria-labelledby="chainTitle chainDesc">
+<title id="chainTitle">RT→EF 因果链示意</title>
+<desc id="chainDesc">从骨骼肌收缩到执行功能改善的五步因果链。</desc>
+<!-- 因果链节点 -->
+<rect x="20" y="30" width="140" height="50" rx="8" fill="#E4EFF8" stroke="#2978B5" stroke-width="1.5"/>
+<text x="90" y="55" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif" font-weight="600">骨骼肌收缩</text>
+<text x="90" y="72" text-anchor="middle" fill="#667085" font-size="10" font-family="sans-serif">A级（直接观察）</text>
+<line x1="162" y1="55" x2="195" y2="55" stroke="#2978B5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="197" y="30" width="140" height="50" rx="8" fill="#E4EFF8" stroke="#2978B5" stroke-width="1.5"/>
+<text x="267" y="55" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif" font-weight="600">肌因子释放</text>
+<text x="267" y="72" text-anchor="middle" fill="#667085" font-size="10" font-family="sans-serif">B级（独立实验）</text>
+<line x1="339" y1="55" x2="372" y2="55" stroke="#2978B5" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="374" y="30" width="140" height="50" rx="8" fill="#FDF2DD" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="444" y="55" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif" font-weight="600">BDNF上调</text>
+<text x="444" y="72" text-anchor="middle" fill="#667085" font-size="10" font-family="sans-serif">B级（间接推断）</text>
+<line x1="516" y1="55" x2="549" y2="55" stroke="#F59E0B" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="551" y="30" width="140" height="50" rx="8" fill="#FDF2DD" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="621" y="55" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif" font-weight="600">神经可塑性</text>
+<text x="621" y="72" text-anchor="middle" fill="#667085" font-size="10" font-family="sans-serif">B级（动物模型）</text>
+<line x1="693" y1="55" x2="726" y2="55" stroke="#2F7D5B" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="728" y="30" width="120" height="50" rx="8" fill="#E3F1EA" stroke="#2F7D5B" stroke-width="1.5"/>
+<text x="788" y="55" text-anchor="middle" fill="#102A43" font-size="12" font-family="sans-serif" font-weight="600">EF改善</text>
+<text x="788" y="72" text-anchor="middle" fill="#667085" font-size="10" font-family="sans-serif">A级（本文观察）</text>
+<defs><marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2978B5"/></marker></defs>
+<text x="430" y="108" text-anchor="middle" fill="#B0413E" font-size="11" font-family="sans-serif">← 因果链最薄弱环节：肌因子释放 → EF改善的完整因果连贯性未在单一研究中验证 →</text>
+</svg>
+<figcaption>图 2 RT→EF 因果链示意。绿色表示直接观察层面的证据，蓝色表示有独立实验支持的推断，黄色表示需要间接推断的环节。</figcaption>
+</figure>
+<div class="note warn rv">
+<b>机制总结：</b>从肌因子释放到EF改善跨越至少四个环节，每个环节都有独立证据支持，但整条链的因果连贯性未在单一研究中被完整验证。这是"方向合理、空白需承认"的状态。
+</div>
+</section>
+<!-- ============ 08 实践桥梁 ============ -->
+<section id="sec8">
+<p class="sec-no">SECTION 08</p>
+<h2>实践桥梁</h2>
+<p class="sec-lede">将研究发现转化为训练处方建议，区分确定性建议、可考虑建议和不能推出的建议。</p>
+<div class="grid3 rv">
+<div class="card" style="border-top:3px solid var(--green)">
+<h3>✓ 可以确定</h3>
+<ul>
+<li><b>RT整体健康证据充分：</b>肌力、功能、骨密度、代谢健康的证据已足够强，EF获益是额外"红利"——即使效应不大，也不构成不训练的理由</li>
+<li><b>RT不优于其他运动：</b>头对头比较不支持"RT是改善EF的最优运动方式"这一说法</li>
+<li><b>外推限制明确：</b>本文人群为社区居住、无认知障碍≥60岁老年人，对MCI/痴呆患者、机构居住者、60岁以下人群不能外推</li>
+</ul>
+</div>
+<div class="card" style="border-top:3px solid var(--amber)">
+<h3>◐ 可以考虑</h3>
+<ul>
+<li><b>多组分训练：</b>如果目标是最大化认知效益，多组分训练（RT + 有氧 + 认知训练）可能优于单一RT（Balbim 2026证据支持）</li>
+<li><b>中等强度优先：</b>从间接证据推测中等强度可能优于高强度（本文未直接检验）</li>
+<li><b>EF作为训练目标之一：</b>将认知健康纳入训练目标的讨论框架，但不作为唯一决策依据</li>
+</ul>
+</div>
+<div class="card" style="border-top:3px solid var(--red)">
+<h3>✗ 不能推出</h3>
+<ul>
+<li><b>RT认知处方：</b>本文未分析剂量-反应关系，不知道"哪种RT方案对EF最优"——多少组、多少次、多大重量</li>
+<li><b>"RT能预防痴呆"：</b>随访时间不足以回答这个问题</li>
+<li><b>"RT对EF效应大于有氧"：</b>头对头比较不支持</li>
+<li><b>年轻训练者：</b>完全不能外推——年轻健康人群的基础EF远高于老年人，天花板效应可能使RT认知效益不可检测</li>
+</ul>
+</div>
+</div>
+<div class="note rv">
+<b>实践总结：</b>这篇文献不足以单独改变训练实践。它的价值在于：①确认RT对EF有选择性效应模式；②明确RT不优于其他运动形式。如果认知健康是训练目标之一，多组分训练（RT + 有氧 + 认知参与）可能比单一RT更有效。
+</div>
+</section>
+<!-- ============ 09 哲学审查 ============ -->
+<section id="sec9">
+<p class="sec-no">SECTION 09</p>
+<h2>科学哲学审查</h2>
+<p class="sec-lede">从科学哲学角度审视研究的逻辑层次、证据强度和潜在偏误。</p>
+<div class="flow rv">
+<div class="step">
+<div class="sno">STEP 01</div>
+<b>观察</b>
+<span>17项RCT汇总，RT在工作记忆（SMD=0.30）和认知灵活性（SMD=−0.50）上优于对照</span>
+</div>
+<div class="step">
+<div class="sno">STEP 02</div>
+<b>推论</b>
+<span>RT"may contribute to improvements in some domains of EF"——作者使用"may"而非"does"</span>
+</div>
+<div class="step">
+<div class="sno">STEP 03</div>
+<b>机制解释</b>
+<span>本文未深入讨论机制；独立文献提示肌因子-BDNF-神经可塑性通路</span>
+</div>
+<div class="step">
+<div class="sno">STEP 04</div>
+<b>因果主张</b>
+<span>考虑高RoB和低确定性证据，更接近"可能因果"而非"确定因果"</span>
+</div>
+<div class="step">
+<div class="sno">STEP 05</div>
+<b>竞争解释</b>
+<span>安慰剂/期望效应、社交互动、测量重复效应、选择偏倚</span>
+</div>
+</div>
+<div class="grid2 rv">
+<div class="card">
+<h3>假设层数检查</h3>
+<p>从"观察到统计显著"到"推荐老年人做RT改善认知"，跨越了至少4层假设：</p>
+<ul>
+<li><b>假设 1：</b>纳入研究的RoB不影响汇总效应 → <span style="color:var(--red);font-weight:700">不成立（高RoB）</span></li>
+<li><b>假设 2：</b>EF测评分数改善等同于真实认知功能改善 → <span style="color:var(--amber);font-weight:700">未验证</span></li>
+<li><b>假设 3：</b>短期EF改善能维持为长期认知保护 → <span style="color:var(--amber);font-weight:700">未验证</span></li>
+<li><b>假设 4：</b>RT的认知效应独立于社交、安慰剂、全身健康改善 → <span style="color:var(--amber);font-weight:700">未排除</span></li>
+</ul>
+</div>
+<div class="card">
+<h3>竞争解释清单</h3>
+<ul>
+<li><b>安慰剂/期望效应：</b>知道自己被分到运动组可能影响认知测试表现</li>
+<li><b>社交互动效应：</b>RT通常是团体训练，社交本身改善认知——效应可能归因于社交而非RT本身</li>
+<li><b>测量重复效应：</b>多次认知测试产生的练习效应可能在组间分布不均</li>
+<li><b>选择偏倚：</b>依从性好的受试者可能本身认知功能更好</li>
+<li><b>发表偏倚：</b>阴性结果更可能未被发表</li>
+</ul>
+</div>
+</div>
+<div class="note bound rv">
+<b>哲学反思：</b>流行说法"每天做10分钟抗阻训练就能让大脑年轻2–3岁"比原研究数据多推了至少3层。原文数据仅支持：在低确定性证据下，RT可能小幅改善特定EF子域，且效应与其他运动形式相当。
+</div>
+</section>
+<!-- ============ 10 误读与总结 ============ -->
+<section id="sec10">
+<p class="sec-no">SECTION 10</p>
+<h2>常见误读与最终总结</h2>
+<p class="sec-lede">澄清五种常见误读，给出最终结论。</p>
+<div class="misread rv">
+<b>误读 1：</b>"抗阻训练能改善老年人认知功能。"
+</div>
+<div class="correct rv">
+<b>正确理解：</b>过度概括。RT仅对工作记忆和认知灵活性有效，对抑制控制无效，且与其他运动形式比较无显著差异。"认知功能"是笼统概念，掩盖了子域特异性。更准确的表达："在低确定性证据下，RT可能小幅改善社区老年人（无认知障碍）的工作记忆和认知灵活性，但不优于其他运动形式。"
+</div>
+<div class="misread rv">
+<b>误读 2：</b>"JAMDA发了RT改善认知的研究，说明RT对大脑特别好。"
+</div>
+<div class="correct rv">
+<b>正确理解：</b>期刊影响力不等于研究质量。本文自己报告了证据确定性低、原始研究RoB高。JAMDA发表是因为这个临床问题重要，不是因为结果确凿。
+</div>
+<div class="misread rv">
+<b>误读 3：</b>"RT比有氧运动更适合改善老年人认知。"
+</div>
+<div class="correct rv">
+<b>正确理解：</b>本文直接做了RT vs 其他运动的头对头比较，三个子域均无显著差异。没有证据支持RT优于有氧。
+</div>
+<div class="misread rv">
+<b>误读 4：</b>"每天做10分钟抗阻训练就能让大脑年轻2–3岁。"
+</div>
+<div class="correct rv">
+<b>正确理解：</b>这是对另一项研究（GeroScience 2026, 309人, 1年RT）的媒体简化。该研究用的是"脑年龄时钟"（MRI模型指标），不是认知功能直接测量。本文没有测量脑年龄。
+</div>
+<div class="misread rv">
+<b>误读 5：</b>"RT对抑制控制没有效果。"
+</div>
+<div class="correct rv">
+<b>正确理解：</b>"不显著"不等于"无效应"。可能是检验效能不足（纳入研究数太少或效应太小），也可能是真的无效应。原文未报告效应量的点估计和CI，无法判断。
+</div>
+<div class="verdict-final rv">
+<h3 style="margin-top:0">最终总结</h3>
+<p>抗阻训练在低确定性证据下可能小幅改善无认知障碍社区老年人的工作记忆和认知灵活性（SMD=0.30~0.50），但不优于其他运动形式，且对抑制控制的效果不确定。</p>
+<p>确定的是什么？运动训练对老年人认知有小到中等的效应，RT是有效的运动方式之一，但不是唯一也不是最优。不知道什么？剂量-反应关系、长期维持效果、能否预防痴呆、完整的机制因果链。实践启示？RT对老年人的整体健康证据已经足够强。如果认知是训练目标之一，考虑多组分训练而不是单一RT。</p>
+<p>下一步值得追踪的问题：①RT训练变量如何调节EF各子域（Meta回归）；②RT vs 有氧 vs 多组分在EF子域层面的精确排名；③停训后认知效益的衰减速率；④Irisin/BDNF的急性响应能否预测长期认知获益；⑤小幅EF改善能否转化为日常生活功能的变化。</p>
+</div>
+</section>
+</div>
+</main>
+<footer id="refs">
+<div class="wrap">
+<h2>参考文献</h2>
+<ol>
+<li>Jorquera-Cáceres I, Salazar-Méndez J, Arnal-Gómez A, Espí-López GV, Alvarado-Araya P. Effects of Resistance Training on Executive Functions in Community-Dwelling Older Adults: A Meta-Analysis. <i>J Am Med Dir Assoc</i>. 2026;27(10):106427. doi: <a href="https://doi.org/10.1016/j.jamda.2026.106427" target="_blank" rel="noopener noreferrer">10.1016/j.jamda.2026.106427</a>. PMID: 42623933.</li>
+<li>Balbim GM, Falck RS, Liu-Ambrose T, et al. Exercise-only interventions and exercise-based multidomain lifestyle interventions to promote cognitive function in older adults without dementia: a systematic review and meta-analysis. <i>Br J Sports Med</i>. 2026. doi: <a href="https://doi.org/10.1136/bjsports-2026-111684" target="_blank" rel="noopener noreferrer">10.1136/bjsports-2026-111684</a>. PROSPERO: CRD42022322199.</li>
+<li>Chen S, et al. Effects of exercise training interventions on executive function in older adults: a systematic review and meta-analysis. <i>Sports Med</i>. 2020;50(8):1451. doi: <a href="https://doi.org/10.1007/s40279-020-01292-x" target="_blank" rel="noopener noreferrer">10.1007/s40279-020-01292-x</a>.</li>
+<li>Northey JM, et al. Exercise interventions for cognitive function in adults older than 50: a systematic review with meta-analysis. <i>Br J Sports Med</i>. 2018;52:154. doi: <a href="https://doi.org/10.1136/bjsports-2016-096587" target="_blank" rel="noopener noreferrer">10.1136/bjsports-2016-096587</a>.</li>
+</ol>
+<p style="margin-top:24px;font-size:12.5px;color:#8A94A0;border-top:1px solid #2A435C;padding-top:14px">本报告基于公开发表的学术文献，由科研助理 Agent 生成，仅供学术参考，不构成训练或医疗建议。数据核实基准：2026-10-16。</p>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(a){
+a.addEventListener('click',function(e){
+e.preventDefault();
+var t=document.querySelector(this.getAttribute('href'));
+if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+});
+</script>
+</body>
+</html>
